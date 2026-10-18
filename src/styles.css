@@ -1173,21 +1173,15 @@ button {
   flex: none;
   vertical-align: middle;
 }
-.rank-badge__disc {
-  fill: #141826;
-  stroke: rgba(255, 255, 255, 0.14);
-  stroke-width: 1;
-}
 .rank-badge__letter {
   font-family: 'Inter', 'Arial Black', 'Segoe UI Black', system-ui, sans-serif;
   font-weight: 900;
   font-style: italic;
   font-size: 22px;
-  stroke: #ffffff;
-  stroke-width: 2.4px;
   stroke-linejoin: round;
   paint-order: stroke fill;
 }
+.rank-badge { filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.5)); }
 .card__role {
   font-size: 0.78rem;
   color: var(--muted);
