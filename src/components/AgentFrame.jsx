@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ATTRIBUTE_BY_ID, initials } from '../data/game.js';
+import { ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, initials } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import { agentArt } from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 
 // The slanted card frame from the game's Agent select and squad screens:
 // art in a leaning, rounded frame with a dark name bar along the bottom
-// (rank on the left, attribute on the right).
+// (rank, specialty and attribute, where the game shows the level).
 export default function AgentFrame({ agent, label, tag, tall = false }) {
   const src = agentArt(agent.id);
   const [failedSrc, setFailedSrc] = useState(null);
@@ -23,7 +23,7 @@ export default function AgentFrame({ agent, label, tag, tall = false }) {
         {tag && <span className="frame__tag">{tag}</span>}
         <span className="frame__bar">
           {ranked ? <RankBadge rank={agent.rank} size={20} /> : <span className="frame__rank-x" />}
-          <span className="frame__label">{label ?? agent.name}</span>
+          <span className="frame__label">{label ?? SPECIALTY_BY_ID[agent.specialty]?.name}</span>
           <AttributeGlyph attribute={agent.attribute} size={16} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
         </span>
       </span>

@@ -5097,9 +5097,8 @@ th[aria-sort='descending'] .th-btn {
   min-width: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
-  overflow-wrap: anywhere;
   font: 800 0.78rem/1.1 var(--font-body);
   letter-spacing: 0.01em;
 }
@@ -5212,6 +5211,8 @@ a:focus-visible > .frame { border-color: var(--el, var(--fg)); transform: skewX(
 .char-tile:focus-visible { transform: none; }
 .char-tile.is-selected { box-shadow: none; }
 .char-tile__roles { padding: 0; text-align: center; }
+.char-tile .char-tile__name { padding: 0 4px; text-align: center; font-size: 0.84rem; overflow-wrap: normal; }
+.slot__name { margin-top: 6px; font-weight: 700; font-size: 0.9rem; line-height: 1.2; }
 
 /* Small portraits (roster, lists, chips) lean the same way */
 .portrait {

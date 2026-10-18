@@ -177,7 +177,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
                 aria-label={a.name}
               >
                 <AgentFrame agent={a} tag={a.upcoming ? 'Upcoming' : null} />
-                <span className="char-tile__roles">{SPECIALTY_BY_ID[a.specialty]?.name}</span>
+                <span className="char-tile__name">{a.name}</span>
               </a>
             </li>
           ))}
