@@ -5638,3 +5638,10 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   .best-team { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'n members' 'n meta' 'n btn'; }
   .best-team .btn { justify-self: start; }
 }
+
+/* Agent page: Teammates tab */
+.mates { display: grid; gap: 4px; min-width: 0; }
+.mates__group { margin-top: 4px; }
+.mates__note { margin: -2px 0 6px; }
+.mates__more { cursor: pointer; padding: 6px 12px; font: 600 0.8rem var(--font-body); color: var(--muted); }
+.mates__more:hover { color: var(--fg); }

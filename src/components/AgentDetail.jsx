@@ -1,22 +1,18 @@
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
-  AGENTS,
   ATTRIBUTE_BY_ID,
   SPECIALTY_BY_ID,
-  baseAttribute,
   signatureOf,
   wEnginesFor,
 } from '../data/game.js';
 import { PRESETS } from '../data/presets.js';
-import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
-import { passiveCondition, teammatesFor } from '../lib/analyze.js';
-import { PASSIVES } from '../data/passives.js';
 import { PHONE, useMedia } from '../lib/useMedia.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import SwipeTabs from './SwipeTabs.jsx';
 import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
+import Teammates from './Teammates.jsx';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -25,12 +21,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
   const attr = ATTRIBUTE_BY_ID[a.attribute];
   const sig = signatureOf(a.id);
   const options = wEnginesFor(a).filter((w) => w.id !== sig?.id && w.rank !== 'B');
-  const sameFaction = AGENTS.filter((x) => x.faction === a.faction && x.id !== a.id);
-  const sameAttr = AGENTS.filter((x) => baseAttribute(x.attribute) === baseAttribute(a.attribute) && x.id !== a.id);
   const featured = PRESETS.filter((p) => p.members.includes(a.id));
-  const fits = teammatesFor(a, AGENTS);
-  const passive = PASSIVES[a.id];
-  const kit = KIT_LINKS[a.id] ?? [];
 
   const overview = (
     <div className="detail__main">
@@ -78,37 +69,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
     </section>
   );
 
-  const mates = (
-    <section>
-      <h3 className="mini-title">Possible teammates</h3>
-      {passive ? (
-        <p className="muted small">
-          <b>{passive.name ?? 'Additional Ability'}</b>
-          {passive.estimated && ' (estimated)'} turns on with: {passiveCondition(a.id)}.
-        </p>
-      ) : (
-        <p className="muted small">{a.name}’s Additional Ability condition isn’t published yet.</p>
-      )}
-      {kit.length > 0 && (
-        <ul className="kit-lines">
-          {kit.map((k, i) => (
-            <li key={i}>
-              <span className="kit-tag">{MECHANICS[k.mechanic].name}</span> {k.text}
-            </li>
-          ))}
-        </ul>
-      )}
-      <h4 className="micro-title">Good fits</h4>
-      <p className="muted small">
-        Agents who turn on {a.name}’s Additional Ability or link with their kit. “Both ways” means each turns on the other’s.
-      </p>
-      <FitList list={fits} />
-      <h4 className="micro-title">Same faction · {a.faction}</h4>
-      <MiniList list={sameFaction} />
-      <h4 className="micro-title">Same attribute · {ATTRIBUTE_BY_ID[baseAttribute(a.attribute)]?.name}</h4>
-      <MiniList list={sameAttr} />
-    </section>
-  );
+  const mates = <Teammates agent={a} />;
 
   return (
     <article className="detail" style={{ '--el': attr?.color }} aria-labelledby="detail-name">
@@ -153,39 +114,5 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         </button>
       </div>
     </article>
-  );
-}
-
-function MiniList({ list }) {
-  if (!list.length) return <p className="muted small">None yet.</p>;
-  return (
-    <ul className="mini-agents">
-      {list.map((x) => (
-        <li key={x.id}>
-          <a href={`#agent-${x.id}`} className="mini-agent">
-            <Portrait agent={x} size="sm" />
-            <span>{x.name}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function FitList({ list }) {
-  if (!list.length) return <p className="muted small">None yet.</p>;
-  return (
-    <ul className="mini-agents">
-      {list.map(({ agent: x, on, back, kit }) => (
-        <li key={x.id}>
-          <a href={`#agent-${x.id}`} className={`mini-agent${kit.length || (on && back) ? ' mini-agent--best' : ''}`}>
-            <Portrait agent={x} size="sm" />
-            <span>{x.name}</span>
-            {on && back && <span className="fit-tag">Both ways</span>}
-            {kit.map((k) => <span key={k} className="fit-tag fit-tag--kit">{k}</span>)}
-          </a>
-        </li>
-      ))}
-    </ul>
   );
 }
