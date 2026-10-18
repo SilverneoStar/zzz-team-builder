@@ -9,6 +9,7 @@ import {
 } from '../data/game.js';
 import { encodeTeam } from './share.js';
 import { loadoutOf } from './teamsReducer.js';
+import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 
 // Draws a 1200×675 team image (16:9, the size most social sites preview).
 const W = 1200;
@@ -161,7 +162,7 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
 
   // Bangboo and footer.
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
-  const bArt = b ? await loadImage(`${base}bangboo/${b.id}.webp`) : null;
+  const bArt = b && BANGBOO_WITH_ART.has(b.id) ? await loadImage(`${base}bangboo/${b.id}.webp`) : null;
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${MONO}`;
   ctx.fillText('BANGBOO', 40, 572);

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
-// Looks for public/bangboo/<id>.webp; falls back to the plain Bangboo mark.
+// Bangboo with a picture in public/bangboo/<id>.webp. Add an id here when
+// adding its image; the rest show the plain Bangboo mark.
+export const BANGBOO_WITH_ART = new Set(['ariel', 'ultra-jake']);
 const BASE = import.meta.env.BASE_URL;
-export const bangbooArt = (id) => `${BASE}bangboo/${id}.webp`;
+export const bangbooArt = (id) => (BANGBOO_WITH_ART.has(id) ? `${BASE}bangboo/${id}.webp` : null);
 
 export default function BangbooArt({ id, size = 30 }) {
   const src = id ? bangbooArt(id) : null;
