@@ -2,19 +2,21 @@
 
 An unofficial, fan-made team planner for **Zenless Zone Zero (ZZZ)**.
 
-Plan squads, browse Agents, W-Engines, Drive Discs and Bangboo, and share teams with a short code. Works in any modern browser on desktop and mobile, with no account or installation.
+Plan squads, gear up Agents, browse W-Engines, Drive Discs and Bangboo, and share teams with a short code. Works in any modern browser on desktop and mobile, with no account or installation.
 
 > ZZZ Team Builder is not affiliated with, endorsed by, or sponsored by HoYoverse. See [Legal](#legal).
 
-**Status:** in development. The live site currently shows a preview page while the builder is put together.
+## Features
 
-## Planned features
-
-- **Agents.** Browse every Agent by attribute, specialty, faction and rank, with skills and recommended builds.
-- **W-Engines.** Signature and alternative W-Engines for each Agent.
-- **Drive Discs.** Set bonuses and main and sub stat planning for every slot.
-- **Bangboo.** Which Bangboo suit a squad and what they bring to it.
-- **Saved teams.** Build and save multiple squads, check their synergy and share them with a short code.
+- **Multiple saved teams.** Create, rename, duplicate and delete as many squads as you need. Agents already used in another team are flagged.
+- **Squads of three plus a Bangboo**, picked from a roster you can filter by attribute, specialty, rank and faction. Each roster card shows whether the Agent would share an attribute or faction with the current squad.
+- **Loadouts.** Give each Agent a W-Engine (their specialty first, signature marked) with its Phase, a Mindscape level, a 4-piece and 2-piece Drive Disc set, and the main stats for slots 4 to 6. Loadouts are saved per team.
+- **Synergy check.** Specialty coverage, shared attributes and factions, and notes on Stun, damage dealers and Disorder.
+- **Sharing.** Every team has a code and a link that rebuild the squad, Bangboo and gear. Load community presets as a starting point.
+- **Team images.** Export a 1200×675 card to save, copy or share from a phone.
+- **Agents, W-Engines, Drive Discs and Bangboo pages** with filters, sorting, grid and list views, and detail views.
+- **Glossary** of game terms.
+- **Display size** that scales on large screens, with a manual picker saved per browser.
 - **Light and dark themes**, following your system setting.
 
 ## Running locally
@@ -37,13 +39,15 @@ Every push to `main` is built and published to GitHub Pages by `.github/workflow
 
 ```
 src/
+  data/          game data: Agents, W-Engines, Drive Discs, Bangboo, presets, glossary
+  lib/           team analysis, state, routing, share codes, team image, storage
   components/    React UI components
   App.jsx        application shell
   styles.css     styles and theme tokens
 public/          site icons and the Cortado mascot
 ```
 
-Game data will live in `src/data` and game rules in `src/lib`, independent of the UI.
+Game data lives in `src/data` and game rules in `src/lib`, independent of the UI. Game data is compiled from the community wiki (see NOTICE.md) and covers released content plus officially announced Agents only.
 
 ## Privacy
 
