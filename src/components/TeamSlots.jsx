@@ -125,7 +125,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
 function passiveFor(st) {
   if (!st) return undefined;
   if (!st.known) return { state: 'unknown', title: 'Additional Ability: condition not published yet' };
-  const head = `${st.name}: ${st.active ? 'active' : 'not active'}`;
+  const head = `${st.name}${st.estimated ? ' (estimated, not confirmed yet)' : ''}: ${st.active ? 'active' : 'not active'}`;
   const why = st.active ? `Thanks to ${st.via.join(' and ')}.` : `Needs: ${st.condition}.`;
   return { state: st.active ? 'on' : 'off', title: `${head}. ${why}` };
 }

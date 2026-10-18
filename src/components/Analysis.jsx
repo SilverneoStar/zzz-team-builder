@@ -38,6 +38,7 @@ export default function Analysis({ analysis }) {
                       <span className="passive__head">
                         <b>{shortName(a)}</b>
                         {st.name && <span className="passive__name">{st.name}</span>}
+                        {st.estimated && <span className="passive__est" title="Based on the 3.3 livestream; not confirmed yet">Estimated</span>}
                       </span>
                       <span className="passive__cond">
                         {!st.known

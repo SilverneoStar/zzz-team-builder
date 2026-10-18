@@ -50,6 +50,9 @@ export const PASSIVES = {
   'roxy-ifrita-pryce': {"name": "Porcelloy Heart", "specialties": ["attack", "rupture", "armorer"]},
   'seed': {"name": "Surprise Strike", "specialties": ["attack"]},
   'seth-lowell': {"name": "High Spirit", "attribute": true, "faction": true},
+  // Severian: estimated from his gameplay in the 3.3 livestream (like Sigrid and
+  // other Attack Agents, plus his faction). Replace once his reveal is out.
+  'severian-lowell': {"specialties": ["stun", "support"], "faction": true, "estimated": true},
   'sigrid-de-lazur': {"name": "Legion of the Skies", "specialties": ["stun", "support"]},
   'soldier-0-anby': {"name": "Voltage Surge", "specialties": ["stun", "support"]},
   'soldier-11': {"name": "Fields of Fire", "attribute": true, "faction": true},
