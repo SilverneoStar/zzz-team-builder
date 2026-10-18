@@ -134,8 +134,8 @@ function Group({ title, note, list, tags }) {
 export function BothWays() {
   return (
     <span className="both-ways" role="img" aria-label="Both ways" title="Turns on each other’s Additional Ability">
-      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
-        <path d="M3 7h12M11.5 3.5 15 7l-3.5 3.5M17 13H5M8.5 9.5 5 13l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true">
+        <path d="M4 7h12M12.5 3.5 16 7l-3.5 3.5M16 13H4M7.5 9.5 4 13l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
   );

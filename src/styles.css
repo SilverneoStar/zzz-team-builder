@@ -5691,5 +5691,13 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   transform: skewX(8deg);
 }
 .mini-agent .fit-tag { border-radius: 4px; }
-.mini-agent .both-ways { display: inline-grid; }
-.mates__more { padding: 6px 14px; }
+.mini-agent > span.both-ways { display: inline-grid; }
+.both-ways svg { display: block; }
+.mini-agent { min-height: 36px; padding-left: 4px; }
+.mates__more {
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  line-height: 1;
+}
+.mates__legend .both-ways { flex: none; }
