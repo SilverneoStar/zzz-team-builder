@@ -109,7 +109,7 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
                 })}
               </span>
               <span className="best-team__meta">
-                <span className="fit-tag" title="Additional Abilities active">AA {passives.active}/{passives.total}</span>
+                <span className="fit-tag" title="Additional Abilities active">Abilities {passives.active}/{passives.total}</span>
                 {kit.map((k) => <span key={k.id} className="fit-tag fit-tag--kit">{k.name}</span>)}
               </span>
               <button className="btn btn--small" onClick={() => onLoadTeam(recommendedTeam(a.id, members))}>
