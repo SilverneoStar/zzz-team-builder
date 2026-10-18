@@ -1,10 +1,11 @@
 import { AGENT_BY_ID, MAX_MINDSCAPE, MAX_REFINEMENT, TEAM_SIZE } from '../data/game.js';
 import { PRESETS, presetLoadouts } from '../data/presets.js';
+import { emptyDiscs, normaliseDiscs } from './discs.js';
 
 // All team changes go through this reducer, so the rules live in one place.
 // State: { teams: [{ id, name, members: [id|null x3], bangboo, loadouts }], activeId, notice }
 // loadouts: { [agentId]: { wEngine, refinement (1–5), mindscape (0–6),
-//   disc4, disc2, main: { 4, 5, 6 } } }
+//   discs: [{ set, rank, main } x6] } }  (see lib/discs.js)
 // Loadouts are per team, so one Agent can be geared differently in two teams.
 
 let counter = 0;
@@ -20,15 +21,15 @@ export const emptyLoadout = () => ({
   wEngine: null,
   refinement: 1,
   mindscape: 0,
-  disc4: null,
-  disc2: null,
-  main: { 4: null, 5: null, 6: null },
+  discs: emptyDiscs(),
 });
 
 export function loadoutOf(team, agentId) {
   // Merge with defaults so loadouts saved before new fields existed still work.
-  const lo = { ...emptyLoadout(), ...(team.loadouts?.[agentId] ?? {}) };
-  return { ...lo, main: { ...emptyLoadout().main, ...(lo.main ?? {}) } };
+  const saved = team.loadouts?.[agentId] ?? {};
+  const { disc4, disc2, main, ...rest } = { ...emptyLoadout(), ...saved };
+  // Older saves stored a 4-piece and 2-piece set; turn those into slots.
+  return { ...rest, discs: normaliseDiscs(saved.discs, { disc4, disc2, main }) };
 }
 
 export function initialState(saved) {
@@ -160,7 +161,7 @@ export function teamsReducer(state, action) {
         next.mindscape = clamp(next.mindscape, 0, MAX_MINDSCAPE);
         next.refinement = clamp(next.refinement, 1, MAX_REFINEMENT);
         // A 2-piece set can't be the same as the 4-piece set.
-        if (next.disc2 && next.disc2 === next.disc4) next.disc2 = null;
+        next.discs = normaliseDiscs(next.discs);
         return { ...t, loadouts: { ...t.loadouts, [action.agentId]: next } };
       });
 

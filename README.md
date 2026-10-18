@@ -10,7 +10,7 @@ Plan squads, gear up Agents, browse W-Engines, Drive Discs and Bangboo, and shar
 
 - **Multiple saved teams.** Create, rename, duplicate and delete as many squads as you need. Agents already used in another team are flagged.
 - **Squads of three plus a Bangboo**, picked from a roster you can filter by attribute, specialty, rank and faction. Each roster card shows whether the Agent would share an attribute or faction with the current squad.
-- **Loadouts.** Give each Agent a W-Engine (their specialty first, signature marked) with its Phase, a Mindscape level, a 4-piece and 2-piece Drive Disc set, and the main stats for slots 4 to 6. Loadouts are saved per team.
+- **Loadouts.** Tap an Agent to open their equipment wheel, like in game: the W-Engine (their specialty first, signature marked) with its Phase in the middle, and the six Drive Disc slots around it, each with its own set, rank and main stat. Set bonuses (2-piece and 4-piece) are worked out from the equipped discs, and quick fill sets four or two slots at once. Mindscape level too. Loadouts are saved per team.
 - **Synergy check.** Specialty coverage, shared attributes and factions, and notes on Stun, damage dealers and Disorder.
 - **Sharing.** Every team has a code and a link that rebuild the squad, Bangboo and gear. Load community presets as a starting point.
 - **Team images.** Export a 1200×675 card to save, copy or share from a phone.

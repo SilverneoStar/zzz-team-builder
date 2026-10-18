@@ -9,6 +9,7 @@ import {
 } from '../data/game.js';
 import { encodeTeam } from './share.js';
 import { loadoutOf } from './teamsReducer.js';
+import { discBonuses } from './discs.js';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 
 // Draws a 1200×675 team image (16:9, the size most social sites preview).
@@ -157,16 +158,21 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
 
     const lo = loadoutOf(team, a.id);
     const w = lo.wEngine && W_ENGINE_BY_ID[lo.wEngine];
-    const d4 = lo.disc4 && DRIVE_DISC_BY_ID[lo.disc4];
-    const d2 = lo.disc2 && DRIVE_DISC_BY_ID[lo.disc2];
+    const bonus = discBonuses(lo.discs);
+    const four = bonus.four && DRIVE_DISC_BY_ID[bonus.four];
+    const twos = bonus.twos.filter((id) => id !== bonus.four).map((id) => DRIVE_DISC_BY_ID[id].name);
+    const mainText = (slot) => {
+      const m = lo.discs[slot - 1].main;
+      return m === 'Attribute DMG' ? `${ATTRIBUTE_BY_ID[a.attribute]?.name} DMG` : m ?? '—';
+    };
     const rows = [
       ['Mindscape', `M${lo.mindscape}`],
       ['W-Engine', w ? `${w.name} · P${lo.refinement}` : '—'],
-      ['4-piece', d4?.name ?? '—'],
-      ['2-piece', d2?.name ?? '—'],
-      ['Slot 4', lo.main[4] ?? '—'],
-      ['Slot 5', lo.main[5] === 'Attribute DMG' ? `${ATTRIBUTE_BY_ID[a.attribute]?.name} DMG` : lo.main[5] ?? '—'],
-      ['Slot 6', lo.main[6] ?? '—'],
+      ['4-piece', four?.name ?? '—'],
+      ['2-piece', twos.join(' + ') || '—'],
+      ['Slot 4', mainText(4)],
+      ['Slot 5', mainText(5)],
+      ['Slot 6', mainText(6)],
     ];
     rows.forEach(([k, v], r) => {
       const y = top + 142 + r * 30;

@@ -1,12 +1,13 @@
 import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, DRIVE_DISC_BY_ID, TEAM_SIZE, W_ENGINE_BY_ID } from '../data/game.js';
+import { RANKS, normaliseDiscs } from './discs.js';
 
 // A team code looks like:
-//   zzz1~Ellen_Freeze~ellen-joe.von-lycaon.soukaku~sharkboo~deep-sea-visitor,1,0,,,,,.,,,,,,,.,,,,,,,
-// Parts: version, team name, Agents, Bangboo, then each Agent's gear as
-// W-Engine,refinement,mindscape,4-piece,2-piece,slot4,slot5,slot6 (main stats
-// as their position in DISC_MAIN_STATS). Only letters, digits and . , _ ~ -
-// appear, so it's safe in a URL hash.
-const PREFIX = 'zzz1';
+//   zzz2~Ellen_Freeze~ellen-joe.von-lycaon.soukaku~sharkboo~<gear>.<gear>.<gear>
+// Each Agent's gear is W-Engine,phase,mindscape,slot1,…,slot6 and each slot is
+// set_rank_main (main as its position in DISC_MAIN_STATS for slots 4–6).
+// Only letters, digits and . , _ ~ - appear, so it's safe in a URL hash.
+// Older zzz1 codes (a 4-piece and 2-piece set per Agent) still import.
+const PREFIX = 'zzz2';
 const SLOTS = [4, 5, 6];
 
 export function encodeTeam(team, loadoutOf) {
@@ -23,11 +24,10 @@ export function encodeTeam(team, loadoutOf) {
         lo.wEngine ?? '',
         lo.refinement,
         lo.mindscape,
-        lo.disc4 ?? '',
-        lo.disc2 ?? '',
-        ...SLOTS.map((s) => {
-          const i = DISC_MAIN_STATS[s].indexOf(lo.main[s]);
-          return i < 0 ? '' : i;
+        ...lo.discs.map((d, i) => {
+          const slot = i + 1;
+          const m = slot >= 4 ? DISC_MAIN_STATS[slot].indexOf(d.main) : -1;
+          return `${d.set ?? ''}_${d.rank}_${m < 0 ? '' : m}`;
         }),
       ].join(',');
     })
@@ -39,7 +39,8 @@ export function encodeTeam(team, loadoutOf) {
 export function decodeTeam(code) {
   if (!code) return null;
   const parts = code.trim().replace(/^#/, '').split('~');
-  if (parts.length < 3 || parts[0] !== PREFIX) return null;
+  if (parts.length < 3 || (parts[0] !== PREFIX && parts[0] !== 'zzz1')) return null;
+  const legacy = parts[0] === 'zzz1';
   const name = parts[1].replace(/_/g, ' ') || 'Shared team';
   const ids = parts[2].split('.').slice(0, TEAM_SIZE);
   // Unknown Agents and duplicates are dropped: an Agent appears once per squad.
@@ -57,19 +58,31 @@ export function decodeTeam(code) {
   (parts[4] ?? '').split('.').forEach((g, i) => {
     const id = members[i];
     if (!id || !g) return;
-    const [w, ref, mind, d4, d2, ...mains] = g.split(',');
-    const main = {};
-    SLOTS.forEach((s, k) => {
-      main[s] = DISC_MAIN_STATS[s][Number(mains[k])] && mains[k] !== '' ? DISC_MAIN_STATS[s][Number(mains[k])] : null;
-    });
-    loadouts[id] = {
+    const [w, ref, mind, ...rest] = g.split(',');
+    const base = {
       wEngine: W_ENGINE_BY_ID[w] ? w : null,
       refinement: Math.min(5, Math.max(1, Number(ref) || 1)),
       mindscape: Math.min(6, Math.max(0, Number(mind) || 0)),
-      disc4: DRIVE_DISC_BY_ID[d4] ? d4 : null,
-      disc2: DRIVE_DISC_BY_ID[d2] && d2 !== d4 ? d2 : null,
-      main,
     };
+    if (legacy) {
+      const [d4, d2, ...mains] = rest;
+      const main = {};
+      SLOTS.forEach((s, k) => {
+        main[s] = mains[k] !== '' ? DISC_MAIN_STATS[s][Number(mains[k])] ?? null : null;
+      });
+      loadouts[id] = { ...base, discs: normaliseDiscs(null, { disc4: DRIVE_DISC_BY_ID[d4] ? d4 : null, disc2: DRIVE_DISC_BY_ID[d2] ? d2 : null, main }) };
+      return;
+    }
+    const discs = rest.slice(0, 6).map((cell, i) => {
+      const [set, rank, m] = (cell ?? '').split('_');
+      const slot = i + 1;
+      return {
+        set: DRIVE_DISC_BY_ID[set] ? set : null,
+        rank: RANKS.includes(rank) ? rank : 'S',
+        main: slot >= 4 && m !== '' && m != null ? DISC_MAIN_STATS[slot][Number(m)] ?? null : null,
+      };
+    });
+    loadouts[id] = { ...base, discs: normaliseDiscs(discs) };
   });
   return { name, members, bangboo, loadouts };
 }

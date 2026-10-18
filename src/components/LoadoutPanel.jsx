@@ -1,8 +1,6 @@
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
   ATTRIBUTE_BY_ID,
-  DISC_FIXED,
-  DISC_MAIN_MAX,
   DISC_MAIN_STATS,
   DRIVE_DISC_BY_ID,
   DRIVE_DISC_SETS,
@@ -13,19 +11,29 @@ import {
   W_ENGINE_BY_ID,
   wEnginesFor,
 } from '../data/game.js';
+import { useRef, useState } from 'react';
+import { RANKS, discBonuses, mainMax, mainStatOf } from '../lib/discs.js';
+import DiscWheel, { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 
-// Gear for one Agent in this team: W-Engine, Mindscape, Drive Disc sets and
-// the main stats of the slots that can roll more than one.
+// Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
+// the six Drive Disc slots on the equipment wheel, each with its own set, rank
+// and main stat. Set bonuses follow from how many discs of a set are equipped.
 export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const fits = wEnginesFor(agent);
   const others = W_ENGINES.filter((w) => w.specialty !== agent.specialty);
   const w = loadout.wEngine && W_ENGINE_BY_ID[loadout.wEngine];
-  const d4 = loadout.disc4 && DRIVE_DISC_BY_ID[loadout.disc4];
-  const d2 = loadout.disc2 && DRIVE_DISC_BY_ID[loadout.disc2];
   const attrName = ATTRIBUTE_BY_ID[agent.attribute]?.name;
   const statLabel = (s) => (s === 'Attribute DMG' ? `${attrName} DMG` : s);
+  const [slot, setSlot] = useState(null);
+  const engineRef = useRef(null);
+  const discs = loadout.discs;
+  const bonuses = discBonuses(discs);
+
+  const setDisc = (i, patch) => onChange({ discs: discs.map((d, k) => (k === i ? { ...d, ...patch } : d)) });
+  const fill = (indices, set) => onChange({ discs: discs.map((d, k) => (indices.includes(k) ? { ...d, set } : d)) });
+  const cur = slot ? discs[slot - 1] : null;
 
   return (
     <section className="loadout" aria-label={`${agent.name} loadout`}>
@@ -37,11 +45,11 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
         <button className="btn btn--quiet loadout__close" onClick={onClose} aria-label="Close loadout">×</button>
       </div>
 
-      <div className="loadout__grid">
+      <div className="loadout__grid loadout__grid--wheel">
         <div className="loadout__block">
           <label className="field">
             <span>W-Engine</span>
-            <select value={loadout.wEngine ?? ''} onChange={(e) => onChange({ wEngine: e.target.value || null })}>
+            <select ref={engineRef} value={loadout.wEngine ?? ''} onChange={(e) => onChange({ wEngine: e.target.value || null })}>
               <option value="">None</option>
               <optgroup label={`${SPECIALTY_BY_ID[agent.specialty]?.name} W-Engines`}>
                 {fits.map((x) => (
@@ -82,60 +90,109 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               onChange={(v) => onChange({ mindscape: v })}
             />
           </div>
+
+          <div className="quickfill">
+            <span className="field__label">Quick fill</span>
+            <label className="quickfill__row">
+              <span>4-piece · slots 1–4</span>
+              <select value="" onChange={(e) => e.target.value && fill([0, 1, 2, 3], e.target.value)}>
+                <option value="">Choose a set…</option>
+                {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+              </select>
+            </label>
+            <label className="quickfill__row">
+              <span>2-piece · slots 5–6</span>
+              <select value="" onChange={(e) => e.target.value && fill([4, 5], e.target.value)}>
+                <option value="">Choose a set…</option>
+                {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name} · {d.twoPiece}</option>)}
+              </select>
+            </label>
+          </div>
         </div>
 
-        <div className="loadout__block">
-          <label className="field">
-            <span>Drive Discs · 4-piece</span>
-            <select value={loadout.disc4 ?? ''} onChange={(e) => onChange({ disc4: e.target.value || null })}>
-              <option value="">None</option>
-              {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
-            </select>
-          </label>
-          {d4 && <p className="loadout__note">{d4.fourPiece}</p>}
-          <label className="field">
-            <span>Drive Discs · 2-piece</span>
-            <select value={loadout.disc2 ?? ''} onChange={(e) => onChange({ disc2: e.target.value || null })}>
-              <option value="">None</option>
-              {DRIVE_DISC_SETS.filter((d) => d.id !== loadout.disc4).map((d) => (
-                <option key={d.id} value={d.id}>{d.name} · {d.twoPiece}</option>
-              ))}
-            </select>
-          </label>
-          {(d4 || d2) && (
-            <p className="loadout__note">
-              2-piece bonuses: {[d4 && `${d4.name}: ${d4.twoPiece}`, d2 && `${d2.name}: ${d2.twoPiece}`].filter(Boolean).join(' · ')}
-            </p>
-          )}
-        </div>
+        <div className="loadout__block loadout__block--wheel">
+          <DiscWheel
+            agent={agent}
+            wEngine={w}
+            phase={loadout.refinement}
+            discs={discs}
+            selected={slot}
+            onSelect={setSlot}
+            onEngine={() => engineRef.current?.focus()}
+          />
 
-        <div className="loadout__block">
-          <span className="field__label">Main stats</span>
-          <ul className="disc-slots">
-            {DISC_FIXED.map((d) => (
-              <li key={d.slot} className="disc-slot disc-slot--fixed">
-                <span className="disc-slot__n">{d.slot}</span>
-                <span>{d.stat}</span>
-                <span className="muted small">{d.max}</span>
-              </li>
-            ))}
-            {[4, 5, 6].map((slot) => (
-              <li key={slot} className="disc-slot">
+          {cur ? (
+            <div className="disc-edit" style={{ '--set': setColor(cur.set) }}>
+              <div className="disc-edit__head">
                 <span className="disc-slot__n">{slot}</span>
-                <label className="sr-only" htmlFor={`main-${slot}`}>Slot {slot} main stat</label>
-                <select
-                  id={`main-${slot}`}
-                  value={loadout.main[slot] ?? ''}
-                  onChange={(e) => onChange({ main: { ...loadout.main, [slot]: e.target.value || null } })}
-                >
-                  <option value="">Not set</option>
-                  {DISC_MAIN_STATS[slot].map((s) => <option key={s} value={s}>{statLabel(s)}</option>)}
+                <b>Slot {slot}</b>
+                <button className="btn btn--quiet btn--small" onClick={() => setDisc(slot - 1, { set: null, main: null })}>Clear</button>
+                <button className="btn btn--quiet btn--small" onClick={() => setSlot(null)} aria-label="Done editing slot">Done</button>
+              </div>
+              <label className="field">
+                <span>Set</span>
+                <select value={cur.set ?? ''} onChange={(e) => setDisc(slot - 1, { set: e.target.value || null })}>
+                  <option value="">Empty</option>
+                  {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
                 </select>
-                <span className="muted small">{loadout.main[slot] ? DISC_MAIN_MAX[loadout.main[slot]] : ''}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="muted small">Values are the highest an S-rank disc reaches at level 15.</p>
+              </label>
+              <div className="disc-edit__row">
+                <span className="field__label">Rank</span>
+                <div className="chips" role="group" aria-label="Disc rank">
+                  {RANKS.map((r) => (
+                    <button key={r} className="chip" aria-pressed={cur.rank === r} onClick={() => setDisc(slot - 1, { rank: r })}>
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {slot <= 3 ? (
+                <p className="disc-edit__fixed">
+                  Main stat: <b>{statLabel(mainStatOf(slot, cur))}</b> {mainMax(slot, cur) ?? ''}
+                  <span className="muted small"> · always the same in this slot</span>
+                </p>
+              ) : (
+                <label className="field">
+                  <span>Main stat</span>
+                  <select value={cur.main ?? ''} onChange={(e) => setDisc(slot - 1, { main: e.target.value || null })}>
+                    <option value="">Not set</option>
+                    {DISC_MAIN_STATS[slot].map((st) => (
+                      <option key={st} value={st}>
+                        {statLabel(st)} {mainMax(slot, { ...cur, main: st }) ?? ''}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
+          ) : (
+            <p className="muted small wheel__hint">Tap a disc slot to set its Drive Disc, rank and main stat. Tap the middle to change the W-Engine.</p>
+          )}
+
+          <div className="bonuses">
+            <span className="field__label">Set bonuses</span>
+            {bonuses.twos.length === 0 ? (
+              <p className="muted small">Equip two discs of a set for its 2-piece bonus, and four for its 4-piece bonus.</p>
+            ) : (
+              <ul className="bonuses__list">
+                {bonuses.twos.map((id) => {
+                  const set = DRIVE_DISC_BY_ID[id];
+                  const count = bonuses.counts.find((c) => c.id === id).count;
+                  return (
+                    <li key={id} className="bonus" style={{ '--set': setColor(id) }}>
+                      <span className="bonus__head">
+                        <span className="bonus__dot" />
+                        <b>{set.name}</b>
+                        <span className="muted small">×{count}</span>
+                      </span>
+                      <span className="bonus__line"><span className="bonus__tag">2</span>{set.twoPiece}</span>
+                      {count >= 4 && <span className="bonus__line"><span className="bonus__tag">4</span>{set.fourPiece}</span>}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </section>

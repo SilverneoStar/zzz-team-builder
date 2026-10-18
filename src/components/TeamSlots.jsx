@@ -12,6 +12,7 @@ import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
 import PassiveFace from './PassiveFace.jsx';
+import { discSummary } from '../lib/discs.js';
 import { passiveStatus } from '../lib/analyze.js';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
@@ -42,8 +43,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
         }
         const gear = loadoutOf(team, a.id);
         const w = gear.wEngine && W_ENGINE_BY_ID[gear.wEngine];
-        const d4 = gear.disc4 && DRIVE_DISC_BY_ID[gear.disc4];
-        const d2 = gear.disc2 && DRIVE_DISC_BY_ID[gear.disc2];
+        const discText = discSummary(gear.discs);
         const isSelected = selected === index;
         return (
           <li
@@ -64,8 +64,8 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
                   {w && w.signatureOf === a.id && <span className="chip-tag">· Sig</span>}
                 </span>
                 <span className="slot__gear-row">
-                  <span className={d4 ? 'gear-chip gear-chip--on' : 'gear-chip'} title={d4 || d2 ? [d4 && `4: ${d4.name}`, d2 && `2: ${d2.name}`].filter(Boolean).join(' · ') : 'No Drive Discs'}>
-                    <span className="gear-chip__name">{d4 ? d4.name : d2 ? `2pc ${d2.name}` : 'No discs'}</span>
+                  <span className={discText ? 'gear-chip gear-chip--on' : 'gear-chip'} title={discText ?? 'No Drive Discs'}>
+                    <span className="gear-chip__name">{discText ?? 'No discs'}</span>
                   </span>
                   <span className={gear.mindscape ? 'gear-chip gear-chip--on' : 'gear-chip'} title="Mindscape Cinema">
                     M{gear.mindscape}
