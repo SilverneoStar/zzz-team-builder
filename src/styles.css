@@ -5203,14 +5203,14 @@ th[aria-sort='descending'] .th-btn {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: 800 0.95rem var(--font-body);
+  font: 800 clamp(0.62rem, 8.6cqi, 0.95rem) var(--font-body);
   letter-spacing: 0.01em;
 }
 .frame__sub {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: 800 0.72rem var(--font-body);
+  font: 800 clamp(0.56rem, 6.4cqi, 0.72rem) var(--font-body);
   color: #cfcfcf;
 }
 .frame__pill {
@@ -5230,14 +5230,11 @@ th[aria-sort='descending'] .th-btn {
   .frame__foot { gap: 5px; padding: 5px 5px 6px 2px; min-height: 40px; }
   .frame__badge { width: 24px; height: 24px; }
   .frame__badge .rank-badge { width: 18px; height: 18px; }
-  .frame__name { font-size: 0.8rem; }
-  .frame__sub { font-size: 0.64rem; }
   .frame__pill { padding: 3px 4px; }
   .frame__pill .attr-glyph { width: 14px; height: 14px; }
 }
 @container (max-width: 104px) {
   .frame__badge { display: none; }
-  .frame__name { font-size: 0.74rem; }
 }
 
 a:hover > .frame,
