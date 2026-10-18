@@ -16,6 +16,8 @@ import AttributeGlyph, { AttributeTag } from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import ViewToggle from './ViewToggle.jsx';
+import { agentArt } from './Portrait.jsx';
+import { useState as useTileState } from 'react';
 
 const VIEW_KEY = 'zzz-team-builder:agentView';
 const loadView = () => {
@@ -175,8 +177,8 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
                 style={{ '--el': ATTRIBUTE_BY_ID[a.attribute]?.color }}
                 aria-current={a.id === agentId ? 'true' : undefined}
               >
-                <span className="char-tile__art char-tile__art--initials">
-                  <Portrait agent={a} size="xl" />
+                <span className="char-tile__art">
+                  <TileArt agent={a} />
                   {(a.rank === 'S' || a.rank === 'A') && <span className="char-tile__rank"><RankBadge rank={a.rank} size={24} /></span>}
                   <span className="char-tile__el"><AttributeGlyph attribute={a.attribute} size={20} title={ATTRIBUTE_BY_ID[a.attribute]?.name} /></span>
                   {a.upcoming && <span className="char-tile__tag">Upcoming</span>}
@@ -231,4 +233,17 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
       {rows.length === 0 && <p className="empty">No Agents match these filters.</p>}
     </div>
   );
+}
+
+// Square art for the grid; initials if the image is missing.
+function TileArt({ agent }) {
+  const [failed, setFailed] = useTileState(false);
+  if (failed) {
+    return (
+      <span className="char-tile__fallback">
+        <Portrait agent={agent} size="xl" />
+      </span>
+    );
+  }
+  return <img src={agentArt(agent.id)} alt="" loading="lazy" onError={() => setFailed(true)} />;
 }

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { ATTRIBUTE_BY_ID, BANGBOO } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import RankBadge from './RankBadge.jsx';
-import { BangbooMark } from './TeamSlots.jsx';
+import BangbooArt from './BangbooArt.jsx';
 
 export default function BangbooPage({ activeTeam, onPick }) {
   const [rank, setRank] = useState('all');
@@ -42,7 +42,7 @@ export default function BangbooPage({ activeTeam, onPick }) {
             const on = activeTeam.bangboo === b.id;
             return (
               <li key={b.id} className={`bangboo-card${on ? ' is-on' : ''}`} style={b.attribute ? { '--el': ATTRIBUTE_BY_ID[b.attribute]?.color } : undefined}>
-                <span className="bangboo-card__icon" aria-hidden="true"><BangbooMark size={34} /></span>
+                <span className="bangboo-card__icon" aria-hidden="true"><BangbooArt id={b.id} size={44} /></span>
                 <span className="bangboo-card__body">
                   <span className="bangboo-card__name">
                     {b.name}

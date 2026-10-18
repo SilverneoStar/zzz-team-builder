@@ -86,6 +86,7 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
   const colW = 352;
   const gap = 22;
   const top = 168;
+  const arts = await Promise.all(team.members.map((id) => (id ? loadImage(`${base}agents/${id}.webp`) : null)));
   team.members.forEach((id, i) => {
     const x = 40 + i * (colW + gap);
     const a = id && AGENT_BY_ID[id];
@@ -106,15 +107,26 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
     roundRect(ctx, x, top, colW, 5, 2);
     ctx.fill();
 
-    // Initials badge.
+    // Portrait in a ring of the attribute colour; initials if there's no art.
     ctx.beginPath();
-    ctx.arc(x + 58, top + 66, 38, 0, Math.PI * 2);
+    ctx.arc(x + 58, top + 66, 40, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#0a0a0a';
-    ctx.font = `800 32px ${DISPLAY}`;
-    ctx.textAlign = 'center';
-    ctx.fillText(initials(a.name), x + 58, top + 78);
-    ctx.textAlign = 'left';
+    if (arts[i]) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x + 58, top + 66, 37, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.fillStyle = '#1a1a1a';
+      ctx.fillRect(x + 21, top + 29, 74, 74);
+      ctx.drawImage(arts[i], x + 21, top + 29, 74, 74);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#0a0a0a';
+      ctx.font = `800 32px ${DISPLAY}`;
+      ctx.textAlign = 'center';
+      ctx.fillText(initials(a.name), x + 58, top + 78);
+      ctx.textAlign = 'left';
+    }
 
     ctx.fillStyle = '#f2f2f2';
     ctx.font = `700 22px ${FONT}`;
@@ -149,12 +161,20 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
 
   // Bangboo and footer.
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
+  const bArt = b ? await loadImage(`${base}bangboo/${b.id}.webp`) : null;
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${MONO}`;
   ctx.fillText('BANGBOO', 40, 572);
+  let bx = 140;
+  if (bArt) {
+    const h = 44;
+    const w = (bArt.width / bArt.height) * h;
+    ctx.drawImage(bArt, bx, 545, w, h);
+    bx += w + 10;
+  }
   ctx.fillStyle = '#f2f2f2';
   ctx.font = `700 20px ${FONT}`;
-  ctx.fillText(b ? `${b.name}${b.rank ? ` · ${b.rank}-Rank` : ''}` : 'None', 140, 573);
+  ctx.fillText(b ? `${b.name}${b.rank ? ` · ${b.rank}-Rank` : ''}` : 'None', bx, 573);
 
   ctx.fillStyle = '#7a7a7a';
   ctx.font = `400 13px ${MONO}`;

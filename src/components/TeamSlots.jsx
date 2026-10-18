@@ -9,6 +9,7 @@ import {
 } from '../data/game.js';
 import { loadoutOf } from '../lib/teamsReducer.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
+import BangbooArt from './BangbooArt.jsx';
 import Portrait from './Portrait.jsx';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
@@ -79,7 +80,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
       <li className={`slot slot--bangboo${bangboo ? '' : ' slot--empty'}`} style={bangboo?.attribute ? { '--el': ATTRIBUTE_BY_ID[bangboo.attribute]?.color } : undefined}>
         <span className="bangboo-slot">
           <span className="bangboo-slot__icon" aria-hidden="true">
-            <BangbooMark />
+            <BangbooArt id={bangboo?.id} size={bangboo ? 56 : 30} />
           </span>
           <label className="bangboo-slot__label" htmlFor="squad-bangboo">Bangboo</label>
           <select
@@ -109,15 +110,3 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
   );
 }
 
-// A simple rounded robot head: original drawing for the Bangboo slot.
-export function BangbooMark({ size = 30 }) {
-  return (
-    <svg viewBox="0 0 32 32" width={size} height={size}>
-      <path d="M10 6 8 2M22 6l2-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <rect x="4" y="6" width="24" height="20" rx="9" fill="none" stroke="currentColor" strokeWidth="2.2" />
-      <rect x="8.5" y="11" width="15" height="9" rx="4.5" fill="currentColor" opacity="0.18" />
-      <circle cx="12.5" cy="15.5" r="2" fill="currentColor" />
-      <circle cx="19.5" cy="15.5" r="2" fill="currentColor" />
-    </svg>
-  );
-}

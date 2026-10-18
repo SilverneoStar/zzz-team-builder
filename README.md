@@ -44,7 +44,9 @@ src/
   components/    React UI components
   App.jsx        application shell
   styles.css     styles and theme tokens
-public/          site icons and the Cortado mascot
+public/
+  agents/        Agent portraits (official art, see NOTICE.md)
+  bangboo/       Bangboo art (official art, see NOTICE.md)
 ```
 
 Game data lives in `src/data` and game rules in `src/lib`, independent of the UI. Game data is compiled from the community wiki (see NOTICE.md) and covers released content plus officially announced Agents only.

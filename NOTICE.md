@@ -14,9 +14,10 @@ Agent, W-Engine, Drive Disc and Bangboo names, ranks, attributes, specialties, f
 
 | Content | Source | Terms |
 | --- | --- | --- |
+| Agent portraits in `public/agents/` and Bangboo art in `public/bangboo/` | Official character art by HoYoverse | © HoYoverse; publisher's terms apply; not covered by this repository's license |
 | Cortado, the site mascot (all four headwear versions and its emotes), and site icons (`public/mascot*.svg`, `public/favicon.ico`, `public/icon-*.png`, `public/apple-touch-icon.png`, `src/components/Mascot.jsx`) | Original artwork by SilverneoStar (SilverStarneo-Cortado) | [CC BY-NC-ND 4.0](LICENSE-ARTWORK.md); not covered by the MIT License |
 
-Any official artwork added later will be used only where the publisher allows it for fan use, within the publisher's terms, and will be removed on request.
+Official artwork is used only for this free, non-commercial fan project, within the publisher's terms, and will be removed on request.
 
 ## Third-party software
 
