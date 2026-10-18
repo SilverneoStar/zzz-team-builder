@@ -5645,3 +5645,20 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .mates__note { margin: -2px 0 6px; }
 .mates__more { cursor: pointer; padding: 6px 12px; font: 600 0.8rem var(--font-body); color: var(--muted); }
 .mates__more:hover { color: var(--fg); }
+
+/* Agent pills lean with the portrait frame: same slant, and corners that
+   follow the portrait's with the 3px inset. Contents other than the
+   portrait are straightened back. */
+.mini-agent {
+  border-radius: 8px;
+  transform: skewX(-8deg);
+}
+.mini-agent .portrait { transform: none; }
+.mini-agent > span:not(.portrait),
+.mini-agent > img,
+.mini-agent > svg {
+  display: inline-block;
+  transform: skewX(8deg);
+}
+.mini-agent .fit-tag { border-radius: 4px; }
+.mates__more { padding: 6px 14px; }

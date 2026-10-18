@@ -113,7 +113,7 @@ function Group({ title, note, list, tags }) {
         {list.length > SHOW && (
           <li>
             <button className="mini-agent mates__more" onClick={() => setOpen(!open)} aria-expanded={open}>
-              {open ? 'Show fewer' : `+${list.length - SHOW} more`}
+              <span>{open ? 'Show fewer' : `+${list.length - SHOW} more`}</span>
             </button>
           </li>
         )}
