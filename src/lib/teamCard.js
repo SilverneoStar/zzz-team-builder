@@ -1,3 +1,4 @@
+import { FILM_STRIPS } from './filmStrips.js';
 import {
   AGENT_BY_ID,
   ATTRIBUTE_BY_ID,
@@ -55,24 +56,27 @@ function roundRect(ctx, x, y, w, h, r) {
 function background(ctx, W, H) {
   ctx.fillStyle = '#0a0a0a';
   ctx.fillRect(0, 0, W, H);
-  // Strip centres at even steps across the card, fading towards the middle.
-  [1, 0.55, 0.3, 0.55, 1].forEach((alpha, i) => {
+  // Same strips as the page backdrop: a fixed step apart from the centre,
+  // each a slightly different brightness.
+  FILM_STRIPS.forEach(([k, alpha]) => {
+    const x = W / 2 + k * 190;
+    if (x < -400 || x > W + 400) return;
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.translate((W * i) / 4, H / 2);
+    ctx.translate(x, H / 2);
     ctx.rotate((14 * Math.PI) / 180);
-    const sw = 176;
+    const sw = 150;
     const sh = H * 1.8;
     ctx.fillStyle = '#131313';
     ctx.fillRect(-sw / 2, -sh / 2, sw, sh);
-    for (let y = -sh / 2; y < sh / 2; y += 26) {
+    for (let y = -sh / 2; y < sh / 2; y += 22) {
       ctx.fillStyle = '#0a0a0a';
-      ctx.fillRect(-sw / 2 + 11, y, 12, 12);
-      ctx.fillRect(sw / 2 - 23, y, 12, 12);
+      ctx.fillRect(-sw / 2 + 9, y, 10, 10);
+      ctx.fillRect(sw / 2 - 19, y, 10, 10);
     }
-    for (let y = -sh / 2 + 6; y < sh / 2; y += 136) {
+    for (let y = -sh / 2 + 6; y < sh / 2; y += 116) {
       ctx.fillStyle = '#1b1b1b';
-      ctx.fillRect(-sw / 2 + 34, y, sw - 68, 122);
+      ctx.fillRect(-sw / 2 + 29, y, sw - 58, 104);
     }
     ctx.restore();
   });

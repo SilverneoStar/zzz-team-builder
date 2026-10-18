@@ -4991,34 +4991,32 @@ th[aria-sort='descending'] .th-btn {
    ====================================================================== */
 
 /* Backdrop: tilted film strips with sprocket holes and frame windows,
-   like the game's squad screen. Replaces the rounded bands. */
-.backdrop span {
+   like the game's squad screen. Replaces the rounded bands.
+   Strips sit a fixed step apart from the centre outwards (--k), so wider
+   screens show more of them, each a slightly different brightness (--o). */
+.backdrop { --strip: 150px; --step: 190px; }
+.backdrop span,
+.backdrop span:nth-child(n) {
   top: -35vh;
-  left: auto;
-  width: 176px;
+  left: calc(50% + var(--k) * var(--step));
+  right: auto;
+  width: var(--strip);
   height: 170vh;
+  margin-left: calc(var(--strip) / -2);
   border-radius: 6px;
-  opacity: 1;
+  opacity: var(--o);
   transform: rotate(14deg);
   background:
-    linear-gradient(to bottom, var(--film-hole) 0 12px, transparent 12px) 11px 0 / 12px 26px repeat-y,
-    linear-gradient(to bottom, var(--film-hole) 0 12px, transparent 12px) calc(100% - 11px) 0 / 12px 26px repeat-y,
-    linear-gradient(to bottom, var(--film-frame) 0 calc(100% - 14px), transparent 0) 50% 6px / calc(100% - 68px) 136px repeat-y,
+    linear-gradient(to bottom, var(--film-hole) 0 10px, transparent 10px) 9px 0 / 10px 22px repeat-y,
+    linear-gradient(to bottom, var(--film-hole) 0 10px, transparent 10px) calc(100% - 9px) 0 / 10px 22px repeat-y,
+    linear-gradient(to bottom, var(--film-frame) 0 calc(100% - 12px), transparent 0) 50% 6px / calc(100% - 58px) 116px repeat-y,
     var(--film);
 }
 .backdrop span::after { content: none; }
-/* Five strips with their centres at even steps across the screen
-   (0, 25, 50, 75 and 100%), fading towards the middle. */
-.backdrop span { right: auto; margin-left: -88px; }
-.backdrop span:nth-child(n) { top: -35vh; height: 170vh; }
-.backdrop span:nth-child(1) { left: 0%; opacity: 1; }
-.backdrop span:nth-child(2) { left: 25%; opacity: 0.55; }
-.backdrop span:nth-child(5) { left: 50%; opacity: 0.3; }
-.backdrop span:nth-child(3) { left: 75%; opacity: 0.55; }
-.backdrop span:nth-child(4) { left: 100%; opacity: 1; }
 @media (max-width: 720px) {
-  .backdrop span { width: 120px; margin-left: -60px; background-size: 9px 20px, 9px 20px, calc(100% - 48px) 100px, auto; }
-  .backdrop span:nth-child(2), .backdrop span:nth-child(3) { display: none; }
+  .backdrop { --strip: 110px; --step: 140px; }
+  .backdrop span,
+  .backdrop span:nth-child(n) { background-size: 8px 18px, 8px 18px, calc(100% - 42px) 86px, auto; }
 }
 
 /* Squad slots use the tall frame */

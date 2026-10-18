@@ -4,6 +4,7 @@ import { analyzeTeam, usageInOtherTeams } from './lib/analyze.js';
 import { navigate, useHashRoute, VIEWS } from './lib/route.js';
 import { SCALE_OPTIONS, useDisplayScale } from './lib/displayScale.js';
 import { decodeTeam } from './lib/share.js';
+import { FILM_STRIPS } from './lib/filmStrips.js';
 import { loadState, saveState } from './lib/storage.js';
 import { initialState, loadoutOf, teamsReducer } from './lib/teamsReducer.js';
 import AgentsPage from './components/AgentsPage.jsx';
@@ -61,7 +62,9 @@ export default function App() {
   return (
     <div className="app">
       <div className="backdrop" aria-hidden="true">
-        <span /><span /><span /><span /><span />
+        {FILM_STRIPS.map(([k, o]) => (
+          <span key={k} style={{ '--k': k, '--o': o }} />
+        ))}
       </div>
       <header className="masthead">
         <div className="masthead__line" aria-hidden="true" />
