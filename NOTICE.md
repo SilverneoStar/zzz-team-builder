@@ -8,7 +8,7 @@ ZZZ Team Builder is an unofficial, non-commercial fan project. It is not affilia
 
 ## Game data
 
-Agent, W-Engine, Drive Disc and Bangboo names, ranks, attributes, specialties, factions, stats, set bonuses, release versions and Additional Ability names and conditions in `src/data/` are factual game information compiled from the community [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/) on Fandom (October 2026), whose text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Only released content and Agents officially announced by HoYoverse are included; beta or leaked data is never used. No game files are extracted, decompiled or redistributed.
+Agent, W-Engine, Drive Disc and Bangboo names, ranks, attributes, specialties, factions, stats, set bonuses, release versions and Additional Ability names and conditions in `src/data/` are factual game information compiled from the community [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/) on Fandom (October 2026), whose text is available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Details of upcoming Agents (such as Phoenix's Additional Ability condition and recommended teams) come only from HoYoverse's official reveals. Only released content and officially announced Agents are included; beta or leaked data is never used. No game files are extracted, decompiled or redistributed.
 
 ## Artwork
 

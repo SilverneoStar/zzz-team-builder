@@ -2,6 +2,8 @@
 // with one of these specialties, the same attribute, or the same faction.
 // Conditions compiled from the Zenless Zone Zero Wiki (October 2026); see NOTICE.md.
 // Agents missing here (unreleased) have no published condition yet.
+// Upcoming Agents are added from HoYoverse's official reveals (name may be
+// missing until release).
 export const PASSIVES = {
   'alexandrina-sebastiane': {"name": "Banquet of Perfection", "attribute": true, "faction": true},
   'alice-thymefield': {"name": "Mystery Hunt", "specialties": ["anomaly", "support"]},
@@ -37,6 +39,8 @@ export const PASSIVES = {
   'norma-hollowell': {"name": "Advantage in Numbers", "specialties": ["attack", "rupture"], "faction": true},
   'orphie-magnusson-and-magus': {"name": "Forged in Flames", "specialties": ["stun", "support"]},
   'pan-yinhu': {"name": "Iron Stomach", "specialties": ["rupture"], "faction": true},
+  // Phoenix: official 3.3 Gameplay Details reveal (October 2026).
+  'phoenix-reffaella': {"specialties": ["anomaly"], "faction": true},
   'piper-wheel': {"name": "Synced Acceleration", "specialties": ["anomaly"], "attribute": true, "faction": true},
   'promeia': {"name": "Vessel of Ice", "specialties": ["anomaly", "support"]},
   'pulchra-fellini': {"name": "Business Partner", "specialties": ["attack", "rupture"], "faction": true},

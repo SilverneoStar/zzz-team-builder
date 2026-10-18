@@ -126,7 +126,7 @@ export function passiveStatus(memberIds) {
       .map((o) => o.name);
     const on = via.length > 0;
     if (on) active += 1;
-    byId[a.id] = { known: true, active: on, name: p.name, condition: passiveCondition(a.id), via };
+    byId[a.id] = { known: true, active: on, name: p.name ?? 'Additional Ability', condition: passiveCondition(a.id), via };
   });
   return { byId, active, total: squad.length };
 }

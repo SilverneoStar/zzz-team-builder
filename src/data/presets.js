@@ -7,6 +7,9 @@ export const PRESETS = [
   { name: 'Zhu Yuan Ether', members: ['zhu-yuan', 'qingyi', 'nicole-demara'], bangboo: null },
   { name: 'Jane Assault', members: ['jane-doe', 'seth-lowell', 'caesar-king'], bangboo: null },
   { name: 'Miyabi Frost', members: ['hoshimi-miyabi', 'tsukishiro-yanagi', 'astra-yao'], bangboo: null },
+  // Recommended in HoYoverse's official Phoenix reveal (Version 3.3).
+  { name: 'Phoenix · Velina · Remielle', members: ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'], bangboo: null },
+  { name: 'Phoenix · Velina · Yuzuha', members: ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'], bangboo: null },
 ];
 
 export function presetLoadouts(members) {
