@@ -14,6 +14,7 @@ Plan squads, gear up Agents, browse W-Engines, Drive Discs and Bangboo, and shar
 - **Synergy check.** Additional Abilities (which are on), kit links such as Ether Veil and Aftershock, specialty coverage, shared attributes and factions, and notes on Stun, damage dealers and Disorder. Each Agent page lists good fits: who turns on their Additional Ability, who it works both ways with, and kit links.
 - **Sharing.** Every team has a code and a link that rebuild the squad, Bangboo and gear. Load community presets as a starting point.
 - **Team images.** Export a 1200×675 card to save, copy or share from a phone.
+- **Builds and best teams.** Each released Agent's page has a Build tab (W-Engines in order, 4-piece and 2-piece Drive Disc sets, main stats and substats) and a Best teams tab. Equip the build on the Agent in your current team, or load a best team with everyone's recommended gear.
 - **Agents, W-Engines, Drive Discs and Bangboo pages** with filters, sorting, grid and list views, and detail views.
 - **Glossary** of game terms.
 - **Display size** that scales on large screens, with a manual picker saved per browser.

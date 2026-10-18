@@ -51,7 +51,7 @@ function compare(a, b, col, dir) {
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export default function AgentsPage({ agentId, activeTeam, onAdd }) {
+export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, onLoadTeam }) {
   const [query, setQuery] = useState('');
   const [attribute, setAttribute] = useState('all');
   const [specialty, setSpecialty] = useState('all');
@@ -101,6 +101,8 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
           inActiveTeam={activeTeam.members.includes(selected.id)}
           teamFull={activeTeam.members.every(Boolean)}
           onAdd={() => onAdd(selected.id)}
+          onApplyBuild={onApplyBuild}
+          onLoadTeam={onLoadTeam}
           onClose={() => navigate('agents')}
         />
       )}

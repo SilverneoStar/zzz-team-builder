@@ -16,10 +16,11 @@ import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import SwipeTabs from './SwipeTabs.jsx';
+import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, onClose }) {
+export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, onClose, onApplyBuild, onLoadTeam }) {
   const phone = useMedia(PHONE);
   const attr = ATTRIBUTE_BY_ID[a.attribute];
   const sig = signatureOf(a.id);
@@ -130,25 +131,21 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         </div>
       </header>
 
-      {phone ? (
-        <SwipeTabs
-          key={a.id}
-          label={`${a.name} details`}
-          slides={[
-            { id: 'overview', label: 'Overview', content: overview },
-            { id: 'engines', label: 'W-Engines', content: engines },
-            { id: 'mates', label: 'Teammates', content: mates },
-          ]}
-        />
-      ) : (
-        <>
-          <div className="detail__grid">
-            {overview}
-            {engines}
-          </div>
-          {mates}
-        </>
-      )}
+      <SwipeTabs
+        key={a.id}
+        label={`${a.name} details`}
+        slides={[
+          {
+            id: 'overview',
+            label: 'Overview',
+            content: phone ? overview : <div className="detail__grid">{overview}{engines}</div>,
+          },
+          ...(phone ? [{ id: 'engines', label: 'W-Engines', content: engines }] : []),
+          { id: 'build', label: 'Build', content: <AgentBuild agent={a} inActiveTeam={inActiveTeam} onApply={onApplyBuild} /> },
+          { id: 'teams', label: 'Best teams', content: <AgentTeams agent={a} onLoadTeam={onLoadTeam} /> },
+          { id: 'mates', label: 'Teammates', content: mates },
+        ]}
+      />
 
       <div className="detail__actions">
         <button className="btn btn--primary" onClick={onAdd} disabled={inActiveTeam || teamFull}>

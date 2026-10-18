@@ -101,7 +101,19 @@ export default function App() {
         </div>
       </header>
 
-      {route.view === 'agents' && <AgentsPage agentId={route.agentId} activeTeam={active} onAdd={addFromIndex} />}
+      {route.view === 'agents' && <AgentsPage
+          agentId={route.agentId}
+          activeTeam={active}
+          onAdd={addFromIndex}
+          onApplyBuild={(agentId, loadout) => {
+            dispatch({ type: 'setLoadout', agentId, patch: loadout });
+            dispatch({ type: 'notice', text: `Equipped the recommended build on ${AGENT_BY_ID[agentId].name} in “${active.name}”.` });
+          }}
+          onLoadTeam={(team) => {
+            dispatch({ type: 'import', ...team });
+            navigate('builder');
+          }}
+        />}
       {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
       {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
       {route.view === 'bangboo' && (
