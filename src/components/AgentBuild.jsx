@@ -30,7 +30,6 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
                 <RankBadge rank={w.rank} size={18} />
                 <span className="engine-row__name">{w.name}</span>
                 {w.signatureOf === a.id && <span className="chip-tag">Signature</span>}
-                {i === 0 && <span className="fit-tag fit-tag--kit">Best</span>}
               </a>
             </li>
           );

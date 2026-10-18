@@ -5722,3 +5722,6 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   .best-team__meta { align-self: center; }
   .best-team .btn { justify-self: end; align-self: center; }
 }
+.build__engines .engine-row { flex-wrap: nowrap; min-width: 0; }
+.build__engines .engine-row__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.build__sets .fit-tag { margin-left: 2px; }
