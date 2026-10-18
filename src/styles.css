@@ -5701,3 +5701,24 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   line-height: 1;
 }
 .mates__legend .both-ways { flex: none; }
+
+/* Slanted pills lean past their box by a few px; keep that inside the
+   slide so no corner is clipped (or peeks into the next slide). */
+.mini-agents { padding: 0 4px; }
+
+/* Best teams on phones: the three members side by side in equal columns,
+   portrait over the name, then the tags and Load team on one row. */
+@media (max-width: 520px) {
+  .best-team {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'n members members' 'n meta btn';
+    gap: 10px 10px;
+    padding: 10px 12px;
+  }
+  .best-team__members { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .best-team__member { flex-direction: column; justify-content: center; text-align: center; gap: 4px; font-size: 0.8rem; min-width: 0; }
+  .best-team__member span:not(.portrait) { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .best-team__member .portrait { width: 40px; height: 40px; }
+  .best-team__meta { align-self: center; }
+  .best-team .btn { justify-self: end; align-self: center; }
+}
