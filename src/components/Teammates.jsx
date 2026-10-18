@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AGENTS, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, baseAttribute } from '../data/game.js';
+import { AGENTS, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
 import { PASSIVES } from '../data/passives.js';
@@ -100,9 +100,9 @@ function Group({ title, note, list, tags }) {
           const t = tags(x);
           return (
             <li key={x.id}>
-              <a href={`#agent-${x.id}`} className={`mini-agent${t.length ? ' mini-agent--best' : ''}`}>
+              <a href={`#agent-${x.id}`} title={x.name} className={`mini-agent${t.length ? ' mini-agent--best' : ''}`}>
                 <Portrait agent={x} size="sm" />
-                <span>{x.name}</span>
+                <span>{shortName(x)}</span>
                 {t.map((k) => (
                   <span key={k} className={`fit-tag${k === 'Both ways' ? '' : ' fit-tag--kit'}`}>{k}</span>
                 ))}

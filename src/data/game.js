@@ -100,10 +100,10 @@ const SHORT_NAMES = {
   'pan-yinhu': 'Pan Yinhu',
   'ye-shunguang': 'Ye Shunguang',
   'zhu-yuan': 'Zhu Yuan',
-  'orphie-magnusson-and-magus': 'Orphie & Magus',
-  'soldier-0-anby': 'Soldier 0 - Anby',
+  'orphie-magnusson-and-magus': 'Orphie',
+  'soldier-0-anby': 'S0 Anby',
   'soldier-11': 'Soldier 11',
-  'starlight-billy-kid': 'Starlight - Billy',
+  'starlight-billy-kid': 'Starlight Billy',
 };
 export const shortName = (agent) => SHORT_NAMES[agent.id] ?? agent.name.split(' ')[0];
 
