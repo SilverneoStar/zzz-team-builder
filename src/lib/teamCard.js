@@ -198,9 +198,21 @@ function gearOf(team, a) {
     two: twos.join(' + ') || '—',
     discs: [four && `4 ${four.name}`, ...twos.map((n) => `2 ${n}`)].filter(Boolean).join(' + ') || 'No set bonuses',
     mains: [4, 5, 6].map((s) => `${s} ${main(s)}`).join(' · '),
+    mainsShort: [4, 5, 6].map((s) => `${s} ${SHORT_STAT[lo.discs[s - 1].main] ?? main(s)}`).join(' · '),
     main,
   };
 }
+
+// Short stat names for tight spaces.
+const SHORT_STAT = {
+  'Anomaly Proficiency': 'AP',
+  'Anomaly Mastery': 'AM',
+  'CRIT Rate': 'CR',
+  'CRIT DMG': 'CD',
+  'Energy Regen': 'ER',
+  'PEN Ratio': 'PEN%',
+  'Attribute DMG': 'Elem DMG',
+};
 
 const agentLine = (a) => `${a.rank}-Rank · ${ATTRIBUTE_BY_ID[a.attribute]?.name} · ${SPECIALTY_BY_ID[a.specialty]?.name}`;
 
@@ -294,10 +306,10 @@ async function drawSquad(ctx, W, H, team, base) {
   const { arts, bangboo, bArt } = await loadArt(team, base);
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
-  const artH = 292;
+  const artH = 266;
   const lean = 46;
   const gap = 28;
-  const top = 140;
+  const top = 136;
   team.members.forEach((id, i) => {
     const x = 52 + i * (cardW + gap);
     const a = id && AGENT_BY_ID[id];
@@ -340,21 +352,21 @@ async function drawSquad(ctx, W, H, team, base) {
 
     // Gear under the card.
     const g = gearOf(team, a);
-    const gy = top + artH + 110;
+    const gy = top + artH + 104;
     ctx.fillStyle = '#e6e6e6';
     ctx.font = `600 15px ${FONT}`;
-    ctx.fillText(fit(ctx, g.wEngine, cardW + 10), x - 6, gy);
+    ctx.fillText(fit(ctx, g.wEngine, cardW + 20), x - 10, gy);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 14px ${FONT}`;
-    ctx.fillText(fit(ctx, g.discs, cardW + 10), x - 6, gy + 22);
-    ctx.fillStyle = '#7a7a7a';
+    ctx.fillText(fit(ctx, g.discs, cardW + 20), x - 10, gy + 21);
+    ctx.fillStyle = '#8a8a8a';
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mains}`, cardW + 10), x - 6, gy + 44);
+    ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mainsShort}`, cardW + 20), x - 10, gy + 42);
   });
 
   // Bangboo disc.
   const cx = 52 + 3 * (cardW + gap) + 60;
-  const cy = top + 190;
+  const cy = top + 170;
   ctx.beginPath();
   ctx.arc(cx, cy, 70, 0, Math.PI * 2);
   ctx.fillStyle = '#161616';
