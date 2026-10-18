@@ -1,8 +1,12 @@
 import { SPECIALTIES } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
+import PassiveFace from './PassiveFace.jsx';
+import { passiveStatus } from '../lib/analyze.js';
+import { shortName } from '../data/game.js';
 
 export default function Analysis({ analysis }) {
-  const { specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
+  const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
+  const passives = passiveStatus(agents.map((a) => a.id));
 
   return (
     <section className="analysis" aria-labelledby="analysis-title">
@@ -15,6 +19,38 @@ export default function Analysis({ analysis }) {
             </span>
           ))}
         </div>
+
+        {agents.length > 0 && (
+          <div className="passives">
+            <h3 className="mini-title">
+              Additional Abilities <span className="passives__count">{passives.active}/{passives.total}</span>
+            </h3>
+            <ul className="passives__list">
+              {agents.map((a) => {
+                const st = passives.byId[a.id];
+                const state = !st.known ? 'unknown' : st.active ? 'on' : 'off';
+                return (
+                  <li key={a.id} className={`passive passive--${state}`}>
+                    <PassiveFace state={state} size={26} />
+                    <span className="passive__body">
+                      <span className="passive__head">
+                        <b>{shortName(a)}</b>
+                        {st.name && <span className="passive__name">{st.name}</span>}
+                      </span>
+                      <span className="passive__cond">
+                        {!st.known
+                          ? 'Condition not published yet.'
+                          : st.active
+                            ? `Active, thanks to ${st.via.join(' and ')}.`
+                            : `Needs: ${st.condition}.`}
+                      </span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
         {(sharedAttributes.length > 0 || sharedFactions.length > 0) && (
           <ul className="reactions">

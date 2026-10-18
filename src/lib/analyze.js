@@ -1,3 +1,4 @@
+import { PASSIVES } from '../data/passives.js';
 import {
   AGENT_BY_ID,
   ATTRIBUTE_BY_ID,
@@ -54,11 +55,6 @@ export function analyzeTeam(memberIds, bangbooId) {
   if (specialtyCounts.stun && dps.length) {
     notes.push({ level: 'good', text: 'Stun plus a damage dealer: the classic shape for Stun-window burst.' });
   }
-  if (sharedAttributes.length || sharedFactions.length) {
-    notes.push({ level: 'good', text: 'Shared attributes or factions can unlock Additional Abilities. Check each Agent’s Core Skill in game for the exact condition.' });
-  } else if (n >= 2) {
-    notes.push({ level: 'info', text: 'No shared attribute or faction. Some Agents’ Additional Abilities need one, so check their Core Skills.' });
-  }
 
   const bangboo = bangbooId && BANGBOO_BY_ID[bangbooId];
   if (!bangboo && n === 3) notes.push({ level: 'info', text: 'Add a Bangboo to complete the squad.' });
@@ -86,3 +82,51 @@ export function usageInOtherTeams(teams, activeId) {
 }
 
 export const specialtyName = (id) => SPECIALTY_BY_ID[id]?.name ?? id;
+
+// ---------- Additional Abilities ----------
+
+const SPEC_NAME = (id) => SPECIALTY_BY_ID[id]?.name ?? id;
+const orList = (items) =>
+  items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} or ${items[items.length - 1]}`;
+
+/** Plain-language condition, e.g. "Another Stun or Support Agent, or one with the same faction". */
+export function passiveCondition(agentId) {
+  const p = PASSIVES[agentId];
+  if (!p) return null;
+  if (p.note) return `${p.note}${p.faction ? ', or one with the same faction' : ''}`;
+  const parts = [];
+  if (p.specialties) parts.push(`Another ${orList(p.specialties.map(SPEC_NAME))} Agent`);
+  const shared = [p.attribute && 'attribute', p.faction && 'faction'].filter(Boolean);
+  if (shared.length) parts.push(`${parts.length ? 'one' : 'Another Agent'} with the same ${shared.join(' or ')}`);
+  return parts.join(', or ');
+}
+
+/**
+ * Whether each squad member's Additional Ability is on.
+ * Returns { byId: { [id]: { known, active, name, condition, via: [names] } }, active, total }.
+ */
+export function passiveStatus(memberIds) {
+  const squad = memberIds.map((id) => id && AGENT_BY_ID[id]).filter(Boolean);
+  const byId = {};
+  let active = 0;
+  squad.forEach((a) => {
+    const p = PASSIVES[a.id];
+    if (!p) {
+      byId[a.id] = { known: false, active: false, name: null, condition: 'Not published yet', via: [] };
+      return;
+    }
+    const via = squad
+      .filter((o) => o.id !== a.id)
+      .filter(
+        (o) =>
+          p.specialties?.includes(o.specialty) ||
+          (p.attribute && baseAttribute(o.attribute) === baseAttribute(a.attribute)) ||
+          (p.faction && o.faction === a.faction),
+      )
+      .map((o) => o.name);
+    const on = via.length > 0;
+    if (on) active += 1;
+    byId[a.id] = { known: true, active: on, name: p.name, condition: passiveCondition(a.id), via };
+  });
+  return { byId, active, total: squad.length };
+}

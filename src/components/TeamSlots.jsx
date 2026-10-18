@@ -11,12 +11,24 @@ import { loadoutOf } from '../lib/teamsReducer.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
+import PassiveFace from './PassiveFace.jsx';
+import { passiveStatus } from '../lib/analyze.js';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
 // its loadout below.
 export default function TeamSlots({ team, selected, onSelect, dispatch }) {
   const bangboo = team.bangboo && BANGBOO_BY_ID[team.bangboo];
+  const passives = passiveStatus(team.members);
+  const allOn = passives.total > 0 && passives.active === passives.total;
   return (
+    <>
+    <div className="squad-passives" title="Agents whose Additional Ability is active">
+      <span className="squad-passives__label">Additional Abilities</span>
+      <span className={`squad-passives__count${allOn ? ' is-full' : ''}`}>
+        {passives.active}/{passives.total}
+      </span>
+      <PassiveFace state={allOn ? 'on' : 'off'} size={30} />
+    </div>
     <ol className="slots" aria-label="Squad">
       {team.members.map((id, index) => {
         const a = id && AGENT_BY_ID[id];
@@ -45,7 +57,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
               aria-expanded={isSelected}
               aria-label={`${a.name}: edit gear`}
             >
-              <AgentFrame agent={a} tall />
+              <AgentFrame agent={a} tall passive={passiveFor(passives.byId[a.id])} />
               <span className="slot__gear">
                 <span className={w ? 'gear-chip gear-chip--on' : 'gear-chip'} title={w?.name ?? 'No W-Engine'}>
                   <span className="gear-chip__name">{w ? w.name : 'No W-Engine'}</span>
@@ -105,6 +117,15 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
         </span>
       </li>
     </ol>
+    </>
   );
 }
 
+
+function passiveFor(st) {
+  if (!st) return undefined;
+  if (!st.known) return { state: 'unknown', title: 'Additional Ability: condition not published yet' };
+  const head = `${st.name}: ${st.active ? 'active' : 'not active'}`;
+  const why = st.active ? `Thanks to ${st.via.join(' and ')}.` : `Needs: ${st.condition}.`;
+  return { state: st.active ? 'on' : 'off', title: `${head}. ${why}` };
+}

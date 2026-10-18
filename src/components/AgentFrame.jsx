@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, initials, shortName } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import { agentArt } from './Portrait.jsx';
+import PassiveFace from './PassiveFace.jsx';
 import RankBadge from './RankBadge.jsx';
 
 // The slanted Agent card from the game's squad screen: a dark leaning card
 // with the art inset, and a footer with the rank in a round badge, the name
 // over a second line (the specialty, where the game shows the level), and
 // the attribute icon in a pill on the right.
-export default function AgentFrame({ agent, sub, tag, tall = false }) {
+// `passive` ({ state: 'on' | 'off' | 'unknown', title }) puts the squad screen's
+// passive face in the round badge; the rank then moves to the art's corner.
+export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
   const src = agentArt(agent.id);
   const [failedSrc, setFailedSrc] = useState(null);
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color;
@@ -22,9 +25,18 @@ export default function AgentFrame({ agent, sub, tag, tall = false }) {
           <img className="frame__art" src={src} alt="" loading="lazy" onError={() => setFailedSrc(src)} />
         )}
         {tag && <span className="frame__tag">{tag}</span>}
+        {passive && ranked && <span className="frame__corner-rank"><RankBadge rank={agent.rank} size={22} /></span>}
       </span>
       <span className="frame__foot">
-        <span className="frame__badge">{ranked ? <RankBadge rank={agent.rank} size={22} /> : <span className="frame__badge-dot" />}</span>
+        <span className="frame__badge">
+          {passive ? (
+            <PassiveFace state={passive.state} size={30} title={passive.title} />
+          ) : ranked ? (
+            <RankBadge rank={agent.rank} size={22} />
+          ) : (
+            <span className="frame__badge-dot" />
+          )}
+        </span>
         <span className="frame__text">
           <span className="frame__name">{shortName(agent)}</span>
           <span className="frame__sub">{sub ?? SPECIALTY_BY_ID[agent.specialty]?.name}</span>
