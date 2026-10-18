@@ -11,6 +11,7 @@ import {
   baseAttribute,
 } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
+import { kitLinksBetween } from '../lib/analyze.js';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 
@@ -22,6 +23,8 @@ function links(agent, members) {
     out.push(ATTRIBUTE_BY_ID[baseAttribute(agent.attribute)].name);
   }
   if (team.some((m) => m.faction === agent.faction)) out.push('Faction');
+  const kit = new Set(team.filter((m) => m.id !== agent.id).flatMap((m) => kitLinksBetween(agent, m)));
+  kit.forEach((k) => out.push(k));
   return out;
 }
 

@@ -5571,3 +5571,24 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .layout-pick__svg { display: inline-grid; }
 .layout-pick__svg svg { width: 36px; height: 20px; fill: currentColor; opacity: 0.55; }
 .layout-pick__opt.is-on .layout-pick__svg svg { opacity: 1; }
+
+/* Kit links (Ether Veil, Aftershock) */
+.kit-lines { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; font-size: 0.84rem; line-height: 1.4; }
+.kit-tag,
+.fit-tag {
+  display: inline-block;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font: 600 0.66rem var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.fit-tag--kit,
+.kit-tag { color: var(--fg); border-color: var(--fg); }
+.mini-agent--best { border-color: color-mix(in srgb, var(--fg) 55%, var(--line)); }
+.reaction--kit { background: color-mix(in srgb, var(--fg) 6%, var(--surface)); }
+.reaction--kit .reaction__kind { color: var(--fg); }

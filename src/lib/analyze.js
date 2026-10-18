@@ -1,4 +1,5 @@
 import { PASSIVES } from '../data/passives.js';
+import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
 import {
   AGENT_BY_ID,
   ATTRIBUTE_BY_ID,
@@ -129,4 +130,81 @@ export function passiveStatus(memberIds) {
     byId[a.id] = { known: true, estimated: !!p.estimated, active: on, name: p.name ?? 'Additional Ability', condition: passiveCondition(a.id), via };
   });
   return { byId, active, total: squad.length };
+}
+
+// ---------- Kit links (Ether Veil, Aftershock) ----------
+
+const fits = (payoff, provider) =>
+  payoff.mechanic === provider.mechanic && (!payoff.veil || payoff.veil === provider.veil);
+
+/**
+ * Kit links in a squad: for each mechanic, the members who provide it and the
+ * members who get stronger from a squadmate's. Only links with a payoff Agent
+ * and a different provider Agent are returned.
+ */
+export function kitLinks(memberIds) {
+  const squad = memberIds.map((id) => id && AGENT_BY_ID[id]).filter(Boolean);
+  return Object.entries(MECHANICS)
+    .map(([id, m]) => {
+      const payoff = [];
+      const providers = new Set();
+      squad.forEach((a) => {
+        (KIT_LINKS[a.id] ?? []).filter((l) => l.mechanic === id && l.side === 'payoff').forEach((l) => {
+          const from = squad.filter(
+            (o) => o.id !== a.id && (KIT_LINKS[o.id] ?? []).some((x) => x.side === 'provider' && fits(l, x)),
+          );
+          if (from.length) {
+            payoff.push({ agent: a, text: l.text, from: from.map((o) => o.name) });
+            from.forEach((o) => providers.add(o.name));
+          }
+        });
+      });
+      return { id, name: m.name, payoff, providers: [...providers] };
+    })
+    .filter((x) => x.payoff.length);
+}
+
+const score = (x) => (x.kit.length ? 2 : 0) + (x.on && x.back ? 2 : 0) + (x.on ? 1 : 0);
+
+/** Does `other` turn on `owner`'s Additional Ability? */
+function turnsOn(owner, other) {
+  const p = PASSIVES[owner.id];
+  if (!p || owner.id === other.id) return false;
+  return (
+    !!p.specialties?.includes(other.specialty) ||
+    (!!p.attribute && baseAttribute(other.attribute) === baseAttribute(owner.attribute)) ||
+    (!!p.faction && other.faction === owner.faction)
+  );
+}
+
+/** Mechanic names that link two Agents in either direction. */
+export function kitLinksBetween(a, b) {
+  const la = KIT_LINKS[a.id] ?? [];
+  const lb = KIT_LINKS[b.id] ?? [];
+  const names = new Set();
+  la.forEach((x) =>
+    lb.forEach((y) => {
+      if ((x.side === 'payoff' && y.side === 'provider' && fits(x, y)) || (y.side === 'payoff' && x.side === 'provider' && fits(y, x))) {
+        names.add(MECHANICS[x.mechanic].name);
+      }
+    }),
+  );
+  return [...names];
+}
+
+/**
+ * Teammates for one Agent: who turns on their Additional Ability, whether
+ * they turn on each other's (both ways), and any kit links. Best fits first.
+ */
+export function teammatesFor(agent, pool) {
+  return pool
+    .filter((o) => o.id !== agent.id)
+    .map((o) => ({
+      agent: o,
+      on: turnsOn(agent, o),
+      back: turnsOn(o, agent),
+      kit: kitLinksBetween(agent, o),
+    }))
+    .filter((x) => x.on || x.kit.length)
+    .sort((x, y) => score(y) - score(x) || x.agent.name.localeCompare(y.agent.name));
 }

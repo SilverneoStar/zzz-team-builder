@@ -2,12 +2,13 @@ import SpecialtyIcon from './SpecialtyIcon.jsx';
 import { SPECIALTIES } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import PassiveFace from './PassiveFace.jsx';
-import { passiveStatus } from '../lib/analyze.js';
+import { kitLinks, passiveStatus } from '../lib/analyze.js';
 import { shortName } from '../data/game.js';
 
 export default function Analysis({ analysis }) {
   const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
   const passives = passiveStatus(agents.map((a) => a.id));
+  const kit = kitLinks(agents.map((a) => a.id));
 
   return (
     <section className="analysis" aria-labelledby="analysis-title">
@@ -55,8 +56,23 @@ export default function Analysis({ analysis }) {
           </div>
         )}
 
-        {(sharedAttributes.length > 0 || sharedFactions.length > 0) && (
+        {(sharedAttributes.length > 0 || sharedFactions.length > 0 || kit.length > 0) && (
           <ul className="reactions">
+            {kit.map((k) => (
+              <li key={k.id} className="reaction reaction--kit">
+                <div className="reaction__head">
+                  <span className="reaction__name">{k.name}</span>
+                  <span className="reaction__kind">Kit link</span>
+                </div>
+                <ul className="kit-lines">
+                  {k.payoff.map((p, i) => (
+                    <li key={i}>
+                      <b>{shortName(p.agent)}</b> with {p.from.join(' and ')}: {p.text}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
             {sharedAttributes.map((s) => (
               <li key={s.id} className="reaction">
                 <div className="reaction__head">
