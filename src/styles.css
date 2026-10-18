@@ -5565,3 +5565,9 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .loadout__head { flex-wrap: wrap; row-gap: 4px; position: relative; padding-right: 40px; }
 .loadout__head .loadout__close { position: absolute; top: -4px; right: 0; margin: 0; }
 .loadout__title { min-width: 0; overflow-wrap: anywhere; }
+
+/* Team image layout picker icons */
+.layout-pick { flex-wrap: wrap; }
+.layout-pick__svg { display: inline-grid; }
+.layout-pick__svg svg { width: 36px; height: 20px; fill: currentColor; opacity: 0.55; }
+.layout-pick__opt.is-on .layout-pick__svg svg { opacity: 1; }
