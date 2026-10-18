@@ -5283,3 +5283,12 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 
 /* Attribute icons (images with their own dark background) */
 .attr-glyph--img { border-radius: 22%; object-fit: cover; }
+
+/* Long option text (faction names) must not widen the filter panel. */
+.filters .select { min-width: 0; max-width: 100%; }
+.filters .select select { min-width: 0; max-width: 100%; text-overflow: ellipsis; }
+@media (max-width: 520px) {
+  .filters .select:has(#filter-faction),
+  .filters--page .select { flex: 1 1 140px; }
+  .filters .select select { width: 100%; }
+}
