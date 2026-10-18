@@ -5095,10 +5095,12 @@ th[aria-sort='descending'] .th-btn {
 .frame__label {
   flex: 1;
   min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font: 800 0.8rem var(--font-body);
+  overflow-wrap: anywhere;
+  font: 800 0.78rem/1.1 var(--font-body);
   letter-spacing: 0.01em;
 }
 .frame__rank-x { width: 20px; }
