@@ -55,11 +55,11 @@ function roundRect(ctx, x, y, w, h, r) {
 function background(ctx, W, H) {
   ctx.fillStyle = '#0a0a0a';
   ctx.fillRect(0, 0, W, H);
-  const strips = [[-40, 1], [150, 0.5], [W - 300, 0.5], [W - 110, 1]];
-  strips.forEach(([x, alpha]) => {
+  // Strip centres at even steps across the card, fading towards the middle.
+  [1, 0.55, 0.3, 0.55, 1].forEach((alpha, i) => {
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.translate(x + 88, H / 2);
+    ctx.translate((W * i) / 4, H / 2);
     ctx.rotate((14 * Math.PI) / 180);
     const sw = 176;
     const sh = H * 1.8;

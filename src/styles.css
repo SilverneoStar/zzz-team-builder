@@ -5007,16 +5007,18 @@ th[aria-sort='descending'] .th-btn {
     var(--film);
 }
 .backdrop span::after { content: none; }
-.backdrop span:nth-child(1) { top: -35vh; left: -70px; height: 170vh; }
-.backdrop span:nth-child(2) { top: -35vh; left: 130px; height: 170vh; opacity: 0.55; }
-.backdrop span:nth-child(3) { top: -35vh; left: auto; right: 150px; height: 170vh; opacity: 0.55; }
-.backdrop span:nth-child(4) { top: -35vh; left: auto; right: -50px; height: 170vh; }
-.backdrop span:nth-child(5) { top: -35vh; left: 46%; height: 170vh; opacity: 0.3; }
+/* Five strips with their centres at even steps across the screen
+   (0, 25, 50, 75 and 100%), fading towards the middle. */
+.backdrop span { right: auto; margin-left: -88px; }
+.backdrop span:nth-child(n) { top: -35vh; height: 170vh; }
+.backdrop span:nth-child(1) { left: 0%; opacity: 1; }
+.backdrop span:nth-child(2) { left: 25%; opacity: 0.55; }
+.backdrop span:nth-child(5) { left: 50%; opacity: 0.3; }
+.backdrop span:nth-child(3) { left: 75%; opacity: 0.55; }
+.backdrop span:nth-child(4) { left: 100%; opacity: 1; }
 @media (max-width: 720px) {
-  .backdrop span { width: 120px; background-size: 9px 20px, 9px 20px, calc(100% - 48px) 100px, auto; }
-  .backdrop span:nth-child(2), .backdrop span:nth-child(3), .backdrop span:nth-child(5) { display: none; }
-  .backdrop span:nth-child(1) { left: -60px; }
-  .backdrop span:nth-child(4) { right: -60px; }
+  .backdrop span { width: 120px; margin-left: -60px; background-size: 9px 20px, 9px 20px, calc(100% - 48px) 100px, auto; }
+  .backdrop span:nth-child(2), .backdrop span:nth-child(3) { display: none; }
 }
 
 /* Squad slots use the tall frame */
