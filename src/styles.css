@@ -5378,7 +5378,8 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 
 /* ---------- Drive Disc wheel (see DiscWheel.jsx) ---------- */
 .loadout__grid--wheel { align-items: start; grid-template-columns: minmax(0, 1fr); }
-.loadout, .loadout__grid--wheel > * { min-width: 0; }
+.loadout { grid-template-columns: minmax(0, 1fr); }
+.loadout > *, .loadout__grid--wheel > * { min-width: 0; }
 @media (min-width: 720px) {
   .loadout__grid--wheel { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
 }
