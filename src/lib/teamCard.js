@@ -46,24 +46,29 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
   canvas.height = H;
   const ctx = canvas.getContext('2d');
 
-  // Background: black with tilted gray bands, like the site.
+  // Background: black with tilted film strips, like the site.
   ctx.fillStyle = '#0a0a0a';
   ctx.fillRect(0, 0, W, H);
-  ctx.save();
-  ctx.translate(W / 2, H / 2);
-  ctx.rotate((-12 * Math.PI) / 180);
-  [[-260, 150], [-40, 110], [170, 170]].forEach(([y, h]) => {
-    ctx.fillStyle = 'rgba(255,255,255,0.045)';
-    roundRect(ctx, -W, y, W * 2, h, h / 2);
-    ctx.fill();
-    ctx.setLineDash([10, 9]);
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    ctx.lineWidth = 2;
-    roundRect(ctx, -W + 90, y + 22, W * 2 - 180, h - 44, (h - 44) / 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
+  [[-40, 1], [150, 0.5], [W - 300, 0.5], [W - 110, 1]].forEach(([x, alpha]) => {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(x + 88, H / 2);
+    ctx.rotate((14 * Math.PI) / 180);
+    const sw = 176;
+    const sh = H * 1.8;
+    ctx.fillStyle = '#131313';
+    ctx.fillRect(-sw / 2, -sh / 2, sw, sh);
+    for (let y = -sh / 2; y < sh / 2; y += 26) {
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(-sw / 2 + 11, y, 12, 12);
+      ctx.fillRect(sw / 2 - 23, y, 12, 12);
+    }
+    for (let y = -sh / 2 + 6; y < sh / 2; y += 136) {
+      ctx.fillStyle = '#1b1b1b';
+      ctx.fillRect(-sw / 2 + 34, y, sw - 68, 122);
+    }
+    ctx.restore();
   });
-  ctx.restore();
 
   // Silver rule along the top.
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
@@ -108,30 +113,44 @@ export async function renderTeamCard(team, { base = '/' } = {}) {
     roundRect(ctx, x, top, colW, 5, 2);
     ctx.fill();
 
-    // Portrait in a ring of the attribute colour; initials if there's no art.
-    ctx.beginPath();
-    ctx.arc(x + 58, top + 66, 40, 0, Math.PI * 2);
-    ctx.fill();
-    if (arts[i]) {
-      ctx.save();
+    // Portrait in a slanted frame with an attribute-coloured edge, like the
+    // site; initials if there's no art.
+    const fx = x + 22;
+    const fy = top + 22;
+    const fw = 74;
+    const fh = 92;
+    const lean = 14;
+    const frame = () => {
       ctx.beginPath();
-      ctx.arc(x + 58, top + 66, 37, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.fillStyle = '#1a1a1a';
-      ctx.fillRect(x + 21, top + 29, 74, 74);
-      ctx.drawImage(arts[i], x + 21, top + 29, 74, 74);
-      ctx.restore();
+      ctx.moveTo(fx + lean, fy);
+      ctx.lineTo(fx + fw, fy);
+      ctx.lineTo(fx + fw - lean, fy + fh);
+      ctx.lineTo(fx, fy + fh);
+      ctx.closePath();
+    };
+    ctx.save();
+    frame();
+    ctx.clip();
+    ctx.fillStyle = '#1e1e1e';
+    ctx.fillRect(fx, fy, fw, fh);
+    if (arts[i]) {
+      ctx.drawImage(arts[i], fx - 6, fy, fh, fh);
     } else {
-      ctx.fillStyle = '#0a0a0a';
-      ctx.font = `800 32px ${DISPLAY}`;
+      ctx.fillStyle = '#f2f2f2';
+      ctx.font = `800 30px ${DISPLAY}`;
       ctx.textAlign = 'center';
-      ctx.fillText(initials(a.name), x + 58, top + 78);
+      ctx.fillText(initials(a.name), fx + fw / 2, fy + fh / 2 + 10);
       ctx.textAlign = 'left';
     }
+    ctx.restore();
+    frame();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 3;
+    ctx.stroke();
 
     ctx.fillStyle = '#f2f2f2';
     ctx.font = `700 22px ${FONT}`;
-    ctx.fillText(fit(ctx, a.name, colW - 130), x + 110, top + 58);
+    ctx.fillText(fit(ctx, a.name, colW - 130), x + 112, top + 58);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 15px ${FONT}`;
     ctx.fillText(`${a.rank}-Rank · ${ATTRIBUTE_BY_ID[a.attribute]?.name} · ${SPECIALTY_BY_ID[a.specialty]?.name}`, x + 110, top + 84);

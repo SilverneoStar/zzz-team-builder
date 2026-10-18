@@ -10,7 +10,7 @@ import {
 import { loadoutOf } from '../lib/teamsReducer.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
-import Portrait from './Portrait.jsx';
+import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
 // its loadout below.
@@ -23,8 +23,8 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
         if (!a) {
           return (
             <li key={index} className="slot slot--empty">
-              <span className="slot__plus" aria-hidden="true">+</span>
-              <span className="slot__hint">Pick from roster</span>
+              <EmptyFrame />
+              <span className="slot__hint">Pick from the Agents list</span>
             </li>
           );
         }
@@ -45,8 +45,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
               aria-expanded={isSelected}
               aria-label={`${a.name}: edit gear`}
             >
-              <Portrait agent={a} size="lg" />
-              <span className="slot__name">{a.name}</span>
+              <AgentFrame agent={a} tall />
               <span className="slot__meta">{SPECIALTY_BY_ID[a.specialty]?.name}</span>
               <span className="slot__gear">
                 <span className={w ? 'gear-chip gear-chip--on' : 'gear-chip'} title={w?.name ?? 'No W-Engine'}>
