@@ -83,6 +83,30 @@ export const DISC_FIXED = [
 export const MAX_MINDSCAPE = 6;
 export const MAX_REFINEMENT = 5;
 
+// The short names the game shows on Agent cards (e.g. "Lycaon", "Rina").
+// Most are the first word of the full name; these are the exceptions.
+const SHORT_NAMES = {
+  'alexandrina-sebastiane': 'Rina',
+  'asaba-harumasa': 'Harumasa',
+  'hoshimi-miyabi': 'Miyabi',
+  'tsukishiro-yanagi': 'Yanagi',
+  'ukinami-yuzuha': 'Yuzuha',
+  'komano-manato': 'Manato',
+  'nekomiya-mana': 'Nekomata',
+  'luciana-de-montefio': 'Lucy',
+  'von-lycaon': 'Lycaon',
+  'ju-fufu': 'Ju Fufu',
+  'nangong-yu': 'Nangong Yu',
+  'pan-yinhu': 'Pan Yinhu',
+  'ye-shunguang': 'Ye Shunguang',
+  'zhu-yuan': 'Zhu Yuan',
+  'orphie-magnusson-and-magus': 'Orphie & Magus',
+  'soldier-0-anby': 'Soldier 0 - Anby',
+  'soldier-11': 'Soldier 11',
+  'starlight-billy-kid': 'Starlight - Billy',
+};
+export const shortName = (agent) => SHORT_NAMES[agent.id] ?? agent.name.split(' ')[0];
+
 export const initials = (name) =>
   name
     .replace(/[^A-Za-z0-9 ]/g, ' ')

@@ -5025,132 +5025,6 @@ th[aria-sort='descending'] .th-btn {
   .backdrop span:nth-child(4) { right: -60px; }
 }
 
-/* Slanted frame (see AgentFrame.jsx). The frame leans; the art inside is
-   straightened back up, and the name bar keeps the lean like the game's
-   italic labels. */
-.frame {
-  --lean: -10deg;
-  --unlean: 10deg;
-  position: relative;
-  display: block;
-  width: 88%;
-  margin-inline: auto;
-  aspect-ratio: 5 / 6;
-  transform: skewX(var(--lean));
-  border: 2px solid var(--frame-line);
-  border-radius: 14px;
-  overflow: hidden;
-  background:
-    radial-gradient(90% 70% at 50% 100%, color-mix(in srgb, var(--el, #888) 38%, transparent), transparent 75%),
-    linear-gradient(180deg, var(--surface-2), color-mix(in srgb, var(--el, #888) 16%, var(--surface-2)));
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.frame--tall { aspect-ratio: 3 / 4; }
-.frame__inner { position: absolute; inset: 0; display: block; }
-.frame__art {
-  position: absolute;
-  top: 0;
-  left: -14%;
-  width: 128%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 12%;
-  transform: skewX(var(--unlean));
-}
-.frame__initials {
-  position: absolute;
-  inset: 0 0 30px;
-  display: grid;
-  place-items: center;
-  font: 800 2.2rem var(--font-display);
-  color: var(--fg);
-}
-.frame__tag {
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  padding: 1px 7px;
-  border-radius: 999px;
-  background: rgb(10 10 10 / 0.8);
-  color: #e6e6e6;
-  font: 700 0.6rem var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.frame__bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 30px;
-  padding: 5px 10px 5px 12px;
-  background:
-    radial-gradient(circle, rgb(255 255 255 / 0.06) 1px, transparent 1.4px) 0 0 / 4px 4px,
-    rgb(10 10 10 / 0.9);
-  color: #f2f2f2;
-}
-.frame__label {
-  flex: 1;
-  min-width: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  font: 800 0.78rem/1.1 var(--font-body);
-  letter-spacing: 0.01em;
-}
-.frame__rank-x { width: 20px; }
-.frame .attr-glyph { flex: none; }
-
-a:hover > .frame,
-button:hover > .frame,
-a:focus-visible > .frame { border-color: var(--el, var(--fg)); transform: skewX(var(--lean)) translateY(-3px); }
-.is-selected > .frame,
-.slot--selected .frame {
-  border-color: var(--el, var(--fg));
-  box-shadow: 0 0 0 2px var(--el, var(--fg)), 0 8px 22px color-mix(in srgb, var(--el, #fff) 30%, transparent);
-}
-
-/* Empty squad slot: the "+ SELECT / EMPTY" look */
-.frame--empty {
-  background:
-    repeating-linear-gradient(-28deg, transparent 0 22px, color-mix(in srgb, var(--fg) 4%, transparent) 22px 44px),
-    var(--surface-2);
-  border-style: solid;
-}
-.frame__select {
-  position: absolute;
-  top: 44%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--bg);
-  border: 2px solid var(--frame-line);
-  color: var(--fg);
-  font: 800 0.78rem var(--font-body);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.frame__bar--empty {
-  justify-content: center;
-  margin: 0 10px 8px;
-  left: 0;
-  right: 0;
-  border-radius: 999px;
-  background: var(--bg);
-  border: 2px solid var(--frame-line);
-  color: var(--muted);
-  font: 800 0.72rem var(--font-body);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.8;
-}
-
 /* Squad slots use the tall frame */
 .slot--empty {
   display: grid;
@@ -5238,12 +5112,176 @@ a:focus-visible > .frame { border-color: var(--el, var(--fg)); transform: skewX(
 .portrait__glyph { transform: skewX(8deg); right: 0; bottom: 0; z-index: 1; padding: 1px; border-radius: 4px 0 0 0; }
 .portrait--sm { border-radius: 5px; }
 
-/* Narrow frames: keep rank and attribute, drop the specialty word. */
-.frame { container-type: inline-size; }
-.frame__bar { gap: 5px; padding: 5px 8px 5px 10px; }
-.frame__label { font-size: 0.74rem; }
-@container (max-width: 112px) {
-  .frame__label { visibility: hidden; }
+/* Agent card (see AgentFrame.jsx), after the game's squad screen: a dark
+   leaning card, the art inset with rounded top-left and bottom-right
+   corners, and a footer with rank badge, name, second line and attribute
+   pill. The card leans; the art is straightened back up, and the footer
+   text keeps the lean like the game's italic labels. */
+.frame {
+  --lean: -10deg;
+  --unlean: 10deg;
+  container-type: inline-size;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 90%;
+  margin-inline: auto;
+  padding: 5px 5px 0;
+  transform: skewX(var(--lean));
+  border-radius: 22px 6px 22px 6px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.35);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.frame__art-box {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 18px 3px 18px 3px;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.05) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    radial-gradient(90% 70% at 50% 100%, color-mix(in srgb, var(--el, #888) 45%, transparent), transparent 75%),
+    linear-gradient(180deg, #2a3442, color-mix(in srgb, var(--el, #888) 22%, #1d232c));
+}
+.frame--tall .frame__art-box { aspect-ratio: 3 / 4; }
+.frame__art {
+  position: absolute;
+  top: 0;
+  left: -14%;
+  width: 128%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+  transform: skewX(var(--unlean));
+}
+.frame__initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 800 2.2rem var(--font-display);
+  color: #f2f2f2;
+}
+.frame__tag {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgb(10 10 10 / 0.8);
+  color: #e6e6e6;
+  font: 700 0.6rem var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Footer: badge · name over second line · attribute pill */
+.frame__foot {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 6px 8px 7px 4px;
+  color: #f2f2f2;
+}
+.frame__badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #0b0b0b;
+  box-shadow: inset 0 0 0 2px #262626;
+}
+.frame__badge-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--el, #888); }
+.frame__text { flex: 1; min-width: 0; display: grid; line-height: 1.1; }
+.frame__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 800 0.95rem var(--font-body);
+  letter-spacing: 0.01em;
+}
+.frame__sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 800 0.72rem var(--font-body);
+  color: #cfcfcf;
+}
+.frame__pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  box-shadow: inset 0 0 0 1px #262626;
+}
+.frame .attr-glyph { flex: none; }
+
+/* Narrow cards: tighten, then drop the second line and badge ring. */
+@container (max-width: 150px) {
+  .frame__foot { gap: 5px; padding: 5px 5px 6px 2px; min-height: 40px; }
+  .frame__badge { width: 24px; height: 24px; }
+  .frame__badge .rank-badge { width: 18px; height: 18px; }
+  .frame__name { font-size: 0.8rem; }
+  .frame__sub { font-size: 0.64rem; }
+  .frame__pill { padding: 3px 4px; }
+  .frame__pill .attr-glyph { width: 14px; height: 14px; }
+}
+@container (max-width: 104px) {
+  .frame__badge { display: none; }
+  .frame__name { font-size: 0.74rem; }
+}
+
+a:hover > .frame,
+button:hover > .frame,
+a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(--lean)) translateY(-3px); }
+.is-selected > .frame,
+.slot--selected .frame {
+  border-color: var(--el, #fff);
+  box-shadow: 0 0 0 2px var(--el, #fff), 0 8px 22px color-mix(in srgb, var(--el, #fff) 30%, transparent);
+}
+
+/* Empty squad slot: "+ SELECT" over the art box and an "EMPTY" pill */
+.frame--empty .frame__art-box {
+  background:
+    repeating-linear-gradient(-28deg, transparent 0 22px, rgb(255 255 255 / 0.035) 22px 44px),
+    #1f1f1f;
+}
+.frame__select {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  box-shadow: inset 0 0 0 2px #2a2a2a;
+  color: #f2f2f2;
+  font: 800 0.78rem var(--font-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.frame__foot--empty { justify-content: center; padding-inline: 8px; }
+.frame__empty-pill {
+  flex: 1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  box-shadow: inset 0 0 0 2px #262626;
+  color: #6d6d6d;
+  text-align: center;
+  font: 800 0.72rem var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* Attribute icons (images with their own dark background) */

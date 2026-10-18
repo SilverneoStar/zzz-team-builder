@@ -46,7 +46,6 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
               aria-label={`${a.name}: edit gear`}
             >
               <AgentFrame agent={a} tall />
-              <span className="slot__name">{a.name}</span>
               <span className="slot__gear">
                 <span className={w ? 'gear-chip gear-chip--on' : 'gear-chip'} title={w?.name ?? 'No W-Engine'}>
                   <span className="gear-chip__name">{w ? w.name : 'No W-Engine'}</span>
