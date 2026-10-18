@@ -5245,3 +5245,6 @@ a:focus-visible > .frame { border-color: var(--el, var(--fg)); transform: skewX(
 @container (max-width: 112px) {
   .frame__label { visibility: hidden; }
 }
+
+/* Attribute icons (images with their own dark background) */
+.attr-glyph--img { border-radius: 22%; object-fit: cover; }

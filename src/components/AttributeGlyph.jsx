@@ -1,10 +1,29 @@
 import { ATTRIBUTE_BY_ID } from '../data/game.js';
 
-// A small hexagon in the attribute's colour with its initial. Original
-// artwork, not the game's attribute icons.
+// The in-game attribute icons in public/attributes/<id>.png. Variant
+// attributes (Frost, Honed Edge, Auric Ink) show their base attribute's icon.
+// Anything without an icon falls back to a small hexagon with its initial.
+const BASE = import.meta.env.BASE_URL;
+const ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux']);
+
 export default function AttributeGlyph({ attribute, size = 14, title }) {
   const a = ATTRIBUTE_BY_ID[attribute];
   if (!a) return null;
+  const iconId = ICONS.has(attribute) ? attribute : ICONS.has(a.base) ? a.base : null;
+  if (iconId) {
+    return (
+      <img
+        className="attr-glyph attr-glyph--img"
+        src={`${BASE}attributes/${iconId}.png`}
+        width={size}
+        height={size}
+        alt={title ?? ''}
+        title={title}
+        aria-hidden={title ? undefined : true}
+        loading="lazy"
+      />
+    );
+  }
   const letter = a.name[0];
   return (
     <svg

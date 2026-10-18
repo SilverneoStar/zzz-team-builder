@@ -10,20 +10,20 @@ export { AGENTS, W_ENGINES, DRIVE_DISC_SETS, BANGBOO };
 export const DATA_VERSION = '3.2';
 export const TEAM_SIZE = 3;
 
-// Attribute colours are this site's own picks, readable on black and white.
+// Attribute colours are matched to the in-game attribute icons.
 // Variant attributes (Frost, Honed Edge, Auric Ink) count as their base
 // attribute for team matching.
 export const ATTRIBUTES = [
-  { id: 'physical', name: 'Physical', color: '#d9a92e' },
-  { id: 'honed-edge', name: 'Honed Edge', color: '#e8c25a', base: 'physical' },
-  { id: 'fire', name: 'Fire', color: '#f0602f' },
-  { id: 'ice', name: 'Ice', color: '#3fb7e0' },
-  { id: 'frost', name: 'Frost', color: '#82d4ef', base: 'ice' },
-  { id: 'electric', name: 'Electric', color: '#4d7cff' },
-  { id: 'ether', name: 'Ether', color: '#e0458a' },
+  { id: 'physical', name: 'Physical', color: '#f0b400' },
+  { id: 'honed-edge', name: 'Honed Edge', color: '#f2cf5a', base: 'physical' },
+  { id: 'fire', name: 'Fire', color: '#f04a1a' },
+  { id: 'ice', name: 'Ice', color: '#3cd8d8' },
+  { id: 'frost', name: 'Frost', color: '#8fe6ee', base: 'ice' },
+  { id: 'electric', name: 'Electric', color: '#1e8ef0' },
+  { id: 'ether', name: 'Ether', color: '#a956d8' },
   { id: 'auric-ink', name: 'Auric Ink', color: '#c99a3f', base: 'ether' },
-  { id: 'wind', name: 'Wind', color: '#34c08f' },
-  { id: 'lumiflux', name: 'Lumiflux', color: '#d8c552' },
+  { id: 'wind', name: 'Wind', color: '#7fb0ec' },
+  { id: 'lumiflux', name: 'Lumiflux', color: '#f0b0dc' },
 ];
 export const ATTRIBUTE_BY_ID = Object.fromEntries(ATTRIBUTES.map((a) => [a.id, a]));
 export const baseAttribute = (id) => ATTRIBUTE_BY_ID[id]?.base ?? id;
