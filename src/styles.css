@@ -4881,8 +4881,12 @@ th[aria-sort='descending'] .th-btn {
 }
 .disc-slot--fixed { color: var(--muted); }
 @media (min-width: 720px) {
-  .loadout__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .loadout__grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 }
+.loadout select { width: 100%; max-width: 100%; min-width: 0; text-overflow: ellipsis; }
+.loadout .field { min-width: 0; }
+.card__nm { min-width: 0; overflow-wrap: break-word; }
+.card__name { overflow-wrap: normal; }
 
 /* Agent detail */
 .engine-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }

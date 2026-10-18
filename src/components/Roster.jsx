@@ -122,7 +122,7 @@ export default function Roster({ members, usage, dispatch }) {
                   <Portrait agent={a} />
                   <span className="card__body">
                     <span className="card__name">
-                      {a.name}
+                      <span className="card__nm">{a.name}</span>
                       {(a.rank === 'S' || a.rank === 'A') && <RankBadge rank={a.rank} size={18} />}
                     </span>
                     <span className="card__role">{SPECIALTY_BY_ID[a.specialty]?.name}</span>
