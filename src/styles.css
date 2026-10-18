@@ -5725,3 +5725,6 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .build__engines .engine-row { flex-wrap: nowrap; min-width: 0; }
 .build__engines .engine-row__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .build__sets .fit-tag { margin-left: 2px; }
+/* Switch lines up with the Agent's name, not the middle of a two-line note. */
+.passive { align-items: start; }
+.passive > :first-child { margin-top: 1px; }
