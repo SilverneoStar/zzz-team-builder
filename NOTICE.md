@@ -12,6 +12,8 @@ Agent, W-Engine, Drive Disc and Bangboo names, ranks, attributes, specialties, f
 
 Recommended builds and best teams on the Agent pages (`src/data/builds.js`) are community picks compiled from [Icy Veins](https://www.icy-veins.com/zenless-zone-zero/)' Zenless Zone Zero build and team guides (October 2026): only the names of W-Engines, Drive Disc sets, stats and Agents are used, not their write-ups. They are recommendations, not official HoYoverse data, and change with new Agents and patches.
 
+Agent roles and stat targets on the Build tab (`src/data/statTargets.js`) come from the community [ZZZ Agent Build Guide](https://docs.google.com/spreadsheets/d/e/2PACX-1vTj2PaPq6Py_1B5fsOPj_Moc-tN_7mut7fICczI6lz1njyEIAInTnfB7lAraX4pYCRGNbaHGlIbFZ90/pubhtml) on Google Sheets; each entry notes the game version it was last updated for.
+
 ## Artwork
 
 | Content | Source | Terms |

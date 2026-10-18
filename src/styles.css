@@ -5728,3 +5728,20 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 /* Switch lines up with the Agent's name, not the middle of a two-line note. */
 .passive { align-items: start; }
 .passive > :first-child { margin-top: 1px; }
+
+/* Build tab: role and stat targets */
+.targets {
+  display: grid;
+  gap: 4px;
+  margin: 2px 0 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--el, var(--fg));
+  border-radius: 10px;
+  background: var(--surface);
+}
+.targets__head { display: flex; align-items: baseline; gap: 10px; }
+.targets__head .micro-title { margin: 0; }
+.targets .micro-title { margin-top: 6px; }
+.targets__list { margin: 0; padding-left: 18px; display: grid; gap: 2px; font-weight: 600; font-size: 0.9rem; }
+.targets__src { margin: 4px 0 0; }

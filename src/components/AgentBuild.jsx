@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
 import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam } from '../lib/builds.js';
 import { setColor } from './DiscWheel.jsx';
@@ -19,6 +20,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
   return (
     <section className="build">
       <h3 className="mini-title">Recommended build</h3>
+      <Targets agent={a} />
 
       <h4 className="micro-title">W-Engines · best first</h4>
       <ol className="build__engines">
@@ -160,5 +162,27 @@ function NoBuild({ agent }) {
           : `No recommended build for ${agent.name} yet.`}
       </p>
     </section>
+  );
+}
+
+// Role and in-combat stat targets, where the build guide has them.
+function Targets({ agent }) {
+  const t = STAT_TARGETS[agent.id];
+  if (!t) return null;
+  return (
+    <div className="targets">
+      <div className="targets__head">
+        <span className="micro-title">Role</span>
+        <b>{t.role}</b>
+      </div>
+      <h4 className="micro-title">Stat targets · in combat</h4>
+      <ul className="targets__list">
+        {t.targets.map((x) => <li key={x}>{x}</li>)}
+      </ul>
+      {t.note && <p className="muted small">{t.note}</p>}
+      <p className="muted small targets__src">
+        From the community <a href={GUIDE_URL} target="_blank" rel="noreferrer">ZZZ Agent Build Guide</a> (updated for {t.version}).
+      </p>
+    </div>
   );
 }
