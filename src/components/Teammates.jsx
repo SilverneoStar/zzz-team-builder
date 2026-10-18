@@ -72,6 +72,9 @@ export default function Teammates({ agent: a }) {
         </ul>
       )}
 
+      <p className="muted small mates__legend">
+        <BothWays /> turns on each other’s Additional Ability
+      </p>
       <Group title="Often teamed with" note="From the recommended teams." list={often} tags={tags} />
       <Group title="Kit links" list={kitMates} tags={tags} />
       {bySpecialty.map((g) => (
@@ -104,7 +107,11 @@ function Group({ title, note, list, tags }) {
                 <Portrait agent={x} size="sm" />
                 <span>{shortName(x)}</span>
                 {t.map((k) => (
-                  <span key={k} className={`fit-tag${k === 'Both ways' ? '' : ' fit-tag--kit'}`}>{k}</span>
+                  k === 'Both ways' ? (
+                    <BothWays key={k} />
+                  ) : (
+                    <span key={k} className="fit-tag fit-tag--kit">{k}</span>
+                  )
                 ))}
               </a>
             </li>
@@ -113,11 +120,23 @@ function Group({ title, note, list, tags }) {
         {list.length > SHOW && (
           <li>
             <button className="mini-agent mates__more" onClick={() => setOpen(!open)} aria-expanded={open}>
-              <span>{open ? 'Show fewer' : `+${list.length - SHOW} more`}</span>
+              <span><span>{open ? 'Show fewer' : `+${list.length - SHOW} more`}</span></span>
             </button>
           </li>
         )}
       </ul>
     </div>
+  );
+}
+
+// Two arrows passing each other: these two Agents turn on each other's
+// Additional Ability.
+export function BothWays() {
+  return (
+    <span className="both-ways" role="img" aria-label="Both ways" title="Turns on each other’s Additional Ability">
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+        <path d="M3 7h12M11.5 3.5 15 7l-3.5 3.5M17 13H5M8.5 9.5 5 13l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
   );
 }

@@ -5662,3 +5662,34 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 }
 .mini-agent .fit-tag { border-radius: 4px; }
 .mates__more { padding: 6px 14px; }
+
+/* "Both ways" icon on teammate pills */
+.both-ways {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+  color: var(--fg);
+  vertical-align: middle;
+}
+.mates__legend { display: flex; align-items: center; gap: 6px; margin: 6px 0 0; }
+
+/* Agent pills lean with the portrait frame: same slant, and corners that
+   follow the portrait's with the 3px inset. Contents other than the
+   portrait are straightened back. */
+.mini-agent {
+  border-radius: 8px;
+  transform: skewX(-8deg);
+}
+.mini-agent .portrait { transform: none; }
+.mini-agent > span:not(.portrait),
+.mini-agent > img,
+.mini-agent > svg {
+  display: inline-block;
+  transform: skewX(8deg);
+}
+.mini-agent .fit-tag { border-radius: 4px; }
+.mini-agent .both-ways { display: inline-grid; }
+.mates__more { padding: 6px 14px; }
