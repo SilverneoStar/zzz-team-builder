@@ -1,4 +1,5 @@
-// Each Agent's role and the in-combat stat targets to build towards.
+// Each Agent's role and, where the guide gives them, the in-combat stat
+// targets to build towards.
 // From the community ZZZ Agent Build Guide (Google Sheets), see NOTICE.md.
 // `version` is the game version that guide entry was last updated for.
 export const GUIDE_URL =
@@ -21,4 +22,13 @@ export const STAT_TARGETS = {
     role: 'Quick-Swap DPS',
     targets: ['ATK 2,800–3,000+ with an ATK main-stat W-Engine, 2,500–2,700+ otherwise', 'CRIT Rate 60–100%', 'CRIT DMG 120%+'],
   },
+  trigger: { version: '3.2', role: 'Off-Field Stunner · Support' },
+  'soldier-0-anby': { version: '3.0', role: 'On-Field DPS' },
+  'asaba-harumasa': { version: '3.2', role: 'On-Field DPS' },
+  'tsukishiro-yanagi': { version: '3.1', role: 'On-Field DPS · Quick-Swap DPS' },
+  qingyi: { version: '2.6', role: 'On-Field Stunner' },
+  'grace-howard': { version: '3.1', role: 'On-Field DPS · Quick-Swap DPS' },
+  'alexandrina-sebastiane': { version: '3.1', role: 'Support' },
+  'seth-lowell': { version: '2.7', role: 'Shielder · Anomaly Support' },
+  'anby-demara': { role: 'Burst Stunner · On-Field Stunner' },
 };

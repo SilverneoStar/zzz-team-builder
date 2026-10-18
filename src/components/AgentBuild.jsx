@@ -175,13 +175,17 @@ function Targets({ agent }) {
         <span className="micro-title">Role</span>
         <b>{t.role}</b>
       </div>
-      <h4 className="micro-title">Stat targets · in combat</h4>
-      <ul className="targets__list">
-        {t.targets.map((x) => <li key={x}>{x}</li>)}
-      </ul>
+      {t.targets?.length > 0 && (
+        <>
+          <h4 className="micro-title">Stat targets · in combat</h4>
+          <ul className="targets__list">
+            {t.targets.map((x) => <li key={x}>{x}</li>)}
+          </ul>
+        </>
+      )}
       {t.note && <p className="muted small">{t.note}</p>}
       <p className="muted small targets__src">
-        From the community <a href={GUIDE_URL} target="_blank" rel="noreferrer">ZZZ Agent Build Guide</a> (updated for {t.version}).
+        From the community <a href={GUIDE_URL} target="_blank" rel="noreferrer">ZZZ Agent Build Guide</a>{t.version ? ` (updated for ${t.version})` : ''}.
       </p>
     </div>
   );
