@@ -1,3 +1,4 @@
+import SpecialtyIcon, { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useMemo, useState } from 'react';
 import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID } from '../data/game.js';
 import { navigate } from '../lib/route.js';
@@ -41,6 +42,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
         </a>
         {SPECIALTIES.map((s) => (
           <a key={s.id} className="type-tab" role="tab" aria-selected={specialty === s.id} href={`#w-engines-${s.id}`}>
+            <SpecialtyIcon specialty={s.id} size={18} />
             {s.name} <span>{counts[s.id]}</span>
           </a>
         ))}
@@ -91,7 +93,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                 <div className="arc-card__top">
                   <RankBadge rank={w.rank} size={22} />
                   <h3 className="arc-card__name"><a href={`#w-engine-${w.id}`}>{w.name}</a></h3>
-                  {specialty === 'all' && <span className="arc-card__type">{SPECIALTY_BY_ID[w.specialty]?.name}</span>}
+                  {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
                   {w.upcoming && <span className="card__tag">Upcoming</span>}
                 </div>
                 <dl className="gear-stats">
@@ -126,7 +128,7 @@ function WEngineDetail({ w, onClose }) {
         <RankBadge rank={w.rank} size={44} />
         <div className="detail__title">
           <p className="eyebrow">
-            <span>{w.rank}-rank · {SPECIALTY_BY_ID[w.specialty]?.name}</span>
+            <span>{w.rank}-rank · <SpecialtyTag specialty={w.specialty} size={15} /></span>
             <span className="eyebrow__ver">Ver {w.version}</span>
           </p>
           <h2 id="engine-name" className="detail__name">{w.name}</h2>

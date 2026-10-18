@@ -1,3 +1,4 @@
+import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import {
   AGENTS,
@@ -212,7 +213,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
                   </td>
                   <td className="cell-meta-el"><AttributeTag attribute={a.attribute} /></td>
                   <td className="cell-meta-rank">{a.rank === 'S' || a.rank === 'A' ? <RankBadge rank={a.rank} size={22} /> : '—'}</td>
-                  <td className="cell-meta-roles">{SPECIALTY_BY_ID[a.specialty]?.name}</td>
+                  <td className="cell-meta-roles"><SpecialtyTag specialty={a.specialty} /></td>
                   <td className="small" data-label="Attack type">{a.attackType.map(cap).join(', ') || '—'}</td>
                   <td className="small" data-label="Faction">{a.faction}</td>
                   <td className="small" data-label="Version">{a.version ?? '—'}</td>

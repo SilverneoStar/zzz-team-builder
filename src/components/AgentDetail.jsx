@@ -1,3 +1,4 @@
+import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
   AGENTS,
   ATTRIBUTE_BY_ID,
@@ -28,7 +29,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
     <div className="detail__main">
       <dl className="facts">
         <div><dt>Attribute</dt><dd className="cell-el"><AttributeGlyph attribute={a.attribute} size={15} />{attr?.name}{attr?.base && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}</dd></div>
-        <div><dt>Specialty</dt><dd>{SPECIALTY_BY_ID[a.specialty]?.name}</dd></div>
+        <div><dt>Specialty</dt><dd><SpecialtyTag specialty={a.specialty} size={16} /></dd></div>
         <div><dt>Attack type</dt><dd>{a.attackType.map(cap).join(', ') || <span className="muted">Not announced yet</span>}</dd></div>
         <div><dt>Faction</dt><dd>{a.faction}</dd></div>
         <div><dt>Released</dt><dd>{a.version ? `Version ${a.version}` : <span className="muted">Upcoming</span>}</dd></div>
@@ -92,7 +93,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
               <span>{attr?.name} · <span className="nowrap">{a.rank === 'S' || a.rank === 'A' ? `${a.rank}-rank` : 'Special'}</span></span>
             </span>
             {a.version && <span className="eyebrow__ver">Ver {a.version}</span>}
-            <span>{SPECIALTY_BY_ID[a.specialty]?.name}</span>
+            <SpecialtyTag specialty={a.specialty} size={16} />
           </p>
           <h2 id="detail-name" className="detail__name">{a.name}</h2>
           {a.upcoming && <ul className="tags"><li>Upcoming</li></ul>}

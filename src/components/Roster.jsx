@@ -1,3 +1,4 @@
+import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useState } from 'react';
 import {
   AGENTS,
@@ -125,7 +126,7 @@ export default function Roster({ members, usage, dispatch }) {
                       <span className="card__nm">{a.name}</span>
                       {(a.rank === 'S' || a.rank === 'A') && <RankBadge rank={a.rank} size={18} />}
                     </span>
-                    <span className="card__role">{SPECIALTY_BY_ID[a.specialty]?.name}</span>
+                    <span className="card__role"><SpecialtyTag specialty={a.specialty} size={14} /></span>
                     {gains.length > 0 && <span className="card__gain">Shares {gains.join(' + ')}</span>}
                     {a.upcoming && <span className="card__tag">Upcoming</span>}
                     {others && (

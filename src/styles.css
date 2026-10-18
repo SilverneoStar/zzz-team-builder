@@ -5346,3 +5346,14 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .passive__name { font-size: 0.8rem; color: var(--muted); font-style: italic; }
 .passive__cond { font-size: 0.82rem; color: var(--muted); }
 .passive--on .passive__cond { color: var(--fg); }
+
+/* Specialty icons */
+.spec-icon { display: inline-block; flex: none; vertical-align: middle; object-fit: contain; }
+.spec-tag { display: inline-flex; align-items: center; gap: 5px; }
+.loadout__meta { display: inline-flex; align-items: center; gap: 4px; }
+.role-chip { display: inline-flex; align-items: center; gap: 5px; }
+.type-tab { display: inline-flex; align-items: center; gap: 6px; }
+.frame__pill { gap: 3px; }
+@container (max-width: 104px) {
+  .frame__pill .spec-icon { display: none; }
+}

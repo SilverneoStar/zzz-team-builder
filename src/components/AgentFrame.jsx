@@ -1,3 +1,4 @@
+import SpecialtyIcon from './SpecialtyIcon.jsx';
 import { useState } from 'react';
 import { ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, initials, shortName } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
@@ -43,6 +44,7 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
         </span>
         <span className="frame__pill">
           <AttributeGlyph attribute={agent.attribute} size={18} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
+          <SpecialtyIcon specialty={agent.specialty} size={18} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
         </span>
       </span>
     </span>

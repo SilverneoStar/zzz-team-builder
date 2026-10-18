@@ -1,3 +1,4 @@
+import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
   ATTRIBUTE_BY_ID,
   DISC_FIXED,
@@ -31,7 +32,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
       <div className="loadout__head">
         <Portrait agent={agent} size="sm" />
         <h3 className="loadout__title">{agent.name}</h3>
-        <span className="muted small">{SPECIALTY_BY_ID[agent.specialty]?.name} · {attrName}</span>
+        <span className="muted small loadout__meta"><SpecialtyTag specialty={agent.specialty} /> · {attrName}</span>
         <a className="loadout__link" href={`#agent-${agent.id}`}>Agent page</a>
         <button className="btn btn--quiet loadout__close" onClick={onClose} aria-label="Close loadout">×</button>
       </div>

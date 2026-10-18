@@ -1,3 +1,4 @@
+import SpecialtyIcon from './SpecialtyIcon.jsx';
 import { SPECIALTIES } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import PassiveFace from './PassiveFace.jsx';
@@ -15,6 +16,7 @@ export default function Analysis({ analysis }) {
         <div className="roles">
           {SPECIALTIES.map((s) => (
             <span key={s.id} className={specialtyCounts[s.id] ? 'role-chip role-chip--on' : 'role-chip'}>
+              <SpecialtyIcon specialty={s.id} size={15} />
               <b>{specialtyCounts[s.id]}</b> {s.name}
             </span>
           ))}
