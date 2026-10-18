@@ -178,6 +178,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd }) {
               >
                 <AgentFrame agent={a} tag={a.upcoming ? 'Upcoming' : null} />
                 <span className="char-tile__name">{a.name}</span>
+                <span className="char-tile__roles">{SPECIALTY_BY_ID[a.specialty]?.name}</span>
               </a>
             </li>
           ))}

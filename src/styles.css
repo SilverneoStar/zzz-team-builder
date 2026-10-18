@@ -5237,3 +5237,11 @@ a:focus-visible > .frame { border-color: var(--el, var(--fg)); transform: skewX(
 .portrait__initials { transform: skewX(8deg); }
 .portrait__glyph { transform: skewX(8deg); right: 0; bottom: 0; z-index: 1; padding: 1px; border-radius: 4px 0 0 0; }
 .portrait--sm { border-radius: 5px; }
+
+/* Narrow frames: keep rank and attribute, drop the specialty word. */
+.frame { container-type: inline-size; }
+.frame__bar { gap: 5px; padding: 5px 8px 5px 10px; }
+.frame__label { font-size: 0.74rem; }
+@container (max-width: 112px) {
+  .frame__label { visibility: hidden; }
+}
