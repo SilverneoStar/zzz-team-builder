@@ -5357,3 +5357,18 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 @container (max-width: 104px) {
   .frame__pill .spec-icon { display: none; }
 }
+
+/* Narrow cards: the attribute/specialty pill floats on the art's corner so
+   the name keeps the whole footer. */
+@container (max-width: 160px) {
+  .frame__pill {
+    position: absolute;
+    right: 8px;
+    bottom: 50px;
+    padding: 3px 5px;
+    background: rgb(11 11 11 / 0.85);
+  }
+  .frame__pill .attr-glyph,
+  .frame__pill .spec-icon { width: 15px; height: 15px; }
+  .frame__pill .spec-icon { display: inline-block; }
+}
