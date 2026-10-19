@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Leap", "Up to 4 Lumiflux hits; hitting gives Floating Radiance. The 4th applies 1 Lumiflux Buildup."],
+    ["Basic Attack", "Basic Attack", "Solo Dance", "Hold: a Lumiflux area slash; hitting gives Floating Radiance."],
+    ["Basic Attack", "Basic Attack", "Rainbow's End", "Hold with stored Voidflare: a big Lumiflux area attack that spends all Voidflare, gives lots of Floating Radiance and triggers Luminize on hit."],
+    ["Basic Attack", "Basic Attack", "Fleeting Grace", "Rainbow's End's upgraded form in Luminous Reflection."],
+    ["Dodge", "Dodge", "Retreating Light", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Keen Light", "Quick Lumiflux attack."],
+    ["Dodge", "Dodge Counter", "Mirrored Shadow", "Powerful Lumiflux slash."],
+    ["Assist", "Quick Assist", "Featherglow Rebirth", "Lumiflux slash."],
+    ["Assist", "Defensive Assist", "Fleeting Light", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Awakening Glimmer", "Lumiflux slash combo."],
+    ["Assist", "Assist", "Flower & Feather Dance", "Her switch-in after Phase Flow: a wide Lumiflux attack that costs 40 Floating Radiance (free at 90 or less), enters Luminous Reflection and triggers Luminize. Adds 3s to a Stun (once per Stun)."],
+    ["Special Attack", "Special Attack", "Sliver of Light", "Ranged Lumiflux attack."],
+    ["Special Attack", "EX Special Attack", "Ode to Dawn", "Wide Lumiflux attack that applies 2 Lumiflux Buildup. She enters battle with at least 60 Energy (once per 180s in Investigation Zones)."],
+    ["Special Attack", "Special Attack", "Ode to Dawn - Radiant Turn", "At 120 Floating Radiance, hold after a Special or EX for Stance Shift; switching out then (or during a Special or EX on a Stunned enemy) starts Phase Flow: she fights on her own, draining Radiance and applying Lumiflux Buildup, and gives the squad bonus DMG for 60s (scales with skill level). She can only return by Chain Attack until it ends. 3 Refringes in one Phase Flow, or ending with a Voidflare stored, unlocks Flower & Feather Dance."],
+    ["Chain Attack", "Chain Attack", "Interwoven Dance Steps", "Wide Lumiflux combo; enters Luminous Reflection and applies 2 Lumiflux Buildup."],
+    ["Chain Attack", "Ultimate", "Dazzling Curtain Call", "Wide Lumiflux attack that triggers Luminize on hit."]
+  ],
+  "core": {
+    "name": "Temporal Patterns = Stilled Colors",
+    "text": "Her Refringe Coefficient is 0.02% of her Anomaly Proficiency (+10% with 3 Anomaly Agents). When she Refringes a squadmate's Anomaly, she stores a Voidflare from its boosted strength (up to 3).\nLuminize (after Flower & Feather Dance, her Ultimate, Rainbow's End or Fleeting Grace hits): Attribute Anomaly DMG from all stored Voidflares, using that skill's multiplier plus {0}% of her Anomaly Proficiency. Voidflares clear on Phase Flow or after Rainbow's End / Fleeting Grace.",
+    "values": { "Multiplier per Anomaly Proficiency (%)": ["0.1", "0.12", "0.14", "0.15", "0.16", "0.18", "0.2"] }
+  },
+  "ability": {
+    "name": "Invitation to Bloom",
+    "text": "With 1 / 2 / 3 Anomaly Agents, entering battle gives the squad ATK equal to 6% / 12% / 40% of her initial ATK (max 1,600), and her Daze in Phase Flow rises by 6% / 12% / 35%. Her Lumiflux Buildup also applies Prismatic: squad Anomaly Buildup Rate +15% against that enemy, lasting 8s after it ends."
+  },
+  "mindscapes": [
+    "Enters battle with 3 special Voidflares (once per 180s in Investigation Zones). Luminize ignores 50% All-Attribute RES. Flower & Feather Dance gives 200 Decibels (once per 18s). In Phase Flow, others deal +10% Attribute Anomaly DMG.",
+    "Refringe Coefficient +20%. Anomaly Agents' Anomaly DMG ignores 15% DEF on Prismatic enemies (8s after it ends too). Phase Flow applies Lumiflux Buildup more often.",
+    "Skill levels +2.",
+    "Luminize multiplier +12%. Using up her entry special Voidflares refills them once (until Phase Flow).",
+    "Skill levels +2.",
+    "Rainbow's End and Fleeting Grace trigger Luminize twice. Her 4th Basic hit gives 3 special Voidflares worth 25% of the entry ones."
+  ]
+}

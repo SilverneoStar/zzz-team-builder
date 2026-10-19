@@ -1,0 +1,36 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Lightning Strike", "Up to 4 Physical and Electric hits."],
+    ["Basic Attack", "Basic Attack", "Lightning Strike - Electrified", "Hold at 75% Resolve: spends it on a combo and finisher for Electric DMG. The finisher triggers the previous Agent's Quick Assist."],
+    ["Dodge", "Dodge", "Evasion Maneuver", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Thunder Assault", "Shield charge for Physical DMG, taking 40% less DMG."],
+    ["Dodge", "Dodge Counter", "Retreat to Advance", "Quick downward Electric slash; hold after to go into a faster-charging High Voltage."],
+    ["Assist", "Quick Assist", "Armed Support", "Quick downward Electric slash; hold after to go into a faster-charging High Voltage."],
+    ["Assist", "Defensive Assist", "Thundershield", "Parries for massive Daze; +25% Resolve."],
+    ["Assist", "Assist Follow-Up", "Public Security Ruling", "Thrust and two slashes for Electric DMG; triggers the previous Agent's Quick Assist. Hold after for a faster-charging High Voltage."],
+    ["Special Attack", "Special Attack", "Thunder Shield Rush", "Two shield strikes for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Thunder Shield Rush - High Voltage", "Slash combo for massive Electric DMG; hold to charge into a dashing flurry. +75% Resolve. 40% DMG reduction while charging, invulnerable while slashing."],
+    ["Chain Attack", "Chain Attack", "Final Judgement", "Slash combo for massive Electric DMG; +75% Resolve. Hold after for a faster-charging High Voltage."],
+    ["Chain Attack", "Ultimate", "Justice Prevails", "Rising combo and finisher for massive Electric DMG; +75% Resolve and 3 Assist Points. Hold after for a faster-charging High Voltage."]
+  ],
+  "core": {
+    "name": "Protector",
+    "text": "High Voltage gives him a Shield of Firm Resolve worth {0}% of his initial ATK (max 3,000) for 25s, once per 10s. When Electrified or Public Security Ruling brings a squadmate in by Quick Assist or Chain, they get the same Shield (once per 10s). Anyone with the Shield has +{1} Anomaly Proficiency.",
+    "values": {
+      "Shield (% of ATK)": ["40", "50", "60", "68", "72", "76", "80"],
+      "Anomaly Proficiency": ["50", "62", "75", "85", "90", "95", "100"]
+    }
+  },
+  "ability": {
+    "name": "High Spirit",
+    "text": "His Final Judgement and Electrified finisher lower the enemy's Anomaly Buildup RES to every attribute by 20% for 20s."
+  },
+  "mindscapes": [
+    "Firm Resolve Shields and their cap are 30% bigger, and the Anomaly Proficiency lasts 10s after the Shield ends.",
+    "Enters battle with 75% Resolve. Electrified builds 35% more Electric Anomaly.",
+    "Skill levels +2.",
+    "Thundershield deals +25% Daze.",
+    "Skill levels +2.",
+    "Electrified's finisher adds 500% ATK as DMG, always CRITs, and gets +60% CRIT DMG."
+  ]
+}

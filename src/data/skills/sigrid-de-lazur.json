@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Frost-Tipped Spear", "Up to 4 Ice hits; the 4th is an Unbridled Spear attack."],
+    ["Basic Attack", "Basic Attack", "Converging Spear", "In Aerial Patrol Spear with a use stored, hold: the next of its three stages for Ice DMG (cycles 1 → 3). Charging stages 1–2 blocks attacks: a block negates the hit, refreshes the state, gives a use and +100% Daze to the next one. Keeps her Basic combo count. 60% DMG reduction."],
+    ["Dodge", "Dodge", "Cloudstep", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Windchase", "Cleaving Physical slash."],
+    ["Dodge", "Dodge Counter", "Counterthrust", "Frost-charged counter for Ice DMG; keeps her Basic combo count. Unbridled Spear."],
+    ["Assist", "Quick Assist", "Iron Sentinel", "Lunging Ice strike."],
+    ["Assist", "Defensive Assist", "Dauntless Cold", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Devouring Frost", "Upswing and heavy slam for massive Ice DMG. Unbridled Spear."],
+    ["Special Attack", "Special Attack", "Frostflower", "Three Ice thrusts."],
+    ["Special Attack", "EX Special Attack", "Scattered Jade / Shattered Jade", "Two versions of a powerful stab flurry for massive Ice DMG (Shattered lunges forward). Keep her Basic combo count. Unbridled Spear."],
+    ["Chain Attack", "Chain Attack", "Encroaching Ice", "Piercing strike for massive Ice DMG; Converging Spear +20% DMG for 50s. First hit on a Stunned elite or boss starts Formation Breaker: hold to run all three Converging Spear stages in a row (state timer paused), then her stage is restored. Once per Stun. Unbridled Spear."],
+    ["Chain Attack", "Ultimate", "Frozen Heavens", "Lunging barrage for massive Ice DMG. Unbridled Spear."]
+  ],
+  "core": {
+    "name": "Sky Knight",
+    "text": "Unbridled Spear hits enter or refresh Aerial Patrol Spear and give 1 Converging Spear use (doesn't stack). It lasts 8 / 7 / 6s at stage 1 / 2 / 3, and the stage drops by 1 when it ends.\nEntering or refreshing it gives +66% CRIT Rate for 8s, extending by 8s each time (max 40s). In the state, her hits on Stunned enemies get +20% Stun DMG Multiplier.",
+    "values": {}
+  },
+  "ability": {
+    "name": "Legion of the Skies",
+    "text": "ATK +120, +12 per level (max 840). +15% DMG against Contaminated enemies."
+  },
+  "mindscapes": [
+    "Stage 3 Converging Spear enters Aerial Patrol Spear and gives an extra use; uses past the cap add 100% ATK as Ice DMG to the next one's last hit. +25% ATK.",
+    "Unbridled Spear and Converging Spear get +24% PEN Ratio. Aerial Patrol Spear lasts 2s longer. +10% Decibel generation.",
+    "Skill levels +2.",
+    "Gaining Aerial Patrol Spear gives +18% DMG for 8s, extending by 8s each time (max 40s).",
+    "Skill levels +2.",
+    "Converging Spear's last hit adds 80% / 90% / 100% ATK as Ice DMG at stage 1 / 2 / 3. No limit on Formation Breaker per Stun, and its Converging Spears are faster."
+  ]
+}

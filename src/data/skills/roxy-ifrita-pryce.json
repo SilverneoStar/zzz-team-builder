@@ -1,0 +1,36 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Do Stay a While", "Up to 4 Wind hits."],
+    ["Dodge", "Dodge", "Excuse Me", "Quick sidestep dodge."],
+    ["Dodge", "Dash Attack", "Forgive My Rudeness", "Wind strike."],
+    ["Dodge", "Dodge Counter", "Returned Courtesy", "Wind strike."],
+    ["Assist", "Assist", "More Overtime?", "Press again after a Defensive Assist: she stays on-field and strikes for Wind DMG (counts as a Basic Attack)."],
+    ["Assist", "Quick Assist", "At Your Service", "Wind strike."],
+    ["Assist", "Defensive Assist", "Allow Me to Assist", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Midnight Code", "Wind strike."],
+    ["Special Attack", "Special Attack", "Much Obliged", "Wind strike."],
+    ["Special Attack", "Special Attack", "Forgive Me for Not Seeing You Off", "After Kindly Rest in Peace, fires on its own once Eyes of the Storm plus her Wind Energy total 3+: a hammer throw for Wind DMG that detonates up to 3 Eyes into Miniature Windstorms, or one Giant Windstorm if 3 go at once."],
+    ["Special Attack", "EX Special Attack", "Don't Catch a Chill", "Slide for Wind DMG; hold during it for Whirlwind, a steerable tornado that drains Energy and hits along its path. Ends into Kindly Rest in Peace."],
+    ["Special Attack", "EX Special Attack", "Kindly Rest in Peace", "Spends all Wind Energy on a wind cannon for Wind DMG, plus an extra hit and one Eye of the Storm per point."],
+    ["Special Attack", "Special Attack", "Eye of the Storm", "Lasts 30s then detonates (max 9; extras pop the oldest). Each detonation blasts nearby enemies for Wind DMG."],
+    ["Chain Attack", "Chain Attack", "Gale-Burial Great Hammer", "Powerful strike for massive Wind DMG."],
+    ["Chain Attack", "Ultimate", "Requiem for the Night-Burial", "Wide strike for massive Wind DMG; +1 Wind Energy."]
+  ],
+  "core": {
+    "name": "Warm Night's Embrace",
+    "text": "Every 25 Energy spent gives 1 Wind Energy (max 3). Each 0.01 initial Energy Regen above 1.2 gives +5 ATK (max 560) and +0.4 Impact (max 46).\nForgive Me for Not Seeing You Off on a Windswept enemy triggers Cleanse, turning Contamination back to its original Anomaly.\nWhen anyone triggers Contamination or Cleanse, the squad gets a 50s buff for that attribute and Wind: per 1% of her CRIT Rate, +0.4% CRIT DMG (max 25%), or +0.2% Laceration DMG for Armorer Agents (max 11.5%). Re-applying Windswept also grants it for the overwritten attribute.",
+    "values": {}
+  },
+  "ability": {
+    "name": "Porcelloy Heart",
+    "text": "+8% DMG, +1.2% per level (max 80%). Squad hits raise the enemy's Stun DMG Multiplier by 30% and add 2s to its Stun. Squad-applied Windswept enemies take 8% more direct Wind DMG and DMG of the Contamination's attribute, and Windswept lasts 20s longer. Enters battle with 40 Energy (once per 180s in Investigation Zones). EX Special gives +30% Anomaly Buildup Rate for 50s."
+  },
+  "mindscapes": [
+    "Kindly Rest in Peace lowers All-Attribute RES by 15% for 50s. +40% CRIT DMG.",
+    "Don't Catch a Chill deals 5% more Daze and raises the enemy's Stun DMG Multiplier by 30% until it recovers. Each Eye detonated gives Windflow (max 3); switching out in Whirlwind spends them to keep it going 0.2s each without Energy.",
+    "Skill levels +2.",
+    "Defensive Assist parries give 1 Energy and Dodge Counter hits 2 (once per use). Ultimate deals +20% DMG and +10% Daze.",
+    "Skill levels +2.",
+    "Ignores 15% Wind RES. A Giant Windstorm applies Afterecho: 2 more Giant Windstorms on the target, one every 3s (stacks). Giant Windstorms deal 250% DMG and +20% Daze."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Making Rice Cakes", "Up to 3 Physical hits; in Frosted Banner, 3 faster Ice hits."],
+    ["Dodge", "Dodge", "Grab a Bite", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "50/50", "Physical slash; Ice in Frosted Banner."],
+    ["Dodge", "Dodge Counter", "Away From My Snacks", "Ice slash."],
+    ["Assist", "Quick Assist", "A Set for Two", "Ice slash."],
+    ["Assist", "Defensive Assist", "Guarding Tactics", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Sweeping Strike", "Charging Ice strike."],
+    ["Special Attack", "Special Attack", "Cooling Bento", "Wind current and finisher for Ice DMG; hold to go into Fly the Flag."],
+    ["Special Attack", "EX Special Attack", "Fanning Mosquitoes", "Long-range wind currents for massive Ice DMG; mash to repeat (Energy each), then a big finisher. Hold to go into Fly the Flag."],
+    ["Special Attack", "Special Attack", "Rally!", "Hold: plants her weapon as a flag for Fly the Flag (Ice DMG; triggers a Quick Assist on hit). With 3 Vortex it spends them and enters Frosted Banner: enhanced Basic and Dash Attacks for massive Ice DMG (45s or 6 uses). Vortex (max 3): +1 per EX, +1 per Chain, +3 per Ultimate."],
+    ["Chain Attack", "Chain Attack", "Pudding Slash", "Strike combo then Fly the Flag, massive Ice DMG."],
+    ["Chain Attack", "Ultimate", "Jumbo Pudding Slash", "Longer combo then Fly the Flag, massive Ice DMG. Others recover 10 Energy, and the next Agent in gets 20 more."]
+  ],
+  "core": {
+    "name": "Blade Banner",
+    "text": "Fly the Flag gives her +{0}% ATK (max 500) for 22s, doubled (max 1,000) when it spends Vortex. Agents brought in by its Quick Assist or Chain get the buff too.",
+    "values": { "ATK (%)": ["10", "12.5", "15", "17", "18", "19", "20"] }
+  },
+  "ability": {
+    "name": "Group Set Meal",
+    "text": "Fly the Flag that spends Vortex gives the squad +20% Ice DMG for 22s."
+  },
+  "mindscapes": [
+    "Blade Banner and Group Set Meal last 8s longer.",
+    "Basic, Dash, Dodge Counter and Quick Assist hits have a 15% chance for 1 Vortex (once per 1s); past max, she gets 1.2 Energy instead.",
+    "Skill levels +2.",
+    "Fly the Flag lowers Ice RES by 10% for 8s.",
+    "Skill levels +2.",
+    "Frosted Banner allows 12 enhanced attacks, and they deal 45% more DMG."
+  ]
+}

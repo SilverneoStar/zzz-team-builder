@@ -1,0 +1,38 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Knight's Technique", "Up to 4 Physical hits that heal him a little. During the 4th, press Special for a Drive Suppression that costs half the HP."],
+    ["Basic Attack", "Basic Attack", "Full-Throttle Starlight", "Hold with 100 Determination: spends it on a motorcycle charge and laser for massive Physical DMG."],
+    ["Dodge", "Dodge", "Close Call!", "Quick dash dodge."],
+    ["Dodge", "Dodge", "Through the Galaxy", "During Drive Suppression, steer or hold dodge: a drift that can Perfect Dodge (into Afterfire Spin). Keeps Drive Suppression's timer running into Cool Wheelie; stopping early gives Run Wild. Briefly invulnerable."],
+    ["Dodge", "Dash Attack", "Starlight Retribution", "Quick Physical slash."],
+    ["Dodge", "Dodge Counter", "Duel King", "Arm-cannon blast for Physical DMG. From a Perfect Dodge it heals 10% Max HP on hit and flows into the 4th Basic hit."],
+    ["Dodge", "Dodge Counter", "Afterfire Spin", "Perfect Dodge during Through the Galaxy: a spinning Physical hit around him, then Cool Wheelie."],
+    ["Assist", "Quick Assist", "Starlight - Power of Bonds", "Arm-cannon blast for Physical DMG; above 25% HP it's a Drive Suppression instead (once per 5s)."],
+    ["Assist", "Defensive Assist", "Hero's Entrance", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Villain's Exit", "Kicks his motorcycle at the target for massive Physical DMG."],
+    ["Special Attack", "Special Attack", "Drive Suppression", "Costs 16% Max HP: rams enemies on his motorcycle for continuous Physical DMG. Getting hit right as it starts blocks the attack (+5 Determination) into Cool Wheelie; otherwise it ends in Cool Wheelie."],
+    ["Special Attack", "Special Attack", "Run Wild", "When Through the Galaxy is cut short: kicks the motorcycle at enemies for Physical DMG; flows into Duel King."],
+    ["Special Attack", "EX Special Attack", "Cool Wheelie", "Wheelie attack for Physical DMG (+8 Determination on hit). With enough Adrenaline, press into Rocking Footwork; otherwise ends in Run Wild."],
+    ["Special Attack", "EX Special Attack", "High-Traction Wheels", "Hold with enough Adrenaline: motorcycle slam for Physical DMG; heals 30% Max HP."],
+    ["Special Attack", "EX Special Attack", "Rocking Footwork", "After Cool Wheelie: bike and cannon combo for Physical DMG; heals 15% Max HP."],
+    ["Chain Attack", "Chain Attack", "Knight's Swagger", "Combo for massive Physical DMG; +15 Determination."],
+    ["Chain Attack", "Ultimate", "Starlight Knight Flying Kick", "Leaping flying kick for massive Physical DMG."]
+  ],
+  "core": {
+    "name": "Knight's Resolve",
+    "text": "Gains 0.1 Sheer Force per point of Max HP; all his Physical DMG is Sheer DMG, ignoring DEF. Enters battle with 60 Adrenaline (once per 180s in Investigation Zones).\nAbove 25% HP, Special spends HP on Drive Suppression; each use in combat gives +{0}% CRIT DMG for 45s. At 25% HP or less, he takes 50% less DMG.\nDetermination (max 120) comes from hits, slowly over time, Cool Wheelie, Knight's Swagger, blocks, and Perfect Dodges (3, once per 0.5s).",
+    "values": { "CRIT DMG (%)": ["45", "53", "60", "68", "75", "83", "90"] }
+  },
+  "ability": {
+    "name": "Blazing Starlight",
+    "text": "Cool Wheelie, his 4th Basic hit, Chain and Ultimate give 1 Starlight (max 2, 45s, one per use): +20% DMG each to Chain, Ultimate, EX Specials and Full-Throttle Starlight."
+  },
+  "mindscapes": [
+    "Enters battle with 60 more Adrenaline. EX Special hits make him ignore 18% Physical RES for 45s.",
+    "Full-Throttle Starlight, Cool Wheelie and Ultimate +50% DMG. Rocking Footwork, High-Traction Wheels, or Drive Suppression on a Stunned enemy give Turbocharged (max 1): his next Drive Suppression jumps straight into Cool Wheelie with +50% CRIT DMG.",
+    "Skill levels +2.",
+    "Each Drive Suppression gives +8% CRIT DMG (max 2, 45s). Off-field below 35% HP, he slowly heals back to 35%.",
+    "Skill levels +2.",
+    "Ultimate and Full-Throttle Starlight Sheer DMG +18%. His 4th Basic hit, Cool Wheelie and Knight's Swagger give Brilliant Starlight (max 6); his Ultimate or Full-Throttle Starlight spends up to 2 for +100% Sheer Force as Physical DMG each."
+  ]
+}

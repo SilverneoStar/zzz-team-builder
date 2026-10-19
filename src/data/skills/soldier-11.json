@@ -1,0 +1,55 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Warmup Sparks", "Up to 4 Physical slashes."],
+    ["Basic Attack", "Basic Attack", "Fire Suppression", "Pressing at the right moment (or automatically, when it's guaranteed) turns a Basic or Dash Attack into stronger Fire slashes."],
+    ["Dodge", "Dodge", "Tempered Fire", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Blazing Fire", "Physical slash; Fire with Fire Suppression."],
+    ["Dodge", "Dodge Counter", "Backdraft", "Powerful slash for massive Fire DMG."],
+    ["Assist", "Quick Assist", "Covering Fire", "Fire slash."],
+    ["Assist", "Defensive Assist", "Hold the Line", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Reignition", "Charging cross slash for Fire DMG."],
+    ["Special Attack", "Special Attack", "Raging Fire", "Fire slash around her."],
+    ["Special Attack", "EX Special Attack", "Fervent Fire", "Slash around her for massive Fire DMG; her Basic and Dash Attacks then always trigger Fire Suppression (30s or 8 times)."],
+    ["Chain Attack", "Chain Attack", "Uplifting Flame", "Powerful upward slash for massive Fire DMG; guaranteed Fire Suppression after (30s or 8 times)."],
+    ["Chain Attack", "Ultimate", "Bellowing Flame", "Powerful upward slash for massive Fire DMG; guaranteed Fire Suppression after (30s or 8 times)."]
+  ],
+  "core": {
+    "name": "Heatwave",
+    "text": "Basic and Dash Attacks that trigger Fire Suppression deal {0}% more DMG.",
+    "values": { "DMG (%)": ["35", "40.8", "46.6", "52.5", "58.3", "64.1", "70"] }
+  },
+  "ability": {
+    "name": "Fields of Fire",
+    "text": "+10% Fire DMG, and 22.5% more against Stunned enemies."
+  },
+  "mindscapes": [
+    "Entering combat or switching in below 40 Energy sets it to 80 (once per 50s).",
+    "Each Fire Suppression gives her Basic, Dash Attack and Dodge Counter +3% DMG (max 12, 15s each).",
+    "Skill levels +2.",
+    "Fire Suppression on her 1st–3rd Basic hit or Dash Attack gives higher Anti-Interrupt and 18% DMG reduction; on the 4th Basic hit she's invulnerable.",
+    "Skill levels +2.",
+    "EX, Chain or Ultimate gives 8 Charge; each Fire Suppression spends 1 to ignore 25% Fire RES."
+  ],
+  "potential": {
+    "name": "Blazing Melody",
+    "levels": [
+      "Upgrades Fire Suppression, EX Special, Chain Attack and Ultimate; unlocks Fire Assault.",
+      "Unlocks Awakened Potential: Infernal Blaze.",
+      "Infernal Blaze upgraded.",
+      "Infernal Blaze upgraded.",
+      "Infernal Blaze upgraded.",
+      "Infernal Blaze upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Fire Suppression", "With guaranteed Fire Suppression, pressing late speeds into the next hit and unlocks a 5th hit; after a Chain or Ultimate it's powered up and spends the remaining guaranteed triggers for extra Fire DMG each. A Perfect Dodge keeps her combo count for 5s, resumable after a Dodge Counter."],
+      ["Basic Attack", "Fire Assault", "Hold for Fire Charge, release for Fire Assault. Getting hit at the start or during it is a Block Counter: no DMG and 3 guaranteed Fire Suppressions; press to go to the 3rd Basic hit. Steer while charging for Blazing Rush."],
+      ["EX, Chain and Ultimate", "Fervent Fire, Uplifting Flame, Bellowing Flame", "Press after any of them to go to the 4th Basic hit. They also enter Alert Stance: getting hit during a Basic Attack auto-blocks with Fire Charge into Fire Assault, then resumes the combo."]
+    ],
+    "awakened": {
+      "name": "Infernal Blaze",
+      "text": "Fields of Fire also gives her +{0}% CRIT DMG.",
+      "values": [["16", "24", "32", "40", "48"]],
+      "from": 2
+    }
+  }
+}

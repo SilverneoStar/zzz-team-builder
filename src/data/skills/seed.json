@@ -1,0 +1,39 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Chrysanthemum Wheel Dance", "Up to 4 hits: two Physical, two Electric. Getting hit between the 3rd hit's retreat and the 4th triggers an automatic dodge."],
+    ["Basic Attack", "Basic Attack", "Falling Petals - Slaughter", "Her mech's charged punch for massive Electric DMG. Reaching 120 Steel Charge gives one quick use by holding."],
+    ["Basic Attack", "Basic Attack", "Falling Petals - Downfall", "Steel Charge (max 150, starts at 60) builds from her hits. At 120, after Slaughter or her Ultimate, press to spend 60 for First Form, then 60 more for Second Form: sweeping shots and a jumping smash for massive Electric DMG."],
+    ["Dodge", "Dodge", "Running on Petals", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Magnetic Wheel Dance", "Thrown steel wheels for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Blossom Burst", "Laser barrage for Electric DMG."],
+    ["Assist", "Quick Assist", "Barrage of Raining Flowers", "Laser barrage for Electric DMG."],
+    ["Assist", "Defensive Assist", "Sprouting Barrier", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Crimson Core Burst", "Floating turrets fire for Electric DMG."],
+    ["Special Attack", "Special Attack", "Withered in Frost", "Curving steel wheel for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Raining Iron Petals", "Flight mode: move freely while firing missiles for massive Electric DMG; hold to keep going, draining Energy. Release for Away. After 60 Energy in one flight, auto-casts Slaughter."],
+    ["Special Attack", "EX Special Attack", "Raining Iron Petals - Away", "Release during flight: rapid cannon fire for Electric DMG."],
+    ["Chain Attack", "Chain Attack", "Tempest of Frosty Petals", "Mech cannon shots and missiles for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Clockwork Garden - Bloom!", "Pilots the mech: missiles, a rocket shower and a jumping smash for massive Electric DMG. +60 Steel Charge."]
+  ],
+  "core": {
+    "name": "Flower Chain Protocol",
+    "text": "Her Vanguard is the Attack teammate with the highest initial ATK. The Vanguard's EX gives Seed Onslaught (+{0} ATK, +{1}% CRIT DMG); Seed's EX gives the Vanguard Direct Strike (the same). With both up, both get Besiege: +{2}% DMG. These last 40s and work while on-field (or 3s after switching out). Entering battle with a Vanguard gives everything at once.\nEach Energy the on-field Vanguard or Seed spends gives her 0.5 Steel Charge.",
+    "values": {
+      "ATK": ["100", "225", "350", "475", "600", "725", "1,000"],
+      "CRIT DMG (%)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"],
+      "Besiege DMG (%)": ["12.5", "14.5", "16.5", "18.5", "20.5", "22.5", "25"]
+    }
+  },
+  "ability": {
+    "name": "Surprise Strike",
+    "text": "Her on-field hits give the Vanguard 2 Energy (once per 1s). Slaughter, Downfall and her Ultimate deal +30% DMG and ignore 25% Electric RES."
+  },
+  "mindscapes": [
+    "Downfall works from 100 Steel Charge and costs 100 total; quick Slaughter needs 100. +40 Steel Charge entering battle, +20 on Ultimate. Downfall CRIT DMG +30%.",
+    "Besiege also ignores 20% DEF. Flight can go on to 120 Energy, and every 5 Energy spent gives the next Slaughter +5% DMG.",
+    "Skill levels +2.",
+    "During Besiege: +10% Decibel generation and +20% Ultimate DMG.",
+    "Skill levels +2.",
+    "+50% CRIT DMG. Slaughter fires 3 extra lasers for 165% ATK each (once per 3s)."
+  ]
+}

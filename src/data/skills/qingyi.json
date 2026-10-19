@@ -1,0 +1,35 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Penultimate", "Up to 4 Physical and Electric hits. Mash on the 3rd to keep striking (dodging doesn't break the count); stop to go into the 4th, which is enhanced if you kept it up long enough. 40% DMG reduction on the 3rd and 4th."],
+    ["Basic Attack", "Basic Attack", "Enchanted Blossoms", "Rushing Electric attack."],
+    ["Basic Attack", "Basic Attack", "Flash Connect", "Her Electric DMG builds Flash Connect Voltage; at 75% she enters Flash Connect. Moonlit Blossoms spends all of it: each 1% above 75% gives +1% DMG and +0.5% Daze to that move."],
+    ["Basic Attack", "Basic Attack", "Enchanted Moonlit Blossoms", "In Flash Connect, hold: five rushing attacks then a finisher for massive Electric DMG; release to finish early. A finisher timed just before a hit is a Perfect Dodge. Invulnerable on the finisher."],
+    ["Dodge", "Dodge", "Swan Song", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Breach", "Rush and upward strike for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Lingering Sentiments", "Leaping downward Electric strike."],
+    ["Assist", "Quick Assist", "Wind Through the Pines", "Leaping downward Electric strike."],
+    ["Assist", "Defensive Assist", "Graceful Embellishment", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Song of the Clear River", "Rushing attack that charges the ground and explodes for Electric DMG."],
+    ["Special Attack", "Special Attack", "Sunlit Glory", "Upswing and smash for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Moonlit Begonia", "Upswing, aerial combo and a heavy smash for massive Electric DMG; hold to spend more Energy for more hits. Flows into the 3rd Basic hit."],
+    ["Chain Attack", "Chain Attack", "Tranquil Serenade", "Wide strikes for massive Electric DMG; +3% DMG per Subjugation stack on the target."],
+    ["Chain Attack", "Ultimate", "Eight Sounds of Ganzhou", "Wide strikes and a finisher for massive Electric DMG."]
+  ],
+  "core": {
+    "name": "Eternal Seasons",
+    "text": "Moonlit Blossoms' finisher applies 5 Subjugation (max 20), +1 per rush attack, or 10 on a Perfect Dodge; doubled on normal and elite enemies. Each stack raises the target's Stun DMG Multiplier by {0}%. Stacks reset when the Stun ends.",
+    "values": { "Stun DMG Multiplier per stack (%)": ["2", "2.4", "2.7", "3", "3.4", "3.7", "4"] }
+  },
+  "ability": {
+    "name": "Three Verses of Farewell at Yang Pass",
+    "text": "Basic Attacks deal +20% Daze. Each point of Impact above 120 gives +6 ATK (max 600)."
+  },
+  "mindscapes": [
+    "Enters combat with full Flash Connect Voltage, and builds it 30% faster. Moonlit Blossoms at full Voltage lowers the enemy's DEF by 15% and gives her +20% CRIT Rate against it for 15s.",
+    "Subjugation is 135% as strong. At max Subjugation, her hits deal +15% Daze to that enemy.",
+    "Skill levels +2.",
+    "Entering or leaving Flash Connect gives a Shield of 10% Max HP; refreshing an active Shield gives 5 Energy (once per 10s).",
+    "Skill levels +2.",
+    "Moonlit Blossoms has much higher Interrupt Level and +100% CRIT DMG, and lowers Attribute DMG RES by 20% for 15s."
+  ]
+}

@@ -131,7 +131,7 @@ function Core({ core }) {
         <span className="skills__peek">{core.name}</span>
       </summary>
       <div className="skills__body">
-        <LevelPicker labels={LEVELS} value={lv} onChange={setLv} name="Core Passive level" />
+        {keys.length > 0 && <LevelPicker labels={LEVELS} value={lv} onChange={setLv} name="Core Passive level" />}
         {paras(core.text, vals)}
         {extra.length > 0 && (
           <dl className="skills__values">

@@ -1,0 +1,40 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Mischief Meteor Hammer", "Up to 4 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Naughty Cat Spotted", "Off-field, if no enemy has Cat's Gaze, Bubblegum spends 1 Claw Sharpener to attack for Physical DMG (it uses her initial ATK). Sharpeners (max 6): +2 when anyone opens an Ether Veil, +1 when anyone applies an Anomaly (once per 10s)."],
+    ["Dodge", "Dodge", "Can't Hit Me", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Skyward Hammer", "Launching Physical strike."],
+    ["Dodge", "Dodge Counter", "Delusion Strikeout", "Hammer combo for Physical DMG."],
+    ["Assist", "Quick Assist", "Sonic Beatdown", "Hammer combo for Physical DMG."],
+    ["Assist", "Defensive Assist", "Stage Fright", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Jump Training", "Bounces forward on her inflatable hammer for massive Physical DMG."],
+    ["Special Attack", "Special Attack", "Star Shooter", "Fires Bubblegum from an air gun for Physical DMG; Bubblegum joins the fight."],
+    ["Special Attack", "EX Special Attack", "Bubblegum Barrage", "Hurls Bubblegum for Physical DMG and gives the squad Angelic Chord-ination for 40s. Heavy hit triggers a Quick Assist."],
+    ["Special Attack", "EX Special Attack", "Special Photography Technique", "With Angelic Chord-ination (or by holding during Bubblegum Barrage): a joint attack for Physical DMG that opens Ether Veil: Delusion Reprise (squad +50 ATK for 40s). Heavy hit triggers a Quick Assist."],
+    ["Chain Attack", "Chain Attack", "Don't Mess With the Cat", "Rides Bubblegum forward for massive Physical DMG; heavy hit triggers a Quick Assist."],
+    ["Chain Attack", "Ultimate", "Smash It All!", "Hammer combo then an exploding Bubblegum for massive Physical DMG; +6 Claw Sharpeners. The downward hit triggers a Quick Assist and heals the squad."]
+  ],
+  "core": {
+    "name": "Cuteness Is Justice",
+    "text": "Angelic Chord-ination gives ATK equal to 30% of her initial ATK, up to {0} (reached at {1} initial ATK).\nBubblegum's attacks, her EX Specials, Chain and Ultimate put Cat's Gaze on enemies for 12s (kept up while she's on-field). When Attack or Anomaly squadmates keep hitting it, it bursts as that Agent's attribute DMG in an area: {2}% of their ATK for Attack Agents, or {3}% for Anomaly Agents with a guaranteed CRIT and +{4}% CRIT DMG. Only the main target's Gaze bursts, and all Gazes clear. Stunned enemies need far fewer hits.",
+    "values": {
+      "Max ATK": ["525", "615", "705", "795", "885", "975", "1,050"],
+      "Initial ATK needed": ["1,750", "2,050", "2,350", "2,650", "2,950", "3,250", "3,500"],
+      "Attack Agent burst (% of ATK)": ["150", "175", "200", "225", "250", "275", "300"],
+      "Anomaly Agent burst (% of ATK)": ["240", "280", "320", "360", "400", "440", "480"],
+      "Anomaly burst CRIT DMG (%)": ["80", "90", "100", "120", "130", "140", "150"]
+    }
+  },
+  "ability": {
+    "name": "Daydreamer's Counterpoint",
+    "text": "Agents inside Delusion Reprise raise the enemy's Stun DMG Multiplier by 30% for 40s. Enters battle with 15 Energy (once per 180s in Investigation Zones)."
+  },
+  "mindscapes": [
+    "Enters battle with 15 Energy (once per 180s in Investigation Zones). Cat's Gaze bursts lower DEF by 7% for 40s (max 3, separate timers).",
+    "Inside any Ether Veil, the squad gets +10% ATK and she gains 1 Claw Sharpener every 10s. Cat's Gaze needs fewer hits and its burst multiplier rises by 200% (Attack) or 300% (Anomaly).",
+    "Skill levels +2.",
+    "Ultimate gives the squad +18% DMG for 60s.",
+    "Skill levels +2.",
+    "EX Special gives Focused Creation! for 8s: she always CRITs, gets CRIT DMG equal to 0.03% of her initial ATK (max 105%), 40% DMG reduction, and can burst Cat's Gaze herself (as an Attack Agent), spending a Claw Sharpener to reapply it. Squad Cat's Gaze bursts deal +50% DMG meanwhile."
+  ]
+}
