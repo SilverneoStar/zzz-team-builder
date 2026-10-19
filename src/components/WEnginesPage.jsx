@@ -98,14 +98,14 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                       <NameWithRank name={w.name} rank={w.rank} />
                     </h3>
                     {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
+                    {(w.upcoming || w.provisional) && (
+                      <span className="arc-card__tags">
+                        {w.upcoming && <span className="card__tag">Upcoming</span>}
+                        {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+                      </span>
+                    )}
                   </span>
                 </a>
-                {(w.upcoming || w.provisional) && (
-                  <span className="arc-card__tags">
-                    {w.upcoming && <span className="card__tag">Upcoming</span>}
-                    {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
-                  </span>
-                )}
                 <dl className="gear-stats">
                   <div><dt>Base {w.base?.stat ?? 'stat'}</dt><dd>{w.base?.max ?? '—'}</dd></div>
                   <div><dt>{w.advanced?.stat ?? 'Advanced'}</dt><dd>{w.advanced?.max ?? '—'}</dd></div>
