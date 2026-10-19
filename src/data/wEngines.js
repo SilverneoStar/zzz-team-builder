@@ -103,5 +103,5 @@ export const W_ENGINES = [
   {"id": "crimson-moon-casket", "name": "Crimson Moon Casket", "rank": "S", "specialty": "stun", "version": "3.2", "signatureOf": "roxy-ifrita-pryce"},
   {"id": "candlelit-scheme", "name": "Candlelit Scheme", "rank": "A", "specialty": "armorer", "version": "3.3", "upcoming": true},
   {"id": "sin-ban-cage", "name": "Sin-Ban Cage", "rank": "S", "specialty": "attack", "version": "3.3", "signatureOf": "severian-lowell", "upcoming": true},
-  {"id": "nirvana-s-first-plume", "name": "Nirvana's First Plume", "rank": "S", "specialty": "anomaly", "version": "3.3", "signatureOf": "phoenix-reffaella", "upcoming": true},
+  {"id": "nirvana-s-first-plume", "name": "Nirvana's First Plume", "rank": "S", "specialty": "anomaly", "version": "3.3", "signatureOf": "phoenix-reffaella", "upcoming": true, "provisional": true, "base": {"stat": "ATK", "lv1": 48, "max": 713}, "advanced": {"stat": "Anomaly Mastery", "lv1": "12%", "max": "30%"}},
 ];

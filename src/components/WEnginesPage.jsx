@@ -95,6 +95,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                   <h3 className="arc-card__name"><a href={`#w-engine-${w.id}`}>{w.name}</a></h3>
                   {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
                   {w.upcoming && <span className="card__tag">Upcoming</span>}
+                  {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
                 </div>
                 <dl className="gear-stats">
                   <div><dt>Base {w.base?.stat ?? 'stat'}</dt><dd>{w.base?.max ?? '—'}</dd></div>
@@ -142,6 +143,12 @@ function WEngineDetail({ w, onClose }) {
         <div><dt>Advanced stat</dt><dd>{w.advanced ? `${w.advanced.stat} ${w.advanced.lv1} → ${w.advanced.max}` : 'Not published yet'}</dd></div>
         <div><dt>Signature of</dt><dd>{sig ? <a href={`#agent-${sig.id}`}>{sig.name}</a> : 'None'}</dd></div>
       </dl>
+      {w.provisional && (
+        <p className="muted small">
+          <span className="card__tag card__tag--warn">Subject to change</span>{' '}
+          These stats are from test-server data ahead of its release and may change before Version {w.version} goes live.
+        </p>
+      )}
       {fits.length > 0 && (
         <>
           <h3 className="mini-title">Other {SPECIALTY_BY_ID[w.specialty]?.name} Agents who can use its passive</h3>

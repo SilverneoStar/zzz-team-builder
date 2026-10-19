@@ -51,6 +51,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
           <WEngineArt w={sig} size={28} />
           <span className="engine-row__name">{sig.name}</span>
           <span className="chip-tag">Signature</span>
+          {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
           <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
         </a>
       ) : (

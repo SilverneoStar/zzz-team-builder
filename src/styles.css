@@ -1217,6 +1217,7 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.card__tag--warn { color: var(--warn); }
 
 .empty {
   color: var(--muted);
