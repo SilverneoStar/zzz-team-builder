@@ -739,6 +739,7 @@ button {
   align-items: center;
   justify-content: center;
 }
+.gear-chip .engine-art { margin: 0 6px 0 -4px; width: 20px; height: 20px; }
 .gear-chip--on {
   border-style: solid;
   border-color: color-mix(in srgb, var(--el) 60%, var(--line));
@@ -5877,11 +5878,22 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 /* The art fills the square reserved for it. */
 .arc-card--engine .arc-card__icon {
   display: grid;
+  /* Pinned track: a tall image (the egg) must not size its own column/row. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   place-items: center;
   width: 100%;
   aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
-.arc-card--engine .arc-card__icon .engine-art { width: 100%; height: 100%; }
+.arc-card--engine .arc-card__icon .engine-art {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+}
 
 .arc-card--engine .arc-card__top {
   display: grid;
@@ -5901,7 +5913,8 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   margin-left: 3px;
 }
 .arc-card--engine .arc-card__type { margin-left: 0; }
-.arc-card--engine .arc-card__tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; width: 100%; }
+.arc-card--engine .arc-card__tags { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; }
+.arc-card--engine .arc-card__tags .card__tag { justify-self: center; margin-top: 0; max-width: 100%; font-size: 0.58rem; letter-spacing: 0.03em; overflow-wrap: anywhere; }
 
 /* Stats side by side whenever the longest label ("Anomaly Proficiency") fits
    in half the card; one above the other only on the very narrowest cards.

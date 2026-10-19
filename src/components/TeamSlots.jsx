@@ -11,6 +11,7 @@ import { loadoutOf } from '../lib/teamsReducer.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
+import WEngineArt from './WEngineArt.jsx';
 import PassiveFace from './PassiveFace.jsx';
 import { discSummary } from '../lib/discs.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
@@ -61,6 +62,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
               <AgentFrame agent={a} tall passive={passiveFor(passives.byId[a.id])} />
               <span className="slot__gear">
                 <span className={w ? 'gear-chip gear-chip--on' : 'gear-chip'} title={w?.name ?? 'No W-Engine'}>
+                  {w && <WEngineArt w={w} size={20} />}
                   <span className="gear-chip__name">{w ? w.name : 'No W-Engine'}</span>
                   {w && w.signatureOf === a.id && <span className="chip-tag">· Sig</span>}
                 </span>
