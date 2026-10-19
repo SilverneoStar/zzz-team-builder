@@ -7,7 +7,7 @@ import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam } from '../lib/builds.js';
 import { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
-import RankBadge from './RankBadge.jsx';
+import WEngineArt from './WEngineArt.jsx';
 import BangbooArt from './BangbooArt.jsx';
 
 // The Agent page's "Build & teams" tab: the recommended W-Engines, Drive Disc
@@ -30,7 +30,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
           return (
             <li key={id}>
               <a className={`engine-row${i === 0 ? ' engine-row--sig' : ''}`} href={`#w-engine-${id}`}>
-                <RankBadge rank={w.rank} size={18} />
+                <WEngineArt w={w} size={26} />
                 <span className="engine-row__name">{w.name}</span>
                 {w.signatureOf === a.id && <span className="chip-tag">Signature</span>}
               </a>

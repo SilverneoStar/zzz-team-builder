@@ -5832,3 +5832,6 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .bangboo-card__more:hover { color: var(--el, var(--fg)); }
 .bb-stats { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
 a.bangboo-card__more { color: inherit; }
+
+/* W-Engine art (public/w-engines/*.webp), falling back to the rank badge. */
+.engine-art { display: block; object-fit: contain; border-radius: 50%; }

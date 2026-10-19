@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID } from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
-import RankBadge from './RankBadge.jsx';
+import WEngineArt from './WEngineArt.jsx';
 
 const RANKS = ['S', 'A', 'B'];
 const RANK_ORDER = { S: 0, A: 1, B: 2 };
@@ -91,7 +91,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                 }}
               >
                 <div className="arc-card__top">
-                  <RankBadge rank={w.rank} size={22} />
+                  <WEngineArt w={w} size={36} />
                   <h3 className="arc-card__name"><a href={`#w-engine-${w.id}`}>{w.name}</a></h3>
                   {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
                   {w.upcoming && <span className="card__tag">Upcoming</span>}
@@ -125,7 +125,7 @@ function WEngineDetail({ w, onClose }) {
   return (
     <article className="detail detail--compact" aria-labelledby="engine-name">
       <header className="detail__head">
-        <RankBadge rank={w.rank} size={44} />
+        <WEngineArt w={w} size={56} />
         <div className="detail__title">
           <p className="eyebrow">
             <span>{w.rank}-rank · <SpecialtyTag specialty={w.specialty} size={15} /></span>

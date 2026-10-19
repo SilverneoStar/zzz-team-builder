@@ -9,7 +9,7 @@ import { PRESETS } from '../data/presets.js';
 import { PHONE, useMedia } from '../lib/useMedia.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
-import RankBadge from './RankBadge.jsx';
+import WEngineArt from './WEngineArt.jsx';
 import SwipeTabs from './SwipeTabs.jsx';
 import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
@@ -48,7 +48,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
       <h3 className="mini-title">W-Engines</h3>
       {sig ? (
         <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
-          <RankBadge rank={sig.rank} size={20} />
+          <WEngineArt w={sig} size={28} />
           <span className="engine-row__name">{sig.name}</span>
           <span className="chip-tag">Signature</span>
           <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
@@ -61,7 +61,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         {options.map((w) => (
           <li key={w.id}>
             <a className="engine-row" href={`#w-engine-${w.id}`}>
-              <RankBadge rank={w.rank} size={18} />
+              <WEngineArt w={w} size={26} />
               <span className="engine-row__name">{w.name}</span>
               <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : ''}</span>
             </a>
