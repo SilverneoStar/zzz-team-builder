@@ -95,7 +95,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                   <span className="arc-card__icon"><WEngineArt w={w} size={64} /></span>
                   <span className="arc-card__top">
                     <h3 className="arc-card__name">
-                      {w.name}
+                      {w.name}{' '}
                       <RankBadge rank={w.rank} size={16} />
                     </h3>
                     {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
