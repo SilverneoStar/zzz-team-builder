@@ -134,7 +134,13 @@ function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize =
   rankBadge(ctx, a.rank, x + 20, y + h - 20, 14);
   const tx = x + w + 28;
   ctx.fillStyle = K.fg;
-  ctx.font = `800 ${nameSize}px ${DISPLAY}`;
+  // Shrink a long name to fit before cutting it short.
+  let size = nameSize;
+  ctx.font = `800 ${size}px ${DISPLAY}`;
+  while (size > 32 && ctx.measureText(a.name.toUpperCase()).width > nameW) {
+    size -= 2;
+    ctx.font = `800 ${size}px ${DISPLAY}`;
+  }
   ctx.fillText(fit(ctx, a.name.toUpperCase(), nameW), tx, y + nameSize);
   ctx.fillStyle = K.muted;
   ctx.font = `500 18px ${FONT}`;
