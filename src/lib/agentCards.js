@@ -7,6 +7,7 @@ import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, SPECIALT
 import { BUILDS } from '../data/builds.js';
 import { SKILL_COUNT, materialsFor } from '../data/materials.js';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
+import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
 import { passiveStatus } from './analyze.js';
@@ -119,6 +120,14 @@ async function loadEngines(ids, base) {
   return out;
 }
 
+async function loadDiscs(ids, base) {
+  const out = {};
+  await Promise.all([...new Set(ids)].map(async (id) => {
+    if (DISCS_WITH_ART.has(id)) out[id] = await loadImage(`${base}discs/${id}.webp`);
+  }));
+  return out;
+}
+
 /** Agent name block with portrait, used at the top of every card. */
 function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52 } = {}) {
   const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
@@ -152,17 +161,23 @@ function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
   });
 }
 
-function drawSets(ctx, ids, x, y, w, count, gap = 30) {
+function drawSets(ctx, ids, x, y, w, count, gap = 30, discs = {}) {
+  const size = Math.min(gap - 3, 24);
   ids.slice(0, count).forEach((id, i) => {
     const d = DRIVE_DISC_BY_ID[id];
     if (!d) return;
-    ctx.beginPath();
-    ctx.arc(x + 7, y + i * gap - 6, 6, 0, Math.PI * 2);
-    ctx.fillStyle = setColor(id);
-    ctx.fill();
+    const ry = y + i * gap;
+    if (discs[id]) {
+      ctx.drawImage(discs[id], x, ry - 6 - size / 2, size, size);
+    } else {
+      ctx.beginPath();
+      ctx.arc(x + size / 2, ry - 6, 6, 0, Math.PI * 2);
+      ctx.fillStyle = setColor(id);
+      ctx.fill();
+    }
     ctx.fillStyle = i === 0 ? K.fg : K.text;
     ctx.font = `${i === 0 ? 700 : 500} 17px ${FONT}`;
-    ctx.fillText(fit(ctx, d.name, w - 24), x + 24, y + i * gap);
+    ctx.fillText(fit(ctx, d.name, w - size - 10), x + size + 10, ry);
   });
 }
 
@@ -198,6 +213,7 @@ async function drawBuild(ctx, W, H, a, base) {
     return;
   }
   const icons = await loadEngines(b.wEngines.slice(0, 5), base);
+  const discs = await loadDiscs([...b.fourPiece.slice(0, 3), ...b.twoPiece.slice(0, 3)], base);
   const top = 290;
   const ph = 276;
   panel(ctx, 40, top, 400, ph, 'W-Engines', 'best first');
@@ -206,11 +222,11 @@ async function drawBuild(ctx, W, H, a, base) {
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 480, top + 62);
-  drawSets(ctx, b.fourPiece, 480, top + 88, 300, 3, 28);
+  drawSets(ctx, b.fourPiece, 480, top + 88, 300, 3, 28, discs);
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('2-PIECE', 480, top + 182);
-  drawSets(ctx, b.twoPiece, 480, top + 208, 300, 3, 25);
+  drawSets(ctx, b.twoPiece, 480, top + 208, 300, 3, 25, discs);
   panel(ctx, 820, top, 340, ph, 'Main stats');
   drawMains(ctx, b, 840, top + 62, 300);
 
@@ -309,9 +325,10 @@ async function drawGuide(ctx, W, H, a, base) {
   const m = materialsFor(a.id);
   await head(ctx, W, a, base, 'Agent guide');
   const ids = [...new Set((b?.teams ?? []).flat())];
-  const [art, icons, ...rest] = await Promise.all([
+  const [art, icons, discs, ...rest] = await Promise.all([
     loadImage(`${base}agents/${a.id}.webp`),
     loadEngines(b?.wEngines.slice(0, 3) ?? [], base),
+    loadDiscs(b ? [...b.fourPiece.slice(0, 2), ...b.twoPiece.slice(0, 2)] : [], base),
     ...ids.map((id) => loadImage(`${base}agents/${id}.webp`)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
@@ -323,11 +340,11 @@ async function drawGuide(ctx, W, H, a, base) {
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText('4-PIECE', 460, y + 62);
-    drawSets(ctx, b.fourPiece, 460, y + 90, 240, 2);
+    drawSets(ctx, b.fourPiece, 460, y + 90, 240, 2, 30, discs);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText('2-PIECE', 460, y + 160);
-    drawSets(ctx, b.twoPiece, 460, y + 188, 240, 2, 26);
+    drawSets(ctx, b.twoPiece, 460, y + 188, 240, 2, 26, discs);
     drawMains(ctx, b, 730, y + 70, 290);
     y += 270;
     panel(ctx, 40, y, 1000, 66 + Math.min(b.teams.length, 2) * 104, 'Best teams');

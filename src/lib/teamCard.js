@@ -12,6 +12,7 @@ import {
 import { encodeCardCode } from './cardCode.js';
 import { loadoutOf } from './teamsReducer.js';
 import { discBonuses } from './discs.js';
+import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
@@ -207,6 +208,9 @@ function gearOf(team, a) {
     wEngine: w ? `${w.name} · P${lo.refinement}` : '—',
     wEngineRank: w?.rank ?? null,
     wEngineId: w && W_ENGINES_WITH_ART.has(w.id) ? w.id : null,
+    fourId: four?.id ?? null,
+    twoIds: bonus.twos.filter((id) => id !== bonus.four),
+    setIds: [four?.id, ...bonus.twos.filter((id) => id !== bonus.four)].filter(Boolean),
     four: four?.name ?? '—',
     two: twos.join(' + ') || '—',
     discs: [four && `4 ${four.name}`, ...twos.map((n) => `2 ${n}`)].filter(Boolean).join(' + ') || 'No set bonuses',
@@ -239,9 +243,16 @@ async function loadArt(team, base) {
       if (wid && W_ENGINES_WITH_ART.has(wid) && !engines[wid]) engines[wid] = await loadImage(`${base}w-engines/${wid}.webp`);
     }),
   );
+  const discs = {};
+  const setIds = new Set();
+  team.members.forEach((id) => {
+    const a = id && AGENT_BY_ID[id];
+    if (a) gearOf(team, a).setIds.forEach((s) => DISCS_WITH_ART.has(s) && setIds.add(s));
+  });
+  await Promise.all([...setIds].map(async (s) => { discs[s] = await loadImage(`${base}discs/${s}.webp`); }));
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const bArt = b ? await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(b.id) ? b.id : 'placeholder'}.webp`) : null;
-  return { arts, bangboo: b, bArt, engines };
+  return { arts, bangboo: b, bArt, engines, discs };
 }
 
 /** W-Engine icon, scaled to fit a size×size box whose top-left is (x, y). */
@@ -251,6 +262,18 @@ export function engineIcon(ctx, img, x, y, size) {
   const w = img.width * s;
   const h = img.height * s;
   ctx.drawImage(img, x + (size - w) / 2, y + (size - h) / 2, w, h);
+}
+
+/** Drive Disc set art in a row from (x, y top); returns the width used. */
+export function discIcons(ctx, discs, ids, x, y, size, gap = 4) {
+  let w = 0;
+  ids.forEach((id) => {
+    const img = discs[id];
+    if (!img) return;
+    ctx.drawImage(img, x + w, y, size, size);
+    w += size + gap;
+  });
+  return w;
 }
 
 function bangbooLine(ctx, b, bArt, x, y) {
@@ -273,7 +296,7 @@ function bangbooLine(ctx, b, bArt, x, y) {
 
 async function drawColumns(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
   const colW = 352;
   const gap = 22;
   const top = 168;
@@ -324,9 +347,12 @@ async function drawColumns(ctx, W, H, team, base) {
       ctx.fillText(k.toUpperCase(), x + 24, y);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
       if (icon) engineIcon(ctx, icon, x + 118, y - 20, 28);
+      const setIds = k === '4-piece' ? [g.fourId].filter(Boolean) : k === '2-piece' ? g.twoIds : [];
+      const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 120, y - 18, 22) : 0;
+      const ix = icon ? 34 : dw ? dw + 4 : 0;
       ctx.fillStyle = '#e6e6e6';
       ctx.font = `500 16px ${FONT}`;
-      ctx.fillText(fit(ctx, v, colW - 140 - (icon ? 34 : 0)), x + 120 + (icon ? 34 : 0), y);
+      ctx.fillText(fit(ctx, v, colW - 140 - ix), x + 120 + ix, y);
     });
   });
   bangbooLine(ctx, bangboo, bArt, 40, 572);
@@ -335,7 +361,7 @@ async function drawColumns(ctx, W, H, team, base) {
 
 async function drawSquad(ctx, W, H, team, base) {
   await header(ctx, W, team, base, { titleSize: 44 });
-  const { arts, bangboo, bArt, engines } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
   const artH = 266;
@@ -391,9 +417,10 @@ async function drawSquad(ctx, W, H, team, base) {
     ctx.fillStyle = '#e6e6e6';
     ctx.font = `600 15px ${FONT}`;
     ctx.fillText(fit(ctx, g.wEngine, cardW + 20 - ix), x - 10 + ix, gy);
+    const dw = discIcons(ctx, discs, g.setIds, x - 10, gy + 6, 20, 3);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 14px ${FONT}`;
-    ctx.fillText(fit(ctx, g.discs, cardW + 20), x - 10, gy + 21);
+    ctx.fillText(fit(ctx, g.discs, cardW + 20 - (dw ? dw + 3 : 0)), x - 10 + (dw ? dw + 3 : 0), gy + 21);
     ctx.fillStyle = '#8a8a8a';
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mainsShort}`, cardW + 20), x - 10, gy + 42);
@@ -443,7 +470,7 @@ async function drawSquad(ctx, W, H, team, base) {
 
 async function drawSquare(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
   const top = 170;
   const rowH = 238;
   team.members.forEach((id, i) => {
@@ -490,9 +517,11 @@ async function drawSquare(ctx, W, H, team, base) {
       ctx.fillText(k.toUpperCase(), tx, ry);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
       if (icon) engineIcon(ctx, icon, tx + 128, ry - 22, 30);
+      const dw = k === 'Discs' ? discIcons(ctx, discs, g.setIds, tx + 130, ry - 20, 24) : 0;
+      const ix = icon ? 36 : dw ? dw + 4 : 0;
       ctx.fillStyle = '#e6e6e6';
       ctx.font = `500 18px ${FONT}`;
-      ctx.fillText(fit(ctx, v, W - tx - 200 - (icon ? 36 : 0)), tx + 130 + (icon ? 36 : 0), ry);
+      ctx.fillText(fit(ctx, v, W - tx - 200 - ix), tx + 130 + ix, ry);
     });
   });
   bangbooLine(ctx, bangboo, bArt, 40, top + 3 * (rowH + 14) + 30);
