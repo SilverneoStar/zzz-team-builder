@@ -18,6 +18,7 @@ export const W_ENGINES_WITH_ART = new Set([
   'identity-base', 'identity-inflection', 'original-transmorpher', 'bunny-band', 'spring-embrace', 'reel-projector', 'big-cylinder',
   'blazing-laurel', 'slice-of-time', 'unfettered-game-ball', 'reverb-mark-iii', 'reverb-mark-ii', 'reverb-mark-i',
   'chief-sidekick', 'roaring-fur-nace', 'spectral-gaze', 'ice-jade-teapot', 'the-restrained', 'hellfire-gears', 'box-cutter',
+  'precious-fossilized-core', 'six-shooter', 'steam-oven', 'the-simmering-pot', 'vortex-arrow', 'vortex-hatchet', 'vortex-revolver',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
