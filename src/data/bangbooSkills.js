@@ -282,3 +282,57 @@ export function needMet(need, squad, base = (a) => a) {
   if (need.attackType) return squad.some((a) => a.attackType?.includes(need.attackType));
   return null;
 }
+
+// Stats at level 60: [HP, ATK, DEF, CRIT Rate, CRIT DMG].
+export const BANGBOO_STATS = {
+  'agent-gulliver': ['4,210', '8,380', '666', '50.0%', '100.0%'],
+  'amillion': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'ariel': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'avocaboo': ['4,632', '5,825', '781', '5.0%', '50.0%'],
+  'baddieboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'bagboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'bangvolver': ['4,210', '8,057', '781', '50.0%', '100.0%'],
+  'belion': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'biggest-fan': ['5,095', '7,896', '666', '50.0%', '100.0%'],
+  'bild-n-boolok': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'birkblick': ['4,210', '7,896', '666', '50.0%', '100.0%'],
+  'boollseye': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'booltergeist': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'booressure': ['4,632', '5,825', '781', '5.0%', '50.0%'],
+  'brawlerboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'butler': ['5,095', '7,896', '666', '50.0%', '100.0%'],
+  'cryboo': ['3,827', '6,198', '723', '50.0%', '100.0%'],
+  'devilboo': ['3,827', '6,570', '723', '50.0%', '100.0%'],
+  'electroboo': ['3,827', '6,198', '723', '50.0%', '100.0%'],
+  'excaliboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'exploreboo': ['4,632', '6,074', '666', '5.0%', '50.0%'],
+  'knightboo': ['4,632', '5,825', '781', '5.0%', '50.0%'],
+  'luckyboo': ['3,827', '6,198', '781', '50.0%', '100.0%'],
+  'magnetiboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'mercury': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'miss-esme': ['5,094', '7,896', '666', '50.0%', '100.0%'],
+  'officer-cui': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'overtimeboo': ['3,827', '6,570', '781', '50.0%', '100.0%'],
+  'paperboo': ['4,632', '5,825', '781', '50.0%', '100.0%'],
+  'penguinboo': ['3,827', '6,198', '723', '50.0%', '100.0%'],
+  'plugboo': ['4,210', '8,057', '723', '50.0%', '100.0%'],
+  'red-moccus': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'resonaboo': ['4,210', '8,057', '723', '50.0%', '100.0%'],
+  'robin': ['4,210', '8,621', '666', '50.0%', '100.0%'],
+  'rocketboo': ['4,210', '8,541', '723', '50.0%', '100.0%'],
+  'safety': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'sharkboo': ['4,210', '8,057', '723', '50.0%', '100.0%'],
+  'snap': ['4,210', '8,380', '666', '50.0%', '100.0%'],
+  'sprout': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+  'sumoboo': ['3,827', '5,825', '781', '50.0%', '100.0%'],
+  'ultra-jake': ['4,210', '8,863', '666', '50.0%', '100.0%'],
+};
+
+// What it takes to raise any Bangboo to level 60 (the same for every one),
+// and where it drops.
+export const BANGBOO_MATS = [
+  { name: 'Ether Electrolyte', qty: 4, source: 'Hollow Zero, Convenience Store', kind: 'seal' },
+  { name: 'Energy Transfer Fluid', qty: 32, source: 'Hollow Zero, Convenience Store, crafting', kind: 'seal' },
+  { name: 'Concentrated Cooling Fluid', qty: 30, source: 'Hollow Zero, Convenience Store, Bangbuck Exchange, crafting', kind: 'seal' },
+  { name: 'Denny', qty: 500000, source: 'Commissions, Combat Simulation, Random Play', kind: 'denny' },
+];

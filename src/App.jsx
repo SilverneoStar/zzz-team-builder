@@ -117,7 +117,7 @@ export default function App() {
       {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
       {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
       {route.view === 'bangboo' && (
-        <BangbooPage activeTeam={active} onPick={(id) => dispatch({ type: 'setBangboo', id })} />
+        <BangbooPage bangbooId={route.bangbooId} activeTeam={active} onPick={(id) => dispatch({ type: 'setBangboo', id })} />
       )}
       {route.view === 'glossary' && <GlossaryPage />}
 

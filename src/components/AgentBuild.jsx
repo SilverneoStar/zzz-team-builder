@@ -128,10 +128,10 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
           <ul className="mini-agents">
             {bangboo.map((x) => (
               <li key={x.id}>
-                <span className="mini-agent">
+                <a className="mini-agent" href={`#bangboo-${x.id}`} title={x.name}>
                   <BangbooArt id={x.id} size={24} />
                   <span>{x.name}</span>
-                </span>
+                </a>
               </li>
             ))}
           </ul>
