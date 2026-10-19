@@ -35,6 +35,9 @@ export const AGENT_MATS = {
   'lighter': ["Stun", "Burn", "Crimson Awe", "Scarlet Engine"],
   'lucia-elowen': ["Support", "Ether", "Corrupted Dreamsteel", "Crimson Miasma Spike"],
   'luciana-de-montefio': ["Support", "Burn", "Steel Malice", "Ferocious Grip"],
+  // Not released: seal and chip follow Anomaly and Fire; the Expert Challenge and
+  // Notorious Hunt drops are copied from Burnice White (the other Fire Anomaly) as an estimate.
+  'phoenix-reffaella': ["Anomaly", "Burn", "Stealth Phantom", "Scarlet Engine"],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],
@@ -116,6 +119,9 @@ export const HUNT = {
   'Crimson Miasma Spike': 'Wandering Hunter',
 };
 
+// Agents whose Core Skill drops are estimates until release.
+export const ESTIMATED_MATS = new Set(['phoenix-reffaella']);
+
 export const SKILL_COUNT = 5; // Basic, Dodge, Assist, Special and Chain Attack
 
 /**
@@ -157,5 +163,5 @@ export function materialsFor(id) {
 /** Other Agents who farm the same Expert Challenge or Notorious Hunt drop. */
 export function sharedWith(id, index) {
   const mine = AGENT_MATS[id]?.[index];
-  return Object.keys(AGENT_MATS).filter((o) => o !== id && AGENT_MATS[o][index] === mine);
+  return Object.keys(AGENT_MATS).filter((o) => o !== id && !ESTIMATED_MATS.has(o) && AGENT_MATS[o][index] === mine);
 }

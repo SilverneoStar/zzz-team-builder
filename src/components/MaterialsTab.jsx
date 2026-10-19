@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AGENT_BY_ID, shortName } from '../data/game.js';
-import { SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
+import { ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
 import Portrait from './Portrait.jsx';
 
 const fmt = (n) => n.toLocaleString('en');
@@ -56,6 +56,11 @@ export default function MaterialsTab({ agent: a }) {
       </Group>
 
       <Group title="Core Skill" note="Base → F" items={m.core}>
+        {ESTIMATED_MATS.has(a.id) && (
+          <p className="muted small mats__foot">
+            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow Anomaly and Fire Agents; the Core Skill drops are copied from Burnice White until they’re confirmed.
+          </p>
+        )}
         <Shared label="Same Expert Challenge" ids={sharedWith(a.id, 2)} />
         <Shared label="Same Notorious Hunt" ids={sharedWith(a.id, 3)} />
       </Group>
