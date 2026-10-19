@@ -7,6 +7,8 @@ export const DISCS_WITH_ART = new Set([
   'white-water-ballad', 'thunder-metal', 'thorned-rose', 'the-sky-ablaze',
   'soul-rock', 'swing-jazz', 'shockstar-disco', 'shining-aria', 'shadow-harmony',
   'puffer-electro', 'proto-punk', 'phaethons-melody', 'polar-metal', 'notes-from-the-chained',
+  'moonlight-lullaby', 'king-of-the-summit', 'inferno-metal', 'hormone-punk', 'feathered-fate', 'fanged-metal',
+  'dawns-bloom', 'chaotic-metal', 'chaos-jazz', 'bunny-in-wonderland', 'branch-and-blade-song', 'astral-voice',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const discArt = (id) => (id && DISCS_WITH_ART.has(id) ? `${BASE}discs/${id}.webp` : null);
