@@ -5988,118 +5988,96 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .arc-card__top--disc .bonus__dot { display: none; }
 
 /* ---- Drive Discs grid: each set on a little turntable ---- */
+.filters--page .select > span { white-space: nowrap; }
 .vinyl-grid {
   list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 16px;
+  display: grid; gap: 14px;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
-  grid-auto-flow: row dense;
 }
-.vinyl {
-  display: grid; grid-template-rows: auto 1fr; min-width: 0;
-  border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-  background: var(--surface);
+.vinyl { min-width: 0; }
+.vinyl__link {
+  display: grid; height: 100%; color: inherit; text-decoration: none;
+  border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface);
+  transition: border-color 0.15s, transform 0.15s;
 }
-.vinyl[aria-current='true'] { border-color: var(--fg); }
-.vinyl__deck {
+.vinyl__link:hover { border-color: var(--fg); }
+.vinyl__link[aria-current='page'] { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
+.vinyl__link:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.vinyl__link .deck { border-bottom: 1px solid var(--line); }
+.vinyl__name { padding: 10px 12px 12px; font: 700 0.95rem var(--font-body); overflow-wrap: anywhere; }
+
+/* The turntable itself. */
+.deck {
   position: relative; display: block; width: 100%; aspect-ratio: 1 / 0.86;
-  padding: 0; border: 0; cursor: pointer; color: inherit;
-  /* Plinth: brushed dark metal with a soft top light. */
   background:
     radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.08), transparent 60%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 4px),
     linear-gradient(180deg, #2a2a2a, #161616);
-  border-bottom: 1px solid var(--line);
 }
-.vinyl__deck:focus-visible { outline: 2px solid var(--fg); outline-offset: -4px; }
-.vinyl__platter {
+.deck__platter {
   position: absolute; left: 44%; top: 50%; width: 76%; aspect-ratio: 1;
   transform: translate(-50%, -50%); border-radius: 50%;
   background: radial-gradient(circle, #3a3a3a 0 62%, #222 63% 100%);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 0 0 2px #444;
 }
-.vinyl__record {
+.deck__record {
   position: absolute; inset: 3%; border-radius: 50%; overflow: hidden;
   background: repeating-radial-gradient(circle, #0d0d0d 0 1px, #1b1b1b 1px 3px);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
-.vinyl__record img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* Grooves and a moving sheen over the art. */
-.vinyl__record::after {
+.deck__record img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.deck__record::after {
   content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
   background:
     conic-gradient(from 30deg, transparent 0 12%, rgba(255, 255, 255, 0.14) 16%, transparent 22% 62%, rgba(255, 255, 255, 0.1) 66%, transparent 72%),
     repeating-radial-gradient(circle, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
   mix-blend-mode: screen;
 }
-.vinyl__spindle {
+.deck__spindle {
   position: absolute; left: 50%; top: 50%; width: 5%; aspect-ratio: 1; border-radius: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at 35% 35%, #fafafa, #8a8a8a 60%, #444);
 }
-.vinyl.is-playing .vinyl__record { animation: vinyl-spin 3.2s linear infinite; }
-@keyframes vinyl-spin { to { transform: rotate(360deg); } }
-
-/* Tonearm: pivots at the top right; rests beside the record, swings on when playing. */
-.vinyl__pivot {
+.deck__pivot {
   position: absolute; left: 88%; top: 13%; width: 12%; aspect-ratio: 1; border-radius: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at 35% 35%, #f0f0f0, #9a9a9a 55%, #555);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
 }
-.vinyl__arm {
+.deck__arm {
   position: absolute; left: 88%; top: 13%; width: 3.2%; height: 62%;
   transform-origin: 50% 0; transform: translateX(-50%) rotate(3deg);
-  transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1);
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.5));
 }
-.vinyl__rod { position: absolute; inset: 0; border-radius: 4px; background: linear-gradient(90deg, #8d8d8d, #e9e9e9 45%, #9a9a9a); }
-/* Headshell at the end of the arm. */
-.vinyl__rod::after {
+.deck__rod { position: absolute; inset: 0; border-radius: 4px; background: linear-gradient(90deg, #8d8d8d, #e9e9e9 45%, #9a9a9a); }
+.deck__rod::after {
   content: ''; position: absolute; left: 50%; bottom: -8%; width: 260%; height: 14%;
   transform: translateX(-50%) rotate(-18deg); border-radius: 3px;
   background: linear-gradient(180deg, #d9d9d9, #7d7d7d);
 }
-.vinyl.is-playing .vinyl__arm { transform: translateX(-50%) rotate(24deg); }
-.vinyl__led {
+.deck__led {
   position: absolute; left: 7%; bottom: 8%; width: 3.2%; aspect-ratio: 1; border-radius: 50%;
   background: #4a2a2a; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
-.vinyl.is-playing .vinyl__led { background: #ff4d3d; box-shadow: 0 0 8px #ff4d3d; }
-.vinyl__deck:hover .vinyl__arm { transform: translateX(-50%) rotate(7deg); }
-.vinyl.is-playing .vinyl__deck:hover .vinyl__arm { transform: translateX(-50%) rotate(24deg); }
-
-.vinyl__label { display: grid; align-content: start; gap: 6px; padding: 12px 14px 14px; min-width: 0; }
-.vinyl__name { margin: 0; font: 700 1.02rem var(--font-body); overflow-wrap: anywhere; }
-.vinyl__line { margin: 0; font-size: 0.86rem; display: flex; gap: 8px; align-items: baseline; }
-.vinyl__line--four { animation: vinyl-in 0.3s ease; }
-.vinyl__tag {
-  flex: none; font: 700 0.7rem var(--font-mono); padding: 1px 6px; border-radius: 4px;
-  border: 1px solid var(--line); color: var(--muted);
-}
-.vinyl__hint { margin: 0; }
-@keyframes vinyl-in { from { opacity: 0; transform: translateY(-3px); } }
+/* Playing (the set's own page): the arm drops onto the record and it spins. */
+.deck.is-playing .deck__arm { animation: deck-arm 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) 0.1s both; }
+.deck.is-playing .deck__record { animation: deck-spin 3.2s linear 0.8s infinite; }
+.deck.is-playing .deck__led { background: #ff4d3d; box-shadow: 0 0 8px #ff4d3d; }
+@keyframes deck-arm { from { transform: translateX(-50%) rotate(3deg); } to { transform: translateX(-50%) rotate(24deg); } }
+@keyframes deck-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
-  .vinyl.is-playing .vinyl__record, .vinyl__line--four { animation: none; }
-  .vinyl__arm { transition: none; }
+  .deck.is-playing .deck__record { animation: none; }
+  .deck.is-playing .deck__arm { animation: none; transform: translateX(-50%) rotate(24deg); }
 }
-.filters--page .select > span { white-space: nowrap; }
+
+/* A set's own page. */
+.disc-detail__head { align-items: center; }
+.disc-detail__head .deck { width: clamp(150px, 30vw, 260px); flex: none; border-radius: 12px; overflow: hidden; }
+.disc-detail__body { display: grid; gap: 18px; }
+@media (min-width: 760px) {
+  .disc-detail__body { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; }
+}
 @media (max-width: 480px) {
   .vinyl-grid { gap: 10px; }
-  .vinyl__label { padding: 10px 10px 12px; }
-  .vinyl__name { font-size: 0.92rem; }
-  .vinyl__line { font-size: 0.8rem; gap: 6px; }
-}
-/* A playing record takes the whole row, deck beside its bonuses, so long
-   4-piece text doesn't stretch its neighbours. */
-.vinyl.is-playing {
-  grid-column: 1 / -1;
-  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-  grid-template-rows: auto;
-}
-.vinyl.is-playing .vinyl__deck { border-bottom: 0; border-right: 1px solid var(--line); height: 100%; min-height: 0; }
-.vinyl.is-playing .vinyl__label { align-content: center; padding: 16px 20px; }
-@media (max-width: 480px) {
-  .vinyl.is-playing { grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr); }
-  .vinyl.is-playing .vinyl__deck { aspect-ratio: 1 / 1.05; height: auto; align-self: start; }
-  .vinyl.is-playing .vinyl__label { padding: 10px 12px; }
+  .vinyl__name { padding: 8px 10px 10px; font-size: 0.88rem; }
+  .disc-detail__head .deck { width: 128px; }
 }

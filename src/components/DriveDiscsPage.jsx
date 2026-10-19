@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import DiscArt, { discArt } from './DiscArt.jsx';
 import ViewToggle from './ViewToggle.jsx';
-import { AGENT_BY_ID, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
+import Portrait from './Portrait.jsx';
+import { navigate } from '../lib/route.js';
+import { AGENT_BY_ID, DRIVE_DISC_BY_ID, shortName, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 
 const VIEW_KEY = 'zzz-team-builder:discView';
@@ -31,7 +33,6 @@ export default function DriveDiscsPage({ discId }) {
   const [stat, setStat] = useState('all');
   const [usedBy, setUsedBy] = useState('all');
   const [view, setView] = useState(loadView);
-  const [playing, setPlaying] = useState(discId ?? null);
 
   useEffect(() => {
     try {
@@ -40,9 +41,6 @@ export default function DriveDiscsPage({ discId }) {
       /* storage unavailable */
     }
   }, [view]);
-  useEffect(() => {
-    if (discId) setPlaying(discId);
-  }, [discId]);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -53,6 +51,7 @@ export default function DriveDiscsPage({ discId }) {
       return true;
     });
   }, [query, stat, usedBy]);
+  const selected = discId ? DRIVE_DISC_BY_ID[discId] : null;
 
   return (
     <div className="page">
@@ -83,6 +82,8 @@ export default function DriveDiscsPage({ discId }) {
         </div>
       </section>
 
+      {selected && <DiscDetail disc={selected} onClose={() => navigate('drive-discs')} />}
+
       <div className="filters filters--page filters--row">
         <label className="sr-only" htmlFor="disc-search">Search sets</label>
         <input id="disc-search" className="search search--inline" type="search" placeholder="Search name or bonus" value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -107,42 +108,14 @@ export default function DriveDiscsPage({ discId }) {
         <p className="empty">No sets match these filters.</p>
       ) : view === 'grid' ? (
         <ul className="vinyl-grid">
-          {list.map((d) => {
-            const on = playing === d.id;
-            const art = discArt(d.id);
-            return (
-              <li key={d.id} id={`disc-${d.id}`} className={`vinyl${on ? ' is-playing' : ''}`} aria-current={d.id === discId ? 'true' : undefined}>
-                <button
-                  type="button"
-                  className="vinyl__deck"
-                  aria-pressed={on}
-                  aria-label={`${d.name}: ${on ? 'hide' : 'show'} the 4-piece bonus`}
-                  onClick={() => setPlaying(on ? null : d.id)}
-                >
-                  <span className="vinyl__platter">
-                    <span className="vinyl__record">
-                      {art && <img src={art} alt="" loading="lazy" />}
-                    </span>
-                    <span className="vinyl__spindle" />
-                  </span>
-                  <span className="vinyl__arm" aria-hidden="true">
-                    <span className="vinyl__rod" />
-                  </span>
-                  <span className="vinyl__pivot" aria-hidden="true" />
-                  <span className="vinyl__led" aria-hidden="true" />
-                </button>
-                <div className="vinyl__label">
-                  <h3 className="vinyl__name">{d.name}</h3>
-                  <p className="vinyl__line"><span className="vinyl__tag">2</span>{d.twoPiece}</p>
-                  {on ? (
-                    <p className="vinyl__line vinyl__line--four"><span className="vinyl__tag">4</span>{d.fourPiece}</p>
-                  ) : (
-                    <p className="vinyl__hint muted small">Tap the record to play its 4-piece bonus.</p>
-                  )}
-                </div>
-              </li>
-            );
-          })}
+          {list.map((d) => (
+            <li key={d.id} id={`disc-${d.id}`} className="vinyl">
+              <a className="vinyl__link" href={`#drive-disc-${d.id}`} aria-current={d.id === discId ? 'page' : undefined}>
+                <Turntable id={d.id} />
+                <span className="vinyl__name">{d.name}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       ) : (
         <ul className="arc-grid">
@@ -161,5 +134,80 @@ export default function DriveDiscsPage({ discId }) {
         </ul>
       )}
     </div>
+  );
+}
+
+/** A turntable with the set's record on it; spins with the arm down when playing. */
+function Turntable({ id, playing = false }) {
+  const art = discArt(id);
+  return (
+    <span className={`deck${playing ? ' is-playing' : ''}`} aria-hidden="true">
+      <span className="deck__platter">
+        <span className="deck__record">{art && <img src={art} alt="" loading="lazy" />}</span>
+        <span className="deck__spindle" />
+      </span>
+      <span className="deck__arm"><span className="deck__rod" /></span>
+      <span className="deck__pivot" />
+      <span className="deck__led" />
+    </span>
+  );
+}
+
+// Agents whose recommended builds use this set, as their 4-piece or 2-piece.
+const usersOf = (id, key) => Object.keys(BUILDS).filter((a) => AGENT_BY_ID[a] && BUILDS[a][key].includes(id));
+
+function AgentRow({ ids }) {
+  return (
+    <ul className="mini-agents">
+      {ids.map((id) => {
+        const a = AGENT_BY_ID[id];
+        return (
+          <li key={id}>
+            <a href={`#agent-${id}`} className="mini-agent" title={a.name}>
+              <Portrait agent={a} size="sm" />
+              <span>{shortName(a)}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+// One set's page: its record playing on the deck, both bonuses, and the
+// Agents whose recommended builds use it.
+function DiscDetail({ disc: d, onClose }) {
+  const four = usersOf(d.id, 'fourPiece');
+  const two = usersOf(d.id, 'twoPiece').filter((a) => !four.includes(a));
+  return (
+    <article className="detail disc-detail" aria-labelledby="disc-name">
+      <header className="detail__head disc-detail__head">
+        <Turntable key={d.id} id={d.id} playing />
+        <div className="detail__title">
+          <p className="eyebrow"><span className="eyebrow__meta">Drive Disc set</span></p>
+          <h2 id="disc-name" className="detail__name">{d.name}</h2>
+        </div>
+        <div className="detail__head-actions">
+          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">×</button>
+        </div>
+      </header>
+      <div className="disc-detail__body">
+        <dl className="disc-bonus">
+          <div><dt>2-piece</dt><dd>{d.twoPiece}</dd></div>
+          <div><dt>4-piece</dt><dd>{d.fourPiece}</dd></div>
+        </dl>
+        <section className="mates">
+          <h3 className="mini-title">Used by</h3>
+          {four.length + two.length === 0 ? (
+            <p className="muted small">No Agent’s recommended build uses {d.name} yet.</p>
+          ) : (
+            <>
+              {four.length > 0 && (<><p className="muted small">As their 4-piece set</p><AgentRow ids={four} /></>)}
+              {two.length > 0 && (<><p className="muted small">As a 2-piece set</p><AgentRow ids={two} /></>)}
+            </>
+          )}
+        </section>
+      </div>
+    </article>
   );
 }
