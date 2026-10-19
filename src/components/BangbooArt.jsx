@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
-// Bangboo with a picture in public/bangboo/<id>.webp. Add an id here when
-// adding its image; the rest show the plain Bangboo mark.
+// Bangboo with a picture in public/bangboo/<id>.webp (every Bangboo has one).
+// Add an id here when adding a new Bangboo's image; others show the plain mark.
 export const BANGBOO_WITH_ART = new Set([
   'agent-gulliver', 'amillion', 'ariel', 'avocaboo', 'baddieboo', 'bagboo', 'bangvolver',
   'belion', 'biggest-fan', 'bild-n-boolok', 'birkblick', 'boollseye', 'booltergeist',
-  'booressure', 'butler', 'cryboo', 'devilboo', 'electroboo', 'excaliboo', 'exploreboo',
-  'knightboo', 'luckyboo', 'magnetiboo', 'mercury', 'miss-esme', 'officer-cui', 'overtimeboo',
-  'paperboo', 'penguinboo', 'plugboo', 'red-moccus', 'resonaboo', 'rocketboo', 'safety',
-  'sharkboo', 'snap', 'sprout', 'ultra-jake',
+  'booressure', 'brawlerboo', 'butler', 'cryboo', 'devilboo', 'electroboo', 'excaliboo',
+  'exploreboo', 'knightboo', 'luckyboo', 'magnetiboo', 'mercury', 'miss-esme', 'officer-cui',
+  'overtimeboo', 'paperboo', 'penguinboo', 'plugboo', 'red-moccus', 'resonaboo', 'robin',
+  'rocketboo', 'safety', 'sharkboo', 'snap', 'sprout', 'sumoboo', 'ultra-jake',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const bangbooArt = (id) => (BANGBOO_WITH_ART.has(id) ? `${BASE}bangboo/${id}.webp` : null);
