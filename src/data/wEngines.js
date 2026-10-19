@@ -102,6 +102,6 @@ export const W_ENGINES = [
   {"id": "crimson-thirst", "name": "Crimson Thirst", "rank": "S", "specialty": "armorer", "version": "3.2", "signatureOf": "claret-flint", "base": {"stat": "DEF", "lv1": 29, "max": 431}, "advanced": {"stat": "DEF", "lv1": "19.2%", "max": "48%"}},
   {"id": "crimson-moon-casket", "name": "Crimson Moon Casket", "rank": "S", "specialty": "stun", "version": "3.2", "signatureOf": "roxy-ifrita-pryce"},
   {"id": "candlelit-scheme", "name": "Candlelit Scheme", "rank": "A", "specialty": "armorer", "version": "3.3", "upcoming": true},
-  {"id": "incarcerating-grip", "name": "Incarcerating Grip", "rank": "S", "specialty": "attack", "version": "3.3", "signatureOf": "severian-lowell", "upcoming": true},
-  {"id": "plume-of-rebirth", "name": "Plume of Rebirth", "rank": "S", "specialty": "anomaly", "version": "3.3", "signatureOf": "phoenix-reffaella", "upcoming": true},
+  {"id": "sin-ban-cage", "name": "Sin-Ban Cage", "rank": "S", "specialty": "attack", "version": "3.3", "signatureOf": "severian-lowell", "upcoming": true},
+  {"id": "nirvana-s-first-plume", "name": "Nirvana's First Plume", "rank": "S", "specialty": "anomaly", "version": "3.3", "signatureOf": "phoenix-reffaella", "upcoming": true},
 ];

@@ -51,6 +51,7 @@ src/
 public/
   agents/        Agent portraits (official art, see NOTICE.md)
   bangboo/       Bangboo art (official art, see NOTICE.md)
+  w-engines/     W-Engine icons (official art, see NOTICE.md)
 ```
 
 Game data lives in `src/data` and game rules in `src/lib`, independent of the UI. Game data is compiled from the sources listed under [Sources](#sources) and covers released content plus officially announced Agents only.
@@ -69,7 +70,7 @@ All game information is factual data about released content (plus officially ann
 | Build and Best teams tabs: W-Engine, Drive Disc, stat and team picks | [Icy Veins](https://www.icy-veins.com/zenless-zone-zero/) build and team guides |
 | Agent roles and in-combat stat targets | Community [ZZZ Agent Build Guide](https://docs.google.com/spreadsheets/d/e/2PACX-1vTj2PaPq6Py_1B5fsOPj_Moc-tN_7mut7fICczI6lz1njyEIAInTnfB7lAraX4pYCRGNbaHGlIbFZ90/pubhtml) (Google Sheets) |
 | Upcoming Agents (teams, expected style) | HoYoverse's official reveals and livestreams; estimates are marked on the site |
-| Agent portraits, Bangboo art, attribute and specialty icons | Official game art © HoYoverse |
+| Agent portraits, Bangboo art, W-Engine icons, attribute and specialty icons | Official game art © HoYoverse |
 
 Data was last compiled in October 2026 and may lag behind new patches. Corrections are welcome through [issues](https://github.com/SilverneoStar/zzz-team-builder/issues). See [NOTICE.md](NOTICE.md) for full attribution.
 
