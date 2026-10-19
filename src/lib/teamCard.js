@@ -231,7 +231,53 @@ const SHORT_STAT = {
   'Attribute DMG': 'Elem DMG',
 };
 
-const agentLine = (a) => `${a.rank}-Rank · ${ATTRIBUTE_BY_ID[a.attribute]?.name} · ${SPECIALTY_BY_ID[a.specialty]?.name}`;
+
+// Attribute and specialty icons (public/attributes, public/specialties).
+// Variant attributes (Frost, Honed Edge, Auric Ink) use their base icon.
+const ATTR_ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux']);
+const attrIconId = (id) => (ATTR_ICONS.has(id) ? id : ATTR_ICONS.has(ATTRIBUTE_BY_ID[id]?.base) ? ATTRIBUTE_BY_ID[id].base : null);
+
+/** Loads the attribute and specialty icons the given Agents need. */
+export async function loadRoleIcons(base, agents) {
+  const attr = {};
+  const spec = {};
+  await Promise.all(
+    agents.filter(Boolean).flatMap((a) => [
+      (async () => {
+        const id = attrIconId(a.attribute);
+        if (id && !(id in attr)) attr[id] = await loadImage(`${base}attributes/${id}.png`);
+      })(),
+      (async () => {
+        if (a.specialty && !(a.specialty in spec)) spec[a.specialty] = await loadImage(`${base}specialties/${a.specialty}.png`);
+      })(),
+    ]),
+  );
+  return { attr, spec };
+}
+
+/**
+ * "[icon] Electric · [icon] Stun · S-Rank" at (x, baseline y), in the current
+ * font and fill. Returns the width drawn.
+ */
+export function roleLine(ctx, a, icons, x, y, size, { rank = true } = {}) {
+  let cx = x;
+  const icon = (img) => {
+    if (!img) return;
+    ctx.drawImage(img, cx, y - size * 0.82, size, size);
+    cx += size + 5;
+  };
+  const text = (t) => {
+    ctx.fillText(t, cx, y);
+    cx += ctx.measureText(t).width;
+  };
+  icon(icons?.attr[attrIconId(a.attribute)]);
+  text(ATTRIBUTE_BY_ID[a.attribute]?.name ?? '');
+  text('  ·  ');
+  icon(icons?.spec[a.specialty]);
+  text(SPECIALTY_BY_ID[a.specialty]?.name ?? '');
+  if (rank && a.rank) text(`  ·  ${a.rank}-Rank`);
+  return cx - x;
+}
 
 async function loadArt(team, base) {
   const arts = await Promise.all(team.members.map((id) => (id ? loadImage(`${base}agents/${id}.webp`) : null)));
@@ -252,7 +298,8 @@ async function loadArt(team, base) {
   await Promise.all([...setIds].map(async (s) => { discs[s] = await loadImage(`${base}discs/${s}.webp`); }));
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const bArt = b ? await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(b.id) ? b.id : 'placeholder'}.webp`) : null;
-  return { arts, bangboo: b, bArt, engines, discs };
+  const roles = await loadRoleIcons(base, team.members.map((id) => id && AGENT_BY_ID[id]));
+  return { arts, bangboo: b, bArt, engines, discs, roles };
 }
 
 /** W-Engine icon, scaled to fit a size×size box whose top-left is (x, y). */
@@ -296,7 +343,7 @@ function bangbooLine(ctx, b, bArt, x, y) {
 
 async function drawColumns(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
   const colW = 352;
   const gap = 22;
   const top = 168;
@@ -328,7 +375,7 @@ async function drawColumns(ctx, W, H, team, base) {
     ctx.fillText(fit(ctx, a.name, colW - 140), x + 122, top + 62);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 15px ${FONT}`;
-    ctx.fillText(agentLine(a), x + 120, top + 88);
+    roleLine(ctx, a, roles, x + 120, top + 88, 18, { rank: false });
 
     const g = gearOf(team, a);
     const rows = [
@@ -361,7 +408,7 @@ async function drawColumns(ctx, W, H, team, base) {
 
 async function drawSquad(ctx, W, H, team, base) {
   await header(ctx, W, team, base, { titleSize: 44 });
-  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
   const artH = 266;
@@ -405,7 +452,7 @@ async function drawSquad(ctx, W, H, team, base) {
     ctx.fillText(fit(ctx, shortName(a), cardW - 40), sx, fy);
     ctx.fillStyle = '#cfcfcf';
     ctx.font = `800 15px ${FONT}`;
-    ctx.fillText(`${SPECIALTY_BY_ID[a.specialty]?.name} · ${ATTRIBUTE_BY_ID[a.attribute]?.name}`, sx, fy + 24);
+    roleLine(ctx, a, roles, sx, fy + 24, 17, { rank: false });
     ctx.restore();
 
     // Gear under the card.
@@ -470,7 +517,7 @@ async function drawSquad(ctx, W, H, team, base) {
 
 async function drawSquare(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines, discs } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
   const top = 170;
   const rowH = 238;
   team.members.forEach((id, i) => {
@@ -501,7 +548,7 @@ async function drawSquare(ctx, W, H, team, base) {
     ctx.fillText(fit(ctx, a.name, W - tx - 70), tx, y + 52);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 17px ${FONT}`;
-    ctx.fillText(agentLine(a), tx, y + 82);
+    roleLine(ctx, a, roles, tx, y + 82, 20);
 
     const g = gearOf(team, a);
     const rows = [

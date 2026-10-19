@@ -10,9 +10,8 @@ import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
-import { kitLinks, passiveStatus } from './analyze.js';
 import { STAT_TARGETS } from '../data/statTargets.js';
-import { DISPLAY, FONT, MONO, background, fit, loadImage, rankBadge, roundRect, slantedArt } from './teamCard.js';
+import { DISPLAY, FONT, MONO, background, fit, loadImage, loadRoleIcons, rankBadge, roleLine, roundRect, slantedArt } from './teamCard.js';
 
 export const AGENT_CARDS = [
   { id: 'build', label: 'Build', hint: '16:9' },
@@ -111,7 +110,6 @@ function foot(ctx, W, H) {
   ctx.textAlign = 'left';
 }
 
-const agentLine = (a) => `${a.rank}-Rank · ${ATTRIBUTE_BY_ID[a.attribute]?.name} · ${SPECIALTY_BY_ID[a.specialty]?.name}`;
 
 async function loadEngines(ids, base) {
   const out = {};
@@ -130,7 +128,7 @@ async function loadDiscs(ids, base) {
 }
 
 /** Agent name block with portrait, used at the top of every card. */
-function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52, nameW = 760 } = {}) {
+function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52, nameW = 760, roles = null } = {}) {
   const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
   slantedArt(ctx, { x, y, w, h, lean, art, agent: a, color, radius: 10 });
   rankBadge(ctx, a.rank, x + 20, y + h - 20, 14);
@@ -140,7 +138,7 @@ function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize =
   ctx.fillText(fit(ctx, a.name.toUpperCase(), nameW), tx, y + nameSize);
   ctx.fillStyle = K.muted;
   ctx.font = `500 18px ${FONT}`;
-  ctx.fillText(agentLine(a), tx, y + nameSize + 30);
+  roleLine(ctx, a, roles, tx, y + nameSize + 30, 22);
   return { tx, ty: y + nameSize + 30, color };
 }
 
@@ -240,7 +238,7 @@ async function drawBuild(ctx, W, H, a, base) {
   const b = BUILDS[a.id];
   await head(ctx, W, a, base, 'Build card');
   const art = await loadImage(`${base}agents/${a.id}.webp`);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160 });
+  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160, roles: await loadRoleIcons(base, [a]) });
   if (!b) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -316,7 +314,7 @@ async function drawFarm(ctx, W, H, a, base) {
   const m = materialsFor(a.id);
   await head(ctx, W, a, base, 'Farming card');
   const art = await loadImage(`${base}agents/${a.id}.webp`);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46 });
+  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, roles: await loadRoleIcons(base, [a]) });
   if (!m) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -349,19 +347,6 @@ function teamRow(ctx, members, arts, x, y, w, current) {
     ctx.fillText(fit(ctx, shortName(m), 124), cx, y + 84);
     ctx.textAlign = 'left';
   });
-  const st = passiveStatus(members);
-  // Specialties in the team and what links the kit, beside the portraits.
-  const tx = x + 470;
-  ctx.fillStyle = K.dim;
-  ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('ROLES', tx, y + 22);
-  ctx.fillStyle = K.text;
-  ctx.font = `500 16px ${FONT}`;
-  ctx.fillText(fit(ctx, members.map((id) => SPECIALTY_BY_ID[AGENT_BY_ID[id]?.specialty]?.name ?? '—').join(' · '), w - 490), tx, y + 46);
-  let px = tx;
-  [`Abilities ${st.active}/${st.total}`, ...kitLinks(members).map((k) => k.name)].slice(0, 4).forEach((label) => {
-    px += pill(ctx, label, px, y + 58, { h: 26, size: 13 }) + 8;
-  });
 }
 
 async function drawGuide(ctx, W, H, a, base) {
@@ -376,7 +361,7 @@ async function drawGuide(ctx, W, H, a, base) {
     ...ids.map((id) => loadImage(`${base}agents/${id}.webp`)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
-  agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52, nameW: W - 234 - 160 });
+  agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52, nameW: W - 234 - 160, roles: await loadRoleIcons(base, [a]) });
   infoBlock(ctx, a, 234, 206, 760, 2);
   let y = 322;
   if (b) {
@@ -392,9 +377,18 @@ async function drawGuide(ctx, W, H, a, base) {
     drawSets(ctx, b.twoPiece, 452, y + 204, 250, 2, 34, discs);
     drawMains(ctx, b, 724, y + 70, 296);
     y += 298;
-    const tn = Math.min(b.teams.length, 2);
+    // Up to four teams, two per row.
+    const teams = b.teams.slice(0, 4);
+    const tn = Math.ceil(teams.length / 2);
     panel(ctx, 40, y, 1000, 60 + tn * 100, 'Best teams');
-    b.teams.slice(0, 2).forEach((t, i) => teamRow(ctx, t, arts, 56, y + 44 + i * 100, 984, a.id));
+    teams.forEach((t, i) => teamRow(ctx, t, arts, 56 + (i % 2) * 500, y + 44 + Math.floor(i / 2) * 100, 470, a.id));
+    if (teams.length > 1) {
+      ctx.strokeStyle = K.line;
+      ctx.beginPath();
+      ctx.moveTo(540, y + 50);
+      ctx.lineTo(540, y + 40 + tn * 100);
+      ctx.stroke();
+    }
     y += 60 + tn * 100 + 18;
     const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
     if (bg) {
