@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { UPCOMING } from '../data/upcoming.js';
 import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
 import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam } from '../lib/builds.js';
@@ -83,6 +84,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
 
 export function AgentTeams({ agent: a, onLoadTeam }) {
   const b = BUILDS[a.id];
+  if (!b && UPCOMING[a.id]?.teams) return <UpcomingTeams agent={a} onLoadTeam={onLoadTeam} />;
   if (!b) return <NoBuild agent={a} />;
   const bangboo = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean);
   return (
@@ -154,13 +156,65 @@ function SetList({ ids }) {
 }
 
 function NoBuild({ agent }) {
+  const style = UPCOMING[agent.id]?.style;
   return (
     <section className="build">
+      {style && (
+        <>
+          <h3 className="mini-title">Expected build</h3>
+          <p className="small">
+            {style} <span className="passive__est">Estimated</span>
+          </p>
+        </>
+      )}
       <p className="muted small">
         {agent.upcoming
-          ? `${agent.name} isn’t released yet, so there’s no recommended build or team until launch.`
+          ? `${agent.name} isn’t released yet, so the full recommended build comes at launch.`
           : `No recommended build for ${agent.name} yet.`}
       </p>
+    </section>
+  );
+}
+
+// Teams for an Agent who isn't out yet: ones HoYoverse has shown, and close
+// estimates. Loading one fills the squad; gear is left for you to choose.
+function UpcomingTeams({ agent: a, onLoadTeam }) {
+  return (
+    <section className="build">
+      <h3 className="mini-title">Teams so far</h3>
+      <p className="muted small">
+        {a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.
+      </p>
+      <ul className="best-teams">
+        {UPCOMING[a.id].teams.map(({ members, source }, i) => {
+          const passives = passiveStatus(members);
+          const kit = kitLinks(members);
+          return (
+            <li key={members.join()} className="best-team">
+              <span className="best-team__n">{i + 1}</span>
+              <span className="best-team__members">
+                {members.map((id) => {
+                  const m = AGENT_BY_ID[id];
+                  return (
+                    <a key={id} href={`#agent-${id}`} className="best-team__member" title={m.name}>
+                      <Portrait agent={m} size="sm" />
+                      <span>{shortName(m)}</span>
+                    </a>
+                  );
+                })}
+              </span>
+              <span className="best-team__meta">
+                <span className="fit-tag" title="Additional Abilities active">Abilities {passives.active}/{passives.total}</span>
+                {kit.map((k) => <span key={k.id} className="fit-tag fit-tag--kit">{k.name}</span>)}
+                <span className={`fit-tag${source.startsWith('Estimate') ? '' : ' fit-tag--kit'}`}>{source}</span>
+              </span>
+              <button className="btn btn--small" onClick={() => onLoadTeam(recommendedTeam(a.id, members))}>
+                Load team
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }
