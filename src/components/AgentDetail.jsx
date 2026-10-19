@@ -2,16 +2,10 @@ import { useState } from 'react';
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
   ATTRIBUTE_BY_ID,
-  SPECIALTY_BY_ID,
-  signatureOf,
-  wEnginesFor,
 } from '../data/game.js';
 import { PRESETS } from '../data/presets.js';
-import { PHONE, useMedia } from '../lib/useMedia.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
-import RankBadge from './RankBadge.jsx';
-import WEngineArt from './WEngineArt.jsx';
 import SwipeTabs from './SwipeTabs.jsx';
 import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
@@ -24,11 +18,8 @@ import MaterialsTab from './MaterialsTab.jsx';
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, onClose, onApplyBuild, onLoadTeam, team }) {
-  const phone = useMedia(PHONE);
   const [card, setCard] = useState(null);
   const attr = ATTRIBUTE_BY_ID[a.attribute];
-  const sig = signatureOf(a.id);
-  const options = wEnginesFor(a).filter((w) => w.id !== sig?.id && w.rank !== 'B');
   const featured = PRESETS.filter((p) => p.members.includes(a.id));
 
   const overview = (
@@ -47,37 +38,6 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         </section>
       )}
     </div>
-  );
-
-  const engines = (
-    <section>
-      <h3 className="mini-title">W-Engines</h3>
-      {sig ? (
-        <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
-          <WEngineArt w={sig} size={32} />
-          <span className="engine-row__name">{sig.name}</span>
-          <RankBadge rank={sig.rank} size={16} />
-          <span className="chip-tag">Signature</span>
-          {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
-          <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
-        </a>
-      ) : (
-        <p className="muted small">No signature W-Engine yet.</p>
-      )}
-      <p className="muted small">Other {SPECIALTY_BY_ID[a.specialty]?.name} W-Engines (S and A rank):</p>
-      <ul className="engine-list">
-        {options.map((w) => (
-          <li key={w.id}>
-            <a className="engine-row" href={`#w-engine-${w.id}`}>
-              <WEngineArt w={w} size={30} />
-              <span className="engine-row__name">{w.name}</span>
-              <RankBadge rank={w.rank} size={16} />
-              <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : ''}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
   );
 
   const mates = <Teammates agent={a} />;
@@ -110,9 +70,8 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
           {
             id: 'overview',
             label: 'Overview',
-            content: phone ? overview : <div className="detail__grid">{overview}{engines}</div>,
+            content: overview,
           },
-          ...(phone ? [{ id: 'engines', label: 'W-Engines', content: engines }] : []),
           { id: 'skills', label: 'Skills', content: <SkillsTab agent={a} team={team} /> },
           { id: 'materials', label: 'Materials', content: <MaterialsTab agent={a} /> },
           { id: 'build', label: 'Build', content: <AgentBuild agent={a} inActiveTeam={inActiveTeam} onApply={onApplyBuild} /> },

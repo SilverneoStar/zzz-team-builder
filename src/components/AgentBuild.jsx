@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName } from '../data/game.js';
+import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
@@ -35,6 +35,8 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
                 <span className="engine-row__name">{w.name}</span>
                 <RankBadge rank={w.rank} size={16} />
                 {w.signatureOf === a.id && <span className="chip-tag">Signature</span>}
+                {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+                <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : ''}</span>
               </a>
             </li>
           );
@@ -159,8 +161,21 @@ function SetList({ ids }) {
 
 function NoBuild({ agent }) {
   const style = UPCOMING[agent.id]?.style;
+  const sig = signatureOf(agent.id);
   return (
     <section className="build">
+      {sig && (
+        <>
+          <h4 className="micro-title">Signature W-Engine</h4>
+          <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
+            <WEngineArt w={sig} size={30} />
+            <span className="engine-row__name">{sig.name}</span>
+            <RankBadge rank={sig.rank} size={16} />
+            {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+            <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
+          </a>
+        </>
+      )}
       {style && (
         <>
           <h3 className="mini-title">Expected build</h3>
