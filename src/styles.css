@@ -6088,3 +6088,17 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   .vinyl__name { font-size: 0.92rem; }
   .vinyl__line { font-size: 0.8rem; gap: 6px; }
 }
+/* A playing record takes the whole row, deck beside its bonuses, so long
+   4-piece text doesn't stretch its neighbours. */
+.vinyl.is-playing {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  grid-template-rows: auto;
+}
+.vinyl.is-playing .vinyl__deck { border-bottom: 0; border-right: 1px solid var(--line); height: 100%; min-height: 0; }
+.vinyl.is-playing .vinyl__label { align-content: center; padding: 16px 20px; }
+@media (max-width: 480px) {
+  .vinyl.is-playing { grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr); }
+  .vinyl.is-playing .vinyl__deck { aspect-ratio: 1 / 1.05; height: auto; align-self: start; }
+  .vinyl.is-playing .vinyl__label { padding: 10px 12px; }
+}
