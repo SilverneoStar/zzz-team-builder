@@ -168,20 +168,21 @@ function drawSets(ctx, ids, x, y, w, count, gap = 30) {
 
 function drawMains(ctx, b, x, y, w) {
   [4, 5, 6].forEach((s, i) => {
-    const ry = y + i * 34;
+    const ry = y + i * 50;
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText(`SLOT ${s}`, x, ry);
     ctx.fillStyle = K.text;
-    ctx.font = `500 17px ${FONT}`;
-    ctx.fillText(fit(ctx, b.main[s].replace(/\bER\b/g, 'Energy Regen'), w - 80), x + 80, ry);
+    ctx.font = `500 16px ${FONT}`;
+    wrap(ctx, b.main[s].replace(/\bER\b/g, 'Energy Regen'), w - 80, 2).forEach((l, i) => ctx.fillText(l, x + 80, ry + i * 19));
   });
+  const sy = y + 3 * 50 + 10;
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('SUBSTATS', x, y + 3 * 34 + 4);
+  ctx.fillText('SUBSTATS', x, sy);
   ctx.fillStyle = K.text;
   ctx.font = `500 16px ${FONT}`;
-  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 2).forEach((l, i) => ctx.fillText(l, x, y + 3 * 34 + 30 + i * 22));
+  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 3).forEach((l, i) => ctx.fillText(l, x, sy + 26 + i * 21));
 }
 
 async function drawBuild(ctx, W, H, a, base) {
@@ -197,37 +198,37 @@ async function drawBuild(ctx, W, H, a, base) {
     return;
   }
   const icons = await loadEngines(b.wEngines.slice(0, 5), base);
-  const top = 300;
-  const ph = 300;
+  const top = 290;
+  const ph = 276;
   panel(ctx, 40, top, 400, ph, 'W-Engines', 'best first');
-  drawEngineRows(ctx, b.wEngines, icons, 60, top + 52, 360, 48, 5);
+  drawEngineRows(ctx, b.wEngines, icons, 60, top + 46, 360, 44, 5);
   panel(ctx, 460, top, 340, ph, 'Drive Disc sets');
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 480, top + 62);
-  drawSets(ctx, b.fourPiece, 480, top + 90, 300, 3);
+  drawSets(ctx, b.fourPiece, 480, top + 88, 300, 3, 28);
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('2-PIECE', 480, top + 190);
-  drawSets(ctx, b.twoPiece, 480, top + 216, 300, 3, 26);
+  ctx.fillText('2-PIECE', 480, top + 182);
+  drawSets(ctx, b.twoPiece, 480, top + 208, 300, 3, 25);
   panel(ctx, 820, top, 340, ph, 'Main stats');
-  drawMains(ctx, b, 840, top + 70, 300);
+  drawMains(ctx, b, 840, top + 62, 300);
 
   const bangboo = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
   if (bangboo) {
     const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bangboo.id) ? bangboo.id : 'placeholder'}.webp`);
     ctx.fillStyle = K.muted;
     ctx.font = `500 14px ${MONO}`;
-    ctx.fillText('BANGBOO', 60, 640);
-    if (bArt) ctx.drawImage(bArt, 160, 612, (bArt.width / bArt.height) * 40, 40);
+    ctx.fillText('BANGBOO', 60, 606);
+    if (bArt) ctx.drawImage(bArt, 160, 578, (bArt.width / bArt.height) * 40, 40);
     ctx.fillStyle = K.fg;
     ctx.font = `700 20px ${FONT}`;
-    ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 641);
+    ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 607);
   }
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
   ctx.textAlign = 'right';
-  ctx.fillText('Community picks, they shift with patches.', W - 40, 641);
+  ctx.fillText('Community picks, they shift with patches.', W - 40, 607);
   ctx.textAlign = 'left';
   foot(ctx, W, H);
 }
@@ -249,10 +250,11 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items) {
     ctx.fillText(qty, x + w - 20, ry + 22);
     const qw = ctx.measureText(qty).width;
     ctx.textAlign = 'left';
-    ctx.fillText(fit(ctx, it.name, w - 70 - qw), x + 38, ry + 22);
+    const hdd = it.kind === 'hdd';
+    ctx.fillText(fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 70 - qw), x + 38, ry + 22);
     ctx.fillStyle = K.dim;
     ctx.font = `500 12.5px ${FONT}`;
-    const src = wrap(ctx, it.source, w - 58, 2);
+    const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 58, 2);
     src.forEach((l, k) => ctx.fillText(l, x + 38, ry + 42 + k * 16));
   });
 }
@@ -269,15 +271,15 @@ async function drawFarm(ctx, W, H, a, base) {
     foot(ctx, W, H);
     return;
   }
-  const top = 296;
-  const ph = 330;
-  const w = 366;
+  const top = 290;
+  const ph = 300;
+  const w = 354;
   drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion);
-  drawMatGroup(ctx, 40 + w + 31, top, w, ph, 'Skills', `all ${SKILL_COUNT}, level 1 → 12`, m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })));
-  drawMatGroup(ctx, 40 + 2 * (w + 31), top, w, ph, 'Core Skill', 'base → F', m.core);
+  drawMatGroup(ctx, 40 + w + 29, top, w, ph, 'Skills', `all ${SKILL_COUNT}, level 1 → 12`, m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })));
+  drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core);
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
-  ctx.fillText(`${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`, 40, 646);
+  ctx.fillText(`${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`, 40, 616);
   foot(ctx, W, H);
 }
 
@@ -314,7 +316,7 @@ async function drawGuide(ctx, W, H, a, base) {
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
   agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52 });
-  let y = 330;
+  let y = 322;
   if (b) {
     panel(ctx, 40, y, 1000, 250, 'Build');
     drawEngineRows(ctx, b.wEngines, icons, 60, y + 46, 360, 44, 3);
@@ -331,10 +333,20 @@ async function drawGuide(ctx, W, H, a, base) {
     panel(ctx, 40, y, 1000, 66 + Math.min(b.teams.length, 2) * 104, 'Best teams');
     b.teams.slice(0, 2).forEach((t, i) => teamRow(ctx, t, arts, 56, y + 44 + i * 104, 960, a.id));
     y += 66 + Math.min(b.teams.length, 2) * 104 + 20;
+    const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
+    if (bg) {
+      const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bg.id) ? bg.id : 'placeholder'}.webp`);
+      panel(ctx, 40, y, 1000, 96, 'Bangboo');
+      if (bArt) ctx.drawImage(bArt, 60, y + 38, (bArt.width / bArt.height) * 48, 48);
+      ctx.fillStyle = K.fg;
+      ctx.font = `700 22px ${FONT}`;
+      ctx.fillText(bg.name, 60 + (bArt ? (bArt.width / bArt.height) * 48 + 16 : 0), y + 70);
+      y += 116;
+    }
   }
   if (m) {
     const items = [m.promotion[1], m.skill[2], m.core[0], m.core[1]].filter(Boolean);
-    const rh = 54;
+    const rh = 56;
     panel(ctx, 40, y, 1000, 56 + items.length * rh, 'Farm first');
     items.forEach((it, i) => {
       const ry = y + 46 + i * rh;
