@@ -2331,6 +2331,7 @@ th[aria-sort='descending'] .th-btn {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  grid-auto-flow: row dense;
   gap: 6px;
 }
 .mat {
@@ -3608,6 +3609,7 @@ th[aria-sort='descending'] .th-btn {
 .endgame__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  grid-auto-flow: row dense;
   gap: 6px;
   margin: 8px 0 0;
 }
@@ -5992,6 +5994,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   list-style: none; margin: 0; padding: 0;
   display: grid; gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  grid-auto-flow: row dense;
 }
 .vinyl {
   display: grid; grid-template-rows: auto 1fr; min-width: 0;
