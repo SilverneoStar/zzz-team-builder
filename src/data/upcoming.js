@@ -3,6 +3,8 @@
 // the expected build style. Replaced by the full build data once they're out.
 export const UPCOMING = {
   'phoenix-reffaella': {
+    // Community picks (videos): her signature, then engines that give the same kind of stats.
+    engines: ['nirvana-s-first-plume', 'angel-in-the-shell', 'flight-of-fancy', 'fusion-compiler'],
     teams: [
       { members: ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'], source: 'Official reveal' },
       { members: ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'], source: 'Official reveal' },

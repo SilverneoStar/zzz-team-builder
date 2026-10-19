@@ -162,9 +162,28 @@ function SetList({ ids }) {
 function NoBuild({ agent }) {
   const style = UPCOMING[agent.id]?.style;
   const sig = signatureOf(agent.id);
+  const engines = (UPCOMING[agent.id]?.engines ?? []).map((id) => W_ENGINE_BY_ID[id]).filter(Boolean);
   return (
     <section className="build">
-      {sig && (
+      {engines.length > 0 ? (
+        <>
+          <h4 className="micro-title">W-Engines · best first</h4>
+          <ol className="build__engines">
+            {engines.map((w, i) => (
+              <li key={w.id}>
+                <a className={`engine-row${i === 0 ? ' engine-row--sig' : ''}`} href={`#w-engine-${w.id}`}>
+                  <WEngineArt w={w} size={30} />
+                  <span className="engine-row__name">{w.name}</span>
+                  <RankBadge rank={w.rank} size={16} />
+                  {w.signatureOf === agent.id && <span className="chip-tag">Signature</span>}
+                  {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+                  <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : 'Stats not published yet'}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </>
+      ) : sig && (
         <>
           <h4 className="micro-title">Signature W-Engine</h4>
           <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
