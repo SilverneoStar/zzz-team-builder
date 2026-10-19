@@ -125,7 +125,7 @@ function Core({ core }) {
   const used = new Set([...core.text.matchAll(/\{(\d+)\}/g)].map((m) => Number(m[1])));
   const extra = keys.filter((_, i) => !used.has(i));
   return (
-    <details className="skills__group" open>
+    <details className="skills__group">
       <summary>
         <span className="skills__cat">Core Passive</span>
         <span className="skills__peek">{core.name}</span>
@@ -151,7 +151,7 @@ function Core({ core }) {
 function Ability({ agent: a, ability, team }) {
   const s = team ? passiveStatus(team.members).byId[a.id] : null;
   return (
-    <details className="skills__group" open>
+    <details className="skills__group">
       <summary>
         <span className="skills__cat">Additional Ability</span>
         <span className="skills__peek">{ability.name}</span>

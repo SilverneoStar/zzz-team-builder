@@ -3,10 +3,17 @@ import { ATTRIBUTE_BY_ID, BANGBOO } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import RankBadge from './RankBadge.jsx';
 import BangbooArt from './BangbooArt.jsx';
+import BangbooDetail from './BangbooDetail.jsx';
 
 export default function BangbooPage({ activeTeam, onPick }) {
   const [rank, setRank] = useState('all');
   const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(null);
+  const selected = BANGBOO.find((b) => b.id === open);
+  const show = (id) => {
+    setOpen(id);
+    requestAnimationFrame(() => document.querySelector('.bb-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
     return BANGBOO.filter(
@@ -22,6 +29,8 @@ export default function BangbooPage({ activeTeam, onPick }) {
         <h2 className="page__title">Bangboo</h2>
         <p className="muted">Each squad brings one Bangboo. Pick one here or from the Bangboo slot in the Team Builder.</p>
       </header>
+
+      {selected && <BangbooDetail bangboo={selected} activeTeam={activeTeam} onPick={onPick} onClose={() => setOpen(null)} />}
 
       <div className="filters filters--page filters--row">
         <label className="sr-only" htmlFor="bangboo-search">Search Bangboo</label>
@@ -53,6 +62,9 @@ export default function BangbooPage({ activeTeam, onPick }) {
                     {b.faction && <> · {b.faction}</>}
                   </span>
                   <span className="muted small">Ver {b.version}</span>
+                  <button className="link-btn bangboo-card__more" onClick={() => show(b.id)} aria-expanded={open === b.id}>
+                    Skills &amp; details
+                  </button>
                 </span>
                 <button className={on ? 'btn btn--quiet btn--small' : 'btn btn--small'} onClick={() => onPick(on ? null : b.id)} aria-pressed={on}>
                   {on ? 'In current team' : 'Use in team'}

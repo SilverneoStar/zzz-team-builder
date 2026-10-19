@@ -17,6 +17,7 @@ Plan squads, gear up Agents, browse W-Engines, Drive Discs and Bangboo, and shar
 - **Sharing.** Every team has a code and a link that rebuild the squad, Bangboo and gear. Load community presets as a starting point.
 - **Team images.** Export a 1200×675 card to save, copy or share from a phone.
 - **Builds and best teams.** Each released Agent's page has a Build tab (W-Engines in order, 4-piece and 2-piece Drive Disc sets, main stats and substats) and a Best teams tab. Equip the build on the Agent in your current team, or load a best team with everyone's recommended gear.
+- **Bangboo details.** Each Bangboo's Active Skill, Additional Ability (with whether your current team turns it on, and its values at levels 1–5), Chain Attack, and the Agents it's recommended for.
 - **Agents, W-Engines, Drive Discs and Bangboo pages** with filters, sorting, grid and list views, and detail views.
 - **Glossary** of game terms.
 - **Display size** that scales on large screens, with a manual picker saved per browser.
@@ -63,6 +64,7 @@ All game information is factual data about released content (plus officially ann
 | Agents, W-Engines, Drive Discs and Bangboo: names, ranks, attributes, specialties, factions, stats, set bonuses, release versions | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/) (Fandom), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | Additional Ability conditions and kit links (Ether Veil, Aftershock) | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
 | Skills tab: skills, Core Passive values (Base, A–F), Additional Abilities, Mindscapes and Potential, summarised | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
+| Bangboo skills: Active Skill, Additional Ability (team condition and values) and Chain Attack, summarised | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
 | Materials tab: level-up, skill and Core Skill costs and where each item drops | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
 | Build and Best teams tabs: W-Engine, Drive Disc, stat and team picks | [Icy Veins](https://www.icy-veins.com/zenless-zone-zero/) build and team guides |
 | Agent roles and in-combat stat targets | Community [ZZZ Agent Build Guide](https://docs.google.com/spreadsheets/d/e/2PACX-1vTj2PaPq6Py_1B5fsOPj_Moc-tN_7mut7fICczI6lz1njyEIAInTnfB7lAraX4pYCRGNbaHGlIbFZ90/pubhtml) (Google Sheets) |
