@@ -34,7 +34,7 @@ export const BANGBOO = [
   {"id": "plugboo", "name": "Plugboo", "rank": "S", "version": "1.0", "attribute": "electric"},
   {"id": "red-moccus", "name": "Red Moccus", "rank": "S", "version": "1.2", "attribute": "physical", "faction": "Sons of Calydon"},
   {"id": "resonaboo", "name": "Resonaboo", "rank": "S", "version": "1.0", "attribute": "ether"},
-  {"id": "robin", "name": "Robin", "rank": null, "version": "1.7", "faction": "Mockingbird"},
+  {"id": "robin", "name": "Robin", "rank": "S", "version": "1.7", "faction": "Mockingbird"},
   {"id": "rocketboo", "name": "Rocketboo", "rank": "S", "version": "1.0", "attribute": "fire"},
   {"id": "safety", "name": "Safety", "rank": "S", "version": "1.0", "attribute": "physical", "faction": "Belobog Heavy Industries"},
   {"id": "sharkboo", "name": "Sharkboo", "rank": "S", "version": "1.0", "attribute": "ice"},
