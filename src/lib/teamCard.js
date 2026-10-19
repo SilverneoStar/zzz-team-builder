@@ -9,7 +9,7 @@ import {
   initials,
   shortName,
 } from '../data/game.js';
-import { encodeTeam } from './share.js';
+import { encodeCardCode } from './cardCode.js';
 import { loadoutOf } from './teamsReducer.js';
 import { discBonuses } from './discs.js';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
@@ -104,9 +104,14 @@ async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
 }
 
 function footer(ctx, W, H, team) {
+  // The short card code: paste it into "Paste a friend's code" to load the team.
   ctx.fillStyle = '#7a7a7a';
-  ctx.font = `400 13px ${MONO}`;
-  ctx.fillText(fit(ctx, encodeTeam(team, loadoutOf), W - 80), 40, H - 65);
+  ctx.font = `500 13px ${MONO}`;
+  ctx.fillText('TEAM CODE', 40, H - 66);
+  const labelW = ctx.measureText('TEAM CODE').width;
+  ctx.fillStyle = '#e6e6e6';
+  ctx.font = `600 20px ${MONO}`;
+  ctx.fillText(fit(ctx, encodeCardCode(team, loadoutOf), W - 120 - labelW), 40 + labelW + 16, H - 63);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText('silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse', 40, H - 35);

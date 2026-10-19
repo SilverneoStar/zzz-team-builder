@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { PRESETS } from '../data/presets.js';
 import { decodeTeam, encodeTeam } from '../lib/share.js';
+import { decodeCardCode, encodeCardCode } from '../lib/cardCode.js';
 import { loadoutOf } from '../lib/teamsReducer.js';
 
 export default function SharePanel({ team, dispatch }) {
   const code = encodeTeam(team, loadoutOf);
+  const cardCode = encodeCardCode(team, loadoutOf);
   const link = `${window.location.origin}${window.location.pathname}#${code}`;
   const [copied, setCopied] = useState(null);
   const [input, setInput] = useState('');
@@ -24,9 +26,9 @@ export default function SharePanel({ team, dispatch }) {
   function importCode(e) {
     e.preventDefault();
     const raw = input.includes('#') ? input.slice(input.indexOf('#') + 1) : input;
-    const t = decodeTeam(raw);
+    const t = decodeCardCode(raw) ?? decodeTeam(raw);
     if (!t) {
-      setError('That code isn’t valid. Paste a team code starting with zzz1~ or a team link.');
+      setError('That code isn’t valid. Paste a short team code, a code starting with zzz2~ or a team link.');
       return;
     }
     setError('');
@@ -54,7 +56,15 @@ export default function SharePanel({ team, dispatch }) {
       </label>
 
       <div className="field">
-        <label htmlFor="team-code">Team code <span className="muted">· squad, Bangboo and gear</span></label>
+        <label htmlFor="card-code">Short code <span className="muted">· the one printed on team images</span></label>
+        <div className="code-row">
+          <input id="card-code" className="code" readOnly value={cardCode} onFocus={(e) => e.target.select()} />
+          <button className="btn" onClick={() => copy(cardCode, 'card-code')}>{copied === 'card-code' ? 'Copied' : 'Copy'}</button>
+        </div>
+      </div>
+
+      <div className="field">
+        <label htmlFor="team-code">Full team code <span className="muted">· squad, Bangboo and gear</span></label>
         <div className="code-row">
           <input id="team-code" className="code" readOnly value={code} onFocus={(e) => e.target.select()} />
           <button className="btn" onClick={() => copy(code, 'team-code')}>{copied === 'team-code' ? 'Copied' : 'Copy'}</button>
@@ -75,7 +85,7 @@ export default function SharePanel({ team, dispatch }) {
           <input
             id="import-code"
             className="code"
-            placeholder="zzz1~…"
+            placeholder="Short code or zzz2~…"
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
