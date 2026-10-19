@@ -375,14 +375,23 @@ async function drawSquad(ctx, W, H, team, base) {
   ctx.arc(cx, cy, 70, 0, Math.PI * 2);
   ctx.fillStyle = '#161616';
   ctx.fill();
+  if (bArt) {
+    // Zoomed in on the head and upper body, cropped to the disc.
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 66, 0, Math.PI * 2);
+    ctx.clip();
+    const h = 210;
+    const w = (bArt.width / bArt.height) * h;
+    ctx.drawImage(bArt, cx - w / 2, cy - 78, w, h);
+    ctx.restore();
+  }
+  ctx.beginPath();
+  ctx.arc(cx, cy, 70, 0, Math.PI * 2);
   ctx.lineWidth = 8;
   ctx.strokeStyle = '#2a2a2a';
   ctx.stroke();
-  if (bArt) {
-    const h = 110;
-    const w = (bArt.width / bArt.height) * h;
-    ctx.drawImage(bArt, cx - w / 2, cy - h / 2, w, h);
-  } else {
+  if (!bArt) {
     ctx.fillStyle = '#555';
     ctx.font = `800 40px ${FONT}`;
     ctx.textAlign = 'center';
