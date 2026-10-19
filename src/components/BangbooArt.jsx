@@ -4,10 +4,11 @@ import { useState } from 'react';
 // adding its image; the rest show the plain Bangboo mark.
 export const BANGBOO_WITH_ART = new Set([
   'agent-gulliver', 'amillion', 'ariel', 'avocaboo', 'baddieboo', 'bagboo', 'bangvolver',
-  'belion', 'biggest-fan', 'bild-n-boolok', 'boollseye', 'booltergeist', 'booressure', 'butler',
-  'cryboo', 'excaliboo', 'exploreboo', 'knightboo', 'luckyboo', 'magnetiboo', 'mercury',
-  'miss-esme', 'officer-cui', 'overtimeboo', 'paperboo', 'penguinboo', 'plugboo', 'red-moccus',
-  'resonaboo', 'rocketboo', 'safety', 'sharkboo', 'snap', 'sprout', 'ultra-jake',
+  'belion', 'biggest-fan', 'bild-n-boolok', 'birkblick', 'boollseye', 'booltergeist',
+  'booressure', 'butler', 'cryboo', 'devilboo', 'electroboo', 'excaliboo', 'exploreboo',
+  'knightboo', 'luckyboo', 'magnetiboo', 'mercury', 'miss-esme', 'officer-cui', 'overtimeboo',
+  'paperboo', 'penguinboo', 'plugboo', 'red-moccus', 'resonaboo', 'rocketboo', 'safety',
+  'sharkboo', 'snap', 'sprout', 'ultra-jake',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const bangbooArt = (id) => (BANGBOO_WITH_ART.has(id) ? `${BASE}bangboo/${id}.webp` : null);
