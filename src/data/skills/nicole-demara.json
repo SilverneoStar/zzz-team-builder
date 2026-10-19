@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Cunning Combo", "Up to 3 Physical strikes."],
+    ["Basic Attack", "Basic Attack", "Do As I Please", "After a Special, EX, Chain or Ultimate she reloads, powering up her Basic and Dash Attack bullets."],
+    ["Dodge", "Dodge", "Speed Demon", "Rapid dodge; steer and hold to reload while dodging (up to 8 powered shots)."],
+    ["Dodge", "Dash Attack", "Jack in the Box", "Steering: dashes and strikes nearby enemies; not steering: vaults back and fires ahead. Physical DMG; reloads after."],
+    ["Dodge", "Dodge Counter", "Diverted Bombard", "Backstep and ranged Ether strike; reloads after."],
+    ["Assist", "Quick Assist", "Emergency Bombard", "Backstep and ranged Ether strike; reloads after."],
+    ["Assist", "Defensive Assist", "The Hare Strikes Back!", "Backstep and ranged Ether strike; reloads after."],
+    ["Assist", "Assist Follow-Up", "Window of Opportunity", "Backstep and ranged Ether strike."],
+    ["Special Attack", "Special Attack", "Sugarcoated Bullet", "Ranged Ether shot; reloads after."],
+    ["Special Attack", "EX Special Attack", "Stuffed Sugarcoated Bullet", "Powerful shot that makes an energy field pulling enemies in for Ether DMG. Hold to charge, spending Energy on a small field at the muzzle for bonus DMG. Triggers a Quick Assist on hit; reloads after."],
+    ["Chain Attack", "Chain Attack", "Ether Shellacking", "Powerful shot that makes a pulling energy field for Ether DMG."],
+    ["Chain Attack", "Ultimate", "Ether Grenade", "Powerful shot with a pulling energy field for Ether DMG. Others recover 10 Energy, and the next Agent in gets 20 more. Triggers a Quick Assist on hit; reloads after."]
+  ],
+  "core": {
+    "name": "Mechanical Case",
+    "text": "After her Special, EX, Chain or Ultimate hits, she can reload for powered Basic and Dash Attacks. Powered bullets and her energy fields lower the target's DEF by {0}% for 3.5s.",
+    "values": { "DEF reduction (%)": ["20", "25", "30", "34", "36", "38", "40"] }
+  },
+  "ability": {
+    "name": "Hare of Many Burrows",
+    "text": "Enemies with her DEF debuff take 25% more Ether DMG from everyone for 3.5s."
+  },
+  "mindscapes": [
+    "EX Special DMG and Anomaly Buildup +16%. Each extra 0.1s of charge makes its field last 0.15s longer.",
+    "Applying her DEF debuff gives her 5 Energy (once per 15s).",
+    "Skill levels +2.",
+    "Fields from her EX, Chain and Ultimate are 3m wider.",
+    "Skill levels +2.",
+    "Field hits give everyone +1.5% CRIT Rate against that enemy (max 10, 12s each)."
+  ]
+}

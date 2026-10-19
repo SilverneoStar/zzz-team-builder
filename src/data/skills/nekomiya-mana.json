@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Kitty Slash", "Up to 5 Physical slashes; the last has a 33.33% chance to repeat 3 times."],
+    ["Basic Attack", "Basic Attack", "Crimson Blade", "Hold during the first 3 Basic hits: a slash through enemies for Physical DMG, with a 33.33% chance to repeat 3 times."],
+    ["Dodge", "Dodge", "Can't Touch Me-ow~", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Over Here!", "Physical slash."],
+    ["Dodge", "Dodge Counter", "Phantom Claws", "Physical slash."],
+    ["Assist", "Quick Assist", "Cat's Paw", "Physical slash."],
+    ["Assist", "Defensive Assist", "Desperate Defense", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Shadow Strike", "Charging Physical slash."],
+    ["Special Attack", "Special Attack", "Surprise Attack", "Downward Physical strike."],
+    ["Special Attack", "EX Special Attack", "Super Surprise Attack!", "Falling slash for massive Physical DMG."],
+    ["Chain Attack", "Chain Attack", "Claw Swipe", "Wide slash for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Claw Smash", "Wide slashes for massive Physical DMG."]
+  ],
+  "core": {
+    "name": "Stealthy Paws",
+    "text": "Dodge Counter or Quick Assist hits give her +{0}% DMG for 6s.",
+    "values": { "DMG (%)": ["30", "35", "40", "45", "50", "55", "60"] }
+  },
+  "ability": {
+    "name": "Catwalk",
+    "text": "Each Assault by anyone gives her next EX Special +35% DMG (stacks 2)."
+  },
+  "mindscapes": [
+    "Back attacks ignore 16% Physical RES, and every hit on a Stunned enemy counts as a back attack.",
+    "+25% Energy Generation while fighting a single enemy.",
+    "Skill levels +2.",
+    "EX Special gives +7% CRIT Rate for 15s (max 2, separate timers).",
+    "Skill levels +2.",
+    "Chain or Ultimate gives +18% CRIT DMG (max 3) until combat ends; defeating an enemy fills all 3."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Emberglow", "Up to 3 Ether hits."],
+    ["Basic Attack", "Basic Attack", "Celestial Light", "Hold with 30+ Solar Prominence: up to 4 hits for massive Ether DMG, each costing some. Switching out during the 3rd lets him finish the 4th off-field."],
+    ["Dodge", "Dodge", "Twilight", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Sunrise", "Quick Ether slash."],
+    ["Dodge", "Dodge Counter", "First Light", "Spinning Ether slash; with 30+ Solar Prominence, hold to go into the 3rd Celestial Light hit."],
+    ["Assist", "Quick Assist", "Duskguard", "Ether combo; same Celestial Light follow-up."],
+    ["Assist", "Defensive Assist", "Ironhide Behemoth", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Return to Daylight", "Ether thrust; same Celestial Light follow-up."],
+    ["Special Attack", "Special Attack", "Fading Rays", "Rushing Ether attack."],
+    ["Special Attack", "EX Special Attack", "Sun's Halo", "Charge and combo for massive Ether DMG. Getting hit during the charge is a Perfect Block: no DMG and the move's Interrupt Level rises to a heavy Defensive Assist's. Same Celestial Light follow-up."],
+    ["Special Attack", "Special Attack", "Assault Directive", "His Ultimate or Sun's Halo calls in Phaethon for an Ether assist attack (once per 2.5s; always on Ultimate)."],
+    ["Chain Attack", "Chain Attack", "Ceremonial March", "Joint attack with Phaethon for massive Ether DMG; same Celestial Light follow-up."],
+    ["Chain Attack", "Ultimate", "Four Ultimates", "He picks one of four branches, each with massive Ether DMG and a Celestial Light follow-up: Total Annihilation (charged slash), Triumphant Return (energy burst), Unbound Swordstorm (combo) and Eternal Imprisonment (gather and finisher). Effects are under Core Passive."]
+  ],
+  "core": {
+    "name": "Radiant Chariot",
+    "text": "Enters battle with 30 Solar Prominence (once per 180s in Investigation Zones); his hits add more, plus 0.5 per second (max 60).\nUpper (Total Annihilation): +30 Solar Prominence and Mirage for 21s: Ultimate +40% CRIT DMG on Stunned enemies, and holding on the 4th Celestial Light hit loops back to the 3rd.\nLower (Triumphant Return): Sunflare for 200s: +15% Energy Generation, +{0}% DMG, and EX Perfect Blocks give 10 Solar Prominence.\nLeft (Unbound Swordstorm): heavy hits on Contaminated enemies add {1}% ATK as DMG.\nRight (Eternal Imprisonment): heavy hits on Stunned enemies Totalize for {2}% ATK as extra DMG; extends current Stuns by 3s, and the finisher ends the Stun.",
+    "values": {
+      "Sunflare DMG (%)": ["20", "23.4", "26.8", "30.2", "33.6", "37", "40"],
+      "Left Branch (% of ATK)": ["450", "525", "600", "675", "750", "825", "900"],
+      "Totalize (% of ATK)": ["1,125", "1,312", "1,499", "1,686", "1,873", "2,060", "2,250"]
+    }
+  },
+  "ability": {
+    "name": "Glorious Legion",
+    "text": "Raises his CRIT DMG, and his Chain Attacks give Decibels. (The wiki doesn't list the exact numbers yet.)"
+  },
+  "mindscapes": [
+    "Enters battle with 1,000 Decibels (once per 180s in Investigation Zones). +8% CRIT Rate.",
+    "Triumphant Return gives 1,500 Decibels (once per 180s). Decibel cap +1,000.",
+    "Skill levels +2.",
+    "A Sun's Halo Perfect Block gives a Shield of 8% Max HP for 10s; +10% Daze while shielded.",
+    "Skill levels +2.",
+    "Not published yet."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Load Up and Roll Out", "Up to 4 Physical slashes."],
+    ["Dodge", "Dodge", "Handbrake Drift", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Pedal to the Metal", "Physical slash."],
+    ["Dodge", "Dodge Counter", "Power Drift", "Downward Physical smash."],
+    ["Assist", "Quick Assist", "Brake Tap", "Downward Physical smash."],
+    ["Assist", "Defensive Assist", "Emergency Brake", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Overtaking Maneuver", "Charging Physical slash."],
+    ["Special Attack", "Special Attack", "Tire Spin", "Spinning Physical slashes; hold to keep spinning and charge up to 2 more levels. Starts at a higher level after her first 3 Basic hits, a Dash Attack or Dodge Counter. 40% DMG reduction."],
+    ["Special Attack", "Special Attack", "One Trillion Tons", "Release during Tire Spin: a downward smash for Physical DMG by charge level."],
+    ["Special Attack", "EX Special Attack", "Engine Spin", "Keep holding at max Tire Spin charge with enough Energy: fast spinning slashes for massive Physical DMG, draining Energy for up to 3s. 40% DMG reduction."],
+    ["Special Attack", "EX Special Attack", "Really Heavy", "Release during Engine Spin (or it ends, or Energy hits 20): downward smash for massive Physical DMG."],
+    ["Chain Attack", "Chain Attack", "Buckle Up", "Wide downward smash for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Hold~ On~ Tight~", "Wide spinning slashes and a smash for massive Physical DMG."]
+  ],
+  "core": {
+    "name": "Power Charge",
+    "text": "Engine Spin and Ultimate hits give 1 Power (max 20, 12s): +{0}% Physical Anomaly Buildup Rate each.",
+    "values": { "Buildup Rate per Power (%)": ["2", "2.3", "2.6", "3", "3.3", "3.6", "4"] }
+  },
+  "ability": {
+    "name": "Synced Acceleration",
+    "text": "At 20+ Power, the whole squad deals 18% more DMG."
+  },
+  "mindscapes": [
+    "Spinning slashes from Tire Spin, Engine Spin or Ultimate have a 50% chance for an extra Power. Max Power 30.",
+    "Faster movement while spinning. Smashes from One Trillion Tons, Really Heavy and Ultimate deal +10% Physical DMG, +1% per Power.",
+    "Skill levels +2.",
+    "Any squad Attribute Anomaly gives her 20 Energy (once per 30s).",
+    "Skill levels +2.",
+    "Engine Spin can last 2s longer, and Power lasts 4s longer."
+  ]
+}

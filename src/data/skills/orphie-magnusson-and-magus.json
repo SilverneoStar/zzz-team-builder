@@ -1,0 +1,41 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "High-Pressure Flamethrower", "Up to 5 attacks then a flame-blade strike, for Physical and Fire DMG."],
+    ["Dodge", "Dodge", "Flickering Flames", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Rush Command", "Quick Physical attack."],
+    ["Dodge", "Dodge Counter", "Counter Strike Opportunity", "Physical and Fire combo."],
+    ["Assist", "Quick Assist", "Searing Slash", "Physical and Fire combo."],
+    ["Assist", "Defensive Assist", "Blazing Gunblade", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Boiling Pierce", "Fire combo."],
+    ["Special Attack", "Special Attack", "Blazing Chamber", "Thrust and tail strike for Fire DMG."],
+    ["Special Attack", "Special Attack", "Corrosive Flash", "Fires on its own during squadmates' attacks: 4 laser Aftershocks for Fire DMG (once per 5s); +20 Bottled Heat."],
+    ["Special Attack", "EX Special Attack", "Watch Your Step", "Sweeping laser for Fire DMG, then the flame-blade strike; +20 Bottled Heat."],
+    ["Special Attack", "EX Special Attack", "Crimson Vortex", "Off-field with 60+ Energy, fires during squadmates' attacks: a laser sweep around them for Fire DMG; +20 Bottled Heat."],
+    ["Special Attack", "EX Special Attack", "Heat Charge", "Hold at 100+ Bottled Heat: spends 100 for a sustained laser (Fire DMG) and triggers a Quick Assist. Firepower rises over time, or instantly when hit (parries the attack). 40% DMG reduction at low firepower, invulnerable at high. At max duration it becomes Fiery Eruption."],
+    ["Special Attack", "EX Special Attack", "Fiery Eruption", "Spin and laser for Fire DMG at the end of Heat Charge."],
+    ["Chain Attack", "Chain Attack", "Overheated Barrel", "Spin and laser for Fire DMG; +20 Bottled Heat."],
+    ["Chain Attack", "Ultimate", "Dance with Fire", "Spin and laser for Fire DMG; triggers a Quick Assist mid-air, and taking it lengthens the laser. +20 Bottled Heat."]
+  ],
+  "core": {
+    "name": "Taming Wind and Fire",
+    "text": "CRIT Rate +{0}% and Aftershock DMG +{1}%. Start with 100 Bottled Heat (max 125). Off-field with 60+ Energy, Corrosive Flash becomes Crimson Vortex, costing 30 Energy.\nHeat Charge's laser gives the squad Zeroed In for 12s: +{2} ATK, +20 per 0.1 initial Energy Regen above 1.6 (max {3}). An Agent's Aftershock extends their Zeroed In by 4s (up to 20s).\nThe flame blade, all four EXs, Chain and Ultimate count as Aftershock DMG.",
+    "values": {
+      "CRIT Rate (%)": ["12.5", "14.6", "16.7", "18.8", "20.8", "22.9", "25"],
+      "Aftershock DMG (%)": ["42.5", "49.6", "56.7", "63.7", "70.8", "77.9", "85"],
+      "Zeroed In ATK": ["130", "155", "180", "205", "230", "255", "280"],
+      "Zeroed In max ATK": ["340", "400", "460", "520", "580", "640", "700"]
+    }
+  },
+  "ability": {
+    "name": "Forged in Flames",
+    "text": "Aftershock DMG from Agents with Zeroed In ignores 25% DEF."
+  },
+  "mindscapes": [
+    "Corrosive Flash, Crimson Vortex, Heat Charge and Fiery Eruption ignore 15% Fire RES. Agents with Zeroed In deal +20% DMG.",
+    "Their Aftershocks give 65 Decibels (once per 4s). Ultimate gives +20% ATK for 45s.",
+    "Skill levels +2.",
+    "Zeroed In starts at 16s. Heat Charge and Ultimate DMG +40%.",
+    "Skill levels +2.",
+    "With enough Energy, press after the flame blade to go into Crimson Vortex; the flame blade gives 10 Bottled Heat. Heat Charge's low-firepower phase hits harder to interrupt. Heat Charge and Ultimate lasers add 250% ATK as Fire DMG (once per 0.5s; counts as EX and Aftershock)."
+  ]
+}

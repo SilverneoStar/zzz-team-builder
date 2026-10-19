@@ -1,0 +1,40 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Engineering Insurance", "Up to 4 Fire hits."],
+    ["Basic Attack", "Basic Attack", "Hat Trick", "On-field in combat she gains 1.5% Preheated Chamber per second. Hold with her Top Hat Companion on: fires, then throws the hat to rain Fire DMG and hold her Preheated Chamber; it keeps building it while she's away. Hits trigger the previous Agent's Quick Assist (once per 5s). Hold to call the hat back (it comes on its own near 80%); she gets its stored Chamber. Switching out in combat sends the hat in if the Chamber isn't full."],
+    ["Dodge", "Dodge", "Development Protocols", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Deadline Rush", "Spinning gunfire for Fire DMG."],
+    ["Dodge", "Dodge Counter", "Compliance Testing", "The Rumble Drill drills the target for Fire DMG."],
+    ["Assist", "Quick Assist", "Roaring Backup", "The Rumble Drill attacks the target for Fire DMG."],
+    ["Assist", "Defensive Assist", "Technological Bastion", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Technological Suppression", "Fire combo."],
+    ["Special Attack", "Special Attack", "Thermal Shutdown", "Bombardment for Fire DMG."],
+    ["Special Attack", "EX Special Attack", "En-Nah Barrage", "Turret fire plus a missile: Armor-Piercing (Fire DMG and lots of Daze) if the target isn't Stunned, High-Explosive (more Fire DMG) if it is. +16% Preheated Chamber and En-Nah Barrage for 32s, deploying two En-Nah Turrets. Hold up to 2s more, spending Energy: +0.4% Chamber and +0.8s Barrage per Energy."],
+    ["Special Attack", "Special Attack", "Target Practice", "The En-Nah Turrets attack on their own for Fire DMG."],
+    ["Special Attack", "EX Special Attack", "Explosive Experiment", "When anyone Stuns an enemy, or she spends Chamber on a Chain Attack, the turrets open missile bays for 8s: they attack more often and fire Armor-Piercing or High-Explosive missiles by the target's state."],
+    ["Chain Attack", "Chain Attack", "Impact Drill", "A swarm of Rumble Drills for massive Fire DMG."],
+    ["Chain Attack", "Ultimate", "Doctrine of Superior Firepower", "Artillery bombardment for massive Fire DMG; +30% Preheated Chamber."]
+  ],
+  "core": {
+    "name": "Precise Guidance",
+    "text": "Each 1% of initial CRIT Rate above 50% gives +{0}% CRIT DMG (max {1}%) and +{2}% Daze to her EX, Special and Ultimate (max {3}%). Gains 1.25 ATK per Sheer Force (max 1,200).\nEnters battle with 60% Preheated Chamber (once per 180s in Investigation Zones). At 80%+, her next Hat Trick can trigger a Quick Assist ignoring its cooldown, spending 80% to turn it into a Chain Attack.",
+    "values": {
+      "CRIT DMG per 1% (%)": ["0.86", "1", "1.14", "1.28", "1.42", "1.56", "1.7"],
+      "Max CRIT DMG (%)": ["43", "50", "57", "64", "71", "78", "85"],
+      "Daze per 1% (%)": ["0.44", "0.5", "0.56", "0.62", "0.68", "0.74", "0.8"],
+      "Max Daze (%)": ["22", "25", "28", "31", "34", "37", "40"]
+    }
+  },
+  "ability": {
+    "name": "Advantage in Numbers",
+    "text": "Hits from Norma, her machines and Combat Bangboo add Tech Divide: +3% Stun DMG Multiplier per stack (max 10, once per 0.5s), and +2s Stun when the enemy is Stunned. During En-Nah Barrage, her ATK rises by 44 + 14 per level (max 870) and the squad deals 20% more DMG."
+  },
+  "mindscapes": [
+    "Missile bays stay open 12s. Armor-Piercing and High-Explosive missiles lower All-Attribute RES by 15% for 15s.",
+    "Tech Divide gives 6% per stack. Hat Trick in combat gives 25 Energy (once per 20s).",
+    "Skill levels +2.",
+    "Spending Chamber on a Chain Attack gives her and that Agent 200 Decibels.",
+    "Skill levels +2.",
+    "After anyone Stuns an enemy, missiles rain on random enemies for 6s (one per 0.75s, 200% ATK as Fire DMG, counted as Ultimate DMG; once per 30s). Armor-Piercing Daze +30%, High-Explosive DMG +30%."
+  ]
+}

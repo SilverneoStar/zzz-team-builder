@@ -1,0 +1,34 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Swift Strike", "Up to 3 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Leaping Strike", "Hold: leaping slash combo for Physical DMG."],
+    ["Dodge", "Dodge", "Reversal Shot", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "First Strike Advantage", "Dashing Physical slash."],
+    ["Dodge", "Dodge Counter", "Relentless Retribution", "Thrust and slash for Physical DMG."],
+    ["Assist", "Quick Assist", "Contract - Bodyguard", "Thrust and rapid slashes for Physical DMG."],
+    ["Assist", "Evasive Assist", "Contract - Outsourced Combat", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Independent Pricing", "Leaping shot for Physical DMG; spends 1 Assist Point to enter Hunter's Gait."],
+    ["Special Attack", "Special Attack", "Rending Claw", "Quick back-and-forth pierce for Physical DMG."],
+    ["Special Attack", "Special Attack", "Rending Claw - Nightmare Shadow", "In Hunter's Gait, when the on-field Agent lands a Special or EX heavy hit: she dashes through enemies around the target for Physical DMG, then repeats on the Agent's next hits up to 5 more times, ending in a stronger finisher. Counts as Aftershock."],
+    ["Special Attack", "EX Special Attack", "Rending Claw - Flashstep", "Several back-and-forth pierces for massive Physical DMG."],
+    ["Chain Attack", "Chain Attack", "Hey, Didn't Expect That, Right?", "Charged shot for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Oh, Time to Play?", "Wide powerful shot for massive Physical DMG."]
+  ],
+  "core": {
+    "name": "Hunter's Instinct",
+    "text": "Her EX Special, Assist Follow-Up, Chain or Ultimate enter Hunter's Gait: +{0}% Daze for 6s, held until she returns if she switches out. On-field in Hunter's Gait, her heavy hits can trigger the previous Agent's Quick Assist.",
+    "values": { "Daze (%)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"] }
+  },
+  "ability": {
+    "name": "Business Partner",
+    "text": "Nightmare Shadow, Flashstep, Independent Pricing, her Chain and Ultimate apply Binding Trap for 15s: everyone's Aftershock DMG against that enemy +30%."
+  },
+  "mindscapes": [
+    "+10% CRIT Rate against Binding Trap enemies.",
+    "+10% ATK in Hunter's Gait.",
+    "Skill levels +2.",
+    "Flashstep costs 5 less Energy.",
+    "Skill levels +2.",
+    "Nightmare Shadow DMG +15% and it repeats 2 more times. Binding Trap boosts all DMG types, not just Aftershock."
+  ]
+}

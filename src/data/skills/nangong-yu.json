@@ -1,0 +1,38 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Shooting Star Step", "Up to 3 Ether hits."],
+    ["Basic Attack", "Basic Attack", "Adorable Explosive Impact", "Hold for a charged Ether attack; release on time for a precise charge (+20% Daze). Up to 3 hits; the 2nd and 3rd cost 50 Downbeats each. After a Chain, Ultimate or EX with enough Downbeats, hold to skip to the 2nd and 3rd (always precise). Her Chain, Ultimate and EX don't break the count. The 1st hit's dash can Block (counts as precise); 60% DMG reduction charging the 1st, invulnerable charging the 2nd and 3rd."],
+    ["Dodge", "Dodge", "Natural Dancer", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Spinning Meteor", "Quick Ether attack."],
+    ["Dodge", "Dodge Counter", "Asteroid Waltz", "Ether combo."],
+    ["Assist", "Quick Assist", "Emergency Save", "Ether combo."],
+    ["Assist", "Defensive Assist", "Perfected Choreography", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Improvised Performance", "Ether combo for massive DMG."],
+    ["Special Attack", "Special Attack", "The Weight of Love", "Morning star strike for Ether DMG."],
+    ["Special Attack", "EX Special Attack", "The Unbearable Weight of Love", "Stronger morning star strike for Ether DMG."],
+    ["Chain Attack", "Chain Attack", "Comet Gravity", "Ether combo for massive DMG."],
+    ["Chain Attack", "Ultimate", "Meteor Shower", "Several attacks for massive Ether DMG; opens Ether Veil: Delusion Reprise (squad +50 ATK for 30s)."]
+  ],
+  "core": {
+    "name": "Prodigious Idol",
+    "text": "Anomaly Proficiency +{0}. Each point of initial Anomaly Mastery above 110 gives +1 Impact.\nWhile an enemy is Stunned, each Abloom, Disorder or Attribute Anomaly on it adds 1 Vibrato (max 4). Vibrato clears when it's at 4 and the enemy has an Anomaly, or when the Stun ends; if the enemy has an Anomaly then, she triggers Abloom (Ether 720%, Electric 360%, Fire 900%, Physical 63%, Ice 90%, Wind 36% of that Anomaly's DMG), +25% per Vibrato stack. Once per Stun.\nHer Adorable Explosive Impact and EX hits give her +{1}% Anomaly Buildup Rate and +{2}% Daze, and the squad +{3}% DMG, for 30s.\nDownbeats (max 100): she enters with 30 and gains 3.8 per second, +12 when the squad inflicts an Anomaly (once per 6s).",
+    "values": {
+      "Anomaly Proficiency": ["60", "70", "80", "90", "100", "110", "120"],
+      "Anomaly Buildup Rate (%)": ["17", "20", "23", "26", "29", "32", "35"],
+      "Daze (%)": ["11", "12.5", "14", "15.5", "17", "18.5", "20"],
+      "Squad DMG (%)": ["13", "15", "17", "19", "21", "23", "25"]
+    }
+  },
+  "ability": {
+    "name": "Angel Captain",
+    "text": "Squad attacks on Stunned enemies build 30% more Anomaly (Chain Attacks 30% more again).\nStunning an enemy gives her 2 Dance Prowess (15s). Her EX, Adorable Explosive Impact or Quick Assist heavy hit on a Stunned, Anomaly-afflicted enemy spends one for Polarity Disorder: 25% of normal Disorder DMG without clearing the Anomaly, and triggers the previous Agent's Quick Assist. With Dance Prowess, her next switch-in opens with a precise first charged hit. Aria's Perfect Pitch can trigger it too.\nStunning an enemy also makes her next EX free (once per 15s). Her 3rd Adorable Explosive Impact hit and Ultimate apply Misstep: +30% Stun DMG Multiplier and +3s Stun (once per Stun)."
+  },
+  "mindscapes": [
+    "Her EX and Adorable Explosive Impact lower All-Attribute RES by 18% for 40s. Enters battle with full Downbeats (once per 180s in Investigation Zones).",
+    "Vibrato's Abloom bonus is +10% more per stack. Misstep's Stun DMG Multiplier is 30% higher. A Chain Attack heavy hit on a Stunned, Anomaly-afflicted enemy triggers Polarity Disorder (once per Stun).",
+    "Skill levels +2.",
+    "+40 Anomaly Proficiency. Adorable Explosive Impact builds 35% more Anomaly.",
+    "Skill levels +2.",
+    "+50% Daze. Enemies that aren't Stunned build Vibrato: Modified instead (also from her heavy hits, 2 from her Ultimate; max 4); it clears when they're Stunned, triggering a bigger Abloom (Ether 800%, Electric 400%, Fire 1,000%, Physical 70%, Ice 100%, Wind 40%), +25% per stack."
+  ]
+}

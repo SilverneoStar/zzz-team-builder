@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Unyielding Strikes", "Up to 4 Physical hits."],
+    ["Dodge", "Dodge", "Light as a Swallow", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Sizzling Oil Supreme", "Quick Physical attack."],
+    ["Dodge", "Dodge Counter", "Moving Mountains and Seas", "Physical attack."],
+    ["Assist", "Quick Assist", "Lift Your Gaze to Good Fortune", "Physical attack."],
+    ["Assist", "Defensive Assist", "Intimidating Presence", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Ride the Momentum", "Physical attack."],
+    ["Special Attack", "Special Attack", "Sonic Pressure-Point Strike", "Strike plus firecrackers for Physical DMG."],
+    ["Special Attack", "Special Attack", "Touch of Death", "Physical attack centred on the enemy; chains up to 3 times, 1 Break Force each. On-field: 40% DMG reduction; off-field: invulnerable."],
+    ["Special Attack", "EX Special Attack", "Mountainous Pulse Strike", "Powerful Physical strike; +3 Break Force, and on hit triggers the previous Agent's Quick Assist (they get his Core Passive buff). He stays out using Touch of Death until Break Force runs out."],
+    ["Chain Attack", "Chain Attack", "Anointed with Wok Steam", "Spins on his wok through enemies for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "A Feast Fit for an Emperor!", "Fried-rice blast for massive Physical DMG; heals the squad and adds 8s of healing over time."]
+  ],
+  "core": {
+    "name": "Meridian Enlightenment",
+    "text": "After his EX triggers a Quick Assist, the next Agent in by Quick Assist or Chain gets Meridian Flow for 25s: Sheer Force equal to {0}% of his initial ATK (max 540).",
+    "values": { "Sheer Force (% of ATK)": ["9", "10.5", "12", "13.5", "15", "16.5", "18"] }
+  },
+  "ability": {
+    "name": "Iron Stomach",
+    "text": "Touch of Death applies Depleted Qi for 10s (each hit extends it): the enemy takes 20% more DMG from everything."
+  },
+  "mindscapes": [
+    "Enemies with Depleted Qi take 10% more DMG from everyone.",
+    "Every 6 Break Force spent gives 4 Energy. Depleted Qi lasts 12s.",
+    "Skill levels +2.",
+    "Ultimate heals 25% more, both instantly and over time, and leaves Backup Provisions: the next time anyone loses HP, it heals 50% of the Ultimate's instant heal.",
+    "Skill levels +2.",
+    "Meridian Flow gives 6% more of his ATK, up to 720 Sheer Force."
+  ]
+}

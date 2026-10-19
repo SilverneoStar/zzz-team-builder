@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Sweeping Edge", "Up to 5 Ice hits; the 4th throws her cape (Bound Absolution). After the 5th's downward hit, keep holding with Trial by Cold to chain into Merciless Judgment."],
+    ["Basic Attack", "Basic Attack", "Whirling Blade", "Hold: a leaping Ice attack that throws her cape beside the enemy (Bound Absolution). Doesn't build Corrosive Chill."],
+    ["Basic Attack", "Basic Attack", "Bound Absolution", "Her thrown cape keeps slicing for Ice DMG (no Corrosive Chill). She can walk slowly meanwhile, and auto Perfect Dodges an attack (once per 20s)."],
+    ["Dodge", "Dodge", "Veiled Step", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Grim Reap", "Quick Ice attack."],
+    ["Dodge", "Dodge Counter", "Soaring Bat", "Ice combo; flows into the 5th Basic hit."],
+    ["Assist", "Quick Assist", "Ambushing Strike", "Ice combo."],
+    ["Assist", "Defensive Assist", "Injunction", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Intercepting Strike", "Ice combo; flows into the 5th Basic hit."],
+    ["Special Attack", "Special Attack", "Execution - Cold Flash", "Flying blade for Ice DMG."],
+    ["Special Attack", "EX Special Attack", "Execution - Glacial Death", "Flying blade for Ice DMG that throws her cape (Bound Absolution) and gives Absolute Order. Getting hit right after auto-chains into Execution - Shrouded in Shadow."],
+    ["Special Attack", "Special Attack", "Execution - Descending Frost", "With Absolute Order during Bound Absolution: leaps in and recalls the cape with a downward Ice attack. Hold after landing with Trial by Cold for Merciless Judgment."],
+    ["Special Attack", "Special Attack", "Execution - Layered Frost", "After Shrouded in Shadow: a flurry then a stronger downward Ice attack that recalls the cape. Hold after landing with Trial by Cold for Merciless Judgment."],
+    ["Special Attack", "EX Special Attack", "Execution - Merciless Judgment", "After the 5th Basic hit, Descending Frost or Layered Frost, with Trial by Cold: a backstep and big Ice finisher (no Corrosive Chill). Flows into the 5th Basic hit."],
+    ["Chain Attack", "Chain Attack", "Hanging Judgment", "Hangs above the enemy for a flurry and finisher, massive Ice DMG. The heavy hit on an Anomaly-afflicted enemy triggers Abloom for 100% of that Anomaly's DMG. Flows into the 5th Basic hit."],
+    ["Chain Attack", "Ultimate", "Glaciating Impalement", "Series of attacks for massive Ice DMG; the heavy hit triggers a 250% Abloom on an Anomaly-afflicted enemy. Gives Frost Oath. Flows into the 5th Basic hit."]
+  ],
+  "core": {
+    "name": "Thief of Flames",
+    "text": "Each point of initial Anomaly Mastery above 150 gives +1.5 Anomaly Proficiency and +0.35% squad Abloom DMG.\nHer hits build Corrosive Chill (max 100), plus 5 for squad Freeze, Disorder or Vortex, 10 for Shrouded in Shadow, and 15 for any squad Abloom. Every 50 becomes 1 Trial by Cold (max 2); she enters battle with 2.\nMerciless Judgment spends 1 Trial by Cold; its finisher on an Anomaly-afflicted enemy triggers Abloom for {0}% of that Anomaly's DMG.\nHer Abloom hits give 100 Decibels (once per 0.5s). Frost Oath (from her Ultimate, max 1): after Merciless Judgment, Chain or Ultimate, press to spend it on Layered Frost.",
+    "values": { "Abloom (% of Anomaly DMG)": ["330", "385", "435", "485", "535", "585", "635"] }
+  },
+  "ability": {
+    "name": "Vessel of Ice",
+    "text": "EX Special gives +30% Ice Anomaly Buildup Rate for 30s. Frostbite from anyone lasts 3s longer. Her EX hits apply Presumption of Guilt for 30s: any squad Abloom on that enemy ignores 40% DEF."
+  },
+  "mindscapes": [
+    "Her Ultimate gives 1 Trial by Cold if not full. Abloom on Presumption of Guilt targets ignores 20% more DEF.",
+    "+40 Anomaly Proficiency. Trial by Cold Ablooms get +120% multiplier.",
+    "Skill levels +2.",
+    "Her Ablooms restore 5 Corrosive Chill (once per 0.5s).",
+    "Skill levels +2.",
+    "Trial by Cold Ablooms add a special 200% Abloom, 5 Corrosive Chill and 100 Decibels (once per 15s). Her Anomaly and Disorder DMG ignore 15% All-Attribute RES."
+  ]
+}
