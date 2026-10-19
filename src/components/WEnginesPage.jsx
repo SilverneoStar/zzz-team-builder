@@ -1,6 +1,6 @@
 import SpecialtyIcon, { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useMemo, useState } from 'react';
-import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID } from '../data/game.js';
+import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID, shortName } from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
@@ -116,7 +116,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                     <a href={`#agent-${sig.id}`} className="arc-user" title={`Signature: ${sig.name}`}>
                       <span className="arc-tag arc-tag--sig">Sig</span>
                       <Portrait agent={sig} size="sm" />
-                      {sig.name}
+                      {shortName(sig)}
                     </a>
                   </div>
                 )}

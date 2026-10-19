@@ -5884,3 +5884,13 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .arc-card--engine .arc-card__type { margin-left: 0; }
 .arc-card--engine .arc-card__tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
 .arc-card--engine .arc-card__users { justify-content: center; }
+
+/* Smaller type, a bit more room for the icon, and a slightly bigger
+   signature-Agent portrait. */
+.arc-card--engine .arc-card__name { font-size: 0.86rem; }
+.arc-card--engine .arc-card__type,
+.arc-card--engine .card__tag,
+.arc-card--engine .gear-stats dt { font-size: 0.64rem; }
+.arc-card--engine .gear-stats dd { font-size: 0.78rem; }
+.arc-card--engine .arc-user { font-size: 0.72rem; gap: 5px; }
+.arc-card--engine .arc-user .portrait--sm { width: 34px; height: 34px; }
