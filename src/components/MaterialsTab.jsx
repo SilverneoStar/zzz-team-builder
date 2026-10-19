@@ -4,6 +4,8 @@ import { AGENT_MATS_KNOWN, ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith
 import MiniAgents from './MiniAgents.jsx';
 
 const fmt = (n) => n.toLocaleString('en');
+// Short marks on each item's colour tile.
+const KIND_MARK = { seal: 'S', chip: 'C', hdd: 'D', boss: 'H', pass: 'P', denny: '$' };
 
 // The Agent page's Materials tab: what to farm to reach level 60, max the
 // skills and finish the Core Skill, with where each item drops and who else
@@ -84,7 +86,7 @@ function Group({ title, note, items, action, children }) {
         <ul className="mats__list">
           {items.map((x) => (
             <li key={x.name} className={`mats__item mats__item--${x.kind}`}>
-              <span className="mats__dot" aria-hidden="true" />
+              <span className="mats__dot" aria-hidden="true">{KIND_MARK[x.kind] ?? ''}</span>
               <span className="mats__name">
                 <b>{x.name}</b>
                 <span className="muted small">{x.source}</span>

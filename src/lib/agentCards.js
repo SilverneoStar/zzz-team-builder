@@ -10,7 +10,8 @@ import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
-import { passiveStatus } from './analyze.js';
+import { kitLinks, passiveStatus } from './analyze.js';
+import { STAT_TARGETS } from '../data/statTargets.js';
 import { DISPLAY, FONT, MONO, background, fit, loadImage, rankBadge, roundRect, slantedArt } from './teamCard.js';
 
 export const AGENT_CARDS = [
@@ -129,18 +130,50 @@ async function loadDiscs(ids, base) {
 }
 
 /** Agent name block with portrait, used at the top of every card. */
-function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52 } = {}) {
+function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52, nameW = 760 } = {}) {
   const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
   slantedArt(ctx, { x, y, w, h, lean, art, agent: a, color, radius: 10 });
   rankBadge(ctx, a.rank, x + 20, y + h - 20, 14);
   const tx = x + w + 28;
   ctx.fillStyle = K.fg;
   ctx.font = `800 ${nameSize}px ${DISPLAY}`;
-  ctx.fillText(fit(ctx, a.name.toUpperCase(), 760), tx, y + nameSize);
+  ctx.fillText(fit(ctx, a.name.toUpperCase(), nameW), tx, y + nameSize);
   ctx.fillStyle = K.muted;
   ctx.font = `500 18px ${FONT}`;
   ctx.fillText(agentLine(a), tx, y + nameSize + 30);
   return { tx, ty: y + nameSize + 30, color };
+}
+
+/** A rounded label; returns its width. */
+function pill(ctx, text, x, y, { h = 28, size = 14, fg = K.text, bg = 'rgba(255,255,255,0.06)', line = '#3a3a3a' } = {}) {
+  ctx.font = `600 ${size}px ${FONT}`;
+  const w = ctx.measureText(text).width + 24;
+  ctx.fillStyle = bg;
+  roundRect(ctx, x, y, w, h, h / 2);
+  ctx.fill();
+  ctx.strokeStyle = line;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.fillStyle = fg;
+  ctx.fillText(text, x + 12, y + h / 2 + size * 0.36);
+  return w;
+}
+
+/** Role, faction and version chips, then the stat targets to aim for. */
+function infoBlock(ctx, a, x, y, w, targetLines = 1) {
+  const t = STAT_TARGETS[a.id];
+  let px = x;
+  [t?.role, a.faction, a.version ? `Ver ${a.version}` : 'Upcoming'].filter(Boolean).forEach((label) => {
+    px += pill(ctx, label, px, y) + 8;
+  });
+  if (t?.targets?.length) {
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 13px ${MONO}`;
+    ctx.fillText('AIM FOR', x, y + 58);
+    ctx.fillStyle = K.text;
+    ctx.font = `500 16px ${FONT}`;
+    wrap(ctx, t.targets.join(' · '), w - 90, targetLines).forEach((l, i) => ctx.fillText(l, x + 90, y + 58 + i * 22));
+  }
 }
 
 // ---------- build ----------
@@ -150,19 +183,20 @@ function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
     const e = W_ENGINE_BY_ID[id];
     if (!e) return;
     const ry = y + i * rowH;
-    engineIcon(ctx, icons[id], x, ry, rowH - 10);
+    engineIcon(ctx, icons[id], x, ry, rowH - 6);
     ctx.fillStyle = i === 0 ? K.fg : K.text;
-    ctx.font = `${i === 0 ? 700 : 500} 18px ${FONT}`;
-    ctx.fillText(fit(ctx, e.name, w - rowH - 70), x + rowH, ry + rowH / 2 - 2);
+    ctx.font = `${i === 0 ? 700 : 500} 20px ${FONT}`;
+    ctx.fillText(fit(ctx, e.name, w - rowH - 60), x + rowH + 4, ry + rowH / 2 - 1);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText(i === 0 ? 'BEST' : `#${i + 1}`, x + rowH, ry + rowH / 2 + 18);
-    rankBadge(ctx, e.rank, x + w - 18, ry + rowH / 2 - 6, 13);
+    const stat = e.advanced ? `${e.advanced.stat} ${e.advanced.max}` : '';
+    ctx.fillText(fit(ctx, `${i === 0 ? 'BEST' : `#${i + 1}`}${stat ? ` · ${stat}` : ''}`, w - rowH - 60), x + rowH + 4, ry + rowH / 2 + 18);
+    rankBadge(ctx, e.rank, x + w - 18, ry + rowH / 2 - 4, 14);
   });
 }
 
 function drawSets(ctx, ids, x, y, w, count, gap = 30, discs = {}) {
-  const size = Math.min(gap - 3, 24);
+  const size = Math.min(gap - 2, 32);
   ids.slice(0, count).forEach((id, i) => {
     const d = DRIVE_DISC_BY_ID[id];
     if (!d) return;
@@ -176,35 +210,37 @@ function drawSets(ctx, ids, x, y, w, count, gap = 30, discs = {}) {
       ctx.fill();
     }
     ctx.fillStyle = i === 0 ? K.fg : K.text;
-    ctx.font = `${i === 0 ? 700 : 500} 17px ${FONT}`;
-    ctx.fillText(fit(ctx, d.name, w - size - 10), x + size + 10, ry);
+    ctx.font = `${i === 0 ? 700 : 500} 19px ${FONT}`;
+    ctx.fillText(fit(ctx, d.name, w - size - 12), x + size + 12, ry);
   });
 }
 
 function drawMains(ctx, b, x, y, w) {
-  [4, 5, 6].forEach((s, i) => {
-    const ry = y + i * 42;
+  let ry = y;
+  [4, 5, 6].forEach((s) => {
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText(`SLOT ${s}`, x, ry);
     ctx.fillStyle = K.text;
-    ctx.font = `500 16px ${FONT}`;
-    wrap(ctx, b.main[s].replace(/\bER\b/g, 'Energy Regen'), w - 80, 2).forEach((l, i) => ctx.fillText(l, x + 80, ry + i * 19));
+    ctx.font = `600 18px ${FONT}`;
+    const lines = wrap(ctx, b.main[s].replace(/\bER\b/g, 'Energy Regen'), w - 80, 2);
+    lines.forEach((l, i) => ctx.fillText(l, x + 80, ry + i * 21));
+    ry += 21 + lines.length * 21;
   });
-  const sy = y + 3 * 42 + 6;
+  const sy = ry + 6;
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('SUBSTATS', x, sy);
   ctx.fillStyle = K.text;
-  ctx.font = `500 16px ${FONT}`;
-  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 3).forEach((l, i) => ctx.fillText(l, x, sy + 26 + i * 21));
+  ctx.font = `500 17px ${FONT}`;
+  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 3).forEach((l, i) => ctx.fillText(l, x, sy + 26 + i * 22));
 }
 
 async function drawBuild(ctx, W, H, a, base) {
   const b = BUILDS[a.id];
   await head(ctx, W, a, base, 'Build card');
   const art = await loadImage(`${base}agents/${a.id}.webp`);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46 });
+  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160 });
   if (!b) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -214,37 +250,38 @@ async function drawBuild(ctx, W, H, a, base) {
   }
   const icons = await loadEngines(b.wEngines.slice(0, 5), base);
   const discs = await loadDiscs([...b.fourPiece.slice(0, 3), ...b.twoPiece.slice(0, 3)], base);
-  const top = 290;
-  const ph = 276;
-  panel(ctx, 40, top, 400, ph, 'W-Engines', 'best first');
-  drawEngineRows(ctx, b.wEngines, icons, 60, top + 46, 360, 44, 5);
-  panel(ctx, 460, top, 340, ph, 'Drive Disc sets');
+  infoBlock(ctx, a, 214, 194, 860, 1);
+  const top = 282;
+  const ph = 296;
+  panel(ctx, 40, top, 420, ph, 'W-Engines', 'best first');
+  drawEngineRows(ctx, b.wEngines, icons, 58, top + 44, 384, 49, 5);
+  panel(ctx, 476, top, 330, ph, 'Drive Disc sets');
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('4-PIECE', 480, top + 62);
-  drawSets(ctx, b.fourPiece, 480, top + 88, 300, 3, 28, discs);
+  ctx.fillText('4-PIECE', 494, top + 56);
+  drawSets(ctx, b.fourPiece, 494, top + 88, 296, 3, 32, discs);
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('2-PIECE', 480, top + 182);
-  drawSets(ctx, b.twoPiece, 480, top + 208, 300, 3, 25, discs);
-  panel(ctx, 820, top, 340, ph, 'Main stats');
-  drawMains(ctx, b, 840, top + 62, 300);
+  ctx.fillText('2-PIECE', 494, top + 190);
+  drawSets(ctx, b.twoPiece, 494, top + 220, 296, 3, 31, discs);
+  panel(ctx, 822, top, 338, ph, 'Main stats');
+  drawMains(ctx, b, 840, top + 62, 304);
 
   const bangboo = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
   if (bangboo) {
     const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bangboo.id) ? bangboo.id : 'placeholder'}.webp`);
     ctx.fillStyle = K.muted;
     ctx.font = `500 14px ${MONO}`;
-    ctx.fillText('BANGBOO', 60, 606);
-    if (bArt) ctx.drawImage(bArt, 160, 578, (bArt.width / bArt.height) * 40, 40);
+    ctx.fillText('BANGBOO', 60, 614);
+    if (bArt) ctx.drawImage(bArt, 160, 588, (bArt.width / bArt.height) * 40, 40);
     ctx.fillStyle = K.fg;
     ctx.font = `700 20px ${FONT}`;
-    ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 607);
+    ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 615);
   }
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
   ctx.textAlign = 'right';
-  ctx.fillText('Community picks, they shift with patches.', W - 40, 607);
+  ctx.fillText('Community picks, they shift with patches.', W - 40, 615);
   ctx.textAlign = 'left';
   foot(ctx, W, H);
 }
@@ -304,20 +341,27 @@ async function drawFarm(ctx, W, H, a, base) {
 function teamRow(ctx, members, arts, x, y, w, current) {
   members.forEach((id, i) => {
     const m = AGENT_BY_ID[id];
-    const cx = x + 34 + i * 120;
-    circleImage(ctx, arts[id], cx, y + 30, 30, id === current ? '#f2f2f2' : '#4a4a4a');
+    const cx = x + 40 + i * 140;
+    circleImage(ctx, arts[id], cx, y + 32, 32, id === current ? '#f2f2f2' : '#4a4a4a');
     ctx.fillStyle = id === current ? K.fg : K.text;
-    ctx.font = `600 14px ${FONT}`;
+    ctx.font = `600 15px ${FONT}`;
     ctx.textAlign = 'center';
-    ctx.fillText(fit(ctx, shortName(m), 100), cx, y + 78);
+    ctx.fillText(fit(ctx, shortName(m), 124), cx, y + 84);
     ctx.textAlign = 'left';
   });
   const st = passiveStatus(members);
+  // Specialties in the team and what links the kit, beside the portraits.
+  const tx = x + 470;
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.textAlign = 'right';
-  ctx.fillText(`ABILITIES ${st.active}/${st.total}`, x + w - 20, y + 36);
-  ctx.textAlign = 'left';
+  ctx.fillText('ROLES', tx, y + 22);
+  ctx.fillStyle = K.text;
+  ctx.font = `500 16px ${FONT}`;
+  ctx.fillText(fit(ctx, members.map((id) => SPECIALTY_BY_ID[AGENT_BY_ID[id]?.specialty]?.name ?? '—').join(' · '), w - 490), tx, y + 46);
+  let px = tx;
+  [`Abilities ${st.active}/${st.total}`, ...kitLinks(members).map((k) => k.name)].slice(0, 4).forEach((label) => {
+    px += pill(ctx, label, px, y + 58, { h: 26, size: 13 }) + 8;
+  });
 }
 
 async function drawGuide(ctx, W, H, a, base) {
@@ -332,24 +376,26 @@ async function drawGuide(ctx, W, H, a, base) {
     ...ids.map((id) => loadImage(`${base}agents/${id}.webp`)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
-  agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52 });
+  agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52, nameW: W - 234 - 160 });
+  infoBlock(ctx, a, 234, 206, 760, 2);
   let y = 322;
   if (b) {
-    panel(ctx, 40, y, 1000, 250, 'Build');
-    drawEngineRows(ctx, b.wEngines, icons, 60, y + 46, 360, 44, 3);
+    panel(ctx, 40, y, 1000, 282, 'Build');
+    drawEngineRows(ctx, b.wEngines, icons, 58, y + 46, 360, 56, 3);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText('4-PIECE', 460, y + 62);
-    drawSets(ctx, b.fourPiece, 460, y + 90, 240, 2, 30, discs);
+    ctx.fillText('4-PIECE', 452, y + 62);
+    drawSets(ctx, b.fourPiece, 452, y + 98, 250, 2, 36, discs);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText('2-PIECE', 460, y + 160);
-    drawSets(ctx, b.twoPiece, 460, y + 188, 240, 2, 26, discs);
-    drawMains(ctx, b, 730, y + 70, 290);
-    y += 270;
-    panel(ctx, 40, y, 1000, 66 + Math.min(b.teams.length, 2) * 104, 'Best teams');
-    b.teams.slice(0, 2).forEach((t, i) => teamRow(ctx, t, arts, 56, y + 44 + i * 104, 960, a.id));
-    y += 66 + Math.min(b.teams.length, 2) * 104 + 20;
+    ctx.fillText('2-PIECE', 452, y + 168);
+    drawSets(ctx, b.twoPiece, 452, y + 204, 250, 2, 34, discs);
+    drawMains(ctx, b, 724, y + 70, 296);
+    y += 298;
+    const tn = Math.min(b.teams.length, 2);
+    panel(ctx, 40, y, 1000, 60 + tn * 100, 'Best teams');
+    b.teams.slice(0, 2).forEach((t, i) => teamRow(ctx, t, arts, 56, y + 44 + i * 100, 984, a.id));
+    y += 60 + tn * 100 + 18;
     const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
     if (bg) {
       const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bg.id) ? bg.id : 'placeholder'}.webp`);
