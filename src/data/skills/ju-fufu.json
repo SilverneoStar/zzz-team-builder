@@ -1,0 +1,39 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Tiger Seven Forms - Flaming Claw", "Up to 4 Physical and Fire hits. Mash on the 3rd to keep striking (40% DMG reduction); hold or pause to move on to the 4th."],
+    ["Basic Attack", "Basic Attack", "Hu Wei", "Her companion attacks on its own for Fire DMG, giving 20 Might per skill that hits (max 200 Might)."],
+    ["Dodge", "Dodge", "Tiger Seven Forms - Tigerwind", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Tiger Seven Forms - Tiger Charge", "Quick Physical slash."],
+    ["Dodge", "Dash Attack", "Tiger Seven Forms - Mountain King's Game", "Hold after Tiger Charge: a steerable high-speed spin dealing Physical DMG on contact. With Momentum (max 15) she's on fire: each contact spends 1 for Fire DMG and 25 Might, and at 100+ Might the Fire hit auto-fires Suppressing Tiger Cauldron. Release to throw Hu Wei. She keeps spinning after you switch out (invulnerable); on-field she takes 40% less DMG."],
+    ["Dodge", "Dodge Counter", "Tiger Seven Forms - Reignited Mountain", "Several Fire slashes."],
+    ["Assist", "Quick Assist", "Decisive Stomp", "Fire slash."],
+    ["Assist", "Defensive Assist", "Steadfast Crouching Tiger", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Feral Blazing Maw", "Slash and Hu Wei's slam for Fire DMG; +1 Momentum (once per 10s)."],
+    ["Special Attack", "Special Attack", "Tiger Seven Forms - Mountain-Descending Tiger", "Spinning slash and a falling slash for Fire DMG."],
+    ["Special Attack", "EX Special Attack", "Tiger Seven Forms Alt - Mountain-Descending Savage Tiger", "Heavy Hu Wei swing for massive Fire DMG; +3 Momentum and +80 Might."],
+    ["Chain Attack", "Chain Attack", "Tiger Cauldron Collapse", "Hu Wei strike for massive Fire DMG."],
+    ["Chain Attack", "Chain Attack", "Suppressing Tiger Cauldron", "Auto-follows any Chain Attack at 100+ Might: spends 100 for a blast of flames and popcorn for massive Fire DMG. Counts as Aftershock; invulnerable. Off-field with Momentum, she goes back into her fiery spin after."],
+    ["Chain Attack", "Ultimate", "Tiger Seven Forms - Raging Tiger Explosion", "Two Hu Wei slams for massive Fire DMG; +6 Momentum and +100 Might."]
+  ],
+  "core": {
+    "name": "Fu-rocious Might",
+    "text": "Hu Wei attacks while she isn't using it. If it hits at 100+ Might while she's off-field, she casts Suppressing Tiger Cauldron on that enemy and the squad gets Tiger's Roar for 30s: +{0}% CRIT DMG (+5% per 100 of her initial ATK above 2,800, max +30% more) and +{1}% Chain / Ultimate DMG. Her own Impact rises by {2} during Tiger's Roar.",
+    "values": {
+      "CRIT DMG (%)": ["10", "11.7", "13.3", "15", "16.7", "18.3", "20"],
+      "Chain / Ultimate DMG (%)": ["10 / 20", "11.7 / 23.3", "13.3 / 26.7", "15 / 30", "16.7 / 33.3", "18.3 / 36.7", "20 / 40"],
+      "Impact": ["25", "29.2", "33.3", "37.5", "41.7", "45.8", "50"]
+    }
+  },
+  "ability": {
+    "name": "Aura of Authority",
+    "text": "The squad's max Decibels rise by 1,000. Attack and Rupture Agents gain 300 Decibels when they use an Ultimate."
+  },
+  "mindscapes": [
+    "Enters combat with +12% CRIT Rate and 100 Might. Her Chain hits on a Stunned enemy raise its Stun DMG Multiplier by 35% for 30s.",
+    "Tiger's Roar gives +22% more CRIT DMG. Any Agent's Ultimate gives her 3 Momentum.",
+    "Skill levels +2.",
+    "During Tiger's Roar, her own CRIT DMG rises by 35%.",
+    "Skill levels +2.",
+    "Chain Attack DMG +30%. Momentum hits in her spin fire 3 popcorn shots for 160% ATK each, counted as Chain Attack DMG."
+  ]
+}

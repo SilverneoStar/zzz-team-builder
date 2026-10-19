@@ -1,0 +1,39 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Dark Abyss Quartet", "Up to 4 Physical and Ice hits. The 4th is a shot; hold to charge it. 40% DMG reduction during the 4th."],
+    ["Basic Attack", "Basic Attack", "Dark Abyss Concerto", "After the 4th Basic hit or the shot from his Dodge Counter or Quick Assist: a scythe throw then a shot for Ice DMG; hold to charge the shot."],
+    ["Dodge", "Dodge", "Phantasm", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Phantasm - Shatter", "Dashing Physical attack."],
+    ["Dodge", "Dodge Counter", "Phantasm - Slash", "Ice combo; hold for a shot (counts as Basic Attack), hold more to charge it. Flows into the 4th Basic hit. Invulnerable while slashing and backing off; 40% DMG reduction while shooting."],
+    ["Assist", "Quick Assist", "Elegy", "Same as his Dodge Counter: Ice combo with an optional (charged) shot, flowing into the 4th Basic hit."],
+    ["Assist", "Defensive Assist", "The End Has Not Come", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Ace Reversal", "Dash and two Ice slashes; flows into the 4th Basic hit."],
+    ["Special Attack", "Special Attack", "Soul Hunter - Judgment", "Scythe spin and slash for Ice DMG."],
+    ["Special Attack", "EX Special Attack", "Soul Hunter - Punishment", "Stronger scythe spin and slash for Ice DMG; its Finishing Move can Totalize."],
+    ["Chain Attack", "Chain Attack", "Trick of Fate", "Wide dashing slash and a charged shot for massive Ice DMG."],
+    ["Chain Attack", "Ultimate", "Blaspheme", "Spinning scythe throw and a finisher for massive Ice DMG (not a heavy attack). Flows into the 4th Basic hit."]
+  ],
+  "core": {
+    "name": "Terminating Verdict",
+    "text": "Trick of Fate hits, or Stunning an enemy, give Dark Abyss Reverb for 6s: +12% CRIT Rate and +25% CRIT DMG. ATK +{0} with 1 / 2 Stun Agents in the squad.\nTotalize: when the Finishing Move of Punishment or Blaspheme hits a Stunned enemy, its multiplier rises by {1}%, plus {2}% per second of Stun left (first 5s) and {3}% per second (5–15s), up to {4}%. It then ends the Stun and refunds Daze: 5% per second left, max 25% of the enemy's max Daze.\nPunishment deals 20% more Daze to enemies that aren't Stunned.",
+    "values": {
+      "ATK (1 / 2 Stun Agents)": ["25 / 75", "50 / 150", "80 / 240", "120 / 360", "180 / 540", "270 / 810", "300 / 900"],
+      "Totalize base (%)": ["500", "583", "667", "750", "833", "917", "1,000"],
+      "Per second, first 5s (%)": ["140", "163", "187", "210", "233", "257", "280"],
+      "Per second, 5–15s (%)": ["50", "58", "67", "75", "83", "92", "100"],
+      "Max multiplier (%)": ["1,700", "1,978", "2,272", "2,550", "2,828", "3,122", "3,400"]
+    }
+  },
+  "ability": {
+    "name": "Prelude to Finality",
+    "text": "Trick of Fate DMG +15%, and +35% more against normal enemies. Totalize skills deal +40% DMG. Punishment Totalizing a normal enemy gives 20 Energy (once per 30s)."
+  },
+  "mindscapes": [
+    "Totalize during Dark Abyss Reverb gets +12% CRIT Rate and +30% CRIT DMG.",
+    "Blaspheme's Totalize no longer ends the Stun. Totalize ignores 15% DEF.",
+    "Skill levels +2.",
+    "Charged Shot hits make his attacks ignore 12% Ice RES on that enemy for 15s.",
+    "Skill levels +2.",
+    "Every shot that hits gives Dark Abyss Reverb. Totalize DMG +60%. Punishment's Finishing Move also Totalizes enemies that aren't Stunned, for a flat +1,000% multiplier."
+  ]
+}

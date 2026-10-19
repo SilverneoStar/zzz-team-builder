@@ -206,6 +206,7 @@ function Potential({ potential: p, current }) {
           <b>{p.name} {['I', 'II', 'III', 'IV', 'V', 'VI'][lv - 1]}:</b> {p.levels[lv - 1]}
         </p>
         <h4 className="micro-title">Upgraded skills</h4>
+        {p.note && <p className="muted small">{p.note}</p>}
         <ul className="skills__list">
           {p.skills.map(([kind, name, text]) => (
             <li key={kind + name}>

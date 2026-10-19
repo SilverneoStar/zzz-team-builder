@@ -1,0 +1,35 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Lady's Bat", "Up to 4 Physical and Fire hits; the 4th makes the guard boars Spinning Swing."],
+    ["Basic Attack", "Basic Attack", "Guard Boars: To Arms!", "In combat the guard boars attack on their own with bats, gloves or slingshots for Physical DMG."],
+    ["Basic Attack", "Basic Attack", "Guard Boars: Spinning Swing!", "On her 4th Basic hit or when Cheer On! is applied, the boars spin their bats for Physical DMG around them (queued if they can't right away)."],
+    ["Dodge", "Dodge", "Foul Ball!", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Fearless Boar!", "Rapid Physical strikes."],
+    ["Dodge", "Dodge Counter", "Returning Tusk!", "Fire strike."],
+    ["Assist", "Quick Assist", "Hit By Pitch!", "Fire strike."],
+    ["Assist", "Defensive Assist", "Safe on Base!", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Scored a Run!", "Fire strike."],
+    ["Special Attack", "Special Attack", "Solid Hit!", "Bats a guard boar as a Line Drive that explodes on enemies or walls for Fire DMG; hold for a Fly Ball that explodes where it lands."],
+    ["Special Attack", "EX Special Attack", "Home Run!", "Line Drive (or hold for Fly Ball) for massive Fire DMG; triggers a Quick Assist on hit."],
+    ["Special Attack", "Special Attack", "Cheer On!", "After her EX Special, a boar's explosion gives the squad, Bangboo and boars Cheer On!: ATK up from her initial ATK (max 600) for 10s (Line Drive) or 15s (Fly Ball)."],
+    ["Chain Attack", "Chain Attack", "Grand Slam!", "Leaping boar launch for massive Fire DMG; triggers a Quick Assist on hit."],
+    ["Chain Attack", "Ultimate", "Walk-Off Home Run!", "Launches every boar for massive Fire DMG. Others recover 10 Energy, and the next Agent in gets 20 more. Triggers a Quick Assist on hit."]
+  ],
+  "core": {
+    "name": "Crimson Mane Guard",
+    "text": "Her Special or EX Special brings a guard boar into battle, which calls two more. They inherit her ATK, Impact and Anomaly Proficiency, attack more often, and get {0}% of the normal Cheer On! buff.",
+    "values": { "Boars' Cheer On! (%)": ["140", "150", "160", "170", "180", "190", "200"] }
+  },
+  "ability": {
+    "name": "Batter Up!",
+    "text": "The guard boars also inherit her CRIT Rate and CRIT DMG."
+  },
+  "mindscapes": [
+    "Each boar's Spinning Swing gives her 2 Energy (once per 15s per boar).",
+    "Her Chain and Ultimate give everyone Cheer On! for 10s.",
+    "Skill levels +2.",
+    "Cheer On! also gives +10% CRIT DMG.",
+    "Skill levels +2.",
+    "A cheered squadmate's EX Special hit drops a boar from the sky for 300% of the boar's ATK as Fire DMG, extending Cheer On! by 5s (up to 3 times, max 30s); the boar then does a Spinning Swing."
+  ]
+}

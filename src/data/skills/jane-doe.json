@@ -1,0 +1,61 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Dancing Blades", "Up to 6 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Passion", "Perfect Dodges, Defensive Assists and her hits fill Passion Stream; when full she enters Passion: +25% Physical Anomaly Buildup Rate, and +2 ATK per Anomaly Proficiency above 120 (max 600). In Passion her hits drain the Stream (Perfect Dodges and Defensive Assists refill it) until it's empty."],
+    ["Basic Attack", "Basic Attack", "Salchow Jump", "One use per Passion, hold: rapid attacks then a finisher for Physical DMG; hold longer to extend, release to finish early. 40% DMG reduction, invulnerable on the finisher. Refills Passion Stream."],
+    ["Dodge", "Dodge", "Phantom", "Slide dodge; she has two in a row outside Passion, and passes through enemies during Passion."],
+    ["Dodge", "Dash Attack", "Edge Jump", "Upward slash after one dodge, or a slash combo after two, for Physical DMG."],
+    ["Dodge", "Dash Attack", "Phantom Thrust", "In Passion: three quick Physical slashes."],
+    ["Dodge", "Dodge Counter", "Swift Shadow", "Slashes and a downward thrust (one dodge) or a leaping triple combo (two dodges) for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Swift Shadow Dance", "In Passion: rapid Physical slashes."],
+    ["Assist", "Quick Assist", "Dark Thorn", "Slashes and a downward thrust for Physical DMG; Lutz Jump in Passion (rapid slashes)."],
+    ["Assist", "Defensive Assist", "Last Defense", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Gale Sweep", "Leaping slash and a wide sweep for Physical DMG."],
+    ["Special Attack", "Special Attack", "Aerial Sweep", "Leaping kicks and a sweep for Physical DMG."],
+    ["Special Attack", "EX Special Attack", "Aerial Sweep - Clearout", "Leaping kicks and a sweep for massive Physical DMG."],
+    ["Chain Attack", "Chain Attack", "Flowers of Sin", "Wide slash for massive Physical DMG; enters Passion with a full Stream."],
+    ["Chain Attack", "Ultimate", "Final Curtain", "Back-and-forth slashes and a finisher for massive Physical DMG; enters Passion with a full Stream."]
+  ],
+  "core": {
+    "name": "Insight",
+    "text": "Her hits make enemies Gnawed for 10s. Assault on a Gnawed enemy makes its Flinch last 5s longer, and can CRIT: {0}% base CRIT Rate, +{1}% per Anomaly Proficiency, and 50% CRIT DMG.",
+    "values": {
+      "Base CRIT Rate (%)": ["20", "25", "28", "31", "34", "37", "40"],
+      "CRIT Rate per Anomaly Proficiency (%)": ["0.1", "0.11", "0.12", "0.13", "0.14", "0.15", "0.16"]
+    }
+  },
+  "ability": {
+    "name": "Sore Spot",
+    "text": "+20% Physical Anomaly Buildup Rate, and +15% more Physical buildup against enemies already suffering an Attribute Anomaly."
+  },
+  "mindscapes": [
+    "One more Salchow Jump per Passion. In Passion, +15% more Physical Anomaly Buildup Rate and +0.1% DMG per Anomaly Proficiency (max 30%).",
+    "Her hits and squad Assaults on Gnawed enemies ignore 15% DEF. Assault CRITs get +50% CRIT DMG.",
+    "Skill levels +2.",
+    "Any squad Assault or Disorder gives the squad +18% Attribute Anomaly DMG for 15s.",
+    "Skill levels +2.",
+    "In Passion, +20% CRIT Rate and +40% CRIT DMG. Any squad Assault puts her into Passion with a full Stream; if that Assault CRITs, she adds a hit for 1,600% of her Anomaly Proficiency as Physical DMG."
+  ],
+  "potential": {
+    "name": "Heartsnatch Tango",
+    "levels": [
+      "Upgrades Salchow Jump, Dancing Blades and her EX Special; unlocks Aerial Sweep - Onslaught.",
+      "Unlocks Awakened Potential: Lethal Dance.",
+      "Lethal Dance upgraded.",
+      "Lethal Dance upgraded.",
+      "Lethal Dance upgraded.",
+      "Lethal Dance upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Salchow Jump", "Holding extends it much further. The finisher can Perfect Dodge, and if it does, its hit refills more Passion Stream."],
+      ["Basic Attack", "Dancing Blades", "The 6th hit also counts as a Dash Attack, with raised Anti-Interrupt."],
+      ["EX Special Attack", "Clearout and Onslaught", "Her EX Special becomes a longer kick flurry and sweep for massive Physical DMG."]
+    ],
+    "awakened": {
+      "name": "Lethal Dance",
+      "text": "Assaults she triggers get +{0}% CRIT DMG.",
+      "values": [["10", "15", "20", "25", "30"]],
+      "from": 2
+    }
+  }
+}

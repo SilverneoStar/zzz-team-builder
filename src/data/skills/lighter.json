@@ -1,0 +1,35 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "L-Form Thundering Fist", "Up to 5 Physical and Fire hits. On the 3rd, steer and mash or hold for follow-up blows, then release into the 4th. The 5th starts with a light punch (steer and mash to alternate with the 4th), then a jab combo you can extend, then an invulnerable Finishing Move. 40% DMG reduction on the 5th, 80% in Morale Burst."],
+    ["Dodge", "Dodge", "Shadowed Slide", "Quick dash dodge, or a shuffle in the held direction; doesn't break the Basic combo."],
+    ["Dodge", "Dash Attack", "Charging Slam", "Rapid Physical strikes."],
+    ["Dodge", "Dodge Counter", "Blazing Flash", "Fire strike; flows into the 5th Basic hit."],
+    ["Assist", "Defensive Assist", "Swift Break", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Quick Assist", "Blazing Flash - Guard", "Fire strike; flows into the 5th Basic hit."],
+    ["Assist", "Assist Follow-Up", "Charging Slam - Stab", "Fire strike; flows into the 5th Basic hit."],
+    ["Special Attack", "Special Attack", "V-Form Sunrise Uppercut", "Uppercut, or a punch flurry, for Fire DMG; doesn't break the Basic combo."],
+    ["Special Attack", "EX Special Attack", "V-Form Sunrise Uppercut - Full Distance", "Leaping uppercut for massive Fire DMG, flowing into the 4th Basic hit. During a shuffle dodge, it's a punch combo for massive Fire DMG instead, flowing into the 5th."],
+    ["Chain Attack", "Chain Attack", "V-Form Scorching Sun", "Powerful strike for massive Fire DMG."],
+    ["Chain Attack", "Ultimate", "W-Form Crowned Inferno", "Wide strike all around for massive Fire DMG."]
+  ],
+  "core": {
+    "name": "Accelerant",
+    "text": "Morale (max 100) fills by 2.9 per second, plus 0.26 per Energy any squad member spends. At 80, his next switch-in is an instant Quick Assist, and his 5th Basic hit enters Morale Burst: a stronger light punch, jab combo and Finishing Move that drain Morale on hit, each 10 spent giving +{0}% Impact (max {1}%, 6s). No passive Morale gain during Burst; running out mid-combo auto-fires a stronger Finishing Move.\nIn Burst, light punch and jab hits lower Ice and Fire RES by 15% for 30s, and the Finishing Move applies Collapse: +3s Stun (once per Stun). Burst ends on the Finishing Move, switching out, or running out of Morale; unused Morale is kept.",
+    "values": {
+      "Impact per 10 Morale (%)": ["1", "1.17", "1.33", "1.5", "1.67", "1.83", "2"],
+      "Max Impact (%)": ["10", "11.1", "13.3", "15", "16.7", "18.3", "20"]
+    }
+  },
+  "ability": {
+    "name": "Fighting Spirit",
+    "text": "In Morale Burst, his 5th Basic hit gives the squad Elation (max 20, 30s): +1.25% Ice and Fire DMG each, +0.25% more per 10 Impact above 170 (max 75% total). Any squad Chain Attack refreshes it."
+  },
+  "mindscapes": [
+    "Collapse adds 5s of Stun and lowers Ice and Fire RES by 10% more. The out-of-Morale Finishing Move deals +30% DMG.",
+    "Collapse raises the enemy's Stun DMG Multiplier by 25%. Elation is 120% as strong.",
+    "Skill levels +2.",
+    "While he's off-field, the on-field Agent gets +10% Energy Regen. Entering Morale Burst gives off-field Agents 4 Energy (once per 18s).",
+    "Skill levels +2.",
+    "Double Morale gain. His heavy hits trigger Blazing Impact for 250% ATK as Fire DMG (once per 8s per enemy), +5% per Impact above 170 (max +500%). The out-of-Morale Finishing Move triggers it again, ignoring the cooldown."
+  ]
+}

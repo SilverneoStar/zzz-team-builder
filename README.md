@@ -52,7 +52,24 @@ public/
   bangboo/       Bangboo art (official art, see NOTICE.md)
 ```
 
-Game data lives in `src/data` and game rules in `src/lib`, independent of the UI. Game data is compiled from the community wiki (see NOTICE.md) and covers released content plus officially announced Agents only.
+Game data lives in `src/data` and game rules in `src/lib`, independent of the UI. Game data is compiled from the sources listed under [Sources](#sources) and covers released content plus officially announced Agents only.
+
+## Sources
+
+All game information is factual data about released content (plus officially announced Agents). No game files are extracted, and beta or leaked data is never used. Write-ups from guides are not copied; only names, numbers and game facts are taken, and the skill summaries are written in this project's own words.
+
+| What | Source |
+| --- | --- |
+| Agents, W-Engines, Drive Discs and Bangboo: names, ranks, attributes, specialties, factions, stats, set bonuses, release versions | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/) (Fandom), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Additional Ability conditions and kit links (Ether Veil, Aftershock) | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
+| Skills tab: skills, Core Passive values (Base, A–F), Additional Abilities, Mindscapes and Potential, summarised | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
+| Materials tab: level-up, skill and Core Skill costs and where each item drops | [Zenless Zone Zero Wiki](https://zenless-zone-zero.fandom.com/), CC BY-SA 4.0 |
+| Build and Best teams tabs: W-Engine, Drive Disc, stat and team picks | [Icy Veins](https://www.icy-veins.com/zenless-zone-zero/) build and team guides |
+| Agent roles and in-combat stat targets | Community [ZZZ Agent Build Guide](https://docs.google.com/spreadsheets/d/e/2PACX-1vTj2PaPq6Py_1B5fsOPj_Moc-tN_7mut7fICczI6lz1njyEIAInTnfB7lAraX4pYCRGNbaHGlIbFZ90/pubhtml) (Google Sheets) |
+| Upcoming Agents (teams, expected style) | HoYoverse's official reveals and livestreams; estimates are marked on the site |
+| Agent portraits, Bangboo art, attribute and specialty icons | Official game art © HoYoverse |
+
+Data was last compiled in October 2026 and may lag behind new patches. Corrections are welcome through [issues](https://github.com/SilverneoStar/zzz-team-builder/issues). See [NOTICE.md](NOTICE.md) for full attribution.
 
 ## Privacy
 

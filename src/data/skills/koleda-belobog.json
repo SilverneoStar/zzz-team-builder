@@ -1,0 +1,51 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Smash 'n' Bash", "Up to 4 Physical hits. With Furnace Fire, an enhanced hit after the 2nd uses it for massive Fire DMG. With Ben in the squad they can team up for a stronger joint attack."],
+    ["Dodge", "Dodge", "Wait 'n' See", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Tremble!", "Physical slash all around her."],
+    ["Dodge", "Dodge Counter", "Don't Look Down on Me", "Strike and explosion for Fire DMG."],
+    ["Assist", "Quick Assist", "Coming Thru!", "Fire strike."],
+    ["Assist", "Defensive Assist", "Protective Hammer", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Hammer Bell", "Charging Fire strike; gives Furnace Fire."],
+    ["Special Attack", "Special Attack", "Hammer Time", "Strike and explosion for Fire DMG; faster after her 2nd or 4th Basic hit or the enhanced hit. After an enhanced hit with Ben in the squad, they team up."],
+    ["Special Attack", "EX Special Attack", "Boiling Furnace", "Strike and big explosion for massive Fire DMG; gives Furnace Fire. Same speed-up and Ben team-up as Hammer Time."],
+    ["Chain Attack", "Chain Attack", "Natural Disaster", "Wide explosion for massive Fire DMG; gives Furnace Fire."],
+    ["Chain Attack", "Ultimate", "Hammerquake", "Wide explosion for massive Fire DMG; gives Furnace Fire. Teams up with Ben if he's in the squad."]
+  ],
+  "core": {
+    "name": "Demolition Hammer",
+    "text": "Her EX Special and Furnace Fire enhanced Basic deal {0}% more Daze.",
+    "values": { "Daze (%)": ["30", "35", "40", "45", "50", "55", "60"] }
+  },
+  "ability": {
+    "name": "Belobog Management",
+    "text": "Her EX Special explosion marks the enemy: while it's Stunned, Chain Attacks deal it 35% more DMG (stacks 2; clears when the Stun ends)."
+  },
+  "mindscapes": [
+    "A quick Special or EX after her 2nd or 4th Basic hit, or the enhanced hit, deals +15% Daze.",
+    "EX Special hits give 60 Energy (once per 45s).",
+    "Skill levels +2.",
+    "Each enhanced Basic gives 1 Charge (max 2); her Chain or Ultimate spends them for +18% DMG each.",
+    "Skill levels +2.",
+    "Explosions from her EX, Chain and Ultimate add 360% of her ATK as DMG."
+  ],
+  "potential": {
+    "name": "Get Workin'!",
+    "levels": [
+      "Upgrades her Basic Attack, Dash Attack, Dodge Counter, Assist Follow-Up, Special, EX Special, Ultimate, and widens her Additional Ability's range.",
+      "Unlocks Awakened Potential: Demolition Ops.",
+      "Demolition Ops upgraded.",
+      "Demolition Ops upgraded.",
+      "Demolition Ops upgraded.",
+      "Demolition Ops upgraded to its maximum."
+    ],
+    "skills": [],
+    "note": "The details of her upgraded skills aren't published on the wiki yet.",
+    "awakened": {
+      "name": "Demolition Ops",
+      "text": "Armorer Agents in the squad gain +{0}% Laceration DMG; everyone else gains +{1}% CRIT DMG.",
+      "values": [["4", "6", "8", "10", "12"], ["11", "17", "23", "29", "35"]],
+      "from": 2
+    }
+  }
+}

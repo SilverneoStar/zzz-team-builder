@@ -8,6 +8,7 @@ export const POTENTIAL_AGENTS = new Set([
   'ellen-joe',
   'grace-howard',
   'jane-doe',
+  'koleda-belobog',
   'soldier-0-anby',
   'soldier-11',
   'von-lycaon',

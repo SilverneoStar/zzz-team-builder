@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Orbital Combo", "Up to 5 Ether hits. The 5th is a Whim: an Ethereal figure strikes an area ahead; +40 Dream Points outside Dream."],
+    ["Dodge", "Dodge", "Fading Silhouette", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Refraction", "Quick Ether strike."],
+    ["Dodge", "Dodge Counter", "Stardust Echo", "A Whim: the figure slams an area for Ether DMG; +20 Dream Points outside Dream (once per 5s)."],
+    ["Assist", "Quick Assist", "Crushing Mist", "A Whim: the figure slams an area for Ether DMG; +20 Dream Points outside Dream (once per 5s)."],
+    ["Assist", "Defensive Assist", "Voice of Illusory Dreams", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Harmony of Painted Dreams", "A Harmony: the figure slams an area for Ether DMG; +40 Dream Points outside Dream."],
+    ["Special Attack", "Special Attack", "Symphony of the Reaper - Storm", "A Whim: the figure slashes in a line for Ether DMG; +20 Dream Points outside Dream (once per 5s)."],
+    ["Special Attack", "EX Special Attack", "Symphony of the Reaper - Daybreak", "A Harmony: a powerful line slash for Ether DMG; +60 Dream Points outside Dream. In Dream inside Wellspring, extends Wellspring by 16s. Flows into the 5th Basic hit."],
+    ["Special Attack", "Special Attack", "Harmony effects", "Any Harmony gives the squad Darkbreaker for 20s: +12 Sheer Force, plus more from her Max HP (maxes out at 24,000 initial Max HP). Harmony hits also add DMG based on her Max HP."],
+    ["Chain Attack", "Chain Attack", "Stage of Brilliance", "A Harmony: the figure pulls enemies in for Ether DMG; +40 Dream Points outside Dream."],
+    ["Chain Attack", "Ultimate", "Charge, Great Armor!", "A Harmony: rides the figure in a steerable charge (up to 3s; 40% DMG reduction; can't drop below 1 HP), then a wide Ether strike that triggers a Quick Assist and leaves Starlight Convergence for 8s (heals the on-field Agent from her Max HP). Extends Wellspring by 32s in Dream. +100 Dream Points; used in Dream, she re-enters Dream once when it ends."]
+  ],
+  "core": {
+    "name": "Lost Nocturne",
+    "text": "Enters battle with 60 Dream Points; a Whim or Harmony at 100 puts her in Dream, triggering a Quick Assist and opening Ether Veil: Wellspring (squad Max HP +5% for 40s; extendable to 300s).\nIn Dream, Whims spend 25 Dream Points to become Harmonies, and a squadmate's hit can spend 25 for a Harmony Aftershock (8s cooldown after either). Each one gives the squad Dreamer's Nursery Rhyme: +{0}% DMG for 12s. Dream ends when Dream Points run out or she leaves the Ether Veil.",
+    "values": { "DMG (%)": ["10", "11.7", "13.3", "15", "16.7", "18.3", "20"] }
+  },
+  "ability": {
+    "name": "Ballad of the Long Night",
+    "text": "Darkbreaker also gives +30% CRIT DMG."
+  },
+  "mindscapes": [
+    "Dreamer's Nursery Rhyme's extra DMG ignores 18% All-Attribute RES with +5% Decibel generation. Each skill upgrade gives 1 Echo (max 4); when the Rhyme ends, an Echo reapplies it.",
+    "Inside Wellspring her Harmonies deal +15% DMG, and Darkbreaker Agents get +15% Sheer DMG.",
+    "Skill levels +2.",
+    "Whenever an Ether Veil opens or is extended, the squad gets 100 Decibels (once per 15s).",
+    "Skill levels +2.",
+    "Inside any Ether Veil: +ATK equal to 2% of her initial Max HP, and Harmonies always CRIT with +30% CRIT DMG."
+  ]
+}

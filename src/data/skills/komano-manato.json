@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Blazing Wind Slash", "Up to 3 Physical slashes; press during each to add Scorchwind for extra Fire DMG."],
+    ["Basic Attack", "Basic Attack", "Blazing Wind - Misty Slash", "In Molten Edge: up to 4 Fire slashes, each costing 3.5% Max HP while he's above 30% HP."],
+    ["Dodge", "Dodge", "Radiant Blade", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Radiant Blade - Zanshin", "Shoulder slam for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Radiant Blade - Battle Sweep", "Slash and punch for Fire DMG."],
+    ["Assist", "Quick Assist", "Lone Shadow - Regroup", "Slash and punch for Fire DMG."],
+    ["Assist", "Defensive Assist", "Lone Shadow - Mountain Stand", "Parries for massive Daze and Fire DMG; +75 Blazing Heart."],
+    ["Assist", "Assist Follow-Up", "Lone Shadow - Breaking Fang", "Fire slashes; mash for up to 7 more, each costing 2% Max HP while above 30% HP."],
+    ["Special Attack", "Special Attack", "Return to Ashes", "Fire slash with 40% DMG reduction. Getting hit during it enhances the slash and heals 20% of missing HP (heal shared with Sacrifice, once per 20s)."],
+    ["Special Attack", "Special Attack", "Return to Ashes - Sacrifice", "Hold to charge, spending up to 10% Max HP (never below 30%) for 100 Blazing Heart; release for Return to Ashes. Getting hit or charging long enough enhances the slash."],
+    ["Special Attack", "EX Special Attack", "Return to Ashes - Fall", "In Molten Edge: leaping slash for massive Fire DMG; heals 33% Max HP."],
+    ["Chain Attack", "Chain Attack", "Blazing Eruption", "Throws his sword then charges into an explosion for massive Fire DMG."],
+    ["Chain Attack", "Ultimate", "Musou Aratama", "Leaping slash and explosion for massive Fire DMG."]
+  ],
+  "core": {
+    "name": "Mighty Molten Edge",
+    "text": "Gains 0.1 Sheer Force per point of Max HP; all his Fire DMG is Sheer DMG, ignoring DEF.\nSacrifice and Defensive Assists build Blazing Heart (max 100). At 75 he enters Molten Edge, draining 3.3 per second until empty: his Basic Attacks are enhanced, he can use Return to Ashes - Fall, and he gets +10% CRIT Rate and +{1}% Fire DMG.\nMisty Slash and Breaking Fang hits that cost HP get +{0}% CRIT DMG and double Adrenaline generation.",
+    "values": {
+      "CRIT DMG (%)": ["25", "29.2", "33.3", "37.5", "41.7", "45.8", "50"],
+      "Fire DMG (%)": ["10", "11.7", "13.3", "15", "16.7", "18.3", "20"]
+    }
+  },
+  "ability": {
+    "name": "Rekindled Heart",
+    "text": "Ultimate gives 8 Remnant Flame and Chain Attack 4 (max 20, 60s). Below full HP, Misty Slash and Breaking Fang hits spend 1 to heal 2% Max HP."
+  },
+  "mindscapes": [
+    "HP he loses is tallied: each 1% of Max HP gives his Basic Attacks and Assist Follow-Ups +0.4% Fire DMG (max 20%).",
+    "In Molten Edge he ignores 8% Fire RES. Getting hit during Return to Ashes or Sacrifice lets him press into an Assist Follow-Up.",
+    "Skill levels +2.",
+    "+8% Max HP. During Return to Ashes or Sacrifice, fatal DMG leaves him at 1 HP (once per 10s).",
+    "Skill levels +2.",
+    "Return to Ashes on a Stunned enemy gives 75 Blazing Heart and 4 Remnant Flame (once per 20s) and lets him press into an Assist Follow-Up. Assist Follow-Up hits give +3% Fire DMG for 8s (max 5)."
+  ]
+}
