@@ -7,6 +7,7 @@ export const W_ENGINES_WITH_ART = new Set([
   'deep-sea-visitor', 'ode-of-resurrected-wings', 'joyau-dore', 'boisterous-echoes',
   'the-vault', 'weeping-cradle', 'weeping-gemini', 'roaring-ride', 'kaboom-the-cannon',
   'sharpened-stinger', 'sin-ban-cage', 'nirvana-s-first-plume',
+  'myriad-eclipse', 'demara-battery-mark-ii', 'bashful-demon', 'krakens-cradle', 'wrathful-vajra', 'qingming-birdcage', 'starlight-rider-faceplate', 'angel-in-the-shell', 'neon-fantasies', 'thoughtbop', 'serpentine-seeker', 'cloudcleave-radiance',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
