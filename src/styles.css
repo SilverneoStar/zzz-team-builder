@@ -5905,18 +5905,16 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .arc-card--engine .card__tag,
 .arc-card--engine .gear-stats dt { font-size: 0.64rem; }
 .arc-card--engine .gear-stats dd { font-size: 0.78rem; }
-/* Signature row: the "Sig" tag gets its own centred line, then the portrait
-   and short name sit together underneath, so the portrait is the thing
-   that's centred rather than the tag + portrait + name as one wide strip. */
+/* Signature block: tag, portrait and short name stacked on the same centre
+   line as the icon and name above, instead of one wide side-by-side strip
+   whose portrait ends up off to the left. */
 .arc-card--engine .arc-user {
   display: grid;
-  grid-template-columns: auto minmax(0, auto);
-  justify-content: center;
-  align-items: center;
-  column-gap: 6px;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
   row-gap: 3px;
-  max-width: 100%;
+  width: 100%;
   font-size: 0.72rem;
+  line-height: 1.2;
 }
-.arc-card--engine .arc-user .arc-tag { grid-column: 1 / -1; justify-self: center; }
-.arc-card--engine .arc-user .portrait--sm { width: 34px; height: 34px; }
+.arc-card--engine .arc-user .portrait--sm { width: 38px; height: 38px; }
