@@ -244,7 +244,7 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items) {
     roundRect(ctx, x + 20, ry + 6, 6, rowH - 22, 3);
     ctx.fill();
     ctx.fillStyle = K.text;
-    ctx.font = `600 16px ${FONT}`;
+    ctx.font = `600 14.5px ${FONT}`;
     ctx.textAlign = 'right';
     const qty = `×${fmt(it.qty)}`;
     ctx.fillText(qty, x + w - 20, ry + 22);
