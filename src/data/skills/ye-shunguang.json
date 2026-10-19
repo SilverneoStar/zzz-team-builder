@@ -1,0 +1,45 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Swiftedge", "Up to 4 Physical slashes; the 4th can chain into Phantasm Dash."],
+    ["Basic Attack", "Basic Attack", "Cloudstream Sword Will", "Hold: a flurry of blade shockwaves for Physical DMG; keep holding to extend."],
+    ["Basic Attack", "Basic Attack", "Enlightened Mind combo", "In Enlightened Mind her Basic becomes up to 3 slashes (the 3rd blocks hits), or Skyward Ascent (a rising strike into the air) if she has Qingming Sword Force. Airborne she uses Sunderlight (two downward slashes) and Sunderlight Annihilation (a falling strike; with 2+ Force it's a huge strike that spends 2 and gives Culmination)."],
+    ["Basic Attack", "Basic Attack", "Enlightened Mind - Sunderlight Maximum", "Wide sweeping slash for massive Physical DMG, spending 1 Force on hit; blocks hits. Press after with Force to fire one Soaring Light hit, then Skyward Ascent."],
+    ["Basic Attack", "Basic Attack", "Culmination", "During Soaring Light, the next Force cost uses Culmination instead (once per Enlightened Mind)."],
+    ["Dodge", "Dodge", "Leave No Trace", "Quick dash dodge; in Enlightened Mind, a Perfect Dodge lets her press into Skyward Ascent."],
+    ["Dodge", "Dodge", "Wandering Cloud", "Steer and hold: high-speed movement."],
+    ["Dodge", "Dash Attack", "Phantasm Dash", "Physical slash."],
+    ["Dodge", "Dodge Counter", "Swallow Strike", "Leaping thrust for Physical DMG."],
+    ["Assist", "Entry Skill", "Illuminating Darkness", "With 6 Force outside Enlightened Mind, hold (or switch in during combat): enters Enlightened Mind, opens Ether Veil: Verdict, and hits a wide area for Physical DMG. Counts as a Quick Assist."],
+    ["Assist", "Quick Assist", "Support Guard", "Leaping thrust for Physical DMG; a slash in Enlightened Mind."],
+    ["Assist", "Defensive Assist", "When I Return", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Cease Hostility", "Massive Physical DMG (Unification in Enlightened Mind)."],
+    ["Special Attack", "Special Attack", "Guiding Tides", "Uses a dodge if one is available. Without a Perfect Dodge it's a quick sword-energy hit; with one, a flying sword attack into the 2nd Swiftedge hit. Briefly invulnerable."],
+    ["Special Attack", "EX Special Attack", "Gale Suppression", "Rushing slash and flying sword for massive Physical DMG; can dodge during it. +1 Force."],
+    ["Special Attack", "Special Attack", "Enlightened Mind - Clean Exit", "Backstep slash that uses a dodge; a Perfect Dodge lets her press into Sunderlight Maximum with Vital View."],
+    ["Special Attack", "EX Special Attack", "Enlightened Mind - Soaring Light", "Hold with Force: rapid slashes for massive Physical DMG, burning Force until it's gone or you release."],
+    ["Special Attack", "EX Special Attack", "Enlightened Mind - Return to Dust", "With no Force left: a wide hit for massive Physical DMG that ends Enlightened Mind and the Ether Veil."],
+    ["Chain Attack", "Chain Attack", "Smite the Wicked", "Wide slash for massive Physical DMG (Lure Thunder in Enlightened Mind, then airborne)."],
+    ["Chain Attack", "Ultimate", "Chasing Storms", "Sword formation for massive Physical DMG: enters Enlightened Mind, opens Ether Veil: Verdict and gives 6 Force; goes airborne. If it spent Decibels, she can later use Cleaving Heavens for free."],
+    ["Chain Attack", "Ultimate", "Cleaving Heavens", "With no Force left after a Chasing Storms: a massive blade for huge Physical DMG; ends Enlightened Mind and the Ether Veil."]
+  ],
+  "core": {
+    "name": "Burning Clarity",
+    "text": "Outside Enlightened Mind (below 6), some attacks slowly build Qingming Sword Force. Force past the cap becomes Bearer (max 3), which turns back into Force when Enlightened Mind ends. Entering battle gives Unity: +{0}% CRIT Rate and +{1}% DMG.\nChasing Storms or Illuminating Darkness start Enlightened Mind and Ether Veil: Verdict for 16s (paused off-field): her skills are enhanced and her Physical DMG becomes Honed Edge DMG. Enemies entering Verdict get Veil Vulnerability from their Stun DMG Multiplier (max 110%), which replaces it for her hits.",
+    "values": {
+      "CRIT Rate (%)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"],
+      "DMG (%)": ["10", "12.5", "15", "17.5", "20", "22.5", "25"]
+    }
+  },
+  "ability": {
+    "name": "Shadowtrace Flight",
+    "text": "A squadmate opening any Ether Veil gives her 3 Force, or 3 Bearer during Enlightened Mind."
+  },
+  "mindscapes": [
+    "Enters battle with 6 Force (once per 180s in Investigation Zones). Unity gives +10% more DMG and ignores 20% DEF.",
+    "Bearer max 6 and Culmination stacks to 9; each Force spent in Enlightened Mind gives 1 Culmination. Soaring Light and Cleaving Heavens ignore 40% DEF.",
+    "Skill levels +2.",
+    "Enters battle with 1,000 Decibels (once per 180s in Investigation Zones). Veil Vulnerability caps at 200%.",
+    "Skill levels +2.",
+    "Gains Lantern Wish: 2 on entering battle, +1 per Enlightened Mind (max 4). At 3, Return to Dust becomes Cleaving Heavens (spends 3). The last hit of both adds 1,500% ATK as Physical DMG."
+  ]
+}

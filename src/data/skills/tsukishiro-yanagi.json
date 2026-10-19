@@ -1,0 +1,35 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Tsukuyomi Kagura", "Up to 5 Physical and Electric slashes in her current stance. Jougen: +10% Electric DMG and higher Anti-Interrupt on Basics. Kagen: +10% PEN Ratio and higher Interrupt Level on Basics. She keeps the old stance's bonus for 8s after switching."],
+    ["Dodge", "Dodge", "Wandering Breeze", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Fleeting Flight", "Physical slash."],
+    ["Dodge", "Dodge Counter", "Rapid Retaliation", "Electric slash; flows into the 3rd Basic hit."],
+    ["Assist", "Quick Assist", "Blade of Elegance", "Electric slash; flows into the 3rd Basic hit."],
+    ["Assist", "Defensive Assist", "Radiant Reversal", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Weeping Willow Stab", "Switches stance with fast Electric slashes; flows into the 3rd Basic hit."],
+    ["Special Attack", "Special Attack", "Ruten", "Electric slash that switches stance. After her 3rd–5th Basic hit it's Swift Ruten: faster, blocks attacks, and flows into the 3rd Basic hit."],
+    ["Special Attack", "EX Special Attack", "Gekka Ruten", "Hold: a charged thrust then a downward strike for massive Electric DMG. The thrust switches stance and gives Shinrabanshou for 15s: her Basic follow-ups start from the 3rd hit. The strike on an Anomaly-afflicted enemy triggers Polarity Disorder (15% of normal Disorder DMG plus a share of her Anomaly Proficiency, without clearing the Anomaly)."],
+    ["Chain Attack", "Chain Attack", "Celestial Harmony", "Switches stance with a powerful slash for massive Electric DMG; flows into the 3rd Basic hit."],
+    ["Chain Attack", "Ultimate", "Raiei Tenge", "Wide slash and lightning strike for massive Electric DMG; the strike triggers Polarity Disorder on an Anomaly-afflicted enemy. Flows into the 3rd Basic hit."]
+  ],
+  "core": {
+    "name": "Lunar Eclipse",
+    "text": "After her EX Special, Disorder from anyone gets +{0}% DMG multiplier for 15s. Her EX hits give her +{1}% Electric DMG against that enemy for 15s.",
+    "values": {
+      "Disorder multiplier (%)": ["125", "145", "166", "188", "208", "230", "250"],
+      "Electric DMG (%)": ["10", "11.6", "13.3", "15", "16.6", "18.3", "20"]
+    }
+  },
+  "ability": {
+    "name": "Gessou",
+    "text": "After switching stance, her Basic Attacks build 45% more Electric Anomaly for 8s."
+  },
+  "mindscapes": [
+    "Any squad Anomaly gives her Clarity (max 3, 15s); being hit spends one for 1s of invulnerability. With Clarity, +80 Anomaly Proficiency.",
+    "Her EX thrust builds 20% more Electric Anomaly. Hold after it hits to spend 10 Energy on another thrust (up to 2 more). Polarity Disorder from it deals 20%, +15% per extra thrust.",
+    "Skill levels +2.",
+    "Her Anomaly DMG makes enemies Exposed for 15s: attacks on them get +16% PEN Ratio.",
+    "Skill levels +2.",
+    "Shinrabanshou lasts 30s and gives +15% ATK and +20% EX DMG. Up to 4 extra thrusts, and the first 4 cost half Energy."
+  ]
+}

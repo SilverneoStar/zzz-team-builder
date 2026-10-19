@@ -1,0 +1,38 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Cirrus Strike", "Up to 5 Auric Ink hits; higher Anti-Interrupt on the 3rd and 4th."],
+    ["Basic Attack", "Basic Attack", "Ink‐Veil Cloud Coalescence", "Hold: deploys a Grand Tai Chi Formation for Auric Ink DMG, then the 5th Cirrus Strike hit."],
+    ["Basic Attack", "Basic Attack", "Auric Array", "With an Auric Ink Point, hold (or tap during Nimbus Step): an array dealing continuous Auric Ink DMG while recovering 7 Adrenaline per second for up to 3s, ending in Qingming Eruption."],
+    ["Basic Attack", "Basic Attack", "Qingming Eruption", "Ends a full Auric Array: an exploding wing burst for massive Auric Ink DMG."],
+    ["Dodge", "Dodge", "Hidden Cloud Technique", "Quick dash dodge."],
+    ["Dodge", "Dodge", "Nimbus Step", "Steer and hold: fast Light as Air movement (picks up nearby resources in Investigation Zones)."],
+    ["Dodge", "Dash Attack", "Skybreaker", "Rushing Auric Ink attack."],
+    ["Dodge", "Dodge Counter", "Banishing Blow", "Auric Ink combo."],
+    ["Assist", "Quick Assist", "Cloudstream Shadow", "Auric Ink combo."],
+    ["Assist", "Defensive Assist", "Clear Sky Surge", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Celestial Cloud Blitz", "Dashing Auric Ink attack."],
+    ["Special Attack", "Special Attack", "Shadow-Ignition", "Backstep then strike for Auric Ink DMG; the backstep can Perfect Dodge (no Dodge Counter)."],
+    ["Special Attack", "EX Special Attack", "Ink Manifestation", "Spends Adrenaline: charge, then an upward wing strike for massive Auric Ink DMG. Charging auto-blocks hits into the strike; blocking right as it starts (or a flashing enemy attack) is a Perfect Block: no DMG, heavy-parry Interrupt Level, +10 Adrenaline (once per 0.5s). Full charge or a Perfect Block adds a Talisman Attack. Press on for Celestial Cloud Blitz - Break, then (20 Adrenaline) Qingming Eruption - Break, then hold into Auric Array."],
+    ["Special Attack", "EX Special Attack", "Cloud-Shaper", "Hold with Adrenaline: channels energy around enemies for up to 2s of massive Auric Ink DMG, ending in Ashen Ink Becomes Shadows (an imploding orb). Can Perfect Dodge as it starts, into Vital View."],
+    ["Chain Attack", "Chain Attack", "Auric Ink Rush", "Dashing attack and wing burst for massive Auric Ink DMG."],
+    ["Chain Attack", "Ultimate", "Qingming Skyshade", "Wing barrage and talismans for massive Auric Ink DMG; evens out the squad's HP. Hold after into Auric Array if she has a Point."],
+    ["Chain Attack", "Ultimate", "Endless Talisman Suppression", "Spends 120 Technique Points (used first if she also has Decibels): wings and talismans for massive Auric Ink DMG; evens out squad HP and gives an Auric Ink Point."]
+  ],
+  "core": {
+    "name": "Grandmaster of Mysticism",
+    "text": "Gains 0.1 Sheer Force per point of Max HP; all her Auric Ink skill DMG is Sheer DMG, ignoring DEF. Her Auric Ink buildup has its own gauge; triggering an Anomaly gives 10 Adrenaline (once per 10s).\nEnters combat with full Adrenaline (once per 180s in Investigation Zones); Perfect Dodges give 5 (once per 1s). Each Adrenaline spent gives 0.667 Technique Points (max 120) for Endless Talisman Suppression.\nAuric Array, Qingming Eruption, EX Specials, Assist Follow-Up, Chain and Ultimate deal +{0}% DMG.",
+    "values": { "Skill DMG (%)": ["30", "35", "40", "45", "50", "55", "60"] }
+  },
+  "ability": {
+    "name": "Auric Ink Undercurrent",
+    "text": "A squadmate's Ultimate gives her 2 Adrenaline over 10s. Switching out via Perfect Assist adds a lightning strike for 225% Sheer Force and 5 Adrenaline. Cloud-Shaper and Ashen Ink deal +30% DMG to Stunned enemies. Her Ultimates give Meditation: +40% CRIT DMG for 15s."
+  },
+  "mindscapes": [
+    "Enters combat with +10% CRIT Rate and 120 Technique Points (once per 180s in Investigation Zones). Any squad hit summons a lightning strike for 50% Sheer Force and 5 Adrenaline (once per 6s).",
+    "Ultimates and EXs ignore 15% Ether RES. Qingming Skyshade extends Stuns by 3s (once per Stun). Endless Talisman Suppression gives Condensed Ink (max 1): spend it after Qingming Eruption, Ashen Ink or Qingming Eruption - Break for a follow-up dealing up to 1,200% Sheer Force.",
+    "Skill levels +2.",
+    "Each Ultimate gives Tranquility (max 2): +30% DMG to her next Cloud-Shaper and Ashen Ink per stack.",
+    "Skill levels +2.",
+    "Qingming Skyshade gives Regulated Breathing: one free Endless Talisman Suppression (once per 30s). +20% Sheer DMG during Meditation."
+  ]
+}

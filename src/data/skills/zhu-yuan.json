@@ -1,0 +1,34 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Don't Move!", "Assault Mode: up to 5 hits of martial arts and buckshot for Physical and Ether DMG; the 4th or 5th hit gives 1 Enhanced Shotshell (max 1 per combo). Steer and press for Firepower Offensive. Hold to switch to Suppressive Mode."],
+    ["Basic Attack", "Basic Attack", "Please Do Not Resist", "Suppressive Mode, hold: up to 3 piercing Shotshell shots for Physical DMG; each uses an Enhanced Shotshell if she has one, for massive Ether DMG. Steer for Overwhelming Firepower. Release to return to Assault Mode."],
+    ["Dodge", "Dodge", "Tactical Detour", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Firepower Offensive", "Assault Mode: handgun shots for Physical DMG."],
+    ["Dodge", "Dash Attack", "Overwhelming Firepower", "Suppressive Mode: a piercing Shotshell; uses an Enhanced Shotshell for massive Ether DMG."],
+    ["Dodge", "Dodge Counter", "Fire Blast", "Ether buckshot."],
+    ["Assist", "Quick Assist", "Covering Shot", "Ether buckshot."],
+    ["Assist", "Evasive Assist", "Guarded Backup", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Defensive Counter", "Martial arts and shotshells for Physical and Ether DMG."],
+    ["Special Attack", "Special Attack", "Buckshot Blast", "Ether buckshot; press up to 3 times."],
+    ["Special Attack", "EX Special Attack", "Full Barrage", "Exploding buckshot barrage for massive Ether DMG; +3 Enhanced Shotshells."],
+    ["Chain Attack", "Chain Attack", "Eradication Mode", "Lasers and homing missiles for massive Ether DMG; +3 Enhanced Shotshells."],
+    ["Chain Attack", "Ultimate", "Max Eradication Mode", "Lasers and homing missiles for massive Ether DMG; +3 Enhanced Shotshells."]
+  ],
+  "core": {
+    "name": "Special Ops Ammunition",
+    "text": "In Suppressive Mode, Enhanced Shotshells give her +{0}% DMG, and {0}% more against Stunned enemies. Enters battle with 6 Enhanced Shotshells.",
+    "values": { "DMG (%)": ["20", "23.3", "26.6", "30", "33.3", "36.6", "40"] }
+  },
+  "ability": {
+    "name": "Tactical Coordination",
+    "text": "+30% CRIT Rate for 10s after her EX Special, Chain or Ultimate."
+  },
+  "mindscapes": [
+    "Chain or Ultimate gives Quick Reload: when she runs out of Enhanced Shotshells, it instantly refills 6 (Chain) or 9 (Ultimate).",
+    "Suppressive Mode raises Anti-Interrupt and cuts DMG taken by 10%. Enhanced Shotshell hits make the enemy take +10% Ether DMG from her Suppressive shots (max 5, 5s).",
+    "Skill levels +2.",
+    "After an Enhanced Shotshell hit, her Suppressive shots ignore 25% Ether RES.",
+    "Skill levels +2.",
+    "Every 12 Enhanced Shotshells used gives Ether Afterglow: her next EX costs 30 less Energy and fires 4 extra bullets for 220% ATK each."
+  ]
+}

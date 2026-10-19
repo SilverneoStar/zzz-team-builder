@@ -1,0 +1,43 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Feathered Strike", "Up to 4 Physical and Ether hits; the 4th enters Noblewoman (hold with Flight Feathers for Fluttering Frock instead)."],
+    ["Basic Attack", "Basic Attack", "Noblewoman - Waltz", "Dashing Ether attack; +1 Flight Feather on hit, +1 more on a Perfect Dodge during the dash. Enters Fluttering Frock if she has Feathers (hold to cancel)."],
+    ["Basic Attack", "Basic Attack", "Fluttering Frock - Suspension", "Ether area attack that turns every Flight Feather into a Guard Feather. Auto-casts if you switch out in Fluttering Frock."],
+    ["Basic Attack", "Basic Attack", "Featherbloom", "When any squad member's EX Special hits, she spends 1 Guard Feather (max 5) on an Ether strike at the target, even off-field (once per skill)."],
+    ["Dodge", "Dodge", "Lightstream", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Silver Thorned Melody", "Thrust for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Wingblade Reverb", "Physical and Ether attack; enters Noblewoman (or Fluttering Frock by holding with Feathers)."],
+    ["Dodge", "Dodge", "Dainty Steps", "In Noblewoman, auto-dodges one incoming attack while invulnerable (no Perfect Dodge), once per Noblewoman."],
+    ["Assist", "Quick Assist", "Frostwing Guard", "Physical and Ether attack; enters Noblewoman (or Fluttering Frock by holding with Feathers)."],
+    ["Assist", "Defensive Assist", "Silver Umbrella Formation", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Featherblade Execution", "Ether attack; +2 Flight Feathers, then Fluttering Frock (hold to cancel)."],
+    ["Special Attack", "Special Attack", "Song of Silver Wings", "Quick Physical and Ether attack."],
+    ["Special Attack", "EX Special Attack", "Violet Requiem", "Powerful attack for massive Ether DMG; +3 Flight Feathers, then Fluttering Frock (hold for Noblewoman)."],
+    ["Chain Attack", "Chain Attack", "Chorus of Celestial Wings", "Wide attack for massive Ether DMG; +2 Flight Feathers, then Fluttering Frock."],
+    ["Chain Attack", "Ultimate", "Soaring Bird's Song", "Wide attack for massive Ether DMG; +5 Flight Feathers, then Fluttering Frock."]
+  ],
+  "core": {
+    "name": "Dirge of Destiny",
+    "text": "Featherbloom on an enemy with any Attribute Anomaly triggers Abloom: an extra round of that Anomaly's DMG, at the rate below per 10 Anomaly Proficiency.\nSuspension or Featherbloom on an Anomaly-afflicted enemy inflicts Vivian's Prophecy: Ether DMG of 55% ATK every 0.55s (can trigger Anomaly extra DMG), until the Anomaly ends. Enters battle with 2 Flight Feathers.",
+    "values": {
+      "Abloom · Ether (%)": ["3.07", "3.59", "4.11", "4.63", "5.15", "5.65", "6.15"],
+      "Abloom · Electric (%)": ["1.6", "1.86", "2.12", "2.38", "2.64", "2.9", "3.2"],
+      "Abloom · Fire (%)": ["4", "4.66", "5.32", "5.98", "6.64", "7.3", "8"],
+      "Abloom · Physical (%)": ["0.37", "0.44", "0.51", "0.58", "0.65", "0.7", "0.75"],
+      "Abloom · Ice (%)": ["0.54", "0.63", "0.72", "0.81", "0.9", "0.99", "1.08"],
+      "Abloom · Wind (%)": ["0.16", "0.18", "0.21", "0.24", "0.26", "0.29", "0.32"]
+    }
+  },
+  "ability": {
+    "name": "Prophetic Tears",
+    "text": "When a squadmate applies an Attribute Anomaly, she spends 1 Guard Feather on Featherbloom (once per 0.5s). Squad Corruption DMG and Corruption Disorder DMG +12%."
+  },
+  "mindscapes": [
+    "Every 4 Guard Feathers spent give 1 Flight Feather. Prophecy targets take 16% more Anomaly and Disorder DMG.",
+    "+25% Ether Anomaly Buildup Rate. Abloom's Anomaly Proficiency scaling is 130%, and it ignores 15% All-Attribute RES.",
+    "Skill levels +2.",
+    "Suspension and Featherbloom always CRIT and give +12% ATK for 12s. Enters battle with 5 Guard Feathers.",
+    "Skill levels +2.",
+    "+40% Ether DMG. A Waltz Perfect Dodge or Violet Requiem gives 1 more Flight Feather. Suspension spends all Guard Feathers for a bigger area and a special Abloom, up to 5× stronger with 5 Feathers."
+  ]
+}

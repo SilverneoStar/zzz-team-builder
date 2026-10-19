@@ -1,0 +1,35 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Cold-Bore Shot", "Up to 4 shots: three Physical, the 4th Electric."],
+    ["Basic Attack", "Basic Attack", "Silenced Shot", "Hold: Sniper Stance, firing continuously for Electric DMG; steer left, right or back. She auto-evades one attack (once per 8s); evading or moving just before a hit is a Perfect Dodge with a charged counter. Firing and counters give 25 Purge (max 100). Release for a Finishing Move that triggers the previous Agent's Quick Assist (once per 25s)."],
+    ["Basic Attack", "Basic Attack", "Harmonizing Shot", "With Purge, when another Agent lands a Basic, Dodge Counter, Special, Dash Attack or Quick Assist: she circles in and fires two Electric shots (3 Purge). Aftershock; once per 3s for the squad."],
+    ["Basic Attack", "Basic Attack", "Harmonizing Shot - Tartarus", "With Purge, when another Agent lands an EX, Assist Follow-Up or Ultimate heavy hit: three shots and a finisher for Electric DMG (5 Purge). Aftershock; each skill type can trigger it twice per 20s."],
+    ["Dodge", "Dodge", "Phantom Concealment", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Vengeful Specter", "Quick shot for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Condemned Soul", "Spinning Electric shot."],
+    ["Assist", "Quick Assist", "Cold-Bore Cover Fire", "Spinning Electric shot."],
+    ["Assist", "Defensive Assist", "Delaying Demise", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Piercing Thunder", "Slashes then a charged shot for Electric DMG."],
+    ["Special Attack", "Special Attack", "Spectral Flash", "Lunging Electric slash."],
+    ["Special Attack", "EX Special Attack", "Flash Burial", "Slash and leaping shot for massive Electric DMG; triggers the previous Agent's Quick Assist. Enters Coordinated Support for 8s: any squadmate hit fires a free Harmonizing Shot with no cooldown (up to 4; stacks to 20s and 10 shots)."],
+    ["Chain Attack", "Chain Attack", "Stygian Guide", "Continuous shots for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Underworld Requiem", "Wide powerful shot for massive Electric DMG; triggers the previous Agent's Quick Assist and Coordinated Support for 12s (up to 6 shots)."]
+  ],
+  "core": {
+    "name": "Soul-Searching Gaze",
+    "text": "Her Aftershock hits raise the target's Stun DMG Multiplier by {0}% for 5s, even before it's Stunned.",
+    "values": { "Stun DMG Multiplier (%)": ["20", "22.5", "25", "27.5", "30", "32.5", "35"] }
+  },
+  "ability": {
+    "name": "Silver Lantern's Gaze",
+    "text": "Each 1% CRIT Rate above 40% gives her Aftershocks +1.5% Daze (max 75%)."
+  },
+  "mindscapes": [
+    "Core Passive Stun DMG Multiplier +20%. Harmonizing Shot cooldown 2s. Sniper Stance gives 25% more Purge, max 125.",
+    "Each Aftershock gives 1 Hunter's Gaze, and the Sniper Stance finisher gives 2: +6% squad CRIT DMG each (max 4, 10s).",
+    "Skill levels +2.",
+    "Entering or extending Coordinated Support makes the next Harmonizing Shot trigger Disconnect: +200% ATK as DMG and Daze equal to 120% of her Impact, with high Interrupt Level.",
+    "Skill levels +2.",
+    "Enters battle with 5 Armor Break Rounds, +1 per 25 Purge spent (max 5). Sniper Stance hits spend one for 1,200% ATK as Electric DMG, +50% more (once per 0.2s)."
+  ]
+}

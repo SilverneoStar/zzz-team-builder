@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Crushing Strike", "Up to 3 Ice hits; the 3rd heals 10% HP."],
+    ["Basic Attack", "Basic Attack", "Frostbite Embrace", "Hold to charge up to 3 levels, spending HP (faster at high HP, never below 25%); release for a charged hammer slam for massive Ice DMG. At level 2, press after for a 3rd Crushing Strike hit with up to +30% DMG. At level 3, higher Anti-Interrupt, and press to finish early."],
+    ["Basic Attack", "Basic Attack", "Frost's Crushing Weight", "Getting hit while charging or spinning blocks with tentacles (25% less DMG). Below full charge she counters for Ice DMG and gains a charge level. Press Basic for the finishing slam, or Special for a guaranteed Surging Cold."],
+    ["Dodge", "Dodge", "Dreamshift", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Frostbloom Impact", "Ice strike."],
+    ["Dodge", "Dodge Counter", "Icehaul Reverb", "Ice strike."],
+    ["Assist", "Quick Assist", "Frostshock Reinforcement", "Ice strike."],
+    ["Assist", "Defensive Assist", "Flashquake Rejection", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Glacial Onslaught", "Ice-shard hammer strike."],
+    ["Special Attack", "Special Attack", "Cease Thoughts", "Launching Ice strike."],
+    ["Special Attack", "Special Attack", "Surging Cold, Crushing Pursuit", "Launching Ice strike. Clashing with an enemy attack triggers Surging Cold; hitting a Stunned enemy with enough Adrenaline triggers Crushing Pursuit. Either maxes her charge level; press Basic for the finishing slam."],
+    ["Special Attack", "EX Special Attack", "Frost Coil", "Two rising strikes and an icy mist for massive Ice DMG; heals 33% of missing HP if it hit."],
+    ["Special Attack", "EX Special Attack", "Glacial Crush", "Dash, leap and a heavy smash for massive Ice DMG; heals 33% of missing HP if it hit. After Surging Cold it gives 15 Adrenaline (once per 1s). Press Basic after for the finishing slam."],
+    ["Chain Attack", "Chain Attack", "Frostbound Oath", "Powerful strike for massive Ice DMG; tentacles join in inside Wellspring."],
+    ["Chain Attack", "Ether Veil", "Ether Veil: Wellspring", "At max Decibels, the final hit of Frostbite Embrace, either EX or her Chain spends 3,000 Decibels to open Wellspring: squad Max HP +5% for 30s (extendable to 300s). Inside it she charges faster but burns HP faster."],
+    ["Chain Attack", "Ultimate", "Final Act - Crossing the River of Regret", "Within 30s of each Decibel-paid Wellspring: one wide strike for massive Ice DMG."]
+  ],
+  "core": {
+    "name": "Dreamscape Collection",
+    "text": "Gains 0.1 Sheer Force per point of Max HP; all her Ice DMG is Sheer DMG, ignoring DEF. Enters battle with 60 Adrenaline (once per 180s in Investigation Zones).\nThe lower her HP, the more DMG she deals: up to +{0}% below 50% HP, kept for 5s after healing back to 50%. She gets fewer Decibels from hits but gains 10 per 1% HP lost.",
+    "values": { "Max DMG (%)": ["50", "58", "66", "74", "82", "90", "100"] }
+  },
+  "ability": {
+    "name": "Narrative Completion",
+    "text": "Below 50% HP: +30% CRIT DMG and 25% less DMG taken. Inside Wellspring, a level-3 Frostbite Embrace or Glacial Crush summons an icy tentacle for extra DMG (counts as EX Special, scales with its level; once per 12s)."
+  },
+  "mindscapes": [
+    "EX costs 10 less Adrenaline. Keep holding after an EX to spend 35 Adrenaline on another Glacial Crush, skipping the first heal; that Crush heals twice as much. Basics and EXs ignore 20% Ice RES.",
+    "+40% CRIT DMG. Surging Cold or Crushing Pursuit give 0.5 Adrenaline per second for 30s.",
+    "Skill levels +2.",
+    "10% more Decibels from losing HP. Inside Wellspring, +5% more Max HP.",
+    "Skill levels +2.",
+    "Opening or extending Wellspring with Decibels gives Erudition for 30s: +25% Sheer DMG, and the first fatal hit leaves her at 1 HP, unkillable for 5s while healing 25% HP."
+  ]
+}

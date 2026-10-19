@@ -1,0 +1,55 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Moon Hunter", "Up to 5 Physical strikes; hold to charge for a stronger Ice hit."],
+    ["Dodge", "Dodge", "Suitable Positioning", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Keep it Clean", "Sliding Physical strikes."],
+    ["Dodge", "Dodge Counter", "Etiquette Manual", "Ice strike."],
+    ["Assist", "Quick Assist", "Wolf Pack", "Ice strike."],
+    ["Assist", "Defensive Assist", "Disrupted Hunt", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Vengeful Counterattack", "Summons an icicle that hits everything in range for Ice DMG."],
+    ["Special Attack", "Special Attack", "Time to Hunt", "Ice strikes; hold to charge."],
+    ["Special Attack", "EX Special Attack", "Thrill of the Hunt", "Powerful Ice strikes for massive DMG; hold to spend Energy charging it."],
+    ["Chain Attack", "Chain Attack", "As You Wish", "Strikes in a small area for massive Ice DMG."],
+    ["Chain Attack", "Ultimate", "Mission Complete", "Wide strikes for massive Ice DMG."]
+  ],
+  "core": {
+    "name": "Metallic Paws",
+    "text": "A fully charged Basic Attack deals {0}% more Daze. Thrill of the Hunt and Vengeful Counterattack lower the target's Ice RES by 25% for 30s.",
+    "values": { "Daze (%)": ["40", "46.6", "53.3", "60", "66.6", "73.3", "80"] }
+  },
+  "ability": {
+    "name": "Elegant Predator",
+    "text": "His hits on a Stunned enemy raise its Stun DMG Multiplier by 35%."
+  },
+  "mindscapes": [
+    "Thrill of the Hunt hits deal +12% Daze (once per 8s), +10% more when fully charged.",
+    "Stunning an enemy or triggering a squadmate's Chain Attack gives 5 Energy (once per 1s).",
+    "Skill levels +2.",
+    "Getting hit during a Basic or Special gives a Shield of 7.5% Max HP for 15s with higher Anti-Interrupt (once per 15s).",
+    "Skill levels +2.",
+    "Charged hits make the enemy take 10% more DMG from him (max 5, one per skill, 12s)."
+  ],
+  "potential": {
+    "name": "Hunter's Grace",
+    "levels": [
+      "Upgrades his Defensive Assist, Core Passive and Additional Ability; unlocks Vengeful Counterattack - Glacial Waltz.",
+      "Unlocks Awakened Potential: Glacial Rush.",
+      "Glacial Rush upgraded.",
+      "Glacial Rush upgraded.",
+      "Glacial Rush upgraded.",
+      "Glacial Rush upgraded to its maximum."
+    ],
+    "skills": [
+      ["Defensive Assist", "Disrupted Hunt", "Uses fewer Assist Points under heavy attack."],
+      ["Assist Follow-Up", "Vengeful Counterattack - Glacial Waltz", "Hold after a Defensive Assist: rapid Ice strikes."],
+      ["Core Passive", "Metallic Paws", "The Daze bonus also covers his Dodge Counter and Dash Attack. His Ice RES debuff also makes the target take 30% more DMG from other attributes. Encircle Prey (1 stored; on entering battle and when an elite or boss is Stunned): Glacial Waltz triggers the previous Agent's Quick Assist, and he then mirrors the on-field Agent's Basic, Dodge and Dodge Counter for 8s, ending with an automatic Glacial Waltz (+6% Daze per second left if it ends early)."],
+      ["Additional Ability", "Elegant Predator", "Also turns on with an Anomaly Agent in the squad."]
+    ],
+    "awakened": {
+      "name": "Glacial Rush",
+      "text": "During Encircle Prey, his off-field Basic, Dash Attack and Dodge Counter get +{0}% Impact.",
+      "values": [["5", "7.5", "10", "12.5", "15"]],
+      "from": 2
+    }
+  }
+}

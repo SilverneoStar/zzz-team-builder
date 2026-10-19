@@ -1,0 +1,42 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Tanuki Claws", "Up to 5 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Tanuki Cloak", "Hold: a guard stance for up to 1.5s; getting hit parries for massive Daze and gives 1 Sugar Point."],
+    ["Basic Attack", "Basic Attack", "Hard Candy Shot", "With Sugar Points, when another Agent lands a hit, she spins her umbrella around the target and fires a shell for Physical DMG (1 Sugar Point on the heavy hit). Aftershock; once per 8s."],
+    ["Basic Attack", "Basic Attack", "Sugarburst Sparkles", "Hits Sweet Scare enemies once per second for Physical DMG (or the Flavor Match attribute), with higher Anomaly Buildup that doesn't count toward Anomaly DMG."],
+    ["Basic Attack", "Basic Attack", "Sugarburst Sparkles - Max", "A stronger Sparkles when Hard Candy Shot or Stuffed Hard Candy Shot's heavy hit lands on a Sweet Scare enemy."],
+    ["Basic Attack", "Basic Attack", "Tanuki Helper", "Off-field, her tanuki Kama joins the on-field Agent's attacks for Physical DMG (also during Tanuki Cloak). Uses her initial ATK."],
+    ["Dodge", "Dodge", "Did I Scare You?", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "You're Outta Luck!", "Rapid Physical strikes."],
+    ["Dodge", "Dodge Counter", "Time for Payback~", "Quick Physical strike."],
+    ["Assist", "Quick Assist", "Dessert Time", "Physical strike."],
+    ["Assist", "Defensive Assist", "Replenish Your Fun", "Parries for massive Daze; +1 Sugar Point."],
+    ["Assist", "Assist Follow-Up", "We Have Cookies", "Physical strike."],
+    ["Assist", "Assist Follow-Up", "Stuffed Hard Candy Shot", "Press on time after a Defensive Assist or Tanuki Cloak parry: umbrella spin and a powerful shell for Physical DMG."],
+    ["Special Attack", "Special Attack", "Gummy Bombardment", "Cannon shot for Physical DMG."],
+    ["Special Attack", "EX Special Attack", "Cavity Alert", "Bomb throw for Physical DMG; the heavy hit applies Sweet Scare. +2 Sugar Points; triggers a Quick Assist on hit. Has a faster version, Cavity Alert, Right Now!"],
+    ["Special Attack", "Special Attack", "Sweet Scare", "A timed debuff. The first hit from an on-field Agent using their attribute sets Flavor Match, switching Sparkles on that enemy to that attribute; reapplying Sweet Scare resets it."],
+    ["Chain Attack", "Chain Attack", "Prank Assault", "Powerful strike for massive Physical DMG; +1 Sugar Point. Triggers a Quick Assist on hit."],
+    ["Chain Attack", "Ultimate", "Surrender or Suffer the Mischief", "Wide strike for massive Physical DMG that applies Sweet Scare; others gain Energy, +2 Sugar Points. Triggers a Quick Assist on hit."]
+  ],
+  "core": {
+    "name": "Whimsical Wonder",
+    "text": "Enters battle with 3 Sugar Points (max 6). Her EX Specials and Ultimate give the squad Tanuki Wish for 40s: ATK equal to 40% of her initial ATK (max {0}, reached at {1} initial ATK) and +15% DMG.",
+    "values": {
+      "Max ATK": ["600", "700", "800", "900", "1,000", "1,100", "1,200"],
+      "Initial ATK needed": ["1,500", "1,750", "2,000", "2,250", "2,500", "2,750", "3,000"]
+    }
+  },
+  "ability": {
+    "name": "The More the Merrier",
+    "text": "Each point of Anomaly Mastery above 100 gives Tanuki Wish holders +0.2% Anomaly Buildup Rate and +0.2% Attribute Anomaly and Disorder DMG (max 20% each, at 200)."
+  },
+  "mindscapes": [
+    "Enters battle with 30 Energy (once per 180s in Investigation Zones). Sweet Scare enemies lose 10% All-Attribute RES. Her Additional Ability's Anomaly and Disorder bonus is 130% as strong.",
+    "Her EX and Ultimate hits give the squad +15% DMG and Anomaly Buildup Rate for 40s; their heavy hit on a non-Stunned enemy forces a lower-Interrupt Chain Attack (once per 20s). Chain switch-ins give 1 Sugar Point. Hard Candy Shot cooldown -25%.",
+    "Skill levels +2.",
+    "Both Assist Follow-Ups deal +30% DMG and +20% Anomaly Buildup, and trigger a Quick Assist on hit.",
+    "Skill levels +2.",
+    "Parries give 1 more Sugar Point. Stuffed Hard Candy Shot can charge 0.8s: one extra shell, plus one per 0.4s charged for 1 Sugar Point each (300% ATK). Shell hits give the squad +105% Disorder DMG multiplier (max 3, 40s each) and trigger Sparkles - Max on Sweet Scare enemies. Getting hit while charging dodges and fires at full charge."
+  ]
+}

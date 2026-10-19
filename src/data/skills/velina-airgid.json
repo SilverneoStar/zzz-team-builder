@@ -1,0 +1,38 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Dancing Fans", "Up to 5 Wind hits; 40% DMG reduction on the 5th."],
+    ["Dodge", "Dodge", "Windward Sweep", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Gale Step", "Quick Wind attack."],
+    ["Dodge", "Dodge Counter", "Cloudrend", "Wind combo."],
+    ["Assist", "Quick Assist", "Emergency Protocol", "Wind combo."],
+    ["Assist", "Defensive Assist", "Judicious Intervention", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Negotiation Techniques", "Wind combo."],
+    ["Special Attack", "Special Attack", "Wind Shear - Purging Surge", "Sweeping gust for Wind DMG."],
+    ["Special Attack", "EX Special Attack", "Wind Shear - Purifying Rise", "Backstep dodge (triggers Vital View if it dodges a hit) then a big wind blast for Wind DMG; flows into the 5th Basic hit."],
+    ["Special Attack", "EX Special Attack", "Wind Shear - Triple Deathblow", "After Purifying Rise with enough Energy: continuous fan swings for Wind DMG; flows into the 5th Basic hit."],
+    ["Special Attack", "EX Special Attack", "Wind Shear - Eye of the Storm", "Hold at 90+ Windbloom: summons a Sweeping Cyclone (5s, Wind DMG every 0.5s) and triggers the previous Agent's Quick Assist."],
+    ["Chain Attack", "Chain Attack", "Thousandfold Spiral", "Hurricane combo and finisher for massive Wind DMG."],
+    ["Chain Attack", "Ultimate", "Heed the Tempest", "Combo for massive Wind DMG; triggers the previous Agent's Quick Assist."]
+  ],
+  "core": {
+    "name": "Breeze in Bloom",
+    "text": "Each 0.01 initial Energy Regen above 1.2 gives +0.21% DMG (max 35%) and +0.5 Anomaly Mastery (max 84). Enters battle with 45 Windbloom (once per 180s in Investigation Zones); Purifying Rise and Triple Deathblow give 45 more (max 135).\nHer Vortex gives 1 Windbite and summons a Condensed Cyclone (once per 3s). At 2 Windbite, her next Vortex spends them for +{0}% multiplier and a Sweeping Cyclone instead.\nA Sweeping Cyclone's first hit on a Contaminated enemy changes it to that attribute (Chromatic Tint). Its hits lower Wind (and the tinted attribute's) Anomaly Buildup RES by 7% for 35s. It lasts 5s longer if an enemy it hit dies (once; one at a time).\nWhen a Cyclone fades it explodes; on a Wind-Anomaly enemy that triggers Abloom: {1}% (Condensed) or {2}% (Sweeping) of Wind Anomaly DMG.",
+    "values": {
+      "Vortex multiplier (%)": ["90", "100", "110", "120", "130", "140", "150"],
+      "Condensed Abloom (%)": ["85", "95", "105", "115", "125", "135", "145"],
+      "Sweeping Abloom (%)": ["135", "155", "175", "195", "215", "235", "255"]
+    }
+  },
+  "ability": {
+    "name": "Tea Party Etiquette",
+    "text": "Her Windswept and Vortex DMG +10%. Her Ultimate's heavy hit on a Wind-Anomaly enemy triggers a 680% Abloom. Sweeping Cyclone lowers Anomaly Buildup RES by 7% more, deals 30% more Daze and builds 15% more Anomaly."
+  },
+  "mindscapes": [
+    "Sweeping Cyclone deals 20% more Daze. Her Vortex ignores 20% All-Attribute RES, and squad Windswept DMG ignores 20% Wind RES.",
+    "Windswept also gives 1 Windbite (once per 5s). Tinted Sweeping Cyclones build that attribute's Anomaly (not counted for Anomaly DMG). Her Additional Ability's Windswept and Vortex bonus +15% more.",
+    "Skill levels +2.",
+    "EX Special gives +15% ATK for 40s.",
+    "Skill levels +2.",
+    "Spending 2 Windbite on Vortex refunds 1 (once per 6s). +20% Wind buildup on Wind-Anomaly enemies. Reapplying Windswept adds +2.5% DMG per second left on the old one (max 40%)."
+  ]
+}

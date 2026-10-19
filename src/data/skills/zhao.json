@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Glacial Judgment", "Up to 5 slashes: one Physical, then four Ice."],
+    ["Basic Attack", "Basic Attack", "Final Verdict", "Hold to charge, release for a slash dealing massive Ice DMG. Stores up to 5s of charge; her next Final Verdict finisher, Chain or Assist Follow-Up spends it for extra DMG from her Max HP per second (scales with skill level). In an Ether Veil she keeps charging after switching out. At full Frostbite Points it spends them to open Wellspring and trigger a Quick Assist, then auto-charges again. 40% DMG reduction; invulnerable off-field."],
+    ["Dodge", "Dodge", "Bunny Hop", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Bouncing Dash", "Physical and Ice slash."],
+    ["Dodge", "Dodge Counter", "Swift Blink", "Falling Ice slash."],
+    ["Assist", "Entry Skill", "Burst of Frost", "Her switch-in at full Frostbite Points: a combo and slash for massive Ice DMG that spends them to open Wellspring and triggers a Quick Assist; she then auto-charges Final Verdict. Counts as a Quick Assist."],
+    ["Assist", "Quick Assist", "Patch the Gaps", "Falling Ice slash."],
+    ["Assist", "Defensive Assist", "Frostveil Suppression", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Frostlight Reflection", "Slashes for massive Ice DMG. Opens Wellspring at full Frostbite Points; inside an Ether Veil it triggers a Quick Assist and she auto-charges Final Verdict."],
+    ["Special Attack", "Special Attack", "Shatterfrost Surge", "Ice slash; spends 5% current HP to heal the squad over 5s (shared once per 30s with her EX)."],
+    ["Special Attack", "EX Special Attack", "Frostflow Tundra", "Slashes for massive Ice DMG; same HP-for-healing effect. +20 Frostbite Points (opens Wellspring when full). Inside an Ether Veil, triggers a Quick Assist and auto-charges Final Verdict."],
+    ["Chain Attack", "Chain Attack", "Temporary Alliance", "Slashes for massive Ice DMG; +5 Frostbite Points. Same Wellspring and Quick Assist rules."],
+    ["Chain Attack", "Ultimate", "Bunny Barrage", "Combo and falling slash for massive Ice DMG; +20 Frostbite Points. Same Wellspring and Quick Assist rules."]
+  ],
+  "core": {
+    "name": "Ideal Colleague",
+    "text": "+{0}% CRIT Rate per 1,000 initial Max HP. Enters battle with 100 Frostbite Points (max 100; once per 180s in Investigation Zones); the on-field Agent's hits give 6 (once per 3s). At full, switching her in triggers her Entry Skill.\nEther Veil: Wellspring gives the squad +5% Max HP for 40s; opening it also gives the squad +{1} ATK for 50s.",
+    "values": {
+      "CRIT Rate per 1,000 HP (%)": ["0.8", "0.9", "1", "1.1", "1.2", "1.3", "1.4"],
+      "Squad ATK": ["100", "250", "400", "550", "700", "850", "1,000"]
+    }
+  },
+  "ability": {
+    "name": "Crystallization",
+    "text": "While she's inside any Ether Veil, the squad deals +10% DMG, +1% per 400 initial Max HP above 15,000 (max 40%, at 27,000)."
+  },
+  "mindscapes": [
+    "Switching her out gives the squad 15% All-Attribute RES ignore for 50s.",
+    "When she heals, she gets +20% ATK and the others +15% for 50s.",
+    "Skill levels +2.",
+    "Opening an Ether Veil gives her 250 Decibels. Ultimate, Chain and Final Verdict get +40% CRIT DMG.",
+    "Skill levels +2.",
+    "Core Passive CRIT Rate is 125%. Final Verdict's charge bonus is 140% and charge time is no longer used up."
+  ]
+}
