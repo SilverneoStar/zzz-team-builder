@@ -1,0 +1,36 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Capriccio", "Up to 3 Ether hits. Hold during the 3rd to charge: pulls enemies in and widens the hit. After other skills, hold to go straight to the 3rd hit."],
+    ["Basic Attack", "Basic Attack", "Interlude", "In Idyllic Cadenza, press: a Tremolo shot for Ether DMG. Triggers a Quick Assist on hit."],
+    ["Basic Attack", "Basic Attack", "Chorus", "In Idyllic Cadenza, press during a Perfect Dodge: several Tremolos for massive Ether DMG. Triggers a Quick Assist on hit."],
+    ["Basic Attack", "Basic Attack", "Finale", "In Idyllic Cadenza, hold: a Tremolo that ends the state and grants her Core Passive buff. With enough Energy, spends it on 1 more Tremolo (counts as EX Special) and 3 Tone Clusters."],
+    ["Dodge", "Dodge", "Mini Waltz", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Lunar Eclipse Melody", "Ether attack ahead; you can steer while using it."],
+    ["Dodge", "Dodge Counter", "Umbrella Waltz", "Ether attack ahead."],
+    ["Assist", "Quick Assist", "One Luminous Sky", "Ether attack ahead."],
+    ["Assist", "Evasive Assist", "Two Hearts", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Three Lifetimes of Fate", "Energy beam for Ether DMG."],
+    ["Special Attack", "Special Attack", "Windchimes & Oaths", "Backsteps, fires a Tremolo and enters Idyllic Cadenza. Hold to pull enemies in and add 1–4 Tremolos. Triggers a Quick Assist on hit."],
+    ["Special Attack", "Special Attack", "Idyllic Cadenza", "Her stance: the whole squad gets bonus DMG and CRIT DMG (scales with skill level). She can't move, takes 40% less DMG, and stays on the field invulnerable when you switch out; switching back follows up with Windchimes & Oaths. Hold to leave with Finale, or to leave directly."],
+    ["Special Attack", "Special Attack", "Chord", "Every 25 Energy is 1 Chord. With a Chord in Cadenza, the on-field Agent's hits trigger her Quick Assist (once per 3s, or 1s for heavy hits). When a squadmate swaps in by Quick Assist, Chain, Defensive or Evasive Assist, she spends 25 Energy for a Tremolo (counts as EX Special). Tapping the Quick Assist fast gives a Precise Assist: 3 Tone Clusters follow (automatic for Chain and Assist swaps)."],
+    ["Chain Attack", "Chain Attack", "Tipsy Concerto", "Sung energy blast for massive Ether DMG, then enters Idyllic Cadenza."],
+    ["Chain Attack", "Ultimate", "Fantasian Sonata", "Sung energy blast for massive Ether DMG and heals the squad, then enters Idyllic Cadenza. Her next two Quick Assists become Chain Attacks."]
+  ],
+  "core": {
+    "name": "Graceful Andante",
+    "text": "In Idyllic Cadenza, when a squadmate swaps in by Quick Assist, Chain, Defensive or Evasive Assist, or when she spends Energy on a Tremolo, she and the incoming Agent gain ATK equal to {0}% of her initial ATK (max 1,200) for 20s, extendable to 30s.",
+    "values": { "% of her ATK": ["22", "24", "26", "28", "30", "32", "35"] }
+  },
+  "ability": {
+    "name": "Moonlit Frenzy",
+    "text": "When she spends Energy on a Precise Assist or Finale, she adds 1 more Tremolo and 3 Tone Clusters."
+  },
+  "mindscapes": [
+    "Her hits lower enemy All-Attribute RES by 6% (3 stacks, 30s). Enters battle with 1,000 Decibels. Ultimate gives the squad 1 Song of Protection for 60s: 1s of invulnerability when hit.",
+    "Core Passive ATK buff +19% (max +400). In Cadenza, a squadmate swapping in by Quick Assist, Chain, Defensive or Evasive Assist adds 1 Tremolo and 3 Tone Clusters (once per 3s).",
+    "Skill levels +2.",
+    "For 15s after a Chain or Ultimate she can Quick Assist without Chords, and her hits allow it every 1s. In Cadenza, a squadmate who swaps in by Quick Assist gets a buff by specialty (once per 3s squad-wide): Attack, an extra hit for 300% of her ATK; Anomaly, +50% Anomaly Buildup; Stun, +50% Daze.",
+    "Skill levels +2.",
+    "In Cadenza, Tremolos and Tone Clusters deal 200% of their normal DMG with +80% CRIT Rate. A Precise Assist also adds a charged Capriccio 3rd hit with +80% CRIT Rate (once per 10s)."
+  ]
+}

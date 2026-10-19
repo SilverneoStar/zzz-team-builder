@@ -1,0 +1,54 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Whack the Dimwit", "Orders Drusilla and Anastella to attack up to 4 times (Physical and Electric DMG). Rina's other actions don't break the combo count."],
+    ["Basic Attack", "Basic Attack", "Shoo the Fool", "Hold: calls the two back and swings them for a ranged Electric hit."],
+    ["Dodge", "Dodge", "Dress Adjustment", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Sudden Surprise", "The pair execute a piercing attack for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Bangboo Callback", "The pair spin forward and explode for Electric DMG."],
+    ["Assist", "Quick Assist", "Duple Meter Allemande", "The pair spin forward and explode for Electric DMG."],
+    ["Assist", "Evasive Assist", "Triple Meter Courante", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Quadruple Meter Gavotte", "The pair push forward and create an electrical vortex for Electric DMG."],
+    ["Special Attack", "Special Attack", "Beat the Blockhead", "Anastella smashes down for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Dimwit Disappearing Trick", "Multiple smashes for massive Electric DMG. Triggers a Quick Assist on hit."],
+    ["Chain Attack", "Chain Attack", "Code of Conduct", "The pair create an electric sphere for massive Electric DMG; recall them with Shoo the Fool. Triggers a Quick Assist on hit."],
+    ["Chain Attack", "Ultimate", "The Queen's Attendants", "The pair spin forward for massive Electric DMG. Other squad members recover 10 Energy, and the next Agent to switch in recovers 20 more. Triggers a Quick Assist on hit."]
+  ],
+  "core": {
+    "name": "Mini Destruction Partner",
+    "text": "While Drusilla or Anastella are out attacking, the whole squad's PEN Ratio rises with Rina's: by 25% of her PEN Ratio + {0}%, up to 30%. Ends when both return to her.",
+    "values": { "Flat PEN Ratio (%)": ["6", "7.5", "9", "10.2", "10.8", "11.4", "12"] }
+  },
+  "ability": {
+    "name": "Banquet of Perfection",
+    "text": "Shock from any Agent lasts 3s longer. While a Shocked enemy is on the field, the squad deals 10% more Electric DMG."
+  },
+  "mindscapes": [
+    "Drusilla and Anastella stay out 5.5s longer. Squad members within 10m get 130% of the Core Passive buff.",
+    "+15% DMG for 12s on entering combat or switching in (once per 18s).",
+    "Skill levels +2.",
+    "+0.5 Energy Regen/s while both Bangboo are deployed.",
+    "Skill levels +2.",
+    "EX Special, Chain Attack or Ultimate hits give the squad +15% Electric DMG for 8s."
+  ],
+  "potential": {
+    "name": "Big Cleanup",
+    "levels": [
+      "Unlocks Basic Attack: Morning Cleanup and Midnight Cleanup.",
+      "Unlocks Awakened Potential: Perfect Service.",
+      "Perfect Service upgraded.",
+      "Perfect Service upgraded.",
+      "Perfect Service upgraded.",
+      "Perfect Service upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Morning Cleanup", "After EX Special, Chain Attack or Ultimate, Rina enters Spotless for 13s: a Bangboo attacks every 2.5s (Physical and Electric DMG) and adds 1 Fright (max 6)."],
+      ["Basic Attack", "Midnight Cleanup", "At 6 Fright, the next Morning Cleanup consumes all stacks and becomes an Electric DMG finisher."]
+    ],
+    "awakened": {
+      "name": "Perfect Service",
+      "text": "PEN Ratio +1.6%. While the Core Passive buff is active, each 1% of Rina's PEN Ratio gives the squad {0} ATK and {1} DEF (max 576 ATK, 468 DEF).",
+      "values": [["3", "4.2", "5.5", "6.7", "8"], ["2.5", "3.5", "4.5", "5.5", "6.5"]],
+      "from": 2
+    }
+  }
+}

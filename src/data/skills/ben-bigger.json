@@ -1,0 +1,32 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Debt Reconciliation", "Up to 3 Physical strikes."],
+    ["Dodge", "Dodge", "Missing Invoice", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Incoming Expense", "Physical strike ahead."],
+    ["Dodge", "Dodge Counter", "Accounts Settled", "Fire strike ahead."],
+    ["Assist", "Quick Assist", "Joint Account", "Fire strike ahead; invulnerable while attacking."],
+    ["Assist", "Defensive Assist", "Risk Allocation", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Don't Break Contract", "Charging Fire strike."],
+    ["Special Attack", "Special Attack", "Fiscal Fist", "Raises his weapon to block, then strikes for Physical DMG. A successful block turns it into a Block Counter for massive Physical DMG. Hold to keep blocking behind a Shield (max 16% Max HP) that wears down while held and refills after."],
+    ["Special Attack", "EX Special Attack", "Cashflow Counter", "Fire version of Fiscal Fist that refills the Shield to full; a block gives a massive Fire Block Counter. Press again for a powerful Fire follow-up strike. Invulnerable throughout."],
+    ["Chain Attack", "Chain Attack", "Signed and Sealed", "Wide strike for massive Fire DMG."],
+    ["Chain Attack", "Ultimate", "Complete Payback", "Wide strike for massive Fire DMG; restores 3 Assist Points."]
+  ],
+  "core": {
+    "name": "Guardian",
+    "text": "Gains 40% of his DEF as ATK. His EX Special follow-up gives the whole squad a 30s Shield of {0}% of his DEF + {1}.",
+    "values": { "Shield (% of DEF)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"], "Flat Shield": ["100", "220", "330", "460", "500", "525", "550"] }
+  },
+  "ability": {
+    "name": "Contractual Agreement",
+    "text": "While the Guardian Shield is up, that Agent has +16% CRIT Rate."
+  },
+  "mindscapes": [
+    "Blocking with his Special or EX Special makes that enemy deal 30% less DMG for 15s.",
+    "Block Counters add 300% of his DEF as DMG.",
+    "Skill levels +2.",
+    "After blocking during the invulnerable part of his Special or EX, the counter deals +30% DMG.",
+    "Skill levels +2.",
+    "After his EX Special attack or follow-up, his Basic, Dash Attack and Dodge Counter deal +20% Daze for 12s."
+  ]
+}

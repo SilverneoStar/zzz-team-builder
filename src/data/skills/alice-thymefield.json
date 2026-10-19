@@ -1,0 +1,34 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Celestial Overture", "Up to 5 slashes of Physical DMG. After she triggers Assault through Anomaly Buildup, the 5th hit of her next Basic Attack is enhanced."],
+    ["Basic Attack", "Basic Attack", "Starshine Waltz", "Hold with at least 1 bar of Blade Etiquette to charge (up to 3 bars), then unleash slashes around the target. A 3-stage charge's Finishing Move triggers Polarized Assault, which ignores Anomaly Buildup and can combine with any Attribute Anomaly, Physical included, to trigger Disorder."],
+    ["Dodge", "Dodge", "Jumpy Bunny", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Blade-Dancer's Gale", "Slashes enemies ahead for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Ceremony of Swordlight", "Slash and kick for Physical DMG after a Perfect Dodge."],
+    ["Assist", "Quick Assist", "Intertwined Stab", "Slash and kick for Physical DMG when the active character is launched."],
+    ["Assist", "Defensive Assist", "Parry Guard", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Cross Riposte", "Charging slash for Physical DMG."],
+    ["Special Attack", "Special Attack", "Piercing Dawn", "Hurls her blade through enemies. Can trigger a Perfect Dodge, after which a press follows up with her 5th Basic Attack hit."],
+    ["Special Attack", "EX Special Attack", "Aurora Thrust - Northern Cross", "Push forward + press: a piercing thrust for massive Physical DMG. Can trigger a Perfect Dodge and restores 10 Blade Etiquette."],
+    ["Special Attack", "EX Special Attack", "Aurora Thrust - Southern Cross", "Neutral or back + press: backstep slash then thrust. Can trigger a Perfect Dodge and restores 10 Blade Etiquette."],
+    ["Chain Attack", "Chain Attack", "Starfall Intermission", "Rapid slashes for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Starfall Finale", "Wide slashes for massive Physical DMG and restores 200 Blade Etiquette."]
+  ],
+  "core": {
+    "name": "Twin Rainbows of the Swordheart",
+    "text": "While any Physical Anomaly is active on an enemy, Alice deals extra DMG every 0.95s equal to 2.5% of that Anomaly's DMG. Disorder triggered on a Physically Anomalous enemy gains +18% multiplier per remaining second (max +180%).\nShe builds Blade Etiquette on hit (+10 per Assault she triggers; max 300, 100 per bar). Polarized Assault deals 100% of the original Assault DMG.\nTriggering Assault raises her Physical Anomaly Buildup Rate by {0}% for 30s.",
+    "values": { "Physical Anomaly Buildup Rate (%)": ["12.5", "14.6", "16.7", "18.8", "20.8", "22.9", "25"] }
+  },
+  "ability": {
+    "name": "Mystery Hunt",
+    "text": "+30 Blade Etiquette whenever any squad member triggers Disorder. Each point of Anomaly Mastery above 140 gives 1.6 Anomaly Proficiency. Enters battle with 300 Blade Etiquette (once per 180s in Investigation Zones)."
+  },
+  "mindscapes": [
+    "Polarized Assault grants 25 Blade Etiquette. Assault reduces the target's DEF by 20% for 30s.",
+    "Ultimate's Finishing Move triggers Polarized Assault. Squad Assault DMG +15%; Disorder DMG +15% against Physically Anomalous enemies. Enters battle with 1,000 Decibels (once per 180s in Investigation Zones).",
+    "Skill levels +2.",
+    "Ignores 10% Physical RES. Enhanced Basic Attack builds 25% more Physical Anomaly.",
+    "Skill levels +2.",
+    "A 3-stage Starshine Waltz or Ultimate grants the Victory State for 30s: squad hits trigger a guaranteed-CRIT follow-up for 3,300% of her Anomaly Proficiency as Physical DMG (once per 1s, up to 6 times)."
+  ]
+}

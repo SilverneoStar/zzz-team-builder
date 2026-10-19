@@ -1,0 +1,33 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Turbo Volt", "Up to 4 slashes: three Physical, the 4th Electric."],
+    ["Basic Attack", "Basic Attack", "Thunderbolt", "After the 3rd hit, pause or hold then press: a downward Electric strike."],
+    ["Dodge", "Dodge", "Slide", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Taser Blast", "Slashes nearby enemies for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Thunderclap", "Slashes nearby enemies for Electric DMG."],
+    ["Assist", "Quick Assist", "Thunderfall", "Slashes ahead for Electric DMG."],
+    ["Assist", "Defensive Assist", "Flash", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Lightning Whirl", "Spinning slash for Electric DMG."],
+    ["Special Attack", "Special Attack", "Fork Lightning", "Upward Electric slash; comes out faster after the 3rd Basic hit or Thunderbolt."],
+    ["Special Attack", "EX Special Attack", "Lightning Bolt", "Powerful upward Electric slash; faster after the 3rd Basic hit or Thunderbolt."],
+    ["Chain Attack", "Chain Attack", "Electro Engine", "Upward slash in a small area for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Overdrive Engine", "Upward slash then several downward strikes for massive Electric DMG."]
+  ],
+  "core": {
+    "name": "Fluctuating Voltage",
+    "text": "Thunderbolt, Special or EX Special used right after her 3rd Basic hit deals {0}% more Daze.",
+    "values": { "Extra Daze (%)": ["32", "37.3", "42.6", "48", "53.3", "58.6", "64"] }
+  },
+  "ability": {
+    "name": "Parallel Connection",
+    "text": "Dodge Counter hits grant an extra 7.2 Energy (once per 5s)."
+  },
+  "mindscapes": [
+    "4th Basic hit: +12% Energy Generation Rate for 30s.",
+    "Thunderbolt deals 30% more DMG to Stunned enemies; EX Special deals 10% more Daze to non-Stunned enemies.",
+    "Skill levels +2.",
+    "Chain Attack or Ultimate restores 3 Energy to off-field Electric Agents, +2 per 12% of her Energy Generation Rate (max +6).",
+    "Skill levels +2.",
+    "EX Special grants 8 Charge; each Basic or Dash Attack hit spends 1 for +45% DMG."
+  ]
+}

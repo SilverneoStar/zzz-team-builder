@@ -1,0 +1,58 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Penetrating Shock", "Up to 5 Electric slashes. After the 4th hits, mash or hold to dash through enemies up to 5 times."],
+    ["Dodge", "Dodge", "Strobe", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Torrent", "Horizontal slash then thrust for Electric DMG."],
+    ["Dodge", "Dodge Counter", "Ground Flash Counter", "Rapid Electric slashes."],
+    ["Assist", "Quick Assist", "Cloud Flash", "Rapid Electric slashes."],
+    ["Assist", "Defensive Assist", "Counter Surge", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Conducting Blow", "Dash and a series of Electric slashes."],
+    ["Special Attack", "Special Attack", "Celestial Thunder", "Diagonal dash and cross slash for Electric DMG."],
+    ["Special Attack", "Special Attack", "Azure Flash", "Her hits put Silver Star on the enemy and charge it; every third of a charge gives 1 White Thunder (max 3). With White Thunder up, press to dash through for several Electric hits; each hit spends 1 stack for an extra Electric Aftershock."],
+    ["Special Attack", "Special Attack", "Thunder Smite", "After White Thunder's extra hit triggers 3 times on one enemy, lightning strikes there for Electric DMG, counted as Aftershock."],
+    ["Special Attack", "EX Special Attack", "Sundering Bolt", "Hold: throws her joined swords for massive Electric DMG and fully charges Silver Star."],
+    ["Chain Attack", "Chain Attack", "Leaping Thunderstrike", "Leaping dive and cross slash for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Voidstrike", "Wide slash flurry and a lightning strike for massive Electric DMG; fully charges Silver Star."]
+  ],
+  "core": {
+    "name": "Voltage Gap",
+    "text": "+{0}% DMG to Silver Star targets. Silver Star targets also take extra Aftershock CRIT DMG equal to 30% of her CRIT DMG.",
+    "values": { "DMG (%)": ["12.5", "14.5", "16.5", "18.8", "20.8", "23", "25"] }
+  },
+  "ability": {
+    "name": "Voltage Surge",
+    "text": "+10% CRIT Rate. While she's on the field, the whole squad's Aftershocks deal +25% DMG to Silver Star targets."
+  },
+  "mindscapes": [
+    "EX Special hits trigger White Thunder's extra hit 3 times without using stacks.",
+    "+12% CRIT Rate. Ultimate gives 6 Thunder's Cry; Azure Flash spends one of those instead of White Thunder (1 per use) and still gets the extra hit.",
+    "Skill levels +2.",
+    "Ignores 12% Electric RES on Silver Star targets.",
+    "Skill levels +2.",
+    "Every 6 White Thunder extra hits create a vortex for 1,000% ATK as Electric Aftershock DMG around the target."
+  ],
+  "potential": {
+    "name": "Silver Heart",
+    "levels": [
+      "Upgrades Basic Attack, Dodge Counter, Core Passive and Additional Ability; unlocks Azure Flash - Boundary.",
+      "Unlocks Awakened Potential: Electropulse.",
+      "Electropulse upgraded.",
+      "Electropulse upgraded.",
+      "Electropulse upgraded.",
+      "Electropulse upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Penetrating Shock", "The 3rd hit keeps pulling enemies in."],
+      ["Dodge Counter", "Ground Flash Counter", "On hit, Voltage Overload for 15s: better dodges; during Basic, Dash Attack or Dodge Counter, Special cancels into Azure Flash on a White Thunder target, or straight into Sundering Bolt otherwise."],
+      ["Special Attack", "Azure Flash - Boundary", "Auto-follows Sundering Bolt or Azure Flash with a slash flurry; several Electric hits counted as Aftershock."],
+      ["Core Passive", "Voltage Gap", "Allies' Aftershocks also build Silver Star charge (once per 5s). The Aftershock CRIT DMG bonus rises by another 5% of her CRIT DMG. Defeating a White Thunder enemy auto-casts Thunder Smite on the nearest one."],
+      ["Additional Ability", "Voltage Surge", "Her Chain Attack and Ultimate also count as Aftershock DMG."]
+    ],
+    "awakened": {
+      "name": "Electropulse",
+      "text": "Voltage Surge's squad Aftershock bonus rises to {0}%.",
+      "values": [["34", "38", "42", "46", "50"]],
+      "from": 2
+    }
+  }
+}

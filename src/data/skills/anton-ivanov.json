@@ -1,0 +1,36 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Enthusiastic Drills", "Up to 4 Physical hits; the 4th is a Piledriver Attack."],
+    ["Basic Attack", "Basic Attack", "Enthusiastic Drills (Burst Mode)", "In Burst Mode: up to 3 hits of massive Electric DMG; mash or hold during the 2nd (Drill) and 3rd (Piledriver) to extend."],
+    ["Dodge", "Dodge", "Let's Move", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Fire With Fire", "Rams enemies ahead for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Retaliation", "Heavy punches for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Overload Drill (Burst Mode)", "In Burst Mode: a Drill Attack for massive Electric DMG."],
+    ["Assist", "Quick Assist", "Shoulder-To-Shoulder", "Heavy punches for Physical DMG."],
+    ["Assist", "Quick Assist", "Protective Drill (Burst Mode)", "In Burst Mode: a Drill Attack for massive Electric DMG."],
+    ["Assist", "Defensive Assist", "Iron Wrist", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Limit Burst", "Drill Attack ending in a Piledriver for Electric DMG."],
+    ["Special Attack", "Special Attack", "Spin, Bro!", "Piledriver Attack in a line for Electric DMG."],
+    ["Special Attack", "Special Attack", "Explosive Drill (Burst Mode)", "In Burst Mode: Piledriver Attack for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Smash the Horizon, Bro!", "Several Piledrivers in a line for massive Electric DMG, then enters Burst Mode: stronger Electric attacks that spend Energy on hit until it runs out."],
+    ["Chain Attack", "Chain Attack", "Go Go Go!", "Large-area Piledriver for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Go Go Go Go Go!", "Large-area Piledriver for massive Electric DMG."]
+  ],
+  "core": {
+    "name": "Brothers in Arms!",
+    "text": "Piledriver Attacks deal {0}% more DMG and Drill Attacks deal {1}% more DMG.",
+    "values": { "Piledriver DMG (%)": ["12", "14", "16", "18", "20", "22", "24"], "Drill Attack DMG (%)": ["20", "23.3", "26.6", "30", "33.3", "36.6", "40"] }
+  },
+  "ability": {
+    "name": "Teamwork",
+    "text": "In Burst Mode, every 4 CRIT hits make his next hit on a Shocked enemy trigger an extra Shock for 45% of its DMG (once per 0.5s)."
+  },
+  "mindscapes": [
+    "Drill Attack hits grant extra Energy (max 5 per use).",
+    "Entering Burst Mode grants a Shield of 7.5% Max HP; reapplied on entering combat or switching in while in Burst Mode (once per 15s).",
+    "Skill levels +2.",
+    "Chain Attack or Ultimate: squad CRIT Rate +10% for 12s.",
+    "Skill levels +2.",
+    "Piledriver CRITs give Burst-Mode Basic and Dodge Counter +4% DMG for 30s, stacking 6 times."
+  ]
+}

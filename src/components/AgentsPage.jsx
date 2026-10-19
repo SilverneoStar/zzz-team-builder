@@ -103,6 +103,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
           onAdd={() => onAdd(selected.id)}
           onApplyBuild={onApplyBuild}
           onLoadTeam={onLoadTeam}
+          team={activeTeam}
           onClose={() => navigate('agents')}
         />
       )}

@@ -1,0 +1,45 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Towering Peaks", "Up to 4 Fire hits with raised Interrupt Level."],
+    ["Basic Attack", "Basic Attack", "Majestic Summit", "Up to 4 Fire hits with raised Anti-Interrupt Level."],
+    ["Basic Attack", "Basic Attack", "Immolate", "Hold with 120+ Wrathful Fires: Fire DMG around him and enters Visage of Wrath."],
+    ["Basic Attack", "Basic Attack", "Inflame", "Out of combat, hold: trades HP (never below 50%) for Wrathful Fires; at 120 he enters Visage of Wrath. One use on entering the field (once per 180s in Investigation Zones)."],
+    ["Basic Attack", "Basic Attack", "Toppling Mountain", "In Visage of Wrath, hold to spend 120 Wrathful Fires: throws a mountain for massive Fire DMG and leaves the state."],
+    ["Basic Attack", "Basic Attack", "Crushing Peaks", "In Visage of Wrath after two different EX Specials: binds enemies with his beads for massive Fire DMG, then auto-follows with Toppling Mountain."],
+    ["Dodge", "Dodge", "Immovable Mountain", "Press while attacking without moving: a guard stance that parries for Daze. Perfectly timed, it's a Perfect Block."],
+    ["Dodge", "Dodge", "Overcome Peaks", "Quick dash dodge."],
+    ["Dodge", "Dodge", "Battle Cry", "Half-circle + dodge: backstep and taunt. After an EX Special, input a command during it to chain into that EX Special."],
+    ["Dodge", "Dash Attack", "Scattering Sands", "Fires beads for Fire DMG; follows into either Basic chain's 2nd hit."],
+    ["Dodge", "Dodge Counter", "Stoneburst", "Fire attack after a Perfect Dodge; follows into either Basic chain's 3rd hit."],
+    ["Assist", "Quick Assist", "Batholith", "Series of Fire attacks."],
+    ["Assist", "Defensive Assist", "Iron Bastion", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Lofty Ascent", "Dashing Fire attack after a Defensive Assist."],
+    ["Assist", "Assist Follow-Up", "Pierce Heavens", "Dashing Fire attack after an Immovable Mountain parry."],
+    ["Special Attack", "EX Special Attack", "Four EX moves", "Spend Adrenaline for one of four Fire moves: Earth Shaker (ground slams), Mountain Tremor (throws a mountain), One's Path (bead throw) and Lion's Roar (sonic wave). Each comes off a set point in his Basic chains, after an Assist Follow-Up, Dodge Counter or Quick Assist, or by command input during another EX, Immolate, Chain or Ultimate."],
+    ["Special Attack", "EX Special Attack", "Wrath versions", "Command input during Earth Shaker gives Mountain Tremor - Wrath (bigger mountain); during One's Path gives Lion's Roar - Wrath (stronger wave)."],
+    ["Special Attack", "Special Attack", "Cancel", "Command-inputting an EX during another cancels it. Inside its Perfect Interrupt window it's a Perfect Cancel, easier in Visage of Wrath with Mountain's Might."],
+    ["Chain Attack", "Chain Attack", "Blazing Wrath", "Wide attack for massive Fire DMG; enters Visage of Wrath if he has 120+ Wrathful Fires."],
+    ["Chain Attack", "Ultimate", "The World Trembles", "Wide attack for massive Fire DMG; enters Visage of Wrath if he has 120+ Wrathful Fires."]
+  ],
+  "core": {
+    "name": "One With the Mountains",
+    "text": "Gains 0.1 Sheer Force per point of Max HP; all his Fire DMG is Sheer DMG, ignoring DEF. Enters battle with 60 Adrenaline (once per 180s in Investigation Zones).\nWrathful Fires (max 150): 0.5 per Adrenaline spent, 4 per Defensive Assist, 4 per Immovable Mountain parry (6 on Perfect Block) and 4 per Perfect Dodge (each once per 1s). None gained during Visage of Wrath.\nVisage of Wrath grants 4 Mountain's Might: each EX then costs 1 Might instead of Adrenaline and refunds 10 Adrenaline. With Might, holding runs all four EXs and Toppling Mountain in a set order.\nEX Special or Assist Follow-Up: Sheer Force +{0}, Fire DMG +{1}% and CRIT DMG +{2}% for 30s.",
+    "values": {
+      "Sheer Force": ["150", "175", "200", "225", "250", "275", "300"],
+      "Fire DMG (%)": ["18", "21", "24", "27", "30", "33", "36"],
+      "CRIT DMG (%)": ["18", "21", "24", "27", "30", "33", "36"]
+    }
+  },
+  "ability": {
+    "name": "Mountain's Zenith",
+    "text": "In Visage of Wrath, each EX that spends Mountain's Might (via Basic branch or command input) gives 1 Vidyaraja: +5% Fire DMG, max 3, 8s."
+  },
+  "mindscapes": [
+    "One's Path and Earth Shaker inflict Tremor (−10% Fire RES, 30s). His other EXs, Toppling Mountain and Crushing Peaks deal +10% Sheer DMG to Tremor targets. Crushing Peaks extends a Stun by 2s (once per Stun).",
+    "Core Passive CRIT DMG and Fire DMG +15% more each. Might-powered EXs refund 5 more Adrenaline.",
+    "Skill levels +2.",
+    "Both Wrath EXs, Toppling Mountain and Crushing Peaks deal +30% DMG.",
+    "Skill levels +2.",
+    "Every EX gives Vidyaraja, at any time; it gives +8% more Fire DMG and lasts 30s. Crushing Peaks adds 600% of Sheer Force as Fire DMG nearby. Battle Cry straight after an EX also gives Vidyaraja."
+  ]
+}

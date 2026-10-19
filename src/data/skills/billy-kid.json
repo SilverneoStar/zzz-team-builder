@@ -1,0 +1,32 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Full Firepower", "Piercing Physical shots. Mash or hold for Crouching Shot to keep firing; steer to Rolling Shot and reposition; let go to fire a Finishing Shot."],
+    ["Dodge", "Dodge", "Risky Business", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Starlight Sanction", "Physical shot: a wide area if steering, a line if not."],
+    ["Dodge", "Dodge Counter", "Fair Fight", "Piercing Physical shot ahead."],
+    ["Assist", "Quick Assist", "Power of Teamwork", "Piercing Physical shot; invulnerable while attacking."],
+    ["Assist", "Evasive Assist", "Flash Spin", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Fatal Shot", "Wide piercing Physical shot."],
+    ["Special Attack", "Special Attack", "Stand Still", "Up to 3 piercing Physical shots in a line."],
+    ["Special Attack", "EX Special Attack", "Clearance Time", "Powerful piercing line shot for massive Physical DMG."],
+    ["Chain Attack", "Chain Attack", "Starlight Mirage", "Wide piercing attack all around for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Starlight, Shine Bright", "Wide piercing attack all around for massive Physical DMG."]
+  ],
+  "core": {
+    "name": "Steady Shot",
+    "text": "+{0}% DMG once he's in Crouching Shot. Ends if he moves, switches out, or is knocked back or launched.",
+    "values": { "DMG (%)": ["25", "29.1", "33.3", "37.5", "41.6", "45.8", "50"] }
+  },
+  "ability": {
+    "name": "Team Starlight",
+    "text": "Each Chain Attack gives his next Ultimate +50% DMG (max 2 stacks, cleared on Ultimate)."
+  },
+  "mindscapes": [
+    "Dash Attack or Dodge Counter hits give 2.7 Energy (once per 5s).",
+    "Dodge Counter DMG +25%. Rolling Shots count as dodges: invulnerable, can Perfect Dodge, and become a Dodge Counter when they do.",
+    "Skill levels +2.",
+    "EX Special gains up to +32% CRIT Rate the closer he is to the target.",
+    "Skill levels +2.",
+    "Every 10 hits or Perfect Dodge: +6% DMG, max 5 stacks, until he's knocked back or launched."
+  ]
+}

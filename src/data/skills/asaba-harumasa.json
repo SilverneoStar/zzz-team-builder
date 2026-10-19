@@ -1,0 +1,59 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Cloud Piercer", "Up to 5 Physical and Electric hits. The 5th hit makes 2 Electro Quivers, or 6 on the first one after a Chain Attack."],
+    ["Basic Attack", "Basic Attack", "Cloud Piercer - Drift", "During the combo, drag and press: a ranged Physical shot while repositioning."],
+    ["Basic Attack", "Basic Attack", "Falling Feather", "Hold after the 5th Basic hit, a Special, EX Special or Chain: fires (or aims, then fires) an Electric arrow. Hits set off any Electro Quivers on the field."],
+    ["Basic Attack", "Basic Attack", "Ha-Oto no Ya", "Electro Quivers (max 6) come from his 5th Basic hit (2), EX Special (6) and Chain (6), plus 6 when a squadmate applies an Attribute Anomaly and none are out (once per 12s). Falling Feather hits fire them as Electric shots that stack Electro Prison (max 8, 10s). 2+ stacks put X-Mark on the enemy."],
+    ["Dodge", "Dodge", "Quick Flash", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Hiten no Tsuru", "Several piercing Physical hits."],
+    ["Dodge", "Dash Attack", "Hiten no Tsuru - Slash", "While any enemy is X-Marked he's Awakened: his Dash Attack rushes the nearest X-Marked enemy for a big Electric slash, using 2 Electro Prison per hit. Repeat while the mark lasts; also follows Falling Feather. 40% DMG reduction while slashing."],
+    ["Dodge", "Dodge Counter", "Hidden Edge", "Piercing Electric strike."],
+    ["Assist", "Quick Assist", "Braced Bow", "Piercing Electric strike."],
+    ["Assist", "Defensive Assist", "Yugamae", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Yugamae - Slash", "Series of Electric slashes."],
+    ["Special Attack", "Special Attack", "Nowhere to Hide", "Fires an Electric arrow."],
+    ["Special Attack", "EX Special Attack", "Nowhere to Run", "Daggers plus an enhanced arrow for massive Electric DMG; makes 6 Electro Quivers."],
+    ["Chain Attack", "Chain Attack", "Kai - Hanare", "Wide piercing attack and an enhanced arrow for massive Electric DMG; makes 6 Electro Quivers."],
+    ["Chain Attack", "Ultimate", "Zanshin", "Wide piercing attack for massive Electric DMG."]
+  ],
+  "core": {
+    "name": "Day Break",
+    "text": "Hiten no Tsuru - Slash gains {0}% CRIT Rate. Its CRITs give Gleaming Edge (up to 3 per use, max 6, 5s): +{1}% CRIT DMG to the Slash per stack.",
+    "values": { "CRIT Rate (%)": ["10.6", "13", "15.4", "17.8", "20.2", "22.6", "25"], "CRIT DMG per stack (%)": ["6", "7", "8", "9", "10", "11", "12"] }
+  },
+  "ability": {
+    "name": "Overclock",
+    "text": "+40% DMG against Stunned or Anomaly-afflicted enemies, and Falling Feather applies 2 Electro Prison to them."
+  },
+  "mindscapes": [
+    "Electro Prison max rises to 14, and each Electro Quiver fires 2 shots.",
+    "Chain Attack or Ultimate grants 7 Electro Blitz: +50% DMG to Hiten no Tsuru - Slash, 1 stack used per Slash.",
+    "Skill levels +2.",
+    "Electro Prison lasts 20s. Slash hits give 30 Decibels (once per use). Ultimate applies max Electro Prison to every enemy.",
+    "Skill levels +2.",
+    "Ha-Oto no Ya hitting Stunned or Anomaly enemies ignores 15% Electric RES for 12s. Every 12th hit adds an explosion for 1,500% ATK as Electric DMG."
+  ],
+  "potential": {
+    "name": "Sure Shot",
+    "levels": [
+      "Upgrades Hiten no Tsuru - Slash, EX Special, Ultimate and Core Passive.",
+      "Unlocks Awakened Potential: Focus.",
+      "Focus upgraded.",
+      "Focus upgraded.",
+      "Focus upgraded.",
+      "Focus upgraded to its maximum."
+    ],
+    "skills": [
+      ["Dash Attack", "Hiten no Tsuru - Slash", "Hitting a Stunned enemy adds Chasing Thunder, an extra Electric hit. The 1st hit blocks enemy attacks, and the 2nd and 3rd chase better."],
+      ["EX Special Attack", "Nowhere to Run - Patrol", "Rapid enhanced arrows for massive Electric DMG: the first makes 6 Electro Quivers and the last fires them (fewer near max Electro Prison)."],
+      ["Ultimate", "Zanshin - Scattered Blossoms", "Wide piercing Electric attack, counted as Ultimate DMG."],
+      ["Core Passive", "Day Break", "The CRIT Rate and Gleaming Edge CRIT DMG bonuses also cover Chasing Thunder and his Ultimate. An Ultimate CRIT gives 6 Gleaming Edge at once."]
+    ],
+    "awakened": {
+      "name": "Focus",
+      "text": "EX Special, Chain Attack or Ultimate: ATK +{0}%, and Slash and Chasing Thunder ignore {1}% Electric RES for 12s. Gleaming Edge lasts 10s.",
+      "values": [["4", "6", "8", "10", "12"], ["5", "7.5", "10", "12.5", "15"]],
+      "from": 2
+    }
+  }
+}
