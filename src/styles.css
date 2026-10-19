@@ -5788,6 +5788,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 }
 .skills__group[open] > summary::before { transform: rotate(45deg); }
 .skills__group[open] > summary { border-bottom: 1px solid var(--line); }
+.skills__icon { width: 28px; height: 28px; flex: none; margin-right: -2px; }
 .skills__cat { font: 700 0.78rem var(--font-mono); letter-spacing: 0.05em; text-transform: uppercase; }
 .skills__peek { color: var(--muted); font-size: 0.85rem; flex: 1 1 160px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .skills__state { font: 700 0.66rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }

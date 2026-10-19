@@ -7,6 +7,13 @@ const fileFor = (id) => FILES[`../data/skills/${id}.json`];
 export const hasSkills = (id) => Boolean(fileFor(id));
 
 const CATS = ['Basic Attack', 'Dodge', 'Assist', 'Special Attack', 'Chain Attack'];
+const ICON = {
+  'Basic Attack': 'basic', Dodge: 'dodge', Assist: 'assist', 'Special Attack': 'special', 'Chain Attack': 'chain', 'Core Passive': 'core',
+};
+// The in-game skill-type icons in public/skills/<name>.webp.
+const SkillIcon = ({ cat }) =>
+  ICON[cat] ? <img className="skills__icon" src={`${import.meta.env.BASE_URL}skills/${ICON[cat]}.webp`} alt="" width="28" height="28" loading="lazy" /> : null;
+
 const LEVELS = ['Base', 'A', 'B', 'C', 'D', 'E', 'F'];
 const WIKI = 'https://zenless-zone-zero.fandom.com/wiki/';
 
@@ -70,6 +77,7 @@ export default function SkillsTab({ agent: a, team }) {
         return (
           <details key={cat} className="skills__group">
             <summary>
+              <SkillIcon cat={cat} />
               <span className="skills__cat">{cat}</span>
               <span className="skills__peek">{[...new Set(list.map((s) => s[2]))].join(' · ')}</span>
             </summary>
@@ -127,6 +135,7 @@ function Core({ core }) {
   return (
     <details className="skills__group">
       <summary>
+        <SkillIcon cat="Core Passive" />
         <span className="skills__cat">Core Passive</span>
         <span className="skills__peek">{core.name}</span>
       </summary>
