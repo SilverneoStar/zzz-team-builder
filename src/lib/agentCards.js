@@ -168,7 +168,7 @@ function drawSets(ctx, ids, x, y, w, count, gap = 30) {
 
 function drawMains(ctx, b, x, y, w) {
   [4, 5, 6].forEach((s, i) => {
-    const ry = y + i * 50;
+    const ry = y + i * 42;
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText(`SLOT ${s}`, x, ry);
@@ -176,7 +176,7 @@ function drawMains(ctx, b, x, y, w) {
     ctx.font = `500 16px ${FONT}`;
     wrap(ctx, b.main[s].replace(/\bER\b/g, 'Energy Regen'), w - 80, 2).forEach((l, i) => ctx.fillText(l, x + 80, ry + i * 19));
   });
-  const sy = y + 3 * 50 + 10;
+  const sy = y + 3 * 42 + 6;
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('SUBSTATS', x, sy);
