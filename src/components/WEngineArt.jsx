@@ -11,6 +11,7 @@ export const W_ENGINES_WITH_ART = new Set([
   'half-sugar-bunny', 'yesterday-calls', 'dreamlit-hearth',
   'grill-owisp', 'bellicose-blaze', 'tremor-trigram-vessel', 'elegant-vanity', 'severed-innocence', 'practiced-perfection', 'peacekeeper-specialized', 'metanukimorphosis', 'zanshin-herb-case', 'flight-of-fancy',
   'the-brimstone', 'crimson-thirst', 'knights-extolment', 'riot-suppressor-mark-vi', 'starlight-engine-replica', 'timeweaver', 'catty-luck', 'steel-cushion',
+  'heartstring-nocturne', 'cordis-germina', 'sol-exuvia', 'cannon-rotor', 'cauldron-of-clarity', 'drill-rig-red-axis', 'tusks-of-fury',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
