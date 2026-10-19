@@ -14,6 +14,7 @@ export const W_ENGINES_WITH_ART = new Set([
   'heartstring-nocturne', 'cordis-germina', 'sol-exuvia', 'cannon-rotor', 'cauldron-of-clarity', 'drill-rig-red-axis', 'tusks-of-fury',
   'housekeeper', 'crimson-moon-casket', 'marcato-desire', 'gilded-blossom', 'starlight-engine', 'street-superstar', 'lunar-pleniluna', 'lunar-noviluna', 'lunar-decrescent', 'bloodmarrow-coffer', 'lunar-semiluna',
   'candlelit-scheme', 'puzzle-sphere', 'radiowave-journey', 'cinder-cobalt', 'frostfall-sickle', 'flamemaker-shaker', 'hailstorm-shrine',
+  'fusion-compiler', 'electro-lip-gloss', 'rainforest-gourmet', 'magnetic-storm-charlie', 'magnetic-storm-bravo', 'magnetic-storm-alpha',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
