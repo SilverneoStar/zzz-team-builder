@@ -58,7 +58,7 @@ export default function MaterialsTab({ agent: a }) {
       <Group title="Core Skill" note="Base → F" items={m.core}>
         {ESTIMATED_MATS.has(a.id) && (
           <p className="muted small mats__foot">
-            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow Anomaly and Fire Agents; the Core Skill drops are copied from Burnice White until they’re confirmed.
+            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow Anomaly and Fire Agents; the Core Skill drops come from community reports until they’re confirmed in game.
           </p>
         )}
         <Shared label="Same Expert Challenge" ids={sharedWith(a.id, 2)} />

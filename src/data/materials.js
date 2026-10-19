@@ -36,8 +36,8 @@ export const AGENT_MATS = {
   'lucia-elowen': ["Support", "Ether", "Corrupted Dreamsteel", "Crimson Miasma Spike"],
   'luciana-de-montefio': ["Support", "Burn", "Steel Malice", "Ferocious Grip"],
   // Not released: seal and chip follow Anomaly and Fire; the Expert Challenge and
-  // Notorious Hunt drops are copied from Burnice White (the other Fire Anomaly) as an estimate.
-  'phoenix-reffaella': ["Anomaly", "Burn", "Stealth Phantom", "Scarlet Engine"],
+  // Notorious Hunt drops come from community reports (same Hunt drop as Claret and Roxy).
+  'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],
