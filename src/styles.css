@@ -5858,6 +5858,10 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .arc-grid--engines { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 .arc-card--engine {
   display: grid;
+  /* One column pinned to the card: without minmax(0, …) a wide child (the
+     signature row) stretches the column past the card and drags everything
+     else off-centre with it. */
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   text-align: center;
 }
@@ -5901,5 +5905,18 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .arc-card--engine .card__tag,
 .arc-card--engine .gear-stats dt { font-size: 0.64rem; }
 .arc-card--engine .gear-stats dd { font-size: 0.78rem; }
-.arc-card--engine .arc-user { font-size: 0.72rem; gap: 5px; }
+/* Signature row: the "Sig" tag gets its own centred line, then the portrait
+   and short name sit together underneath, so the portrait is the thing
+   that's centred rather than the tag + portrait + name as one wide strip. */
+.arc-card--engine .arc-user {
+  display: grid;
+  grid-template-columns: auto minmax(0, auto);
+  justify-content: center;
+  align-items: center;
+  column-gap: 6px;
+  row-gap: 3px;
+  max-width: 100%;
+  font-size: 0.72rem;
+}
+.arc-card--engine .arc-user .arc-tag { grid-column: 1 / -1; justify-self: center; }
 .arc-card--engine .arc-user .portrait--sm { width: 34px; height: 34px; }
