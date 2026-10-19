@@ -15,10 +15,13 @@ import { hasPotential } from '../data/potentials.js';
 //   per filled Agent:
 //     W-Engine (7)            index + 1 in W_ENGINE_ORDER, 0 = none
 //     Phase − 1 (3) · Mindscape (3) · Potential (3)
-//     simple discs (1)        1 = slots 1–4 share one set, slots 5–6 share
-//                             another (or none), every disc S-rank:
-//       set A (6) · set B (6) · main stats for slots 4, 5, 6 (3 each)
-//     0 = the six discs written out: set (6) · rank (2) · main (3) each
+//     disc mode (2)           1 = no discs at all
+//                             2 = slots 1–4 share one set, slots 5–6 share
+//                                 another (or none), every disc S-rank:
+//                                 set A (6) · set B (6) · main stats for
+//                                 slots 4, 5, 6 (3 each)
+//                             0 = the six discs written out:
+//                                 set (6) · rank (2) · main (3) each
 //   zero padding to a whole 5-character group
 //
 // IMPORTANT: every list below is APPEND-ONLY. A code stores positions in
@@ -111,13 +114,15 @@ export function encodeCardCode(team, loadoutOf) {
     w.write(Math.max(0, (lo.refinement ?? 1) - 1), 3);
     w.write(lo.mindscape ?? 0, 3);
     w.write(lo.potential ?? 0, 3);
-    if (simple(lo.discs)) {
-      w.write(1, 1);
+    if (lo.discs.every((d) => !d.set && !d.main && d.rank === 'S')) {
+      w.write(1, 2);
+    } else if (simple(lo.discs)) {
+      w.write(2, 2);
       w.write(pos(DISC_ORDER, lo.discs[0].set), 6);
       w.write(pos(DISC_ORDER, lo.discs[4].set), 6);
       [4, 5, 6].forEach((s) => w.write(mainIndex(s, lo.discs[s - 1].main), 3));
     } else {
-      w.write(0, 1);
+      w.write(0, 2);
       SLOTS.forEach((s) => {
         const d = lo.discs[s - 1];
         w.write(pos(DISC_ORDER, d.set), 6);
@@ -178,7 +183,11 @@ export function decodeCardCode(code) {
         return m;
       };
       let discs;
-      if (r.read(1)) {
+      const mode = r.read(2);
+      if (mode === 3) return null;
+      if (mode === 1) {
+        discs = SLOTS.map(() => ({ set: null, rank: 'S', main: null }));
+      } else if (mode === 2) {
         const a = set(r.read(6));
         const b = set(r.read(6));
         const mains = [4, 5, 6].map((s) => main(s, r.read(3)));
