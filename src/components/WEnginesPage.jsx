@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID } from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
+import RankBadge from './RankBadge.jsx';
 import WEngineArt from './WEngineArt.jsx';
 
 const RANKS = ['S', 'A', 'B'];
@@ -78,25 +79,34 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
       {list.length === 0 ? (
         <p className="empty">No W-Engines match these filters.</p>
       ) : (
-        <ul className="arc-grid">
+        <ul className="arc-grid arc-grid--engines">
           {list.map((w) => {
             const sig = w.signatureOf && AGENT_BY_ID[w.signatureOf];
             return (
               <li
                 key={w.id}
-                className="arc-card arc-card--link"
+                className="arc-card arc-card--engine arc-card--link"
                 aria-current={selected?.id === w.id ? 'true' : undefined}
                 onClick={(e) => {
                   if (!e.target.closest('a, button')) navigate(`w-engine-${w.id}`);
                 }}
               >
-                <div className="arc-card__top">
-                  <WEngineArt w={w} size={42} />
-                  <h3 className="arc-card__name"><a href={`#w-engine-${w.id}`}>{w.name}</a></h3>
-                  {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
-                  {w.upcoming && <span className="card__tag">Upcoming</span>}
-                  {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
-                </div>
+                <a className="arc-card__link" href={`#w-engine-${w.id}`}>
+                  <span className="arc-card__icon"><WEngineArt w={w} size={64} /></span>
+                  <span className="arc-card__top">
+                    <h3 className="arc-card__name">
+                      {w.name}
+                      <RankBadge rank={w.rank} size={16} />
+                    </h3>
+                    {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
+                  </span>
+                </a>
+                {(w.upcoming || w.provisional) && (
+                  <span className="arc-card__tags">
+                    {w.upcoming && <span className="card__tag">Upcoming</span>}
+                    {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+                  </span>
+                )}
                 <dl className="gear-stats">
                   <div><dt>Base {w.base?.stat ?? 'stat'}</dt><dd>{w.base?.max ?? '—'}</dd></div>
                   <div><dt>{w.advanced?.stat ?? 'Advanced'}</dt><dd>{w.advanced?.max ?? '—'}</dd></div>

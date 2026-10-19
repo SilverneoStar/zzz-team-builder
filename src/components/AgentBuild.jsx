@@ -7,6 +7,7 @@ import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam } from '../lib/builds.js';
 import { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
+import RankBadge from './RankBadge.jsx';
 import WEngineArt from './WEngineArt.jsx';
 import BangbooArt from './BangbooArt.jsx';
 
@@ -32,6 +33,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
               <a className={`engine-row${i === 0 ? ' engine-row--sig' : ''}`} href={`#w-engine-${id}`}>
                 <WEngineArt w={w} size={30} />
                 <span className="engine-row__name">{w.name}</span>
+                <RankBadge rank={w.rank} size={16} />
                 {w.signatureOf === a.id && <span className="chip-tag">Signature</span>}
               </a>
             </li>
