@@ -47,21 +47,19 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
             const on = activeTeam.bangboo === b.id;
             return (
               <li key={b.id} className={`bangboo-card${on ? ' is-on' : ''}`} style={b.attribute ? { '--el': ATTRIBUTE_BY_ID[b.attribute]?.color } : undefined}>
-                <span className="bangboo-card__icon" aria-hidden="true"><BangbooArt id={b.id} size={44} /></span>
-                <span className="bangboo-card__body">
-                  <span className="bangboo-card__name">
-                    {b.name}
-                    {b.rank && <RankBadge rank={b.rank} size={18} />}
+                <a className="bangboo-card__link" href={`#bangboo-${b.id}`} aria-current={bangbooId === b.id ? 'page' : undefined}>
+                  <span className="bangboo-card__icon" aria-hidden="true"><BangbooArt id={b.id} size={64} /></span>
+                  <span className="bangboo-card__body">
+                    <span className="bangboo-card__name">
+                      {b.name}
+                      {b.rank && <RankBadge rank={b.rank} size={16} />}
+                    </span>
+                    <span className="bangboo-card__meta">
+                      {b.attribute ? <><AttributeGlyph attribute={b.attribute} size={12} />{ATTRIBUTE_BY_ID[b.attribute].name}</> : 'No attribute'}
+                    </span>
+                    <span className="muted small">Ver {b.version}</span>
                   </span>
-                  <span className="bangboo-card__meta">
-                    {b.attribute ? <><AttributeGlyph attribute={b.attribute} size={13} />{ATTRIBUTE_BY_ID[b.attribute].name}</> : 'No attribute'}
-                    {b.faction && <> · {b.faction}</>}
-                  </span>
-                  <span className="muted small">Ver {b.version}</span>
-                  <a className="bangboo-card__more" href={`#bangboo-${b.id}`} aria-current={bangbooId === b.id ? 'page' : undefined}>
-                    Skills &amp; details
-                  </a>
-                </span>
+                </a>
                 <button className={on ? 'btn btn--quiet btn--small' : 'btn btn--small'} onClick={() => onPick(on ? null : b.id)} aria-pressed={on}>
                   {on ? 'In current team' : 'Use in team'}
                 </button>

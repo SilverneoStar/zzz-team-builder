@@ -30,7 +30,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
           return (
             <li key={id}>
               <a className={`engine-row${i === 0 ? ' engine-row--sig' : ''}`} href={`#w-engine-${id}`}>
-                <WEngineArt w={w} size={26} />
+                <WEngineArt w={w} size={30} />
                 <span className="engine-row__name">{w.name}</span>
                 {w.signatureOf === a.id && <span className="chip-tag">Signature</span>}
               </a>

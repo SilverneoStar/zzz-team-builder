@@ -91,7 +91,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                 }}
               >
                 <div className="arc-card__top">
-                  <WEngineArt w={w} size={36} />
+                  <WEngineArt w={w} size={42} />
                   <h3 className="arc-card__name"><a href={`#w-engine-${w.id}`}>{w.name}</a></h3>
                   {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
                   {w.upcoming && <span className="card__tag">Upcoming</span>}
@@ -126,7 +126,7 @@ function WEngineDetail({ w, onClose }) {
   return (
     <article className="detail detail--compact" aria-labelledby="engine-name">
       <header className="detail__head">
-        <WEngineArt w={w} size={56} />
+        <WEngineArt w={w} size={64} />
         <div className="detail__title">
           <p className="eyebrow">
             <span>{w.rank}-rank · <SpecialtyTag specialty={w.specialty} size={15} /></span>

@@ -48,7 +48,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
       <h3 className="mini-title">W-Engines</h3>
       {sig ? (
         <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
-          <WEngineArt w={sig} size={28} />
+          <WEngineArt w={sig} size={32} />
           <span className="engine-row__name">{sig.name}</span>
           <span className="chip-tag">Signature</span>
           {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
@@ -62,7 +62,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         {options.map((w) => (
           <li key={w.id}>
             <a className="engine-row" href={`#w-engine-${w.id}`}>
-              <WEngineArt w={w} size={26} />
+              <WEngineArt w={w} size={30} />
               <span className="engine-row__name">{w.name}</span>
               <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : ''}</span>
             </a>

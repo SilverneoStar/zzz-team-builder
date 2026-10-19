@@ -11,19 +11,28 @@ export const W_ENGINES_WITH_ART = new Set([
 const BASE = import.meta.env.BASE_URL;
 export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
 
+// Shows the icon art when there's any, with its S/A/B rank badge still
+// pinned to the corner (like the game's own W-Engine icons). Falls back to
+// a plain rank badge when there's no art yet.
 export default function WEngineArt({ w, size = 30 }) {
   const src = w ? wEngineArt(w.id) : null;
   const [failedSrc, setFailedSrc] = useState(null);
-  if (!src || failedSrc === src) return <RankBadge rank={w?.rank} size={size} />;
+  const hasArt = src && failedSrc !== src;
+  if (!hasArt) return <RankBadge rank={w?.rank} size={size} />;
   return (
-    <img
-      className="engine-art"
-      src={src}
-      alt=""
-      width={size}
-      height={size}
-      loading="lazy"
-      onError={() => setFailedSrc(src)}
-    />
+    <span className="engine-art-wrap" style={{ width: size, height: size }}>
+      <img
+        className="engine-art"
+        src={src}
+        alt=""
+        width={size}
+        height={size}
+        loading="lazy"
+        onError={() => setFailedSrc(src)}
+      />
+      <span className="engine-art__rank">
+        <RankBadge rank={w?.rank} size={Math.round(size * 0.52)} />
+      </span>
+    </span>
   );
 }

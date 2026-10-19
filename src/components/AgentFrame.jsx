@@ -7,11 +7,11 @@ import PassiveFace from './PassiveFace.jsx';
 import RankBadge from './RankBadge.jsx';
 
 // The slanted Agent card from the game's squad screen: a dark leaning card
-// with the art inset, and a footer with the rank in a round badge, the name
-// over a second line (the specialty, where the game shows the level), and
-// the attribute icon in a pill on the right.
+// with the art inset, and a footer with the attribute and specialty icons in
+// a round badge next to the name (over a second line, where the game shows
+// the level), and the rank in a pill on the right.
 // `passive` ({ state: 'on' | 'off' | 'unknown', title }) puts the squad screen's
-// passive face in the round badge; the rank then moves to the art's corner.
+// passive face in the round badge instead; the rank then moves to the art's corner.
 export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
   const src = agentArt(agent.id);
   const [failedSrc, setFailedSrc] = useState(null);
@@ -32,10 +32,11 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
         <span className="frame__badge">
           {passive ? (
             <PassiveFace state={passive.state} size={30} title={passive.title} />
-          ) : ranked ? (
-            <RankBadge rank={agent.rank} size={22} />
           ) : (
-            <span className="frame__badge-dot" />
+            <span className="frame__badge-icons">
+              <AttributeGlyph attribute={agent.attribute} size={14} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
+              <SpecialtyIcon specialty={agent.specialty} size={14} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
+            </span>
           )}
         </span>
         <span className="frame__text">
@@ -43,8 +44,16 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
           <span className="frame__sub">{sub ?? SPECIALTY_BY_ID[agent.specialty]?.name}</span>
         </span>
         <span className="frame__pill">
-          <AttributeGlyph attribute={agent.attribute} size={18} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
-          <SpecialtyIcon specialty={agent.specialty} size={18} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
+          {passive ? (
+            <>
+              <AttributeGlyph attribute={agent.attribute} size={18} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
+              <SpecialtyIcon specialty={agent.specialty} size={18} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
+            </>
+          ) : ranked ? (
+            <RankBadge rank={agent.rank} size={22} />
+          ) : (
+            <span className="frame__badge-dot" />
+          )}
         </span>
       </span>
     </span>
