@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AGENT_BY_ID, shortName } from '../data/game.js';
+import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, shortName } from '../data/game.js';
 import { AGENT_MATS_KNOWN, ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
 import Portrait from './Portrait.jsx';
 
@@ -58,7 +58,7 @@ export default function MaterialsTab({ agent: a }) {
       <Group title="Core Skill" note="Base → F" items={m.core}>
         {ESTIMATED_MATS.has(a.id) && (
           <p className="muted small mats__foot">
-            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow {a.specialty === 'attack' ? 'Wind Attack' : 'Anomaly and Fire'} Agents; {AGENT_MATS_KNOWN(a.id) ? 'the Core Skill drops come from community reports until they’re confirmed in game.' : 'the Expert Challenge and Notorious Hunt drops haven’t been announced yet.'}
+            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow other {ATTRIBUTE_BY_ID[a.attribute]?.name} {SPECIALTY_BY_ID[a.specialty]?.name} Agents; {AGENT_MATS_KNOWN(a.id) ? 'the Core Skill drops come from community reports until they’re confirmed in game.' : 'the Expert Challenge and Notorious Hunt drops haven’t been announced yet.'}
           </p>
         )}
         <Shared label="Same Expert Challenge" ids={sharedWith(a.id, 2)} />
