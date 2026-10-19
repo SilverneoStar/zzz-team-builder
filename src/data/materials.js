@@ -38,6 +38,9 @@ export const AGENT_MATS = {
   // Not released: seal and chip follow Anomaly and Fire; the Expert Challenge and
   // Notorious Hunt drops come from community reports (same Hunt drop as Claret and Roxy).
   'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
+  // Not released: Wind Attack Agent, so Attack seals and Wind chips. The Expert Challenge and
+  // Notorious Hunt drops aren't announced yet (null).
+  'severian-lowell': ["Attack", "Windbite", null, null],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],
@@ -120,7 +123,10 @@ export const HUNT = {
 };
 
 // Agents whose Core Skill drops are estimates until release.
-export const ESTIMATED_MATS = new Set(['phoenix-reffaella']);
+export const ESTIMATED_MATS = new Set(['phoenix-reffaella', 'severian-lowell']);
+
+/** True when the Core Skill drops (Expert Challenge and Notorious Hunt) are known. */
+export const AGENT_MATS_KNOWN = (id) => Boolean(AGENT_MATS[id]?.[2] && AGENT_MATS[id]?.[3]);
 
 export const SKILL_COUNT = 5; // Basic, Dodge, Assist, Special and Chain Attack
 
@@ -153,8 +159,12 @@ export function materialsFor(id) {
       { name: 'Denny', qty: 500000, source: denny, kind: 'denny' },
     ],
     core: [
-      { name: `Higher Dimensional Data: ${hdd}`, qty: 60, source: `Expert Challenge · ${EXPERT[hdd]}`, kind: 'hdd', key: hdd },
-      { name: boss, qty: 9, source: `Notorious Hunt · ${HUNT[boss]} (weekly)`, kind: 'boss', key: boss },
+      hdd
+        ? { name: `Higher Dimensional Data: ${hdd}`, qty: 60, source: `Expert Challenge · ${EXPERT[hdd]}`, kind: 'hdd', key: hdd }
+        : { name: 'Higher Dimensional Data', qty: 60, source: 'Expert Challenge · not announced yet', kind: 'hdd', key: null },
+      boss
+        ? { name: boss, qty: 9, source: `Notorious Hunt · ${HUNT[boss]} (weekly)`, kind: 'boss', key: boss }
+        : { name: 'Notorious Hunt drop', qty: 9, source: 'Notorious Hunt · not announced yet (weekly)', kind: 'boss', key: null },
       { name: 'Denny', qty: 405000, source: denny, kind: 'denny' },
     ],
   };
@@ -163,5 +173,6 @@ export function materialsFor(id) {
 /** Other Agents who farm the same Expert Challenge or Notorious Hunt drop. */
 export function sharedWith(id, index) {
   const mine = AGENT_MATS[id]?.[index];
+  if (!mine) return [];
   return Object.keys(AGENT_MATS).filter((o) => o !== id && !ESTIMATED_MATS.has(o) && AGENT_MATS[o][index] === mine);
 }
