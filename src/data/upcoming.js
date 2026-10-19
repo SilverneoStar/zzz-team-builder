@@ -4,7 +4,7 @@
 export const UPCOMING = {
   'phoenix-reffaella': {
     // Community picks (videos): her signature, then engines that give the same kind of stats.
-    engines: ['nirvana-s-first-plume', 'angel-in-the-shell', 'flight-of-fancy', 'fusion-compiler'],
+    engines: ['nirvana-s-first-plume', 'angel-in-the-shell', 'flight-of-fancy', 'fusion-compiler', 'electro-lip-gloss', 'weeping-gemini'],
     teams: [
       { members: ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'], source: 'Official reveal' },
       { members: ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'], source: 'Official reveal' },
