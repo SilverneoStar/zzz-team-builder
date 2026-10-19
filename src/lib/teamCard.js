@@ -13,6 +13,7 @@ import { encodeTeam } from './share.js';
 import { loadoutOf } from './teamsReducer.js';
 import { discBonuses } from './discs.js';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
+import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 
 // Team images, in three layouts:
@@ -196,7 +197,7 @@ function gearOf(team, a) {
   const statName = (m) => (m === 'Attribute DMG' ? `${ATTRIBUTE_BY_ID[a.attribute]?.name} DMG` : m);
   const main = (slot) => statName(lo.discs[slot - 1].main) ?? '—';
   return {
-    mindscape: `M${lo.mindscape}`,
+    mindscape: `M${lo.mindscape}${hasPotential(a.id) && lo.potential ? ` · Potential ${ROMAN[lo.potential]}` : ''}`,
     wEngine: w ? `${w.name} · P${lo.refinement}` : '—',
     wEngineRank: w?.rank ?? null,
     four: four?.name ?? '—',

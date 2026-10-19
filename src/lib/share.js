@@ -1,9 +1,10 @@
 import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, DRIVE_DISC_BY_ID, TEAM_SIZE, W_ENGINE_BY_ID } from '../data/game.js';
 import { RANKS, normaliseDiscs } from './discs.js';
+import { hasPotential } from '../data/potentials.js';
 
 // A team code looks like:
 //   zzz2~Ellen_Freeze~ellen-joe.von-lycaon.soukaku~sharkboo~<gear>.<gear>.<gear>
-// Each Agent's gear is W-Engine,phase,mindscape,slot1,…,slot6 and each slot is
+// Each Agent's gear is W-Engine,phase,mindscape,slot1,…,slot6[,potential] and each slot is
 // set_rank_main (main as its position in DISC_MAIN_STATS for slots 4–6).
 // Only letters, digits and . , _ ~ - appear, so it's safe in a URL hash.
 // Older zzz1 codes (a 4-piece and 2-piece set per Agent) still import.
@@ -29,6 +30,8 @@ export function encodeTeam(team, loadoutOf) {
           const m = slot >= 4 ? DISC_MAIN_STATS[slot].indexOf(d.main) : -1;
           return `${d.set ?? ''}_${d.rank}_${m < 0 ? '' : m}`;
         }),
+        // Potential goes last and only when set, so older codes stay the same.
+        ...(lo.potential ? [lo.potential] : []),
       ].join(',');
     })
     .join('.');
@@ -82,7 +85,8 @@ export function decodeTeam(code) {
         main: slot >= 4 && m !== '' && m != null ? DISC_MAIN_STATS[slot][Number(m)] ?? null : null,
       };
     });
-    loadouts[id] = { ...base, discs: normaliseDiscs(discs) };
+    const pot = Math.min(6, Math.max(0, Number(rest[6]) || 0));
+    loadouts[id] = { ...base, potential: hasPotential(id) ? pot : 0, discs: normaliseDiscs(discs) };
   });
   return { name, members, bangboo, loadouts };
 }

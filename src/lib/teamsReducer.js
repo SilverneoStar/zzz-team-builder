@@ -1,10 +1,12 @@
 import { AGENT_BY_ID, MAX_MINDSCAPE, MAX_REFINEMENT, TEAM_SIZE } from '../data/game.js';
 import { PRESETS, presetLoadouts } from '../data/presets.js';
+import { MAX_POTENTIAL } from '../data/potentials.js';
 import { emptyDiscs, normaliseDiscs } from './discs.js';
 
 // All team changes go through this reducer, so the rules live in one place.
 // State: { teams: [{ id, name, members: [id|null x3], bangboo, loadouts }], activeId, notice }
 // loadouts: { [agentId]: { wEngine, refinement (1–5), mindscape (0–6),
+//   potential (0–6, only for Agents with Potential Vision),
 //   discs: [{ set, rank, main } x6] } }  (see lib/discs.js)
 // Loadouts are per team, so one Agent can be geared differently in two teams.
 
@@ -21,6 +23,7 @@ export const emptyLoadout = () => ({
   wEngine: null,
   refinement: 1,
   mindscape: 0,
+  potential: 0,
   discs: emptyDiscs(),
 });
 
@@ -160,6 +163,7 @@ export function teamsReducer(state, action) {
         const next = { ...cur, ...action.patch };
         next.mindscape = clamp(next.mindscape, 0, MAX_MINDSCAPE);
         next.refinement = clamp(next.refinement, 1, MAX_REFINEMENT);
+        next.potential = clamp(next.potential ?? 0, 0, MAX_POTENTIAL);
         // A 2-piece set can't be the same as the 4-piece set.
         next.discs = normaliseDiscs(next.discs);
         return { ...t, loadouts: { ...t.loadouts, [action.agentId]: next } };

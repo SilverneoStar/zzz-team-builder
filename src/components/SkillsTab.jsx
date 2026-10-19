@@ -89,7 +89,7 @@ export default function SkillsTab({ agent: a, team }) {
       <Core core={kit.core} />
       <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />
       <Mindscapes list={kit.mindscapes} current={mindscape} />
-      {kit.potential && <Potential potential={kit.potential} />}
+      {kit.potential && <Potential potential={kit.potential} current={inTeam ? team.loadouts?.[a.id]?.potential ?? 0 : null} />}
 
       <p className="muted small skills__src">
         Skill details from the <a href={WIKI + a.name.replace(/ /g, '_')} target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a>{' '}
@@ -190,15 +190,15 @@ function Mindscapes({ list, current }) {
   );
 }
 
-function Potential({ potential: p }) {
-  const [lv, setLv] = useState(1);
+function Potential({ potential: p, current }) {
+  const [lv, setLv] = useState(current || 1);
   const aw = p.awakened;
   const awIdx = lv - (aw?.from ?? 2);
   return (
     <details className="skills__group">
       <summary>
         <span className="skills__cat">Potential</span>
-        <span className="skills__peek">{p.name}</span>
+        <span className="skills__peek">{p.name}{current != null ? ` · Your team: ${current ? ['I', 'II', 'III', 'IV', 'V', 'VI'][current - 1] : 'none'}` : ''}</span>
       </summary>
       <div className="skills__body">
         <LevelPicker labels={['I', 'II', 'III', 'IV', 'V', 'VI']} value={lv - 1} onChange={(i) => setLv(i + 1)} name="Potential level" />

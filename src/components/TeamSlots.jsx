@@ -13,6 +13,7 @@ import BangbooArt from './BangbooArt.jsx';
 import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
 import PassiveFace from './PassiveFace.jsx';
 import { discSummary } from '../lib/discs.js';
+import { ROMAN, hasPotential } from '../data/potentials.js';
 import { passiveStatus } from '../lib/analyze.js';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
@@ -70,6 +71,11 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
                   <span className={gear.mindscape ? 'gear-chip gear-chip--on' : 'gear-chip'} title="Mindscape Cinema">
                     M{gear.mindscape}
                   </span>
+                  {hasPotential(a.id) && gear.potential > 0 && (
+                    <span className="gear-chip gear-chip--on" title={`Potential ${ROMAN[gear.potential]}`}>
+                      Pot {ROMAN[gear.potential]}
+                    </span>
+                  )}
                 </span>
               </span>
             </button>

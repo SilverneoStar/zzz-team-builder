@@ -15,6 +15,7 @@ import { useRef, useState } from 'react';
 import { RANKS, discBonuses, mainMax, mainStatOf } from '../lib/discs.js';
 import DiscWheel, { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
+import { MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
 import RankBadge from './RankBadge.jsx';
 
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
@@ -89,6 +90,16 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               format={(v) => `M${v}`}
               onChange={(v) => onChange({ mindscape: v })}
             />
+            {hasPotential(agent.id) && (
+              <Stepper
+                label="Potential"
+                value={loadout.potential ?? 0}
+                min={0}
+                max={MAX_POTENTIAL}
+                format={(v) => (v ? ROMAN[v] : 'None')}
+                onChange={(v) => onChange({ potential: v })}
+              />
+            )}
           </div>
 
           <div className="quickfill">
