@@ -6,7 +6,6 @@ import SwipeTabs from './SwipeTabs.jsx';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import Portrait from './Portrait.jsx';
-import RankBadge from './RankBadge.jsx';
 
 const LEVELS = ['1', '2', '3', '4', '5'];
 
@@ -40,7 +39,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
   const overview = (
     <div className="detail__main">
       <dl className="facts">
-        <div><dt>Rank</dt><dd>{b.rank ? <><RankBadge rank={b.rank} size={18} /> {b.rank}-rank</> : '—'}</dd></div>
+        <div><dt>Rank</dt><dd>{b.rank ? `${b.rank}-rank` : '—'}</dd></div>
         <div><dt>Attribute</dt><dd className="cell-el">{attr ? <><AttributeGlyph attribute={b.attribute} size={15} />{attr.name}</> : <span className="muted">None</span>}</dd></div>
         <div><dt>Faction</dt><dd>{b.faction ?? <span className="muted">None</span>}</dd></div>
         <div><dt>Released</dt><dd>{b.version ? `Version ${b.version}` : <span className="muted">Upcoming</span>}</dd></div>
