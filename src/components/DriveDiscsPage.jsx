@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import DiscArt from './DiscArt.jsx';
 import { DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS } from '../data/game.js';
 
 export default function DriveDiscsPage({ discId }) {
@@ -48,7 +49,8 @@ export default function DriveDiscsPage({ discId }) {
         <ul className="arc-grid">
           {list.map((d) => (
             <li key={d.id} id={`disc-${d.id}`} className="arc-card" aria-current={d.id === discId ? 'true' : undefined}>
-              <div className="arc-card__top">
+              <div className="arc-card__top arc-card__top--disc">
+                <DiscArt id={d.id} size={56} />
                 <h3 className="arc-card__name">{d.name}</h3>
               </div>
               <dl className="disc-bonus">

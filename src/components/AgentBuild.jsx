@@ -10,6 +10,7 @@ import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import WEngineArt from './WEngineArt.jsx';
 import BangbooArt from './BangbooArt.jsx';
+import DiscArt from './DiscArt.jsx';
 
 // The Agent page's "Build & teams" tab: the recommended W-Engines, Drive Disc
 // sets and stats, and the best teams, each loadable into the team builder with
@@ -150,7 +151,7 @@ function SetList({ ids }) {
     <ul className="build__sets">
       {ids.map((id, i) => (
         <li key={id} style={{ '--set': setColor(id) }}>
-          <span className="bonus__dot" />
+          <DiscArt id={id} size={24} />
           <span>{DRIVE_DISC_BY_ID[id].name}</span>
           {i === 0 && <span className="fit-tag fit-tag--kit">Best</span>}
         </li>

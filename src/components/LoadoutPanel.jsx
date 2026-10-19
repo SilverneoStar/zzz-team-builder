@@ -1,4 +1,5 @@
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
+import DiscArt from './DiscArt.jsx';
 import {
   ATTRIBUTE_BY_ID,
   DISC_MAIN_STATS,
@@ -192,7 +193,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                   return (
                     <li key={id} className="bonus" style={{ '--set': setColor(id) }}>
                       <span className="bonus__head">
-                        <span className="bonus__dot" />
+                        <DiscArt id={id} size={22} />
                         <b>{set.name}</b>
                         <span className="muted small">×{count}</span>
                       </span>
