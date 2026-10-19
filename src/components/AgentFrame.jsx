@@ -40,7 +40,15 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
           )}
         </span>
         <span className="frame__text">
-          <span className="frame__name">{shortName(agent)}</span>
+          <span className="frame__name-line">
+            <span className="frame__name">{shortName(agent)}</span>
+            {!passive && (
+              <span className="frame__name-icons">
+                <AttributeGlyph attribute={agent.attribute} size={13} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
+                <SpecialtyIcon specialty={agent.specialty} size={13} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
+              </span>
+            )}
+          </span>
           <span className="frame__sub">{sub ?? SPECIALTY_BY_ID[agent.specialty]?.name}</span>
         </span>
         <span className="frame__pill">

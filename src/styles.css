@@ -5207,6 +5207,7 @@ th[aria-sort='descending'] .th-btn {
 .frame__badge-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--el, #888); }
 .frame__badge-icons { display: inline-flex; align-items: center; justify-content: center; gap: 2px; }
 .frame__text { flex: 1; min-width: 0; display: grid; line-height: 1.1; }
+.frame__name-line { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .frame__name {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5214,6 +5215,7 @@ th[aria-sort='descending'] .th-btn {
   font: 800 clamp(0.62rem, 8.6cqi, 0.95rem) var(--font-body);
   letter-spacing: 0.01em;
 }
+.frame__name-icons { display: none; flex: none; align-items: center; gap: 3px; margin-left: auto; }
 .frame__sub {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5245,6 +5247,7 @@ th[aria-sort='descending'] .th-btn {
 }
 @container (max-width: 104px) {
   .frame__badge { display: none; }
+  .frame__name-icons { display: inline-flex; }
 }
 
 a:hover > .frame,
@@ -5375,8 +5378,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
     position: absolute;
     right: 8px;
     bottom: 50px;
-    padding: 3px 5px;
-    background: rgb(11 11 11 / 0.85);
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.6));
   }
   .frame__pill .attr-glyph,
   .frame__pill .spec-icon { width: 15px; height: 15px; }
