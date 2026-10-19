@@ -37,10 +37,10 @@ const slug = (name) => (name || 'team').toLowerCase().replace(/[^a-z0-9]+/g, '-'
 
 // Shows a rendered card with ways to save, copy or share it. By default it
 // renders the team card; pass `render`, `title`, `name` and `suffix` for others.
-export default function ExportDialog({ team, onClose, render, title = 'Team image', name, suffix = 'zzz-team' }) {
+export default function ExportDialog({ team, onClose, render, title = 'Team image', name, suffix = 'zzz-team', kinds, kind, onKind }) {
   const label = name ?? team?.name;
   const [layout, setLayout] = useState(() => (render ? null : savedLayout()));
-  const fileName = () => `${slug(label)}-${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}.png`;
+  const fileName = () => `${slug(label)}-${kind ? `${suffix}-${kind}` : `${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}`}.png`;
   const pickLayout = (id) => {
     setLayout(id);
     try {
@@ -58,7 +58,7 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
     let cancelled = false;
     let objectUrl;
     setUrl(null);
-    (render ? render({ base: BASE }) : renderTeamCard(team, { base: BASE, layout }))
+    (render ? render({ base: BASE, kind }) : renderTeamCard(team, { base: BASE, layout }))
       .then(canvasToBlob)
       .then((b) => {
         if (cancelled || !b) return;
@@ -75,7 +75,7 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [team, layout]);
+  }, [team, layout, kind]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -112,6 +112,24 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
           <h2 id="export-title" className="section-title">{title}</h2>
           <button ref={closeRef} className="btn btn--quiet" onClick={onClose}>Close</button>
         </header>
+
+        {kinds && (
+          <div className="layout-pick" role="radiogroup" aria-label="Card type">
+            {kinds.map((k) => (
+              <button
+                key={k.id}
+                type="button"
+                role="radio"
+                aria-checked={kind === k.id}
+                className={`layout-pick__opt${kind === k.id ? ' is-on' : ''}`}
+                onClick={() => onKind(k.id)}
+              >
+                <b>{k.label}</b>
+                <span className="muted">{k.hint}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {layout && (
           <div className="layout-pick" role="radiogroup" aria-label="Image layout">

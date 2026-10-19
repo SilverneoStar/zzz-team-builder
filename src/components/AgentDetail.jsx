@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import {
   ATTRIBUTE_BY_ID,
@@ -14,6 +15,9 @@ import WEngineArt from './WEngineArt.jsx';
 import SwipeTabs from './SwipeTabs.jsx';
 import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
+import ExportDialog from './ExportDialog.jsx';
+import ExportIcon from './ExportIcon.jsx';
+import { AGENT_CARDS, renderAgentCard } from '../lib/agentCards.js';
 import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
 
@@ -21,6 +25,7 @@ const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, onClose, onApplyBuild, onLoadTeam, team }) {
   const phone = useMedia(PHONE);
+  const [card, setCard] = useState(null);
   const attr = ATTRIBUTE_BY_ID[a.attribute];
   const sig = signatureOf(a.id);
   const options = wEnginesFor(a).filter((w) => w.id !== sig?.id && w.rank !== 'B');
@@ -120,7 +125,22 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         <button className="btn btn--primary" onClick={onAdd} disabled={inActiveTeam || teamFull}>
           {inActiveTeam ? 'Already in current team' : teamFull ? 'Current team is full' : 'Add to current team'}
         </button>
+        <button className="btn" onClick={() => setCard('build')}>
+          <ExportIcon />Export card
+        </button>
       </div>
+      {card && (
+        <ExportDialog
+          onClose={() => setCard(null)}
+          title="Agent card"
+          name={a.name}
+          suffix="zzz"
+          kinds={AGENT_CARDS}
+          kind={card}
+          onKind={setCard}
+          render={(opts) => renderAgentCard(a, opts)}
+        />
+      )}
     </article>
   );
 }

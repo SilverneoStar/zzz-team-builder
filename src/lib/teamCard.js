@@ -28,12 +28,12 @@ export const TEAM_LAYOUTS = [
 ];
 const SIZES = { columns: [1200, 675], squad: [1200, 675], square: [1080, 1080] };
 
-const FONT = '"IBM Plex Sans", system-ui, sans-serif';
-const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif';
-const MONO = '"IBM Plex Mono", ui-monospace, monospace';
-const BADGE = '"Inter", "Arial Black", sans-serif';
+export const FONT = '"IBM Plex Sans", system-ui, sans-serif';
+export const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif';
+export const MONO = '"IBM Plex Mono", ui-monospace, monospace';
+export const BADGE = '"Inter", "Arial Black", sans-serif';
 
-function loadImage(src) {
+export function loadImage(src) {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => resolve(img);
@@ -42,21 +42,21 @@ function loadImage(src) {
   });
 }
 
-function fit(ctx, text, maxWidth) {
+export function fit(ctx, text, maxWidth) {
   if (ctx.measureText(text).width <= maxWidth) return text;
   let t = text;
   while (t.length > 1 && ctx.measureText(`${t}…`).width > maxWidth) t = t.slice(0, -1);
   return `${t}…`;
 }
 
-function roundRect(ctx, x, y, w, h, r) {
+export function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.roundRect(x, y, w, h, r);
 }
 
 // ---------- shared pieces ----------
 
-function background(ctx, W, H) {
+export function background(ctx, W, H) {
   ctx.fillStyle = '#0a0a0a';
   ctx.fillRect(0, 0, W, H);
   // Same strips as the page backdrop: a fixed step apart from the centre,
@@ -116,7 +116,7 @@ function footer(ctx, W, H, team) {
 }
 
 /** A slanted, rounded-ish frame with the art straightened inside it. */
-function slantedArt(ctx, { x, y, w, h, lean, art, agent, color, border = 3, radius = 0 }) {
+export function slantedArt(ctx, { x, y, w, h, lean, art, agent, color, border = 3, radius = 0 }) {
   const path = () => {
     ctx.beginPath();
     if (radius) {
@@ -164,7 +164,7 @@ function slantedArt(ctx, { x, y, w, h, lean, art, agent, color, border = 3, radi
 }
 
 /** Small S/A/B badge drawn on the canvas, in the site's rank colours. */
-function rankBadge(ctx, rank, cx, cy, r) {
+export function rankBadge(ctx, rank, cx, cy, r) {
   const stops = { S: ['#ffe866', '#ff9d3a', '#ff3d8f'], A: ['#ff7ad9', '#e04cff', '#9c46ff'], B: ['#c35bff', '#7f7dff', '#47d9ff'] }[rank];
   if (!stops) return;
   ctx.save();
@@ -240,7 +240,7 @@ async function loadArt(team, base) {
 }
 
 /** W-Engine icon, scaled to fit a size×size box whose top-left is (x, y). */
-function engineIcon(ctx, img, x, y, size) {
+export function engineIcon(ctx, img, x, y, size) {
   if (!img) return;
   const s = Math.min(size / img.width, size / img.height);
   const w = img.width * s;
