@@ -17,13 +17,13 @@ const loadView = () => {
 const twoStat = (d) => d.twoPiece.replace(/\s*[+-]?\d+(\.\d+)?%?\s*$/, '').trim();
 const TWO_STATS = [...new Set(DRIVE_DISC_SETS.map(twoStat))].sort();
 
-// Sets that recommended builds use, by the Agent's specialty.
+// 4-piece sets that recommended builds use, by the Agent's specialty.
 const USED_BY = {};
 Object.entries(BUILDS).forEach(([id, b]) => {
   const sp = AGENT_BY_ID[id]?.specialty;
   if (!sp) return;
   (USED_BY[sp] ??= new Set());
-  [...b.fourPiece, ...b.twoPiece].forEach((s) => USED_BY[sp].add(s));
+  b.fourPiece.forEach((s) => USED_BY[sp].add(s));
 });
 
 export default function DriveDiscsPage({ discId }) {
