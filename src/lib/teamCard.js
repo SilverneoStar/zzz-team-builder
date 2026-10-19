@@ -13,6 +13,7 @@ import { encodeTeam } from './share.js';
 import { loadoutOf } from './teamsReducer.js';
 import { discBonuses } from './discs.js';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
+import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 
 // Team images, in three layouts:
 //   columns  1200×675  three gear columns (the original card)
@@ -383,7 +384,8 @@ async function drawSquad(ctx, W, H, team, base) {
     ctx.clip();
     const h = 210;
     const w = (bArt.width / bArt.height) * h;
-    ctx.drawImage(bArt, cx - w / 2, cy - 78, w, h);
+    const [fx, fy] = BANGBOO_FOCUS[BANGBOO_WITH_ART.has(bangboo.id) ? bangboo.id : 'placeholder'] ?? DEFAULT_FOCUS;
+    ctx.drawImage(bArt, cx - fx * w, cy - fy * h, w, h);
     ctx.restore();
   }
   ctx.beginPath();
