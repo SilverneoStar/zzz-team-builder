@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, shortName } from '../data/game.js';
 import { AGENT_MATS_KNOWN, ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
-import Portrait from './Portrait.jsx';
+import MiniAgents from './MiniAgents.jsx';
 
 const fmt = (n) => n.toLocaleString('en');
 
@@ -104,19 +104,7 @@ function Shared({ label, ids }) {
   return (
     <div className="mats__shared">
       <h4 className="micro-title">{label}</h4>
-      <ul className="mini-agents">
-        {ids.map((id) => {
-          const x = AGENT_BY_ID[id];
-          return (
-            <li key={id}>
-              <a href={`#agent-${id}`} title={x.name} className="mini-agent">
-                <Portrait agent={x} size="sm" />
-                <span>{shortName(x)}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <MiniAgents ids={ids} />
     </div>
   );
 }

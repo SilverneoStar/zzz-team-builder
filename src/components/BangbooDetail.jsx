@@ -5,7 +5,7 @@ import { BANGBOO_MATS, BANGBOO_SKILLS, BANGBOO_STATS, needMet, needText } from '
 import SwipeTabs from './SwipeTabs.jsx';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
-import Portrait from './Portrait.jsx';
+import MiniAgents from './MiniAgents.jsx';
 
 const LEVELS = ['1', '2', '3', '4', '5'];
 
@@ -87,19 +87,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       {fans.length ? (
         <>
           <p className="muted small">Agents whose recommended builds list {b.name}.</p>
-          <ul className="mini-agents">
-            {fans.map((id) => {
-              const a = AGENT_BY_ID[id];
-              return (
-                <li key={id}>
-                  <a href={`#agent-${id}`} className="mini-agent" title={a.name}>
-                    <Portrait agent={a} size="sm" />
-                    <span>{shortName(a)}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+          <MiniAgents ids={fans} />
         </>
       ) : (
         <p className="muted small">No Agent’s recommended build lists {b.name} yet.</p>

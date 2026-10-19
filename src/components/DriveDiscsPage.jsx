@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import DiscArt, { discArt } from './DiscArt.jsx';
 import ViewToggle from './ViewToggle.jsx';
-import Portrait from './Portrait.jsx';
+import MiniAgents from './MiniAgents.jsx';
 import { navigate } from '../lib/route.js';
-import { AGENT_BY_ID, DRIVE_DISC_BY_ID, shortName, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
+import { AGENT_BY_ID, DRIVE_DISC_BY_ID, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 
 const VIEW_KEY = 'zzz-team-builder:discView';
@@ -60,27 +60,6 @@ export default function DriveDiscsPage({ discId }) {
         <p className="muted">An Agent equips six discs. Two from one set give its 2-piece bonus; four give both bonuses.</p>
       </header>
 
-      <section className="disc-guide" aria-labelledby="slots-title">
-        <h3 id="slots-title" className="mini-title">Main stats by slot</h3>
-        <div className="table-wrap">
-          <table className="index-table index-table--plain">
-            <thead>
-              <tr><th scope="col">Slot</th><th scope="col">Possible main stats (max at S-rank +15)</th></tr>
-            </thead>
-            <tbody>
-              {DISC_FIXED.map((d) => (
-                <tr key={d.slot}><td>{d.slot}</td><td>{d.stat} {d.max}</td></tr>
-              ))}
-              {[4, 5, 6].map((s) => (
-                <tr key={s}>
-                  <td>{s}</td>
-                  <td>{DISC_MAIN_STATS[s].map((st) => `${st} ${DISC_MAIN_MAX[st]}`).join(' · ')}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
       {selected && <DiscDetail disc={selected} onClose={() => navigate('drive-discs')} />}
 
@@ -133,6 +112,28 @@ export default function DriveDiscsPage({ discId }) {
           ))}
         </ul>
       )}
+
+      <details className="disc-guide">
+        <summary className="mini-title">Main stats by slot (1–6)</summary>
+        <div className="table-wrap">
+          <table className="index-table index-table--plain">
+            <thead>
+              <tr><th scope="col">Slot</th><th scope="col">Possible main stats (max at S-rank +15)</th></tr>
+            </thead>
+            <tbody>
+              {DISC_FIXED.map((d) => (
+                <tr key={d.slot}><td>{d.slot}</td><td>{d.stat} {d.max}</td></tr>
+              ))}
+              {[4, 5, 6].map((s) => (
+                <tr key={s}>
+                  <td>{s}</td>
+                  <td>{DISC_MAIN_STATS[s].map((st) => `${st} ${DISC_MAIN_MAX[st]}`).join(' · ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
     </div>
   );
 }
@@ -156,23 +157,7 @@ function Turntable({ id, playing = false }) {
 // Agents whose recommended builds use this set, as their 4-piece or 2-piece.
 const usersOf = (id, key) => Object.keys(BUILDS).filter((a) => AGENT_BY_ID[a] && BUILDS[a][key].includes(id));
 
-function AgentRow({ ids }) {
-  return (
-    <ul className="mini-agents">
-      {ids.map((id) => {
-        const a = AGENT_BY_ID[id];
-        return (
-          <li key={id}>
-            <a href={`#agent-${id}`} className="mini-agent" title={a.name}>
-              <Portrait agent={a} size="sm" />
-              <span>{shortName(a)}</span>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
+const AgentRow = ({ ids }) => <MiniAgents ids={ids} />;
 
 // One set's page: its record playing on the deck, both bonuses, and the
 // Agents whose recommended builds use it.

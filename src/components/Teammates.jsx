@@ -6,7 +6,7 @@ import { PASSIVES } from '../data/passives.js';
 import { passiveCondition, teammatesFor } from '../lib/analyze.js';
 import Portrait from './Portrait.jsx';
 
-const SHOW = 5;
+const SHOW = 3;
 
 // How often each Agent shows up in the recommended teams, overall and next
 // to a given Agent. Used to put the strongest examples first.

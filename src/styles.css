@@ -6060,7 +6060,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 }
 /* Playing (the set's own page): the arm drops onto the record and it spins. */
 .deck.is-playing .deck__arm { animation: deck-arm 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) 0.1s both; }
-.deck.is-playing .deck__record { animation: deck-spin 3.2s linear 0.8s infinite; }
+.deck.is-playing .deck__record { animation: deck-spin 9s linear 0.8s infinite; }
 .deck.is-playing .deck__led { background: #ff4d3d; box-shadow: 0 0 8px #ff4d3d; }
 @keyframes deck-arm { from { transform: translateX(-50%) rotate(3deg); } to { transform: translateX(-50%) rotate(24deg); } }
 @keyframes deck-spin { to { transform: rotate(360deg); } }
@@ -6081,3 +6081,14 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   .vinyl__name { padding: 8px 10px 10px; font-size: 0.88rem; }
   .disc-detail__head .deck { width: 128px; }
 }
+/* Main stats by slot: a folded reference under the sets. */
+details.disc-guide { margin: 22px 0 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+details.disc-guide > summary { cursor: pointer; padding: 12px 14px; list-style: none; display: flex; align-items: center; gap: 10px; margin: 0; }
+details.disc-guide > summary::-webkit-details-marker { display: none; }
+details.disc-guide > summary::before {
+  content: ''; width: 7px; height: 7px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform 0.15s; opacity: 0.6;
+}
+details.disc-guide[open] > summary::before { transform: rotate(45deg); }
+details.disc-guide .table-wrap { padding: 0 14px 14px; }

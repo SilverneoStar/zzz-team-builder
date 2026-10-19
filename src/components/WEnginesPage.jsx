@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID, shortName } from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
+import MiniAgents, { MINI_LIMIT } from './MiniAgents.jsx';
 import RankBadge from './RankBadge.jsx';
 import WEngineArt from './WEngineArt.jsx';
 
@@ -14,6 +15,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
   const specialty = selected ? selected.specialty : SPECIALTY_BY_ID[routeSpecialty] ? routeSpecialty : 'all';
   const [rank, setRank] = useState('all');
   const [query, setQuery] = useState('');
+  const [allUsers, setAllUsers] = useState(false);
   const counts = Object.fromEntries(SPECIALTIES.map((s) => [s.id, W_ENGINES.filter((w) => w.specialty === s.id).length]));
 
   const list = useMemo(() => {
@@ -53,7 +55,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
         <div className="wielders">
           <span className="mini-title">{SPECIALTY_BY_ID[specialty].name} Agents</span>
           <ul>
-            {users.map((a) => (
+            {(allUsers ? users : users.slice(0, MINI_LIMIT)).map((a) => (
               <li key={a.id}>
                 <a href={`#agent-${a.id}`} className="wielder">
                   <Portrait agent={a} size="sm" />
@@ -61,6 +63,13 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                 </a>
               </li>
             ))}
+            {users.length > MINI_LIMIT && (
+              <li>
+                <button type="button" className="wielder mates__more" onClick={() => setAllUsers(!allUsers)} aria-expanded={allUsers}>
+                  {allUsers ? 'Show fewer' : `+${users.length - MINI_LIMIT} more`}
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       )}
@@ -186,13 +195,7 @@ function WEngineDetail({ w, onClose }) {
       {fits.length > 0 && (
         <>
           <h3 className="mini-title">Other {SPECIALTY_BY_ID[w.specialty]?.name} Agents who can use its passive</h3>
-          <ul className="mini-agents">
-            {fits.map((a) => (
-              <li key={a.id}>
-                <a href={`#agent-${a.id}`} className="mini-agent"><Portrait agent={a} size="sm" /><span>{a.name}</span></a>
-              </li>
-            ))}
-          </ul>
+          <MiniAgents ids={fits.map((a) => a.id)} full />
         </>
       )}
     </article>
