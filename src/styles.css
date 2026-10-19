@@ -5896,7 +5896,14 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 }
 .arc-card--engine .arc-card__type { margin-left: 0; }
 .arc-card--engine .arc-card__tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; width: 100%; }
-.arc-card--engine .gear-stats { width: 100%; text-align: center; }
+/* Two stat columns when the card is wide enough for the longest label
+   ("Anomaly Proficiency"), otherwise one, so nothing spills past the edge. */
+.arc-card--engine .gear-stats {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 80px), 1fr));
+  width: 100%;
+  text-align: center;
+}
+.arc-card--engine .arc-card__name { overflow-wrap: anywhere; }
 .arc-card--engine .arc-card__users { justify-content: center; width: 100%; }
 
 /* Smaller type, a bit more room for the icon, and a slightly bigger

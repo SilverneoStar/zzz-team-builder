@@ -95,11 +95,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                   <span className="arc-card__icon"><WEngineArt w={w} size={64} /></span>
                   <span className="arc-card__top">
                     <h3 className="arc-card__name">
-                      {w.name.includes(' ') ? `${w.name.slice(0, w.name.lastIndexOf(' '))} ` : ''}
-                      <span className="nowrap">
-                        {w.name.slice(w.name.lastIndexOf(' ') + 1)}{' '}
-                        <RankBadge rank={w.rank} size={16} />
-                      </span>
+                      <NameWithRank name={w.name} rank={w.rank} />
                     </h3>
                     {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
                   </span>
@@ -130,6 +126,22 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
       )}
       <p className="muted small">Stats at level 60. “—” means not published yet.</p>
     </div>
+  );
+}
+
+// The name with its rank badge flowing after it. The badge is tied to the last
+// word so it can't wrap onto a line of its own, unless that word is so long
+// the pair wouldn't fit a card anyway.
+function NameWithRank({ name, rank }) {
+  const cut = name.lastIndexOf(' ');
+  const last = name.slice(cut + 1);
+  const badge = <RankBadge rank={rank} size={16} />;
+  if (last.length > 10) return <>{name} {badge}</>;
+  return (
+    <>
+      {cut > 0 ? `${name.slice(0, cut)} ` : ''}
+      <span className="nowrap">{last} {badge}</span>
+    </>
   );
 }
 
