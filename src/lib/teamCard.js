@@ -223,7 +223,7 @@ const agentLine = (a) => `${a.rank}-Rank · ${ATTRIBUTE_BY_ID[a.attribute]?.name
 async function loadArt(team, base) {
   const arts = await Promise.all(team.members.map((id) => (id ? loadImage(`${base}agents/${id}.webp`) : null)));
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
-  const bArt = b && BANGBOO_WITH_ART.has(b.id) ? await loadImage(`${base}bangboo/${b.id}.webp`) : null;
+  const bArt = b ? await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(b.id) ? b.id : 'placeholder'}.webp`) : null;
   return { arts, bangboo: b, bArt };
 }
 

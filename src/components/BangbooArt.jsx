@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-// Bangboo with a picture in public/bangboo/<id>.webp (every Bangboo has one).
-// Add an id here when adding a new Bangboo's image; others show the plain mark.
+// Bangboo with a picture in public/bangboo/<id>.webp. Add an id here when
+// adding a new Bangboo's image; until then it shows the basic Bangboo
+// (public/bangboo/placeholder.webp), e.g. for newly announced Bangboo.
 export const BANGBOO_WITH_ART = new Set([
   'agent-gulliver', 'amillion', 'ariel', 'avocaboo', 'baddieboo', 'bagboo', 'bangvolver',
   'belion', 'biggest-fan', 'bild-n-boolok', 'birkblick', 'boollseye', 'booltergeist',
@@ -11,7 +12,8 @@ export const BANGBOO_WITH_ART = new Set([
   'rocketboo', 'safety', 'sharkboo', 'snap', 'sprout', 'sumoboo', 'ultra-jake',
 ]);
 const BASE = import.meta.env.BASE_URL;
-export const bangbooArt = (id) => (BANGBOO_WITH_ART.has(id) ? `${BASE}bangboo/${id}.webp` : null);
+export const PLACEHOLDER_ART = `${BASE}bangboo/placeholder.webp`;
+export const bangbooArt = (id) => (!id ? null : BANGBOO_WITH_ART.has(id) ? `${BASE}bangboo/${id}.webp` : PLACEHOLDER_ART);
 
 export default function BangbooArt({ id, size = 30 }) {
   const src = id ? bangbooArt(id) : null;
