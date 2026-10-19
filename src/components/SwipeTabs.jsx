@@ -17,6 +17,8 @@ export default function SwipeTabs({ slides, label }) {
   const trackRef = useRef(null);
   const tabsRef = useRef(null);
   const slideRefs = useRef([]);
+  const settleRef = useRef(0);
+  useEffect(() => () => clearTimeout(settleRef.current), []);
 
   // Follow swipes: the slide nearest the track's scroll position is active.
   useEffect(() => {
@@ -29,9 +31,19 @@ export default function SwipeTabs({ slides, label }) {
         setActive(Math.max(0, Math.min(slides.length - 1, i)));
       });
     };
+    // If a scroll comes to rest between two slides (a smooth scroll cut short,
+    // or snapping skipped), settle on the nearest one.
+    const onEnd = () => {
+      const w = Math.max(1, track.clientWidth);
+      const i = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / w)));
+      const left = slideRefs.current[i]?.offsetLeft ?? i * w;
+      if (Math.abs(track.scrollLeft - left) > 1) track.scrollTo({ left });
+    };
     track.addEventListener('scroll', onScroll, { passive: true });
+    track.addEventListener('scrollend', onEnd);
     return () => {
       track.removeEventListener('scroll', onScroll);
+      track.removeEventListener('scrollend', onEnd);
       cancelAnimationFrame(frame);
     };
   }, [slides.length]);
@@ -61,7 +73,14 @@ export default function SwipeTabs({ slides, label }) {
 
   function go(i) {
     const track = trackRef.current;
-    track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+    const left = slideRefs.current[i]?.offsetLeft ?? i * track.clientWidth;
+    track.scrollTo({ left, behavior: 'smooth' });
+    // Some browsers drop or cut short a smooth scroll (e.g. while the page
+    // itself is scrolling); make sure the slide still ends up in place.
+    clearTimeout(settleRef.current);
+    settleRef.current = setTimeout(() => {
+      if (Math.abs(track.scrollLeft - left) > 1) track.scrollTo({ left });
+    }, 700);
     setActive(i);
     // If the tab row is stuck at the top, bring the start of the new slide into view.
     const top = rootRef.current.getBoundingClientRect().top;

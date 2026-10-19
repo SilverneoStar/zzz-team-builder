@@ -4413,6 +4413,8 @@ th[aria-sort='descending'] .th-btn {
   position: relative;
   flex: 0 0 100%;
   min-width: 0;
+  /* Nothing in a slide may spill into the next one. */
+  overflow-x: clip;
   display: grid;
   gap: 18px;
   align-content: start;
@@ -5619,7 +5621,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 /* Agent page: Build and Best teams tabs */
 .swipe__dots { display: none; }
 @media (max-width: 720px) { .swipe__dots { display: flex; } }
-.build { display: grid; gap: 4px; min-width: 0; }
+.build { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; min-width: 0; }
 .build__engines { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .build__engines .engine-row--sig { margin-bottom: 0; }
 .build__discs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 18px; }
@@ -5745,7 +5747,8 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   .best-team__meta { align-self: center; }
   .best-team .btn { justify-self: end; align-self: center; }
 }
-.build__engines .engine-row { flex-wrap: nowrap; min-width: 0; }
+.build__engines .engine-row { flex-wrap: wrap; min-width: 0; }
+.build__engines .engine-row > .muted.small { margin-left: auto; }
 .build__engines .engine-row__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .build__sets .fit-tag { margin-left: 2px; }
 /* Switch lines up with the Agent's name, not the middle of a two-line note. */
