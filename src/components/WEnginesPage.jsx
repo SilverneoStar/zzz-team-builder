@@ -168,6 +168,15 @@ function WEngineDetail({ w, onClose }) {
         <div><dt>Advanced stat</dt><dd>{w.advanced ? `${w.advanced.stat} ${w.advanced.lv1} → ${w.advanced.max}` : 'Not published yet'}</dd></div>
         <div><dt>Signature of</dt><dd>{sig ? <a href={`#agent-${sig.id}`}>{sig.name}</a> : 'None'}</dd></div>
       </dl>
+      {w.passive && (
+        <section className="passive-text">
+          <h3 className="mini-title">Passive · {w.passive.name}</h3>
+          <ul>
+            {w.passive.effect.map((line) => <li key={line}>{line}</li>)}
+          </ul>
+          <p className="muted small">Phase 1 values. A higher Phase strengthens them. Only {SPECIALTY_BY_ID[w.specialty]?.name} Agents get the passive.</p>
+        </section>
+      )}
       {w.provisional && (
         <p className="muted small">
           <span className="card__tag card__tag--warn">Subject to change</span>{' '}

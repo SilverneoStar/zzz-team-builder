@@ -5973,3 +5973,7 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
   }
   .arc-card--engine .arc-card__users { align-self: stretch; }
 }
+
+/* W-Engine passive text in the detail panel. */
+.passive-text { display: grid; gap: 6px; margin-top: 12px; }
+.passive-text ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.9rem; line-height: 1.4; }
