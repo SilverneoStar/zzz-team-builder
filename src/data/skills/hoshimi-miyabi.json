@@ -1,0 +1,36 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Kazahana", "Up to 5 slashes: two Physical, three Frost. The 5th blocks attacks."],
+    ["Basic Attack", "Basic Attack", "Shimotsuki", "Hold with 2+ Fallen Frost: sheathes into Shimotsuki Stance and charges up to 3 levels, 2 Frost per level. Releasing (or running out) unleashes a draw slash for massive Frost DMG by charge level. Holds up to 6 Frost; enters battle with 3."],
+    ["Dodge", "Dodge", "Mizutori", "Quick dash dodge; mash or hold for a long-distance dash."],
+    ["Dodge", "Dash Attack", "Fuyubachi", "Physical slash."],
+    ["Dodge", "Dodge Counter", "Kan Suzume", "Frost slash."],
+    ["Assist", "Quick Assist", "Dancing Petals", "Frost slash."],
+    ["Assist", "Defensive Assist", "Drifting Petals", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Falling Petals", "Charging Frost slash."],
+    ["Special Attack", "Special Attack", "Miyuki", "Quick-draw Frost slash."],
+    ["Special Attack", "EX Special Attack", "Hisetsu", "Rushing slashes for massive Frost DMG (+2 Fallen Frost). Press again with enough Energy for a heavy follow-up for massive Frost DMG (+2 more)."],
+    ["Chain Attack", "Chain Attack", "Spring's Call", "Wide slash for massive Frost DMG."],
+    ["Chain Attack", "Ultimate", "Lingering Snow", "Wide slashes, a pause, then a finisher for massive Frost DMG. Gives 3 Fallen Frost and +30% Ice DMG for 12s."]
+  ],
+  "core": {
+    "name": "Searing Cold",
+    "text": "Her Frost DMG applies Icefire for 30s; against Icefire targets her Frost Anomaly Buildup Rate rises by 100% of her CRIT Rate (max 80%). Her Frost buildup has its own gauge: her Freeze, Shatter and Frostbite can trigger Disorder with other Anomalies, Ice included.\nApplying Frostbite to an Icefire target spends it for Frostburn - Break: Frost DMG equal to {0}% of ATK, and the enemy enters Frostburn, where everyone builds {1}% more Anomaly (she can't reapply Icefire to it). Frostburn ends with Frostbite, or if another Anomaly overwrites it. Frostburn - Break gives 1 Fallen Frost (once per 10s).",
+    "values": {
+      "Frostburn - Break (% of ATK)": ["750", "875", "1,000", "1,125", "1,250", "1,375", "1,500"],
+      "Anomaly Buildup (%)": ["14", "15", "16", "17", "18", "19", "20"]
+    }
+  },
+  "ability": {
+    "name": "Bask in Frost",
+    "text": "Shimotsuki DMG +60%. When any squad member triggers Disorder, she gets 2 Fallen Frost and her next Shimotsuki Stance ignores 30% Ice RES."
+  },
+  "mindscapes": [
+    "Each Fallen Frost spent in Shimotsuki Stance makes Shimotsuki ignore 6% DEF (max 6, until the Stance ends). A level-3 Shimotsuki on a Frostburn enemy ends Frostburn and gives the squad +20% Anomaly Buildup Rate for 10s.",
+    "Kazahana and Dodge Counter DMG +30%. Kazahana's final 5th-hit move gives 1 Fallen Frost. Enters battle with 6 Fallen Frost and +15% CRIT Rate.",
+    "Skill levels +2.",
+    "Frostburn - Break DMG +30% and gives 250 more Decibels.",
+    "Skill levels +2.",
+    "Shimotsuki Stance gives Polar: Shimotsuki DMG +30%, and she draws automatically as Frost is spent without breaking the charge (up to 3 draws per Stance)."
+  ]
+}

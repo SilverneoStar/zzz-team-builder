@@ -1,0 +1,40 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Rampaging Slash", "Up to 6 Physical slashes."],
+    ["Basic Attack", "Basic Attack", "Dead End", "Hold, spending 1 Assist Point: throws her shield around her for Physical DMG."],
+    ["Dodge", "Dodge", "Adrift", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Hog Rush", "Shield charge for Physical DMG, taking 40% less DMG. Blocking a hit lets her Retaliate into Roaring Thrust or Overpowered Shield Bash."],
+    ["Dodge", "Dodge Counter", "Eye For an Eye", "Physical stab ahead."],
+    ["Assist", "Quick Assist", "Lane Change", "Physical slash ahead."],
+    ["Assist", "Defensive Assist", "Aegis Shield", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Aiding Blade", "Spinning shield throw and slash for Physical DMG; can Retaliate after."],
+    ["Special Attack", "Special Attack", "Shockwave Shield Bash", "Shield strike for Physical DMG. Hit right at the start, it's a Perfect Block that negates the hit and auto-follows with Roaring Thrust. Then she guards (40% less DMG); blocking lets her Retaliate. Invulnerable during Retaliation."],
+    ["Special Attack", "Special Attack", "Roaring Thrust", "Physical thrust."],
+    ["Special Attack", "EX Special Attack", "Parry Counter", "Shield strike and thrust for massive Physical DMG. A Perfect Block (hit at the start, or interrupting with the shield) negates the hit; then Overpowered Shield Bash costs no Energy. Guards after, like her Special."],
+    ["Special Attack", "EX Special Attack", "Overpowered Shield Bash", "Shield strike for massive Physical DMG. A Perfect Block refunds its Energy (not when it was itself used from a block or Retaliation)."],
+    ["Special Attack", "Special Attack", "Stance Switch", "Perfect Block, Retaliation or Defensive Assist raise her Impact for 3s (scales with skill level)."],
+    ["Chain Attack", "Chain Attack", "Road Rage Slam", "Downward strike for massive Physical DMG."],
+    ["Chain Attack", "Ultimate", "Savage Smash", "Shield throw and downward strike for massive Physical DMG, with extra Daze on shielded enemies."]
+  ],
+  "core": {
+    "name": "Barrier of Resilience",
+    "text": "Parry Counter, Chain, Ultimate, or Overpowered Shield Bash via Retaliation give the squad Radiant Aegis for 90s: a shared Shield of {0}% of her base Impact + {1}, worn by the on-field Agent. The wearer gets higher Anti-Interrupt and +{2} ATK, lasting 5s past the Shield.",
+    "values": {
+      "Shield (% of base Impact)": ["300", "500", "700", "900", "1,100", "1,300", "1,400"],
+      "Flat Shield": ["200", "400", "700", "900", "1,100", "1,300", "1,400"],
+      "ATK": ["40", "135", "240", "400", "650", "900", "1,000"]
+    }
+  },
+  "ability": {
+    "name": "Battle Spirit",
+    "text": "Perfect Block, Retaliation, Defensive Assist or Dead End makes enemies within 7m take 25% more DMG from the squad for 30s."
+  },
+  "mindscapes": [
+    "Entering combat or switching in gives Radiant Aegis (once per 300s). While it's up, enemies within 5m of the wearer lose 15% Attribute DMG RES.",
+    "While Radiant Aegis is up, her Energy Generation rises by 10% and the wearer's ATK bonus is 150% of normal.",
+    "Skill levels +2.",
+    "Chain or Ultimate gives 3 Assist Points. Below 20 Energy she can pay 1 Assist Point for Overpowered Shield Bash instead (once per 5s).",
+    "Skill levels +2.",
+    "Overpowered Shield Bash and Aiding Blade always CRIT, deal +50% DMG and +50% more to the main target, and give her +30% CRIT Rate and +60% CRIT DMG for 15s."
+  ]
+}

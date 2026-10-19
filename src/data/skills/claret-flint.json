@@ -1,0 +1,41 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Bloodforging Four Forms", "Up to 4 Electric hammer strikes."],
+    ["Basic Attack", "Basic Attack", "Bloodbloom Oath - Starforging", "Up to 3 Blood Axe slashes for Electric DMG. The 2nd leaps back and throws the axe; the 3rd is a flurry (mash or hold to extend; 40% DMG reduction) ending in a leaping smash. Both retreats can Perfect Dodge, after which she can resume the 3rd hit. Crimson Inscription doesn't end during it."],
+    ["Basic Attack", "Basic Attack", "Bloodbloom Oath - Subduing Axe", "In Crimson Inscription, after a Maim from Cleaving Gold and Iron or Blood Burial Assault: a spinning leap and slam for Electric DMG (can Perfect Dodge), chaining into the Starforging 3rd hit."],
+    ["Dodge", "Dodge", "Night Vision", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Tempering", "Outside Crimson Inscription: hammer strike for Electric DMG."],
+    ["Dodge", "Dodge Counter", "Returning Edge", "Hammer-handle counter for Electric DMG, or an axe counter (Bloodbloom Oath version) in Crimson Inscription."],
+    ["Assist", "Quick Assist", "Return of the Dire Moon", "Electric DMG; has a Bloodbloom Oath version in Crimson Inscription."],
+    ["Assist", "Defensive Assist", "Unyielding Heart of the Furnace", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Bloodbloom Oath - Pureforged Edge", "Massive Electric DMG."],
+    ["Assist", "Counter Assist", "Give Not an Inch of Steel", "A power struggle: win it to cancel the enemy's Control Skill and deal Electric DMG."],
+    ["Assist", "Assist Follow-Up", "Bloodbloom Oath - Hammer Into Shape", "After a Counter Assist: massive Electric DMG; the heavy hit adds 1 Gash."],
+    ["Special Attack", "Special Attack", "Porcelume's First Call", "Two hammer blows for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Bloodbloom Oath - Secret Forging Techniques", "Turns the hammer into the Blood Axe and slashes for Electric DMG, entering Crimson Inscription for 16s (paused while off-field; +3s when she defeats an enemy, once per 3s). Hold to skip the slash into Cleaving Gold and Iron or Blood Burial Assault."],
+    ["Special Attack", "Special Attack", "Bloodbloom Oath - Cleaving Gold and Iron", "In Crimson Inscription: rising slash then a horizontal slash for Electric DMG. The horizontal slash on a Gashed enemy triggers Maim (extra area Electric DMG); invulnerable after a Maim."],
+    ["Special Attack", "Special Attack", "Bloodbloom Oath - Blood Burial Assault", "Keep holding during the rising slash: three horizontal slashes for massive Electric DMG, each triggering Maim on a Gashed enemy (up to 3)."],
+    ["Chain Attack", "Chain Attack", "Bloodbloom Oath - Resonant Blood Pact", "Series of slashes for massive Electric DMG; Crimson Inscription is paused."],
+    ["Chain Attack", "Ultimate", "Bloodbloom Oath - Trial After Trial", "Series of slashes for massive Electric DMG; Crimson Inscription is paused. Gives 10 Sharpness."]
+  ],
+  "core": {
+    "name": "Banquet of Pale Blood",
+    "text": "All her DMG is Sharp DMG, scaling with DEF. Some of it builds Gash (max 3 stacks); her Cleaving Gold and Iron and Blood Burial Assault spend a stack to trigger Maim for area DMG.\nHer CRITs use the Laceration DMG Bonus instead of CRIT DMG; CRIT Rate over 100% gives another roll to apply Laceration again. Each 1% of initial CRIT DMG gives 0.35% initial CRIT Rate.\nEnters battle with 60 Sharpness (once per 180s in Investigation Zones). Crimson Inscription raises Anti-Interrupt, and Chain Attacks extend it by 2s.\nIn Crimson Inscription, or during Chain, Ultimate, Counter Assist or Assist Follow-Up: CRIT Rate +{0}% and Gash Buildup Rate +{1}%. A Perfect Dodge during Starforging or Subduing Axe gives +15% DMG for the rest of that skill.",
+    "values": {
+      "CRIT Rate (%)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"],
+      "Gash Buildup Rate (%)": ["20", "25", "30", "35", "40", "45", "50"]
+    }
+  },
+  "ability": {
+    "name": "Bloodline Legacy",
+    "text": "Any squad Contamination gives her 300 Decibels (once per 18s). Any squad Maim puts all Armorer Agents in Remnant Edge: +25% Laceration DMG for 40s."
+  },
+  "mindscapes": [
+    "Laceration hits give +20% Gash Buildup Rate. Her Maims deal 130% of normal.",
+    "Crimson Inscription lasts 2s longer. In it, or during Chain, Ultimate, Counter Assist or Assist Follow-Up, she ignores 18% Electric RES.",
+    "Skill levels +2.",
+    "The Starforging 3rd-hit flurry can be held longer. That hit, her Chain and her Ultimate deal +20% DMG.",
+    "Skill levels +2.",
+    "Chain and Ultimate heavy hits trigger a single-target Maim without using Gash."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "High-Pressure Spike", "Up to 4 Physical and Electric hits. Steer to move while attacking (Physical DMG). Her Special, EX, Dodge, Dash Attack and Dodge Counter don't break the combo."],
+    ["Dodge", "Dodge", "Safety Regulation", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Quick Inspection", "Sliding shots for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Violation Penalty", "Grenade for Electric DMG."],
+    ["Assist", "Quick Assist", "Incident Management", "Grenade for Electric DMG."],
+    ["Assist", "Evasive Assist", "Rapid Risk Response", "Dodges the incoming attack and triggers Vital View."],
+    ["Assist", "Assist Follow-Up", "Counter Volt Needle", "Spinning bullet hail and a grenade for Electric DMG."],
+    ["Special Attack", "Special Attack", "Obstruction Removal", "Grenade for Electric DMG; steer to aim."],
+    ["Special Attack", "EX Special Attack", "Supercharged Obstruction Removal", "Leaps and throws two grenades for massive Electric DMG; steer to aim."],
+    ["Chain Attack", "Chain Attack", "Collaborative Construction", "Throws three grenades and shoots them for massive Electric DMG."],
+    ["Chain Attack", "Ultimate", "Demolition Blast - Beware", "A grenade that splits into four in the air for massive Electric DMG."]
+  ],
+  "core": {
+    "name": "Pre-Driven Needle",
+    "text": "Physical hits from her Basic or Dash Attack give 1 Zap (max 8). At 8, her next Special or EX Special spends them all for +{0}% Electric Anomaly Buildup.",
+    "values": { "Electric Anomaly Buildup (%)": ["65", "75.8", "86.6", "97.5", "108.3", "119.1", "130"] }
+  },
+  "ability": {
+    "name": "Tech Support Dept.",
+    "text": "EX Special hits make the target's next Shock deal +18% DMG (stacks 2, once per enemy per use; clears when Shock ends)."
+  },
+  "mindscapes": [
+    "Her 4th Basic hit gives the squad 0.25 Energy per hit (max 2 per use).",
+    "Grenade hits from Basic, Special or EX lower Electric RES and Electric Anomaly Buildup RES by 8.5% for 8s.",
+    "Skill levels +2.",
+    "EX Special gives 6 Charge; each Basic or Dash Attack hit spends 1 for +20% Energy Generation on that attack.",
+    "Skill levels +2.",
+    "Specials and EXs that spend 8 Zap throw an extra grenade, and each grenade deals 200% DMG."
+  ],
+  "potential": {
+    "name": "Steel Symphony",
+    "levels": [
+      "Upgrades Basic Attack, Dodge Counter, Special, EX Special, Ultimate and Additional Ability; unlocks Pulse and Obstruction Removal - Cycle.",
+      "Unlocks Awakened Potential: Overclocked Engineering Engine.",
+      "Overclocked Engineering Engine upgraded.",
+      "Overclocked Engineering Engine upgraded.",
+      "Overclocked Engineering Engine upgraded.",
+      "Overclocked Engineering Engine upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "High-Pressure Spike", "Moving after her 1st or 2nd hit, then pressing again, resumes from the 3rd or 4th hit."],
+      ["Dodge Counter", "Violation Penalty", "Auto-follows with her 4th Basic hit."],
+      ["Special Attack", "Obstruction Removal", "When it spends Zap, it also dodges attacks."],
+      ["EX Special Attack", "Supercharged Obstruction Removal", "At 8 Zap, adds a Vortex Cluster Grenade whose field pulls enemies in for Electric DMG."],
+      ["Special Attack", "Pulse", "Ultimate gives 25 Pulse; each Zap gained uses 1. After 8 Zap from Pulse, her next throw adds a Pulse Grenade that triggers Abloom on Anomaly-afflicted enemies (Ether 560%, Electric 280%, Fire 700%, Physical 50%, Ice 70%, Wind 28%). Unlocks Cycle while Pulse lasts."],
+      ["Special Attack", "Obstruction Removal - Cycle", "With Pulse, hold: keeps throwing grenades for Electric DMG, +1 Zap per throw; steer to move and dodge."],
+      ["Ultimate", "Demolition Blast - Beware", "Also gives 8 Zap and 25 Pulse."],
+      ["Additional Ability", "Tech Support Dept.", "Also turns on with an Anomaly Agent in the squad."]
+    ],
+    "awakened": {
+      "name": "Overclocked Engineering Engine",
+      "text": "Spending Zap gives Enhanced Zap: +{0}% Electric DMG for 25s.",
+      "values": [["10", "15", "20", "25", "30"]],
+      "from": 2
+    }
+  }
+}

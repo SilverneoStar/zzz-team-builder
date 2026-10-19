@@ -1,0 +1,62 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Saw Teeth Trimming", "Up to 3 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Flash Freeze Trimming", "Up to 3 Ice hits, each spending 1 Flash Freeze Charge."],
+    ["Dodge", "Dodge", "Vortex", "Rapid dash dodge. A Perfect Dodge gives Quick Charge: Arctic Ambush charges faster (5s or one use)."],
+    ["Dodge", "Dash", "Roaming Hunt", "Enters Roaming: steer to dash around, release to stop. Briefly invulnerable at the start."],
+    ["Dodge", "Dash Attack", "Arctic Ambush", "Spin slash and a Swift Scissors strike for Ice DMG (+1 Flash Freeze Charge). From Roaming, hold for a Charged Scissors strike for massive Ice DMG (+3 Charges; always Shatters a Frozen enemy); 40% DMG reduction while charging."],
+    ["Dodge", "Dodge", "Flash Freeze", "With Flash Freeze Charges (max 6), her Basic and Dash Attacks spend them for massive Ice DMG."],
+    ["Dodge", "Dash Attack", "Monstrous Wave", "Dashing Physical slash."],
+    ["Dodge", "Dash Attack", "Cold Snap", "With Flash Freeze active: dashing Ice slash that spends 1 Charge."],
+    ["Dodge", "Dodge Counter", "Reef Rock", "Scissor slash through enemies for Ice DMG."],
+    ["Assist", "Quick Assist", "Shark Sentinel", "Scissor slash through enemies for Ice DMG, then Roaming. Gives Quick Charge."],
+    ["Assist", "Defensive Assist", "Wavefront Impact", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Shark Cruiser", "Charging Ice slash."],
+    ["Special Attack", "Special Attack", "Drift", "Quick tail sweep for Ice DMG."],
+    ["Special Attack", "EX Special Attack", "Tail Swipe", "Heavy tail whip for massive Ice DMG; +1 Charge on hit. Flows into the 3rd Basic hit."],
+    ["Special Attack", "EX Special Attack", "Sharknami", "Series of slashes for massive Ice DMG; +1 Charge on hit. Flows into the 3rd Basic hit."],
+    ["Chain Attack", "Chain Attack", "Avalanche", "Dives down into an ice storm for massive Ice DMG."],
+    ["Chain Attack", "Ultimate", "Endless Winter", "Ice storm and a scissor strike for massive Ice DMG."]
+  ],
+  "core": {
+    "name": "Sharp-Toothed",
+    "text": "Her Charged Scissors strike and Charge-powered Flash Freeze Trimming get +{0}% CRIT DMG.",
+    "values": { "CRIT DMG (%)": ["50", "58.3", "66.6", "75", "83.3", "91.6", "100"] }
+  },
+  "ability": {
+    "name": "Rising Storm",
+    "text": "Dealing Ice DMG gives +3% Ice DMG for 10s, stacking 10 times."
+  },
+  "mindscapes": [
+    "Swift Scissors gives 3 Charges and Charged Scissors gives 6. Each Charge spent gives +2% CRIT Rate for 15s (max 6, separate timers).",
+    "The 3rd Flash Freeze Trimming hit can go straight into Sharknami. EX Specials get +20% CRIT DMG per Charge (max 60%).",
+    "Skill levels +2.",
+    "When any squad member Freezes or Stuns an enemy, she gets 6 Charges, Quick Charge, and 4 Energy (Energy once per 10s).",
+    "Skill levels +2.",
+    "EX Special, Chain or gaining Quick Charge: +20% PEN Ratio for 6s and 1 The Feast Begins (max 3). At 3, her next Charged Scissors spends them for +250% DMG."
+  ],
+  "potential": {
+    "name": "Shark's Rage",
+    "levels": [
+      "Unlocks Glacial Blade Wave and Icy Blade; upgrades Arctic Ambush, Core Passive and Additional Ability.",
+      "Unlocks Awakened Potential: Permafrost Zone.",
+      "Permafrost Zone upgraded.",
+      "Permafrost Zone upgraded.",
+      "Permafrost Zone upgraded.",
+      "Permafrost Zone upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Glacial Blade Wave", "After her 3rd Flash Freeze Trimming hit, Charged Scissors, Dodge Counter or Quick Assist, with Charges: spends 2 for an Ice attack, then flows into the 3rd Basic hit."],
+      ["Basic Attack", "Icy Blade", "Auto-follows her 3rd Flash Freeze Trimming hit, Sharknami, Dodge Counter and Assist Follow-Up: several wide Ice hits, with extra hits on Medium and Large enemies. Gives Quick Charge."],
+      ["Dash Attack", "Arctic Ambush", "Taking a hit while charging nullifies it and finishes the charge instantly."],
+      ["Core Passive", "Sharp-Toothed", "The CRIT DMG bonus also covers her Chain, Ultimate, Icy Blade and Glacial Blade Wave."],
+      ["Additional Ability", "Rising Storm", "Also turns on with a Stun Agent in the squad."]
+    ],
+    "awakened": {
+      "name": "Permafrost Zone",
+      "text": "Each Rising Storm stack also gives +{0}% CRIT DMG. At 10 stacks her attacks ignore {1}% Ice RES.",
+      "values": [["1.6", "2.4", "3.2", "4", "4.8"], ["3.3", "5", "6.7", "8.3", "10"]],
+      "from": 2
+    }
+  }
+}

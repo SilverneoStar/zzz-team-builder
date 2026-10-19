@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Razor Wire", "Up to 5 Physical and Fire hits. The 5th binds the main target and enters Binding Seal."],
+    ["Basic Attack", "Passive", "Bind", "Her DMG builds Burning Embers. Spending Embers on a Garrote or Decibels on an Ultimate gives 1 Burning Tether Point; at 3, her next Garrote becomes a lower-Interrupt Lunalux - Snare Chain Attack."],
+    ["Basic Attack", "Basic Attack", "Garrote - First Form", "Hold at 50%+ Embers: spends 50% for a Fire slash (+1 Tether Point). 40% DMG reduction."],
+    ["Basic Attack", "Basic Attack", "Garrote - Second Form", "Keep holding after First Form at 50%+ Embers: spends 50% for a Fire follow-up (+1 Tether Point). 40% DMG reduction."],
+    ["Dodge", "Dodge", "Arc Step", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Piercing Ambush", "Kick for Physical DMG."],
+    ["Dodge", "Dodge Counter", "Strangling Reversal", "Garrote slash around her for Fire DMG; binds the main target into Binding Seal."],
+    ["Assist", "Quick Assist", "Fierce Blade", "Garrote slash around her for Fire DMG; binds the main target into Binding Seal."],
+    ["Assist", "Defensive Assist", "Silent Protection", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Course Disruption", "Garrote slash and explosion for Fire DMG; binds the main target into Binding Seal."],
+    ["Special Attack", "Special Attack", "Locked Position", "Before Binding Seal: pulls the enemy in for a charging Fire kick that binds it into Binding Seal."],
+    ["Special Attack", "Special Attack", "Binding Sunder - First Form", "In Binding Seal: tethers nearby enemies to the bound one and detonates for Fire DMG, ending the Seal. Dodges as it starts; a Perfect Dodge gives +25% Embers. Press to cancel the blast into the 3rd Basic hit."],
+    ["Special Attack", "EX Special Attack", "Binding Sunder - Final Form", "Stronger version for massive Fire DMG, with the same dodge, Ember bonus and cancel."],
+    ["Chain Attack", "Chain Attack", "Lunalux - Snare", "Many garrotes and an explosion for massive Fire DMG; binds the main target into Binding Seal."],
+    ["Chain Attack", "Ultimate", "Lunalux Garrote - Timbre", "Massive area Fire DMG, then Dance of Awakened Fire for the rest of the fight: Tether-Point Snares keep 1 Point. Binds the main target; +1 Tether Point."],
+    ["Chain Attack", "Ultimate", "Lunalux Garrote - Shadow", "Her later Ultimates: massive area Fire DMG; binds the main target; +1 Tether Point."]
+  ],
+  "core": {
+    "name": "Entangle",
+    "text": "Entering Binding Seal gives +{0}% CRIT Rate, kept for 10s after it ends. Switching out during Binding Seal auto-casts Binding Sunder - First Form.",
+    "values": { "CRIT Rate (%)": ["12.5", "14.6", "16.7", "18.8", "20.8", "23", "25"] }
+  },
+  "ability": {
+    "name": "Ambush Point",
+    "text": "Chain and Ultimate DMG +30%. At 80%+ CRIT Rate, Lunalux - Snare and both Ultimates deal 125% of their normal multiplier."
+  },
+  "mindscapes": [
+    "Enters battle with 1,500 Decibels. Binding Seal targets are Bound: she ignores 12% of their DEF. Binding Sunder spreads Bound to everything it hits for 10s.",
+    "+15% ATK. Garrotes refund their Embers (once per 25s). Tether-Point Snares have higher Interrupt Level.",
+    "Skill levels +2.",
+    "Chain or Ultimate gives a Shield of 10% Max HP; while it holds, +40% CRIT DMG.",
+    "Skill levels +2.",
+    "Chain or Ultimate gives Shadowstring Edge for 20s: her Basic, Dash, Special and EX hits add a garrote for 375% ATK as Fire DMG, counted as Chain Attack DMG (up to 16 times)."
+  ]
+}

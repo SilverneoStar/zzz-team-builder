@@ -1,0 +1,39 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Tongue Flick", "Up to 4 Electric hits. The 4th gives 2 Venom, +1 on a Stunned enemy."],
+    ["Basic Attack", "Basic Attack", "Serpent's Kiss", "Hold with a Serpentine Shadow: leaps, locks on (hold and steer to aim longer) and slams for Electric DMG. Every 6 Venom gives 1 Shadow (max 3); she enters battle with 1. On hit, spends all Venom to trigger Corrode Bone. Triggers a Quick Assist."],
+    ["Basic Attack", "Basic Attack", "Corrode Bone", "Electric DMG around her; each trigger gives +6% CRIT Rate for 15s (max 3)."],
+    ["Dodge", "Dodge", "Slither", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Bite Mark", "Dashing Electric slash."],
+    ["Dodge", "Dodge Counter", "Bite Back", "Leaping sweep for Electric DMG."],
+    ["Assist", "Quick Assist", "Alarm System", "Leaping sweep for Electric DMG; can chain fast into her Special, EX Special or Serpent's Kiss."],
+    ["Assist", "Defensive Assist", "Extra Prison Rations", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Partners in Crime", "Downward smashes for Electric DMG."],
+    ["Special Attack", "Special Attack", "Bared Fangs", "Long-range snake bite for Electric DMG."],
+    ["Special Attack", "EX Special Attack", "Venomous Bite", "Several long-range bites for Electric DMG; refunds 5 Energy. Hold to spend up to 60 more Energy: +1 bite and +1 Venom per 20, plus 3 Venom for holding. Chains into the 4th Basic hit. Triggers a Quick Assist on hit."],
+    ["Chain Attack", "Chain Attack", "Gang Operation", "Series of attacks for massive Electric DMG; gives 3 Venom. Triggers a Quick Assist on hit."],
+    ["Chain Attack", "Ultimate", "Ophidiophobia", "Downward smash for massive Electric DMG; gives 3 Venom and opens Ether Veil: Cold-Blooded for 30s (squad CRIT DMG +5%). Triggers a Quick Assist on hit."]
+  ],
+  "core": {
+    "name": "Fatal Concoction",
+    "text": "Enters battle with 3 Venom (once per 180s in Investigation Zones). In combat she spends 1 Venom every 5s to trigger Corrode Bone; Venom past the cap triggers it once per extra point.\nWhile she has Venom (and for 30s after), the squad's Electric DMG ignores {0}% DEF, plus {1}% per 0.12 initial Energy Regen above 1.4 (max {2}%).\nCorrode Bone adds Electric DMG equal to {3}% of ATK, and deals 40% / 60% more Daze with 1 / 2 Electric squadmates.",
+    "values": {
+      "DEF ignored (%)": ["3", "3.5", "4", "4.5", "5", "5.5", "6"],
+      "Extra per 0.12 Energy Regen (%)": ["0.52", "0.6", "0.68", "0.76", "0.84", "0.92", "1"],
+      "Max DEF ignored (%)": ["12.88", "14.9", "16.92", "18.94", "20.96", "22.98", "25"],
+      "Corrode Bone (% of ATK)": ["227", "245", "263", "281", "299", "317", "335"]
+    }
+  },
+  "ability": {
+    "name": "Festering Venom",
+    "text": "While she has Venom (and for 30s after), the squad gets +40% CRIT DMG, and she gets 10% more."
+  },
+  "mindscapes": [
+    "Enters battle with 6 Venom. Core Passive DEF ignore is 140% of normal, and the squad ignores 5% Electric RES. Corrode Bone ignores 10% Electric RES.",
+    "Chain or Ultimate hitting a Stunned enemy gives 3 more Venom. Serpent's Kiss deals +35% DMG.",
+    "Skill levels +2.",
+    "EX Special, Chain and Ultimate give 1 Decidedness (max 3). Serpent's Kiss spends them all for free Corrode Bones (no Daze).",
+    "Skill levels +2.",
+    "Each Corrode Bone gives 1 Bone-Deep Corrosion; any other squad hit spends one for a free Corrode Bone (no Daze, once per 3s)."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Direct Flame Blend", "Up to 5 Physical and Fire hits."],
+    ["Basic Attack", "Basic Attack", "Mixed Flame Blend", "In Nitro-Fuel Cocktail, hold: spins spraying flames, then a Fire finisher; keep holding to spray longer. Costs 20 Heat. Press after to chain into Double Shot."],
+    ["Dodge", "Dodge", "Fiery Phantom Dash", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Dangerous Fermentation", "Flamethrower thrust for Fire DMG."],
+    ["Dodge", "Dodge Counter", "Fluttering Steps", "Flaming flurry for Physical and Fire DMG."],
+    ["Assist", "Quick Assist", "Energizing Specialty Drink", "Flaming flurry for Physical and Fire DMG."],
+    ["Assist", "Defensive Assist", "Smoky Cauldron", "Parries an incoming attack for massive Daze."],
+    ["Assist", "Assist Follow-Up", "Scorching Dew", "Leaping flame spin for Fire DMG; press after to chain into Double Shot."],
+    ["Special Attack", "Special Attack", "Intense Heat Aging Method", "Fire blast ahead; hold to charge it."],
+    ["Special Attack", "EX Special Attack", "Intense Heat Stirring Method", "One-handed flame spray ending in a line blast for massive Fire DMG. Hold to keep spraying (uses Energy); steer to sidestep. 40% DMG reduction while spraying."],
+    ["Special Attack", "EX Special Attack", "Intense Heat Stirring Method - Double Shot", "Press during Stirring Method with enough Energy: two-handed spray and line blast for massive Fire DMG. Hold to keep spraying. 40% DMG reduction while spraying."],
+    ["Chain Attack", "Chain Attack", "Fuel-Fed Flame", "Dashing spray and a fan-shaped blast for massive Fire DMG; press after to chain into Double Shot."],
+    ["Chain Attack", "Ultimate", "Glorious Inferno", "Leaping wide spray for massive Fire DMG. Triggers a Quick Assist mid-air; if taken, she sprays longer."]
+  ],
+  "core": {
+    "name": "Nitro-Fuel Cocktail",
+    "text": "Spending Energy gives Heat (1.4 per Energy, max 100); she enters battle with 100. At 50 Heat she enters Nitro-Fuel Cocktail until Heat runs out.\nIn that state, her Mixed Flame Blend, EX Specials, Chain and Ultimate put Scorched on enemies. A squadmate hitting a Scorched enemy triggers Afterburn (once per 1.5s): spends 8 Heat for Fire DMG equal to {0}% of her ATK plus Fire Anomaly Buildup. +1% Afterburn DMG per 10 Anomaly Proficiency (max +30%). Afterburn counts as Assist Attack DMG.",
+    "values": { "Afterburn (% of ATK)": ["175", "205", "235", "262", "290", "320", "350"] }
+  },
+  "ability": {
+    "name": "Fire Kindling",
+    "text": "Mixed Flame Blend, both EX Specials and Afterburn build 65% more Fire Anomaly. Burn from any squad member lasts 3s longer."
+  },
+  "mindscapes": [
+    "Heat cap 140, and she enters battle with 40 more. Afterburn gains +100% of her ATK in DMG and builds 25% more Fire Anomaly.",
+    "Afterburn applies Thermal Penetration (max 5, 6s): squad hits on that enemy gain +4% PEN Ratio per stack (max 20%).",
+    "Skill levels +2.",
+    "EX Special and Assist Attack hits gain +30% CRIT Rate. Double Shot can spray 1s longer.",
+    "Skill levels +2.",
+    "Double Shot hits add a free special Afterburn for 60% ATK (once per 0.5s). While it's active, Double Shot, special Afterburn and Burn ignore 25% Fire RES. Its blast on a Burned enemy adds a Burn tick worth 1,800% of normal (once per 20s per enemy)."
+  ],
+  "potential": {
+    "name": "Spiral of Fire",
+    "levels": [
+      "Upgrades Mixed Flame Blend, her Quick Assist and both EX Specials; unlocks Intense Heat Tossing Method.",
+      "Unlocks Awakened Potential: Boiling Point Party.",
+      "Boiling Point Party upgraded.",
+      "Boiling Point Party upgraded.",
+      "Boiling Point Party upgraded.",
+      "Boiling Point Party upgraded to its maximum."
+    ],
+    "skills": [
+      ["Basic Attack", "Mixed Flame Blend", "Its finisher also triggers a free Afterburn, and its DMG counts as Assist Attack DMG."],
+      ["Quick Assist", "Energizing Specialty Drink", "Press after it to chain into Double Shot."],
+      ["EX Special Attack", "Stirring Method and Double Shot", "DMG reduction while spraying rises to 60%."],
+      ["EX Special Attack", "Intense Heat Tossing Method", "Every 12 squad Afterburns (Mixed Flame Blend's count double) give 1 Emberflow. Her next entry spends it on a dash for Physical and Fire DMG, counted as a Quick Assist. On an enemy with any Attribute Anomaly it triggers Abloom: an extra round of that Anomaly's DMG (Ether 480%, Electric 240%, Fire 600%, Physical 40%, Ice 60%, Wind 24%). Chains into Double Shot."]
+    ],
+    "awakened": {
+      "name": "Boiling Point Party",
+      "text": "With initial Energy Regen of 1.8 or more, each extra 0.1 gives +{0} Anomaly Mastery and +{1}% DMG (max +25 Anomaly Mastery and +20% DMG). Afterburn can trigger every 1.35s.",
+      "values": [["1", "1.3", "1.6", "2", "2.5"], ["1", "1.25", "1.5", "1.75", "2"]],
+      "from": 2
+    }
+  }
+}

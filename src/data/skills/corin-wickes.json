@@ -1,0 +1,32 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Wipeout", "Up to 5 Physical slashes. Mash or hold on the 3rd and 5th to extend the chainsaw slash."],
+    ["Dodge", "Dodge", "Shoo!", "Rapid dodge."],
+    ["Dodge", "Dash Attack", "Oopsy-Daisy!", "Physical slash; mash or hold to extend the chainsaw."],
+    ["Dodge", "Dodge Counter", "Nope!", "Slash and chainsaw detonation for Physical DMG; mash or hold to extend."],
+    ["Assist", "Quick Assist", "Emergency Measures", "Slash and chainsaw detonation for Physical DMG; mash or hold to extend."],
+    ["Assist", "Defensive Assist", "P—Please Allow Me!", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Quick Sweep", "Slashes and an exploding chainsaw for Physical DMG; mash or hold to extend."],
+    ["Special Attack", "Special Attack", "Clean Sweep", "Slashes and chainsaw detonation for Physical DMG; mash or hold to extend."],
+    ["Special Attack", "EX Special Attack", "Skirt Alert", "Slashes and detonation for massive Physical DMG. Mash or hold to extend, spending Energy while it connects; 40% DMG reduction while extending."],
+    ["Chain Attack", "Chain Attack", "Sorry...", "Powerful slash for massive Physical DMG; mash or hold to extend."],
+    ["Chain Attack", "Ultimate", "Very, Very Sorry!", "Powerful slash for massive Physical DMG; mash or hold to extend."]
+  ],
+  "core": {
+    "name": "Hyperfocus",
+    "text": "Her extended chainsaw slashes (from holding or mashing) deal {0}% more DMG.",
+    "values": { "Skill DMG (%)": ["18.7", "21.8", "25", "28.1", "31.2", "34.3", "37.5"] }
+  },
+  "ability": {
+    "name": "Cleanup Assistance",
+    "text": "+35% DMG to Stunned enemies."
+  },
+  "mindscapes": [
+    "Chain or Ultimate hits give her +12% DMG against that enemy for 15s.",
+    "EX Special, Chain and Ultimate hits lower Physical RES by 0.5% per stack (max 20, 5s each).",
+    "Skill levels +2.",
+    "Quick Assist, Defensive Assist or Chain gives 7.2 Energy (once per 16s).",
+    "Skill levels +2.",
+    "Extended-slash hits give Charge (max 40). Her chainsaw detonation in a Dodge Counter, Special, EX Special, Quick Assist or Assist Follow-Up spends it all for +3% ATK as DMG per stack."
+  ]
+}

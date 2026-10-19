@@ -1,0 +1,37 @@
+{
+  "skills": [
+    ["Basic Attack", "Basic Attack", "Happy to Be of Service", "Up to 4 Physical hits."],
+    ["Basic Attack", "Basic Attack", "Rock, Paper, Scissors", "Up to 2 Physical hits with raised Anti-Interrupt and 40% DMG reduction."],
+    ["Dodge", "Dodge", "Line Busy", "Quick dash dodge."],
+    ["Dodge", "Dash Attack", "Sudden Call", "Dashing Physical attack."],
+    ["Dodge", "Dodge Counter", "Number Unavailable", "Physical combo; flows into the 4th Basic hit."],
+    ["Assist", "Quick Assist", "Forward Call", "Physical combo; flows into the 4th Basic hit."],
+    ["Assist", "Defensive Assist", "Decline Call", "Parries for massive Daze; uses fewer Assist Points under heavy attack."],
+    ["Assist", "Assist Follow-Up", "Back-to-Back Calls", "Dash and slash for Physical DMG; flows into the 4th Basic hit."],
+    ["Special Attack", "Special Attack", "Welcome Gesture", "Throws twin rings for Physical DMG."],
+    ["Special Attack", "EX Special Attack", "Rock → Scissors → Paper!", "Her EX Special cycles: Rock (fist), then Scissors, then Paper!, each available for 8s after the last. All deal Physical DMG; Paper! applies Malicious Complaint."],
+    ["Special Attack", "EX Special Attack", "Get Lost!", "Hold with a Customer Complaint: a salute strike for Physical DMG that spends it, then triggers the previous Agent's Quick Assist."],
+    ["Chain Attack", "Chain Attack", "Welcome Mat", "Kick combo for massive Physical DMG; flows into the 4th Basic hit."],
+    ["Chain Attack", "Ultimate", "Service Stopped for Number Dialed", "Rushing finger flick for massive Physical DMG; flows into the 4th Basic hit."]
+  ],
+  "core": {
+    "name": "Five-Star Service Hotline",
+    "text": "Enters battle with 60 Positive Reviews. Each 1% of initial CRIT Rate above 50% gives +{0} Impact (max +100).\nMalicious Complaint (from Paper!): if the enemy is then Stunned, the Stun lasts 2s longer and its DMG Multiplier rises by {1}% (once per Stun).\nPositive Reviews (max 120): +0.6 per second in combat, +7.5 when a Rock, Scissors or Paper! heavy hit lands (once per use).\nWith 90+, when she opens a Chain window with Welcome Mat, Get Lost! or Forward Call, the next Agent's Chain becomes an Ultimate (costs 60). If Get Lost! hits without a Chain window, she spends 90 to force one, again turning the next Chain into an Ultimate.\nReaching 90 Reviews or using an Ultimate gives 1 Customer Complaint (max 1).",
+    "values": {
+      "Impact per 1% CRIT Rate": ["1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "2"],
+      "Stun DMG Multiplier (%)": ["15", "17.5", "20", "22.5", "25", "27.5", "30"]
+    }
+  },
+  "ability": {
+    "name": "External Line",
+    "text": "Her EX Special CRIT DMG +50%. EX Special or Ultimate gives the squad Overwhelmingly Positive: +40% DMG for 15s (her EX or Ultimate extends it by 10s while under 35s). Rock, Scissors and Paper! heavy hits add DMG from the previous Agent: 320% of an Attack Agent's ATK, or 400% of a Rupture Agent's Sheer Force."
+  },
+  "mindscapes": [
+    "Positive Reviews from time and from EX hits +16%. During Overwhelmingly Positive, the squad ignores 15% All-Attribute RES.",
+    "Malicious Complaint adds +20% more Stun DMG Multiplier, and enemies with it take +15% DMG from everyone.",
+    "Skill levels +2.",
+    "Enters combat with 20 Energy (once per 180s in Investigation Zones). +500 ATK during Overwhelmingly Positive.",
+    "Skill levels +2.",
+    "An ally who enters with an Ultimate through her Core Passive gets Aftertone: their hits make Dialyn deal 480% of her ATK as Physical DMG (counts as EX Special; once per 1s, up to 12 times). One ally at a time."
+  ]
+}
