@@ -5,6 +5,8 @@ import { useState } from 'react';
 export const DISCS_WITH_ART = new Set([
   'wuthering-salon', 'freedom-blues', 'yunkui-tales', 'woodpecker-electro',
   'white-water-ballad', 'thunder-metal', 'thorned-rose', 'the-sky-ablaze',
+  'soul-rock', 'swing-jazz', 'shockstar-disco', 'shining-aria', 'shadow-harmony',
+  'puffer-electro', 'proto-punk', 'phaethons-melody', 'polar-metal', 'notes-from-the-chained',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const discArt = (id) => (id && DISCS_WITH_ART.has(id) ? `${BASE}discs/${id}.webp` : null);
