@@ -14,6 +14,7 @@ import SwipeTabs from './SwipeTabs.jsx';
 import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
 import SkillsTab from './SkillsTab.jsx';
+import MaterialsTab from './MaterialsTab.jsx';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -104,6 +105,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
           },
           ...(phone ? [{ id: 'engines', label: 'W-Engines', content: engines }] : []),
           { id: 'skills', label: 'Skills', content: <SkillsTab agent={a} team={team} /> },
+          { id: 'materials', label: 'Materials', content: <MaterialsTab agent={a} /> },
           { id: 'build', label: 'Build', content: <AgentBuild agent={a} inActiveTeam={inActiveTeam} onApply={onApplyBuild} /> },
           { id: 'teams', label: 'Best teams', content: <AgentTeams agent={a} onLoadTeam={onLoadTeam} /> },
           { id: 'mates', label: 'Teammates', content: mates },

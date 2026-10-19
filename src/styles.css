@@ -5799,3 +5799,24 @@ a:focus-visible > .frame { border-color: var(--el, #fff); transform: skewX(var(-
 .skills__body .micro-title { margin-top: 14px; }
 .skills__body .skills__list { padding: 0; }
 .skills__src { margin-top: 4px; }
+
+/* Materials tab */
+.mats { display: grid; gap: 8px; min-width: 0; }
+.mats > p { margin: 0 0 4px; }
+.mats__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
+.mats__item { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--line); }
+.mats__item:first-child { border-top: 0; }
+.mats__name { display: grid; gap: 1px; min-width: 0; }
+.mats__name b { font-size: 0.9rem; overflow-wrap: anywhere; }
+.mats__qty { font: 700 0.9rem var(--font-mono); white-space: nowrap; }
+.mats__dot { width: 10px; height: 10px; border-radius: 3px; background: var(--muted); transform: rotate(45deg); }
+.mats__item--seal .mats__dot { background: #d9a441; }
+.mats__item--chip .mats__dot { background: var(--el, #6aa8ff); }
+.mats__item--hdd .mats__dot { background: #9b7bff; }
+.mats__item--boss .mats__dot { background: #e0524f; }
+.mats__item--pass .mats__dot { background: #49c28a; }
+.mats__item--denny .mats__dot { background: #c9c9c9; border-radius: 50%; }
+.mats__switch { display: flex; gap: 4px; }
+.mats__foot { margin: 8px 0 0; }
+.mats__shared { margin-top: 10px; }
+.mats__shared .micro-title { margin: 0 0 6px; }
