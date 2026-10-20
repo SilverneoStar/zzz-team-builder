@@ -35,10 +35,11 @@ export default function MaterialsTab({ agent: a }) {
       <Group title="Level up" note="Promotions, level 1 → 60" items={m.promotion}>
         <p className="muted small mats__foot">
           <span className="mats__exp">
+            <img src={materialIcon('Trainee Investigator Log')} alt="" width="22" height="22" />
             <img src={materialIcon('Senior Investigator Log')} alt="" width="22" height="22" />
             <img src={materialIcon('Official Investigator Log')} alt="" width="22" height="22" />
           </span>
-          Agent EXP: Senior and Official Investigator Logs from Combat Simulation · Investigation Specialization.
+          Agent EXP: Trainee, Senior and Official Investigator Logs from Combat Simulation · Investigation Specialization.
         </p>
       </Group>
 
