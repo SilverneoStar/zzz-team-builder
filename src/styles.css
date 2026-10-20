@@ -6263,7 +6263,7 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 .toybox__tab-text > span {
   /* Engraved: dark at the top edge of each letter (the cut's inner shadow)
      fading to lit gold, a gold outline, and a faint light catch below. */
-  background: linear-gradient(180deg, #1e1401 0%, #4a3205 30%, #a67810 62%, #f2c955 100%);
+  background: linear-gradient(180deg, #8a6210 0%, #b8860b 22%, #dcae3a 55%, #f6d36a 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   -webkit-text-stroke: 0.45px #f0c75a;
   filter: drop-shadow(0 0.8px 0 rgb(255 226 140 / 0.35)) drop-shadow(0 -0.6px 0 rgb(0 0 0 / 0.8));
