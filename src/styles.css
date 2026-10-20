@@ -6251,19 +6251,16 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 /* "Spotlight": heavy street-sign lettering in gold foil on a dark plate,
    so it reads the same on every box colour. */
 .toybox__tab-text {
-  display: inline-block; padding: 2px 8px 3px 6px; border-radius: 3px; background: #141414;
+  display: inline-block; padding: 2px 7px 3px 8px; border-radius: 3px; background: #141414;
   box-shadow: inset 0 0 0 1px rgb(242 201 76 / 0.5), 0 1px 0 rgb(0 0 0 / 0.5);
   font: 400 0.68rem/1.1 'Rubik Mono One', 'Bungee', var(--font-display, var(--font-body)); font-weight: 900; letter-spacing: 0.03em;
 }
 .toybox__tab-text > span {
-  background: linear-gradient(180deg, #fff6c8 0%, #ffd965 45%, #f2b52e 70%, #ffe08a 100%);
+  /* Engraved: dark at the top edge of each letter (the cut's inner shadow)
+     fading to lit gold, a gold outline, and a faint light catch below. */
+  background: linear-gradient(180deg, #1e1401 0%, #4a3205 30%, #a67810 62%, #f2c955 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  /* Extruded 3D lettering: stacked bronze layers down and to the right, then a dark edge. */
-  filter:
-    drop-shadow(0 0 0.6px #000)
-    drop-shadow(0.7px 0.9px 0 #c47f12)
-    drop-shadow(0.7px 0.9px 0 #a8650c)
-    drop-shadow(0.7px 0.9px 0 #8c4f08)
-    drop-shadow(0.6px 0.6px 0 #000);
+  -webkit-text-stroke: 0.45px #f0c75a;
+  filter: drop-shadow(0 0.8px 0 rgb(255 226 140 / 0.35)) drop-shadow(0 -0.6px 0 rgb(0 0 0 / 0.8));
 }
 
