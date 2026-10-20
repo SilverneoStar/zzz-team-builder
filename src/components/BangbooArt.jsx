@@ -15,7 +15,7 @@ export const BANGBOO_WITH_ART = new Set([
 // picture fills its own frame differently (tall ears, wide fins), so these
 // scale them to look the same size as each other. Worked out from how much
 // of each picture the Bangboo covers.
-export const BANGBOO_SCALE = {"amillion": 1.03, "ariel": 0.86, "bild-n-boolok": 1.04, "boollseye": 0.92, "butler": 1.03, "devilboo": 0.89, "exploreboo": 0.97, "knightboo": 0.97, "luckyboo": 1.03, "mercury": 0.92, "miss-esme": 0.92, "officer-cui": 1.03, "placeholder": 1.03, "red-moccus": 0.93, "resonaboo": 1.05, "safety": 1.04, "sharkboo": 0.94, "snap": 0.89, "sumoboo": 0.97, "ultra-jake": 1.05};
+export const BANGBOO_SCALE = {"amillion": 1.04, "ariel": 0.86, "bild-n-boolok": 1.04, "boollseye": 0.93, "devilboo": 0.89, "exploreboo": 0.97, "luckyboo": 1.03, "mercury": 0.92, "miss-esme": 0.92, "officer-cui": 1.03, "placeholder": 1.03, "red-moccus": 0.94, "resonaboo": 1.04, "robin": 0.97, "safety": 1.04, "sharkboo": 0.95, "snap": 0.89, "sumoboo": 0.97, "ultra-jake": 1.05};
 
 const BASE = import.meta.env.BASE_URL;
 export const PLACEHOLDER_ART = `${BASE}bangboo/placeholder.webp`;
