@@ -36,6 +36,12 @@ export const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 export const BADGE = '"Inter", "Arial Black", sans-serif';
 
 export const EXPORT_SCALE = 2;
+// Export sizes: the same layout at 1×, 2× or 3× the pixels.
+export const EXPORT_SIZES = [
+  { id: 1, label: 'Standard', hint: 'Small file, quick to send' },
+  { id: 2, label: 'HD', hint: 'Sharp on phones and when zoomed' },
+  { id: 3, label: 'Max', hint: 'For printing or big screens' },
+];
 
 export function loadImage(src) {
   return new Promise((resolve) => {
@@ -634,17 +640,17 @@ async function drawSquare(ctx, W, H, team, base) {
 
 const DRAW = { columns: drawColumns, squad: drawSquad, square: drawSquare };
 
-export async function renderTeamCard(team, { base = '/', layout = 'columns' } = {}) {
+export async function renderTeamCard(team, { base = '/', layout = 'columns', scale = EXPORT_SCALE } = {}) {
   await document.fonts?.ready;
   const id = DRAW[layout] ? layout : 'columns';
   const [W, H] = SIZES[id];
-  // Drawn at 2× (same layout, twice the pixels) so text and icons stay sharp
+  // Drawn at `scale`× (same layout, more pixels; 2× by default) so text and icons stay sharp
   // when the image is zoomed, shared at full size or shown on high-DPI screens.
   const canvas = document.createElement('canvas');
-  canvas.width = W * EXPORT_SCALE;
-  canvas.height = H * EXPORT_SCALE;
+  canvas.width = W * scale;
+  canvas.height = H * scale;
   const ctx = canvas.getContext('2d');
-  ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
+  ctx.scale(scale, scale);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);

@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { TEAM_LAYOUTS, canvasToBlob, renderTeamCard } from '../lib/teamCard.js';
+import { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob, renderTeamCard } from '../lib/teamCard.js';
+
+// The export size (1×, 2×, 3×) is remembered on this device.
+const SIZE_KEY = 'zzz-team-builder:cardScale';
+const savedScale = () => {
+  try {
+    const v = Number(localStorage.getItem(SIZE_KEY));
+    return EXPORT_SIZES.some((x) => x.id === v) ? v : EXPORT_SCALE;
+  } catch {
+    return EXPORT_SCALE;
+  }
+};
 
 // The team image layout is remembered on this device.
 const LAYOUT_KEY = 'zzz-team-builder:cardLayout';
@@ -49,6 +60,16 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
       /* storage unavailable */
     }
   };
+  const [scale, setScale] = useState(savedScale);
+  const pickScale = (v) => {
+    setScale(v);
+    try {
+      localStorage.setItem(SIZE_KEY, String(v));
+    } catch {
+      /* storage unavailable */
+    }
+  };
+  const [dims, setDims] = useState(null);
   const [url, setUrl] = useState(null);
   const [blob, setBlob] = useState(null);
   const [status, setStatus] = useState('');
@@ -58,8 +79,11 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
     let cancelled = false;
     let objectUrl;
     setUrl(null);
-    (render ? render({ base: BASE, kind }) : renderTeamCard(team, { base: BASE, layout }))
-      .then(canvasToBlob)
+    (render ? render({ base: BASE, kind, scale }) : renderTeamCard(team, { base: BASE, layout, scale }))
+      .then((canvas) => {
+        if (!cancelled) setDims([canvas.width, canvas.height]);
+        return canvasToBlob(canvas);
+      })
       .then((b) => {
         if (cancelled || !b) return;
         objectUrl = URL.createObjectURL(b);
@@ -75,7 +99,7 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [team, layout, kind]);
+  }, [team, layout, kind, scale]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -149,6 +173,23 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
             ))}
           </div>
         )}
+
+        <div className="layout-pick layout-pick--size" role="radiogroup" aria-label="Image size">
+          {EXPORT_SIZES.map((z) => (
+            <button
+              key={z.id}
+              type="button"
+              role="radio"
+              aria-checked={scale === z.id}
+              className={`layout-pick__opt${scale === z.id ? ' is-on' : ''}`}
+              onClick={() => pickScale(z.id)}
+              title={z.hint}
+            >
+              <b>{z.label}</b>
+              <span className="muted">{z.id}×{scale === z.id && dims ? ` · ${dims[0]}×${dims[1]}` : ''}</span>
+            </button>
+          ))}
+        </div>
 
         <div className="dialog__preview">
           {url ? (

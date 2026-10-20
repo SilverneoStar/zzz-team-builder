@@ -467,17 +467,17 @@ async function drawGuide(ctx, W, H, a, base) {
 const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide };
 
 /** Renders one of the Agent cards onto a canvas. */
-export async function renderAgentCard(agent, { base = '/', kind = 'build' } = {}) {
+export async function renderAgentCard(agent, { base = '/', kind = 'build', scale = EXPORT_SCALE } = {}) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
   const [W, H] = SIZES[id];
-  // Drawn at 2× (same layout, twice the pixels) so text and icons stay sharp
+  // Drawn at `scale`× (same layout, more pixels; 2× by default) so text and icons stay sharp
   // when the image is zoomed, shared at full size or shown on high-DPI screens.
   const canvas = document.createElement('canvas');
-  canvas.width = W * EXPORT_SCALE;
-  canvas.height = H * EXPORT_SCALE;
+  canvas.width = W * scale;
+  canvas.height = H * scale;
   const ctx = canvas.getContext('2d');
-  ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
+  ctx.scale(scale, scale);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
