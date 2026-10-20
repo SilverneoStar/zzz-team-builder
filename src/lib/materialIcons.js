@@ -8,6 +8,7 @@ const WITH_ICON = new Set([
   'energy-transfer-fluid', 'higher-dimensional-data-imitation-core', 'timeworn-husk',
   'higher-dimensional-data-bloodstained-miasma-feather', 'counterfeit-nucleus',
   'scarlet-engine', 'clouded-crystalline-substance', 'exuvia-of-refinement', 'crimson-miasma-spike',
+  'ferocious-grip', 'living-drive', 'finale-dance-shoes', 'sycophant-s-refinement', 'marrow-draining-thorn',
   'ruler-certification-seal', 'advanced-support-certification-seal', 'basic-support-certification-seal', 'trainee-investigator-log', 'defender-certification-seal', 'advanced-defense-certification-seal', 'basic-defense-certification-seal', 'buster-certification-seal', 'advanced-stun-certification-seal', 'basic-stun-certification-seal',
   'arbiter-certification-seal', 'advanced-rupture-certification-seal', 'basic-rupture-certification-seal', 'bladebearer-certification-seal', 'advanced-armorer-certification-seal', 'basic-armorer-certification-seal',
   'basic-lumiflux-chip', 'specialized-lumiflux-chip', 'controller-certification-seal', 'basic-anomaly-certification-seal', 'advanced-anomaly-certification-seal', 'pioneer-s-certification-seal', 'basic-attack-certification-seal', 'advanced-attack-certification-seal', 'bangboo-algorithm-module', 'ether-plating-agent', 'bangboo-system-widget', 'ether-electrolyte', 'concentrated-cooling-fluid',
