@@ -434,7 +434,7 @@ async function drawColumns(ctx, W, H, team, base) {
       const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 122, y - 22, 28, 4) : 0;
       const ix = icon ? 38 : dw ? dw + 6 : 0;
       ctx.fillStyle = '#f2f2f2';
-      fitText(ctx, v, x + 122 + ix, y, colW - 136 - ix, 17, 12.5);
+      fitText(ctx, v, x + 122 + ix, y, colW - 136 - ix, 17, 11);
     });
   });
   bangbooLine(ctx, bangboo, bArt, 40, 572);
@@ -446,7 +446,7 @@ async function drawSquad(ctx, W, H, team, base) {
   const { arts, bangboo, bArt, engines, discs, roles, factions } = await loadArt(team, base);
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
-  const artH = 266;
+  const artH = 244;
   const lean = 46;
   const gap = 28;
   const top = 136;
@@ -476,15 +476,6 @@ async function drawSquad(ctx, W, H, team, base) {
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
     slantedArt(ctx, { x, y: top, w: cardW, h: artH, lean, art: arts[i], agent: a, color, border: 2.5, radius: 14 });
     rankBadge(ctx, a.rank, x + 22, top + artH - 22, 15);
-    // Faction logo on the card's top corner.
-    const flogo = factions[a.faction];
-    if (flogo) {
-      ctx.save();
-      ctx.shadowColor = 'rgba(0,0,0,0.6)';
-      ctx.shadowBlur = 8;
-      ctx.drawImage(flogo, x + cardW - 64, top + 12, 48, 48);
-      ctx.restore();
-    }
 
     // Footer: name and specialty, italic like the game.
     const fy = top + artH + 30;
@@ -493,28 +484,47 @@ async function drawSquad(ctx, W, H, team, base) {
     const sx = x + 6 + 0.18 * fy;
     ctx.fillStyle = '#f2f2f2';
     ctx.font = `800 24px ${FONT}`;
-    ctx.fillText(fit(ctx, shortName(a), cardW - 40), sx, fy);
+    const flogo = factions[a.faction];
+    ctx.fillText(fit(ctx, shortName(a), cardW - (flogo ? 90 : 40)), sx, fy);
     ctx.fillStyle = '#cfcfcf';
     ctx.font = `800 15px ${FONT}`;
     roleLine(ctx, a, roles, sx, fy + 24, 17, { rank: false });
     ctx.restore();
+    // Faction badge to the right of the name and specialty.
+    if (flogo) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
+      ctx.shadowBlur = 6;
+      ctx.drawImage(flogo, x + cardW - 84, fy - 22, 40, 40);
+      ctx.restore();
+    }
 
     // Gear under the card.
     const g = gearOf(team, a);
-    const gy = top + artH + 104;
+    const gy = top + artH + 108;
     const icon = g.wEngineId && engines[g.wEngineId];
     const ix = icon ? 40 : 0;
     if (icon) engineIcon(ctx, icon, x - 12, gy - 24, 36);
     ctx.fillStyle = '#f2f2f2';
-    ctx.font = `700 17px ${FONT}`;
-    ctx.fillText(fit(ctx, g.wEngine, cardW - 4 - ix), x - 10 + ix, gy);
-    const dw = discIcons(ctx, discs, g.setIds, x - 10, gy + 10, 26, 3);
+    fitText(ctx, g.wEngine, x - 10 + ix, gy, cardW - 4 - ix, 17, 12.5, 700);
+    // Each disc set on its own line: "4 Set" then "2 Set".
+    const sets = [g.fourId && [4, g.fourId], ...g.twoIds.map((sid) => [2, sid])].filter(Boolean).slice(0, 2);
+    let ly = gy + 28;
     ctx.fillStyle = '#d6d6d6';
-    ctx.font = `500 15px ${FONT}`;
-    ctx.fillText(fit(ctx, g.discs, cardW - 4 - (dw ? dw + 4 : 0)), x - 10 + (dw ? dw + 4 : 0), gy + 29);
+    if (!sets.length) {
+      ctx.font = `500 15px ${FONT}`;
+      ctx.fillText('No set bonuses', x - 10, ly);
+      ly += 26;
+    }
+    sets.forEach(([n, sid]) => {
+      const dw = discIcons(ctx, discs, [sid], x - 10, ly - 19, 24);
+      const tx = x - 10 + (dw ? dw + 4 : 0);
+      ctx.fillStyle = '#d6d6d6';
+      fitText(ctx, `${n} ${DRIVE_DISC_BY_ID[sid]?.name ?? ''}`, tx, ly, cardW - 4 - (tx - x + 10), 15, 12, 500);
+      ly += 27;
+    });
     ctx.fillStyle = '#b5b5b5';
-    ctx.font = `600 14px ${MONO}`;
-    ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mainsShort}`, cardW - 4), x - 10, gy + 54);
+    fitText(ctx, `${g.mindscape} · ${g.mainsShort}`, x - 10, ly, cardW - 4, 14, 11, 600, MONO);
   });
 
   // Bangboo disc.
