@@ -3,7 +3,7 @@ import { navigate } from '../lib/route.js';
 import { ATTRIBUTE_BY_ID, BANGBOO } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import RankBadge from './RankBadge.jsx';
-import BangbooArt from './BangbooArt.jsx';
+import { bangbooArt } from './BangbooArt.jsx';
 import BangbooDetail from './BangbooDetail.jsx';
 
 export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
@@ -46,9 +46,9 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
           {list.map((b) => {
             const on = activeTeam.bangboo === b.id;
             return (
-              <li key={b.id} className={`bangboo-card${on ? ' is-on' : ''}`} style={b.attribute ? { '--el': ATTRIBUTE_BY_ID[b.attribute]?.color } : undefined}>
+              <li key={b.id} className={`bangboo-card${on ? ' is-on' : ''}`} style={{ '--el': boxColor(b) }}>
                 <a className="bangboo-card__link" href={`#bangboo-${b.id}`} aria-current={bangbooId === b.id ? 'page' : undefined}>
-                  <span className="bangboo-card__icon" aria-hidden="true"><BangbooArt id={b.id} size={64} /></span>
+                  <ToyBox bangboo={b} />
                   <span className="bangboo-card__body">
                     <span className="bangboo-card__name">
                       {b.name}
@@ -69,5 +69,40 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
         </ul>
       )}
     </div>
+  );
+}
+
+// Box colour: the Bangboo's attribute, or a steady colour of its own.
+function boxColor(b) {
+  const el = b.attribute && ATTRIBUTE_BY_ID[b.attribute]?.color;
+  if (el) return el;
+  let h = 0;
+  for (const ch of b.id) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  return `hsl(${h} 45% 52%)`;
+}
+
+// The Bangboo in a collectible toy box, like its in-game pull art: a
+// "Spotlight" header card, striped backing, clear plastic front, a rank
+// sticker and a cardboard base.
+function ToyBox({ bangboo: b }) {
+  const src = bangbooArt(b.id);
+  return (
+    <span className="toybox" aria-hidden="true">
+      <span className="toybox__tab">Spotlight</span>
+      <span className="toybox__case">
+        <span className="toybox__back" />
+        {src && <img className="toybox__art" src={src} alt="" loading="lazy" />}
+        <span className="toybox__glass" />
+        {b.rank && (
+          <span className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>
+            <b>{b.rank}</b>
+            <small>Bangboo</small>
+          </span>
+        )}
+      </span>
+      <span className="toybox__base">
+        <span>Bangboo</span>
+      </span>
+    </span>
   );
 }
