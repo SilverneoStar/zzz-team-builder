@@ -325,6 +325,17 @@ export function engineIcon(ctx, img, x, y, size) {
   ctx.drawImage(img, x + (size - w) / 2, y + (size - h) / 2, w, h);
 }
 
+/** Shrinks text from `size` down to `min` px until it fits `w`, then draws it (cut only if still too long). */
+function fitText(ctx, text, x, y, w, size, min, weight = 600, family = FONT) {
+  let px = size;
+  ctx.font = `${weight} ${px}px ${family}`;
+  while (px > min && ctx.measureText(text).width > w) {
+    px -= 0.5;
+    ctx.font = `${weight} ${px}px ${family}`;
+  }
+  ctx.fillText(fit(ctx, text, w), x, y);
+}
+
 /** A faded faction logo inside a panel (clipped to it), behind its content. */
 function factionWatermark(ctx, img, clip, x, y, size, alpha = 0.11) {
   if (!img) return;
@@ -397,8 +408,7 @@ async function drawColumns(ctx, W, H, team, base) {
     slantedArt(ctx, { x: x + 20, y: top + 18, w: 86, h: 106, lean: 16, art: arts[i], agent: a, color });
 
     ctx.fillStyle = '#f2f2f2';
-    ctx.font = `700 22px ${FONT}`;
-    ctx.fillText(fit(ctx, a.name, colW - 140), x + 122, top + 62);
+    fitText(ctx, a.name, x + 122, top + 62, colW - 140, 22, 15, 700);
     ctx.fillStyle = '#a3a3a3';
     ctx.font = `500 15px ${FONT}`;
     roleLine(ctx, a, roles, x + 120, top + 88, 18, { rank: false });
@@ -424,8 +434,7 @@ async function drawColumns(ctx, W, H, team, base) {
       const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 122, y - 22, 28, 4) : 0;
       const ix = icon ? 38 : dw ? dw + 6 : 0;
       ctx.fillStyle = '#f2f2f2';
-      ctx.font = `600 17px ${FONT}`;
-      ctx.fillText(fit(ctx, v, colW - 136 - ix), x + 122 + ix, y);
+      fitText(ctx, v, x + 122 + ix, y, colW - 136 - ix, 17, 12.5);
     });
   });
   bangbooLine(ctx, bangboo, bArt, 40, 572);
