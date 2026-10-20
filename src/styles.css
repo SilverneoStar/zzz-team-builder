@@ -6134,3 +6134,7 @@ section.mats .skills__peek { flex: 1 1 auto; }
 }
 .wheel__engine { width: 28%; }
 .wheel__phase { top: calc(50% + 10.5%); z-index: 1; }
+
+.mats__icon { width: 34px; height: 34px; object-fit: contain; display: block; }
+.mats__exp { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 6px; }
+.mats__exp img { object-fit: contain; }

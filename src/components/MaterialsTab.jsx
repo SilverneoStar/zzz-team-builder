@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { materialIcon } from '../lib/materialIcons.js';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, shortName } from '../data/game.js';
 import { AGENT_MATS_KNOWN, ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
 import MiniAgents from './MiniAgents.jsx';
@@ -33,7 +34,11 @@ export default function MaterialsTab({ agent: a }) {
 
       <Group title="Level up" note="Promotions, level 1 → 60" items={m.promotion}>
         <p className="muted small mats__foot">
-          Agent EXP: Investigator Logs from Combat Simulation · Investigation Specialization.
+          <span className="mats__exp">
+            <img src={materialIcon('Senior Investigator Log')} alt="" width="22" height="22" />
+            <img src={materialIcon('Official Investigator Log')} alt="" width="22" height="22" />
+          </span>
+          Agent EXP: Senior and Official Investigator Logs from Combat Simulation · Investigation Specialization.
         </p>
       </Group>
 
@@ -74,6 +79,13 @@ export default function MaterialsTab({ agent: a }) {
   );
 }
 
+// The item's icon where we have one, else a colour tile with a letter.
+export function MatIcon({ item }) {
+  const src = materialIcon(item.name);
+  if (src) return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" />;
+  return <span className="mats__dot" aria-hidden="true">{KIND_MARK[item.kind] ?? ''}</span>;
+}
+
 function Group({ title, note, items, action, children }) {
   return (
     <details className="skills__group" open>
@@ -86,7 +98,7 @@ function Group({ title, note, items, action, children }) {
         <ul className="mats__list">
           {items.map((x) => (
             <li key={x.name} className={`mats__item mats__item--${x.kind}`}>
-              <span className="mats__dot" aria-hidden="true">{KIND_MARK[x.kind] ?? ''}</span>
+              <MatIcon item={x} />
               <span className="mats__name">
                 <b>{x.name}</b>
                 <span className="muted small">{x.source}</span>

@@ -3,6 +3,7 @@ import { AGENTS, AGENT_BY_ID, ATTRIBUTE_BY_ID, baseAttribute, shortName } from '
 import { BUILDS } from '../data/builds.js';
 import { BANGBOO_MATS, BANGBOO_SKILLS, BANGBOO_STATS, needMet, needText } from '../data/bangbooSkills.js';
 import SwipeTabs from './SwipeTabs.jsx';
+import { MatIcon } from './MaterialsTab.jsx';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import MiniAgents from './MiniAgents.jsx';
@@ -103,7 +104,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       <ul className="mats__list">
         {BANGBOO_MATS.map((x) => (
           <li key={x.name} className={`mats__item mats__item--${x.kind}`}>
-            <span className="mats__dot" aria-hidden="true" />
+            <MatIcon item={x} />
             <span className="mats__name"><b>{x.name}</b><span className="muted small">{x.source}</span></span>
             <span className="mats__qty">×{fmt(x.qty)}</span>
           </li>

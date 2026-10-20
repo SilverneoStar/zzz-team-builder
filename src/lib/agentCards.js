@@ -11,6 +11,7 @@ import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
 import { STAT_TARGETS } from '../data/statTargets.js';
+import { materialIcon } from './materialIcons.js';
 import { DISPLAY, FONT, MONO, background, fit, loadImage, loadRoleIcons, rankBadge, roleLine, roundRect, slantedArt } from './teamCard.js';
 
 export const AGENT_CARDS = [
@@ -292,14 +293,27 @@ async function drawBuild(ctx, W, H, a, base) {
 
 // ---------- farm ----------
 
-function drawMatGroup(ctx, x, y, w, h, title, note, items) {
+async function loadMatIcons(items, base) {
+  const out = {};
+  await Promise.all(items.map(async (it) => {
+    const src = materialIcon(it.name, base);
+    if (src && !(it.name in out)) out[it.name] = await loadImage(src);
+  }));
+  return out;
+}
+
+function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
   panel(ctx, x, y, w, h, title, note);
   const rowH = Math.min(78, (h - 56) / items.length);
   items.forEach((it, i) => {
     const ry = y + 52 + i * rowH;
-    ctx.fillStyle = KIND[it.kind] ?? '#888';
-    roundRect(ctx, x + 20, ry + 6, 6, rowH - 22, 3);
-    ctx.fill();
+    if (icons[it.name]) {
+      ctx.drawImage(icons[it.name], x + 14, ry + 4, 30, 30);
+    } else {
+      ctx.fillStyle = KIND[it.kind] ?? '#888';
+      roundRect(ctx, x + 20, ry + 6, 6, rowH - 22, 3);
+      ctx.fill();
+    }
     ctx.fillStyle = K.text;
     ctx.font = `600 14.5px ${FONT}`;
     ctx.textAlign = 'right';
@@ -308,11 +322,11 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items) {
     const qw = ctx.measureText(qty).width;
     ctx.textAlign = 'left';
     const hdd = it.kind === 'hdd';
-    ctx.fillText(fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 70 - qw), x + 38, ry + 22);
+    ctx.fillText(fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 76 - qw), x + 52, ry + 22);
     ctx.fillStyle = K.dim;
     ctx.font = `500 12.5px ${FONT}`;
-    const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 58, 2);
-    src.forEach((l, k) => ctx.fillText(l, x + 38, ry + 42 + k * 16));
+    const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 72, 2);
+    src.forEach((l, k) => ctx.fillText(l, x + 52, ry + 42 + k * 16));
   });
 }
 
@@ -331,9 +345,10 @@ async function drawFarm(ctx, W, H, a, base) {
   const top = 290;
   const ph = 300;
   const w = 354;
-  drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion);
-  drawMatGroup(ctx, 40 + w + 29, top, w, ph, 'Skills', `all ${SKILL_COUNT}, level 1 → 12`, m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })));
-  drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core);
+  const icons = await loadMatIcons([...m.promotion, ...m.skill, ...m.core], base);
+  drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
+  drawMatGroup(ctx, 40 + w + 29, top, w, ph, 'Skills', `all ${SKILL_COUNT}, level 1 → 12`, m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })), icons);
+  drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core, icons);
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
   ctx.fillText(`${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`, 40, 616);
@@ -411,17 +426,23 @@ async function drawGuide(ctx, W, H, a, base) {
     const items = [m.promotion[1], m.skill[2], m.core[0], m.core[1]].filter(Boolean);
     const rh = 56;
     panel(ctx, 40, y, 1000, 56 + items.length * rh, 'Farm first');
+    const micons = await loadMatIcons(items, base);
     items.forEach((it, i) => {
       const ry = y + 46 + i * rh;
-      ctx.fillStyle = KIND[it.kind];
-      roundRect(ctx, 60, ry + 4, 6, rh - 20, 3);
-      ctx.fill();
+      if (micons[it.name]) {
+        ctx.drawImage(micons[it.name], 54, ry, 38, 38);
+      } else {
+        ctx.fillStyle = KIND[it.kind];
+        roundRect(ctx, 60, ry + 4, 6, rh - 20, 3);
+        ctx.fill();
+      }
+      const tx = micons[it.name] ? 102 : 80;
       ctx.fillStyle = K.text;
       ctx.font = `600 17px ${FONT}`;
-      ctx.fillText(fit(ctx, it.name, 520), 80, ry + 20);
+      ctx.fillText(fit(ctx, it.name, 520), tx, ry + 20);
       ctx.fillStyle = K.dim;
       ctx.font = `500 13px ${FONT}`;
-      ctx.fillText(fit(ctx, it.source, 620), 80, ry + 40);
+      ctx.fillText(fit(ctx, it.source, 620), tx, ry + 40);
       ctx.fillStyle = K.text;
       ctx.font = `600 17px ${FONT}`;
       ctx.textAlign = 'right';
