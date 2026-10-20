@@ -13,6 +13,7 @@ import { encodeCardCode } from './cardCode.js';
 import { loadoutOf } from './teamsReducer.js';
 import { discBonuses } from './discs.js';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
+import { factionLogo } from '../components/FactionLogo.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
@@ -306,7 +307,13 @@ async function loadArt(team, base) {
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const bArt = b ? await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(b.id) ? b.id : 'placeholder'}.webp`) : null;
   const roles = await loadRoleIcons(base, team.members.map((id) => id && AGENT_BY_ID[id]));
-  return { arts, bangboo: b, bArt, engines, discs, roles };
+  const factions = {};
+  await Promise.all(team.members.map(async (id) => {
+    const f = id && AGENT_BY_ID[id]?.faction;
+    const src = f && factionLogo(f, base);
+    if (src && !(f in factions)) factions[f] = await loadImage(src);
+  }));
+  return { arts, bangboo: b, bArt, engines, discs, roles, factions };
 }
 
 /** W-Engine icon, scaled to fit a size×size box whose top-left is (x, y). */
@@ -316,6 +323,17 @@ export function engineIcon(ctx, img, x, y, size) {
   const w = img.width * s;
   const h = img.height * s;
   ctx.drawImage(img, x + (size - w) / 2, y + (size - h) / 2, w, h);
+}
+
+/** A faded faction logo inside a panel (clipped to it), behind its content. */
+function factionWatermark(ctx, img, clip, x, y, size, alpha = 0.11) {
+  if (!img) return;
+  ctx.save();
+  roundRect(ctx, clip.x, clip.y, clip.w, clip.h, clip.r);
+  ctx.clip();
+  ctx.globalAlpha = alpha;
+  ctx.drawImage(img, x, y, size, size);
+  ctx.restore();
 }
 
 /** Drive Disc set art in a row from (x, y top); returns the width used. */
@@ -350,7 +368,7 @@ function bangbooLine(ctx, b, bArt, x, y) {
 
 async function drawColumns(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles, factions } = await loadArt(team, base);
   const colW = 352;
   const gap = 22;
   const top = 168;
@@ -370,6 +388,7 @@ async function drawColumns(ctx, W, H, team, base) {
       return;
     }
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
+    factionWatermark(ctx, factions[a.faction], { x, y: top, w: colW, h: 360, r: 14 }, x + colW - 210, top + 140, 240);
     ctx.fillStyle = color;
     roundRect(ctx, x, top, colW, 5, 2);
     ctx.fill();
@@ -395,18 +414,18 @@ async function drawColumns(ctx, W, H, team, base) {
       ['Slot 6', g.main(6)],
     ];
     rows.forEach(([k, v], r) => {
-      const y = top + 146 + r * 30.5;
+      const y = top + 148 + r * 31;
       ctx.fillStyle = '#b5b5b5';
       ctx.font = `600 13px ${MONO}`;
       ctx.fillText(k.toUpperCase(), x + 22, y);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
-      if (icon) engineIcon(ctx, icon, x + 116, y - 23, 32);
+      if (icon) engineIcon(ctx, icon, x + 120, y - 23, 32);
       const setIds = k === '4-piece' ? [g.fourId].filter(Boolean) : k === '2-piece' ? g.twoIds : [];
-      const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 118, y - 22, 28, 3) : 0;
-      const ix = icon ? 38 : dw ? dw + 4 : 0;
+      const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 122, y - 22, 28, 4) : 0;
+      const ix = icon ? 38 : dw ? dw + 6 : 0;
       ctx.fillStyle = '#f2f2f2';
       ctx.font = `600 17px ${FONT}`;
-      ctx.fillText(fit(ctx, v, colW - 140 - ix), x + 120 + ix, y);
+      ctx.fillText(fit(ctx, v, colW - 136 - ix), x + 122 + ix, y);
     });
   });
   bangbooLine(ctx, bangboo, bArt, 40, 572);
@@ -415,7 +434,7 @@ async function drawColumns(ctx, W, H, team, base) {
 
 async function drawSquad(ctx, W, H, team, base) {
   await header(ctx, W, team, base, { titleSize: 44 });
-  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles, factions } = await loadArt(team, base);
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
   const artH = 266;
@@ -448,6 +467,15 @@ async function drawSquad(ctx, W, H, team, base) {
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
     slantedArt(ctx, { x, y: top, w: cardW, h: artH, lean, art: arts[i], agent: a, color, border: 2.5, radius: 14 });
     rankBadge(ctx, a.rank, x + 22, top + artH - 22, 15);
+    // Faction logo on the card's top corner.
+    const flogo = factions[a.faction];
+    if (flogo) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
+      ctx.shadowBlur = 8;
+      ctx.drawImage(flogo, x + cardW - 64, top + 12, 48, 48);
+      ctx.restore();
+    }
 
     // Footer: name and specialty, italic like the game.
     const fy = top + artH + 30;
@@ -524,7 +552,7 @@ async function drawSquad(ctx, W, H, team, base) {
 
 async function drawSquare(ctx, W, H, team, base) {
   await header(ctx, W, team, base);
-  const { arts, bangboo, bArt, engines, discs, roles } = await loadArt(team, base);
+  const { arts, bangboo, bArt, engines, discs, roles, factions } = await loadArt(team, base);
   const top = 170;
   const rowH = 238;
   team.members.forEach((id, i) => {
@@ -543,6 +571,7 @@ async function drawSquare(ctx, W, H, team, base) {
       return;
     }
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
+    factionWatermark(ctx, factions[a.faction], { x: 40, y, w: W - 80, h: rowH, r: 16 }, W - 80 - 200, y - 10, rowH + 20);
     ctx.fillStyle = color;
     roundRect(ctx, 40, y, 6, rowH, 3);
     ctx.fill();
@@ -570,9 +599,9 @@ async function drawSquare(ctx, W, H, team, base) {
       ctx.font = `600 14px ${MONO}`;
       ctx.fillText(k.toUpperCase(), tx, ry);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
-      if (icon) engineIcon(ctx, icon, tx + 128, ry - 25, 34);
-      const dw = k === 'Discs' ? discIcons(ctx, discs, g.setIds, tx + 130, ry - 23, 30, 4) : 0;
-      const ix = icon ? 40 : dw ? dw + 6 : 0;
+      if (icon) engineIcon(ctx, icon, tx + 140, ry - 25, 34);
+      const dw = k === 'Discs' ? discIcons(ctx, discs, g.setIds, tx + 142, ry - 23, 30, 5) : 0;
+      const ix = (icon ? 44 : dw ? dw + 8 : 0) + 12;
       ctx.fillStyle = '#f2f2f2';
       ctx.font = `600 19px ${FONT}`;
       ctx.fillText(fit(ctx, v, W - tx - 200 - ix), tx + 130 + ix, ry);
