@@ -39,8 +39,8 @@ export const AGENT_MATS = {
   // Notorious Hunt drops come from community reports (same Hunt drop as Claret and Roxy).
   'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
   // Not released: Wind Attack Agent, so Attack seals and Wind chips. The Expert Challenge and
-  // Notorious Hunt drops aren't announced yet (null).
-  'severian-lowell': ["Attack", "Windbite", null, null],
+  // Notorious Hunt drops come from community reports (October 2026).
+  'severian-lowell': ["Attack", "Windbite", "Imitation Core", "Timeworn Husk"],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],
