@@ -23,7 +23,8 @@ export default function DiscWheel({ agent, wEngine, phase, discs, selected, onSe
       <div className="wheel__plate" aria-hidden="true" />
       <button
         type="button"
-        className={`wheel__engine${wEngine ? '' : ' is-empty'}`}
+        className={`wheel__engine${wEngine ? '' : ' is-empty'}${wEngine && wEngineArt(wEngine.id) ? ' has-art' : ''}`}
+        aria-label={wEngine ? `W-Engine: ${wEngine.name}` : 'Choose a W-Engine'}
         onClick={onEngine}
         title={wEngine ? wEngine.name : 'Choose a W-Engine'}
       >
@@ -32,12 +33,14 @@ export default function DiscWheel({ agent, wEngine, phase, discs, selected, onSe
             {wEngineArt(wEngine.id) ? (
               <span className="wheel__engine-art">
                 <img src={wEngineArt(wEngine.id)} alt="" />
-                <span className="wheel__engine-rank"><RankBadge rank={wEngine.rank} size={18} /></span>
+                <span className="wheel__engine-rank"><RankBadge rank={wEngine.rank} size={20} /></span>
               </span>
             ) : (
-              <RankBadge rank={wEngine.rank} size={22} />
+              <>
+                <RankBadge rank={wEngine.rank} size={22} />
+                <span className="wheel__engine-name">{wEngine.name}</span>
+              </>
             )}
-            <span className="wheel__engine-name">{wEngine.name}</span>
           </>
         ) : (
           <span className="wheel__engine-name">W-Engine</span>
