@@ -6265,7 +6265,7 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
      fading to lit gold, a gold outline, and a faint light catch below. */
   background: linear-gradient(180deg, #8a6210 0%, #b8860b 22%, #dcae3a 55%, #f6d36a 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  -webkit-text-stroke: 0.7px #d9861c;
+  -webkit-text-stroke: 0.7px #9e7700;
   filter: drop-shadow(0 0.8px 0 rgb(255 226 140 / 0.35)) drop-shadow(0 -0.6px 0 rgb(0 0 0 / 0.8));
 }
 
