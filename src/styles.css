@@ -6115,3 +6115,10 @@ section.mats .skills__peek { flex: 1 1 auto; }
   padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--surface-2); font: 700 0.85rem var(--font-mono);
 }
+
+/* Equipment wheel: set art on each disc, W-Engine art in the middle. */
+.wheel__slot.has-art .wheel__disc { background: #0d0d0d; box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--set) 70%, #000); overflow: hidden; }
+.wheel__art { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.wheel__engine-art { position: relative; width: 46%; aspect-ratio: 1; display: block; }
+.wheel__engine-art img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.wheel__engine-rank { position: absolute; right: -10%; bottom: -6%; }
