@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import DiscArt, { discArt } from './DiscArt.jsx';
 import ViewToggle from './ViewToggle.jsx';
 import MiniAgents from './MiniAgents.jsx';
+import { MatList } from './MaterialsTab.jsx';
+import { DISC_LEVEL_MATS } from '../data/levelMats.js';
 import { navigate } from '../lib/route.js';
 import { AGENT_BY_ID, DRIVE_DISC_BY_ID, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
@@ -112,6 +114,14 @@ export default function DriveDiscsPage({ discId }) {
           ))}
         </ul>
       )}
+
+      <details className="disc-guide">
+        <summary className="mini-title">Levelling discs (+0 → +15)</summary>
+        <div className="table-wrap mats">
+          <p className="muted small">For one S-rank disc. A full set of six needs six times as much: 144 Ether Plating Agents.</p>
+          <MatList items={DISC_LEVEL_MATS} />
+        </div>
+      </details>
 
       <details className="disc-guide">
         <summary className="mini-title">Main stats by slot (1–6)</summary>

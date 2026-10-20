@@ -4,7 +4,7 @@ import { BUILDS } from '../data/builds.js';
 import { BANGBOO_MATS, BANGBOO_SKILLS, BANGBOO_STATS, needMet, needText } from '../data/bangbooSkills.js';
 import SwipeTabs from './SwipeTabs.jsx';
 import { MatIcon } from './MaterialsTab.jsx';
-import { materialIcon } from '../lib/materialIcons.js';
+import { BANGBOO_EXP } from '../data/levelMats.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import MiniAgents from './MiniAgents.jsx';
@@ -104,7 +104,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       <h3 className="mini-title">Materials</h3>
       <p className="muted small">To raise {b.name} to level 60. Every Bangboo needs the same.</p>
       <ul className="mats__list">
-        {BANGBOO_MATS.map((x) => (
+        {[...BANGBOO_MATS.slice(0, -1), BANGBOO_EXP, ...BANGBOO_MATS.slice(-1)].map((x) => (
           <li key={x.name} className={`mats__item mats__item--${x.kind}`}>
             <MatIcon item={x} />
             <span className="mats__name"><b>{x.name}</b><span className="muted small">{x.source}</span></span>
@@ -112,7 +112,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
           </li>
         ))}
       </ul>
-      <p className="muted small mats__foot"><span className="mats__exp"><img src={materialIcon('Bangboo Algorithm Module')} alt="" width="22" height="22" /></span>Bangboo EXP: Bangboo Algorithm Modules from Hollow Zero.</p>
+      <p className="muted small mats__foot">Bangboo EXP: any one of the three data tiers gives the same total. Raising a Bangboo’s skills needs extra copies of it instead.</p>
     </section>
   );
 

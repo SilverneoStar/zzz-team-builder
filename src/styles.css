@@ -6141,3 +6141,5 @@ section.mats .skills__peek { flex: 1 1 auto; }
 
 .faction-logo { flex: none; object-fit: contain; display: inline-block; vertical-align: middle; }
 .cell-faction { display: inline-flex; align-items: center; gap: 6px; }
+.mats__sig { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--fg); }
+details.disc-guide + details.disc-guide { margin-top: 10px; }

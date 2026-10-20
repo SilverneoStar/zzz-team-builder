@@ -4,6 +4,8 @@ import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
 import MiniAgents, { MINI_LIMIT } from './MiniAgents.jsx';
+import { MatList } from './MaterialsTab.jsx';
+import { wEngineMaterials } from '../data/levelMats.js';
 import RankBadge from './RankBadge.jsx';
 import WEngineArt from './WEngineArt.jsx';
 
@@ -157,6 +159,7 @@ function NameWithRank({ name, rank }) {
 function WEngineDetail({ w, onClose }) {
   const sig = w.signatureOf && AGENT_BY_ID[w.signatureOf];
   const fits = AGENTS.filter((a) => a.specialty === w.specialty && a.id !== w.signatureOf && !a.upcoming);
+  const mats = w.upcoming ? null : wEngineMaterials(w);
   return (
     <article className="detail detail--compact" aria-labelledby="engine-name">
       <header className="detail__head">
@@ -191,6 +194,13 @@ function WEngineDetail({ w, onClose }) {
           <span className="card__tag card__tag--warn">Subject to change</span>{' '}
           These stats are from test-server data ahead of its release and may change before Version {w.version} goes live.
         </p>
+      )}
+      {mats && (
+        <section className="mats">
+          <h3 className="mini-title">Materials · level 1 → 60</h3>
+          <MatList items={mats} />
+          {w.rank !== 'S' && <p className="muted small mats__foot">EXP: W-Engine Energy Modules, Power Supplies or Batteries (fewer than an S-rank needs).</p>}
+        </section>
       )}
       {fits.length > 0 && (
         <>
