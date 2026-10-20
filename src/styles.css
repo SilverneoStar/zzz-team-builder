@@ -6123,3 +6123,14 @@ section.mats .skills__peek { flex: 1 1 auto; }
 .wheel__engine.has-art { padding: 4px; }
 .wheel__engine-art img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .wheel__engine-rank { position: absolute; right: -4%; bottom: -2%; }
+/* Film-reel layout: a round plate, six discs evenly spaced on one circle
+   with equal gaps between neighbours and to the hub, and a rim ring. */
+.wheel { --r: 33%; --slot: 24%; }
+.wheel__plate {
+  border-radius: 50%;
+  inset: 1%;
+  background:
+    radial-gradient(circle, #1d1d1d 0 15%, #101010 15.5% 16.5%, #191919 17% 46.5%, #0e0e0e 47% 48.5%, #1b1b1b 49%);
+}
+.wheel__engine { width: 28%; }
+.wheel__phase { top: calc(50% + 10.5%); z-index: 1; }
