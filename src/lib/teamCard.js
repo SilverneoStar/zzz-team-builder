@@ -35,6 +35,8 @@ export const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif';
 export const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 export const BADGE = '"Inter", "Arial Black", sans-serif';
 
+export const EXPORT_SCALE = 2;
+
 export function loadImage(src) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -636,10 +638,15 @@ export async function renderTeamCard(team, { base = '/', layout = 'columns' } = 
   await document.fonts?.ready;
   const id = DRAW[layout] ? layout : 'columns';
   const [W, H] = SIZES[id];
+  // Drawn at 2× (same layout, twice the pixels) so text and icons stay sharp
+  // when the image is zoomed, shared at full size or shown on high-DPI screens.
   const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
+  canvas.width = W * EXPORT_SCALE;
+  canvas.height = H * EXPORT_SCALE;
   const ctx = canvas.getContext('2d');
+  ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
   await DRAW[id](ctx, W, H, team, base);
   return canvas;
