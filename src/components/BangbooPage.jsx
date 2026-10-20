@@ -88,7 +88,7 @@ function ToyBox({ bangboo: b }) {
   const src = bangbooArt(b.id);
   return (
     <span className="toybox" aria-hidden="true">
-      <span className="toybox__tab"><span className="toybox__tab-text">Spotlight</span></span>
+      <span className="toybox__tab"><span className="toybox__tab-text"><span>Spotlight</span></span></span>
       <span className="toybox__case">
         <span className="toybox__back" />
         {src && <img className="toybox__art" src={src} alt="" loading="lazy" />}

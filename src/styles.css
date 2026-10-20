@@ -6247,10 +6247,15 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 .toybox__sticker { position: absolute; right: 4%; bottom: 18%; margin: 0 !important; width: 2.3em; height: 2.3em; font-size: 0.85rem; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .toybox__art { transition: none; } }
 
-/* "Spotlight": bold gold foil lettering with a dark edge. */
+/* "Spotlight": heavy street-sign lettering in gold foil on a dark plate,
+   so it reads the same on every box colour. */
 .toybox__tab-text {
-  background: linear-gradient(180deg, #e9c46a 0%, #b8860b 35%, #7a5208 60%, #a8770f 85%, #d4a944 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  -webkit-text-stroke: 0.7px #1a1000;
-  filter: drop-shadow(1px 1px 0 rgb(0 0 0 / 0.7));
+  display: inline-block; padding: 2px 7px 1px; border-radius: 3px; background: #141414;
+  box-shadow: inset 0 0 0 1px rgb(242 201 76 / 0.5), 0 1px 0 rgb(0 0 0 / 0.5);
+  font: 400 0.62rem/1.1 'Rubik Mono One', 'Bungee', var(--font-display, var(--font-body)); letter-spacing: 0.04em;
 }
+.toybox__tab-text > span {
+  background: linear-gradient(180deg, #ffe9a3 0%, #f2c94c 40%, #c9931c 62%, #f0c64a 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
