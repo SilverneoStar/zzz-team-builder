@@ -6214,7 +6214,8 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
   clip-path: polygon(50.0% 0.0%, 61.7% 13.9%, 79.4% 9.5%, 80.7% 27.7%, 97.6% 34.5%, 88.0% 50.0%, 97.6% 65.5%, 80.7% 72.3%, 79.4% 90.5%, 61.7% 86.1%, 50.0% 100.0%, 38.3% 86.1%, 20.6% 90.5%, 19.3% 72.3%, 2.4% 65.5%, 12.0% 50.0%, 2.4% 34.5%, 19.3% 27.7%, 20.6% 9.5%, 38.3% 13.9%);
   font: 900 0.78rem/1 var(--font-display, var(--font-body)); font-style: normal;
   color: #fff; text-shadow: 0 1px 1px rgb(0 0 0 / 0.5); transform: rotate(-8deg);
-  background: radial-gradient(circle at 35% 30%, #fff6c4, #f3cf4d 35%, #b98a14 80%);
+  background: radial-gradient(circle at 35% 30%, #e8c160, #a87a12 40%, #5e3f05 85%);
+  box-shadow: 0 0 0 1px #3a2700;
 }
 .toybox__sticker--a { background: radial-gradient(circle at 35% 30%, #f7e3ff, #c27ae8 35%, #7a35a8 80%); }
 .toybox__sticker--b { background: radial-gradient(circle at 35% 30%, #e3f2ff, #6fb2ef 35%, #2c63a6 80%); }
@@ -6248,8 +6249,8 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 
 /* "Spotlight": bold gold foil lettering with a dark edge. */
 .toybox__tab-text {
-  background: linear-gradient(180deg, #fff3b0 0%, #f6d55c 35%, #c8931a 60%, #f1c94a 85%, #fff0a6 100%);
+  background: linear-gradient(180deg, #e9c46a 0%, #b8860b 35%, #7a5208 60%, #a8770f 85%, #d4a944 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  -webkit-text-stroke: 0.7px #2a1c00;
+  -webkit-text-stroke: 0.7px #1a1000;
   filter: drop-shadow(1px 1px 0 rgb(0 0 0 / 0.7));
 }
