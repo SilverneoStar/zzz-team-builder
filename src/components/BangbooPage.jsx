@@ -3,7 +3,7 @@ import { navigate } from '../lib/route.js';
 import { ATTRIBUTE_BY_ID, BANGBOO } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import RankBadge from './RankBadge.jsx';
-import { bangbooArt } from './BangbooArt.jsx';
+import { BANGBOO_SCALE, bangbooArt } from './BangbooArt.jsx';
 import BangbooDetail from './BangbooDetail.jsx';
 
 export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
@@ -91,7 +91,7 @@ function ToyBox({ bangboo: b }) {
       <span className="toybox__tab"><span className="toybox__tab-text"><span>Spotlight</span></span></span>
       <span className="toybox__case">
         <span className="toybox__back" />
-        {src && <img className="toybox__art" src={src} alt="" loading="lazy" />}
+        {src && <img className="toybox__art" src={src} alt="" loading="lazy" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />}
         <span className="toybox__glass" />
       </span>
       <span className="toybox__base">
