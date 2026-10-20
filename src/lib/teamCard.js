@@ -97,8 +97,15 @@ async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
   ctx.font = `500 15px ${MONO}`;
   ctx.fillText('ZENLESS ZONE ZERO · TEAM BUILDER', 40, 74);
   ctx.fillStyle = '#f2f2f2';
-  ctx.font = `800 ${titleSize}px ${DISPLAY}`;
-  ctx.fillText(fit(ctx, (team.name || 'Team').toUpperCase(), W - 260), 40, 74 + titleSize);
+  // Shrink a long team name to fit before cutting it short.
+  const title = (team.name || 'Team').toUpperCase();
+  let size = titleSize;
+  ctx.font = `800 ${size}px ${DISPLAY}`;
+  while (size > 34 && ctx.measureText(title).width > W - 260) {
+    size -= 2;
+    ctx.font = `800 ${size}px ${DISPLAY}`;
+  }
+  ctx.fillText(fit(ctx, title, W - 260), 40, 74 + titleSize);
 
   const mascot = await loadImage(`${base}mascot.svg`);
   if (mascot) ctx.drawImage(mascot, W - 150, 50, 110, 110);
@@ -106,8 +113,8 @@ async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
 
 function footer(ctx, W, H, team) {
   // The short card code: paste it into "Paste a friend's code" to load the team.
-  ctx.fillStyle = '#7a7a7a';
-  ctx.font = `500 13px ${MONO}`;
+  ctx.fillStyle = '#b5b5b5';
+  ctx.font = `600 13px ${MONO}`;
   ctx.fillText('TEAM CODE', 40, H - 66);
   const labelW = ctx.measureText('TEAM CODE').width;
   ctx.fillStyle = '#e6e6e6';
@@ -324,8 +331,8 @@ export function discIcons(ctx, discs, ids, x, y, size, gap = 4) {
 }
 
 function bangbooLine(ctx, b, bArt, x, y) {
-  ctx.fillStyle = '#a3a3a3';
-  ctx.font = `500 14px ${MONO}`;
+  ctx.fillStyle = '#b5b5b5';
+  ctx.font = `600 14px ${MONO}`;
   ctx.fillText('BANGBOO', x, y);
   let bx = x + 100;
   if (bArt) {
@@ -388,17 +395,17 @@ async function drawColumns(ctx, W, H, team, base) {
       ['Slot 6', g.main(6)],
     ];
     rows.forEach(([k, v], r) => {
-      const y = top + 150 + r * 29;
-      ctx.fillStyle = '#7a7a7a';
-      ctx.font = `500 13px ${MONO}`;
-      ctx.fillText(k.toUpperCase(), x + 24, y);
+      const y = top + 146 + r * 30.5;
+      ctx.fillStyle = '#b5b5b5';
+      ctx.font = `600 13px ${MONO}`;
+      ctx.fillText(k.toUpperCase(), x + 22, y);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
-      if (icon) engineIcon(ctx, icon, x + 118, y - 20, 28);
+      if (icon) engineIcon(ctx, icon, x + 116, y - 23, 32);
       const setIds = k === '4-piece' ? [g.fourId].filter(Boolean) : k === '2-piece' ? g.twoIds : [];
-      const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 120, y - 18, 22) : 0;
-      const ix = icon ? 34 : dw ? dw + 4 : 0;
-      ctx.fillStyle = '#e6e6e6';
-      ctx.font = `500 16px ${FONT}`;
+      const dw = setIds.length ? discIcons(ctx, discs, setIds, x + 118, y - 22, 28, 3) : 0;
+      const ix = icon ? 38 : dw ? dw + 4 : 0;
+      ctx.fillStyle = '#f2f2f2';
+      ctx.font = `600 17px ${FONT}`;
       ctx.fillText(fit(ctx, v, colW - 140 - ix), x + 120 + ix, y);
     });
   });
@@ -459,18 +466,18 @@ async function drawSquad(ctx, W, H, team, base) {
     const g = gearOf(team, a);
     const gy = top + artH + 104;
     const icon = g.wEngineId && engines[g.wEngineId];
-    const ix = icon ? 34 : 0;
-    if (icon) engineIcon(ctx, icon, x - 12, gy - 17, 30);
-    ctx.fillStyle = '#e6e6e6';
-    ctx.font = `600 15px ${FONT}`;
-    ctx.fillText(fit(ctx, g.wEngine, cardW + 20 - ix), x - 10 + ix, gy);
-    const dw = discIcons(ctx, discs, g.setIds, x - 10, gy + 6, 20, 3);
-    ctx.fillStyle = '#a3a3a3';
-    ctx.font = `500 14px ${FONT}`;
-    ctx.fillText(fit(ctx, g.discs, cardW + 20 - (dw ? dw + 3 : 0)), x - 10 + (dw ? dw + 3 : 0), gy + 21);
-    ctx.fillStyle = '#8a8a8a';
-    ctx.font = `500 13px ${MONO}`;
-    ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mainsShort}`, cardW + 20), x - 10, gy + 42);
+    const ix = icon ? 40 : 0;
+    if (icon) engineIcon(ctx, icon, x - 12, gy - 24, 36);
+    ctx.fillStyle = '#f2f2f2';
+    ctx.font = `700 17px ${FONT}`;
+    ctx.fillText(fit(ctx, g.wEngine, cardW - 4 - ix), x - 10 + ix, gy);
+    const dw = discIcons(ctx, discs, g.setIds, x - 10, gy + 10, 26, 3);
+    ctx.fillStyle = '#d6d6d6';
+    ctx.font = `500 15px ${FONT}`;
+    ctx.fillText(fit(ctx, g.discs, cardW - 4 - (dw ? dw + 4 : 0)), x - 10 + (dw ? dw + 4 : 0), gy + 29);
+    ctx.fillStyle = '#b5b5b5';
+    ctx.font = `600 14px ${MONO}`;
+    ctx.fillText(fit(ctx, `${g.mindscape} · ${g.mainsShort}`, cardW - 4), x - 10, gy + 54);
   });
 
   // Bangboo disc.
@@ -558,16 +565,16 @@ async function drawSquare(ctx, W, H, team, base) {
       ['Main stats', g.mains],
     ];
     rows.forEach(([k, v], r) => {
-      const ry = y + 122 + r * 28;
-      ctx.fillStyle = '#7a7a7a';
-      ctx.font = `500 14px ${MONO}`;
+      const ry = y + 124 + r * 31;
+      ctx.fillStyle = '#b5b5b5';
+      ctx.font = `600 14px ${MONO}`;
       ctx.fillText(k.toUpperCase(), tx, ry);
       const icon = k === 'W-Engine' && g.wEngineId && engines[g.wEngineId];
-      if (icon) engineIcon(ctx, icon, tx + 128, ry - 22, 30);
-      const dw = k === 'Discs' ? discIcons(ctx, discs, g.setIds, tx + 130, ry - 20, 24) : 0;
-      const ix = icon ? 36 : dw ? dw + 4 : 0;
-      ctx.fillStyle = '#e6e6e6';
-      ctx.font = `500 18px ${FONT}`;
+      if (icon) engineIcon(ctx, icon, tx + 128, ry - 25, 34);
+      const dw = k === 'Discs' ? discIcons(ctx, discs, g.setIds, tx + 130, ry - 23, 30, 4) : 0;
+      const ix = icon ? 40 : dw ? dw + 6 : 0;
+      ctx.fillStyle = '#f2f2f2';
+      ctx.font = `600 19px ${FONT}`;
       ctx.fillText(fit(ctx, v, W - tx - 200 - ix), tx + 130 + ix, ry);
     });
   });
