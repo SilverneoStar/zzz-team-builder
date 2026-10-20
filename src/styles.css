@@ -98,7 +98,11 @@ body {
   color: var(--fg);
   font: 15px/1.5 var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+/* Pictures scale with the best filter the browser has, at any screen density. */
+img { image-rendering: auto; }
 
 button,
 input,
