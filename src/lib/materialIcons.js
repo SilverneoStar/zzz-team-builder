@@ -3,7 +3,7 @@
 const WITH_ICON = new Set([
   'denny', 'hamster-cage-pass', 'senior-investigator-log', 'official-investigator-log',
   'basic-physical-chip', 'advanced-physical-chip', 'specialized-physical-chip',
-  'w-engine-energy-module', 'w-engine-power-supply', 'crystallized-plating-agent',
+  'w-engine-energy-module', 'w-engine-power-supply', 'crystallized-plating-agent', 'molded-plating-agent',
   'specialized-shock-chip', 'basic-freeze-chip', 'advanced-freeze-chip', 'basic-windbite-chip', 'advanced-windbite-chip', 'specialized-windbite-chip', 'basic-shock-chip', 'advanced-shock-chip', 'basic-burn-chip', 'advanced-burn-chip', 'basic-ether-chip', 'advanced-ether-chip', 'specialized-burn-chip', 'specialized-ether-chip', 'specialized-freeze-chip', 'advanced-lumiflux-chip',
   'energy-transfer-fluid', 'higher-dimensional-data-imitation-core', 'timeworn-husk',
   'higher-dimensional-data-bloodstained-miasma-feather', 'counterfeit-nucleus',
