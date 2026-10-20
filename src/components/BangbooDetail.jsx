@@ -4,6 +4,7 @@ import { BUILDS } from '../data/builds.js';
 import { BANGBOO_MATS, BANGBOO_SKILLS, BANGBOO_STATS, needMet, needText } from '../data/bangbooSkills.js';
 import SwipeTabs from './SwipeTabs.jsx';
 import { MatIcon } from './MaterialsTab.jsx';
+import { materialIcon } from '../lib/materialIcons.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import MiniAgents from './MiniAgents.jsx';
@@ -111,7 +112,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
           </li>
         ))}
       </ul>
-      <p className="muted small mats__foot">Bangboo EXP: Bangboo Algorithm Modules from Hollow Zero.</p>
+      <p className="muted small mats__foot"><span className="mats__exp"><img src={materialIcon('Bangboo Algorithm Module')} alt="" width="22" height="22" /></span>Bangboo EXP: Bangboo Algorithm Modules from Hollow Zero.</p>
     </section>
   );
 

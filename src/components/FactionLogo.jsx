@@ -3,6 +3,7 @@
 const WITH_LOGO = new Set([
   'cunning-hares', 'yunkui-summit', 'hollow-special-operations-section-6',
   'sons-of-calydon', 'victoria-housekeeping-co', 'spook-shack',
+  'metropolitan-order-division', 'covenant-of-dayat', 'defense-force-silver-squad', 'phaethon',
   'krampus-compliance-authority', 'belobog-heavy-industries', 'angels-of-delusion', 'criminal-investigation-special-response-team', 'stars-of-lyra', 'external-strategy-department', 'mockingbird', 'flint-workshop', 'obol-squad', 'airspace-patrol-department',
 ]);
 const BASE = import.meta.env.BASE_URL;
