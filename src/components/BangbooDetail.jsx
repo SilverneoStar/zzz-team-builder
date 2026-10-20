@@ -7,6 +7,7 @@ import { MatIcon } from './MaterialsTab.jsx';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import MiniAgents from './MiniAgents.jsx';
+import FactionLogo from './FactionLogo.jsx';
 
 const LEVELS = ['1', '2', '3', '4', '5'];
 
@@ -42,7 +43,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       <dl className="facts">
         <div><dt>Rank</dt><dd>{b.rank ? `${b.rank}-rank` : '—'}</dd></div>
         <div><dt>Attribute</dt><dd className="cell-el">{attr ? <><AttributeGlyph attribute={b.attribute} size={15} />{attr.name}</> : <span className="muted">None</span>}</dd></div>
-        <div><dt>Faction</dt><dd>{b.faction ?? <span className="muted">None</span>}</dd></div>
+        <div><dt>Faction</dt><dd className="cell-faction">{b.faction ? <><FactionLogo faction={b.faction} size={22} />{b.faction}</> : <span className="muted">None</span>}</dd></div>
         <div><dt>Released</dt><dd>{b.version ? `Version ${b.version}` : <span className="muted">Upcoming</span>}</dd></div>
       </dl>
       {kit && <AbilityStatus ability={kit.ability} squad={squad} />}

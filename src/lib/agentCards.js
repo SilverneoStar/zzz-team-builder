@@ -12,6 +12,12 @@ import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
 import { STAT_TARGETS } from '../data/statTargets.js';
 import { materialIcon } from './materialIcons.js';
+import { factionLogo } from '../components/FactionLogo.jsx';
+
+const loadFactionLogo = async (a, base) => {
+  const src = factionLogo(a.faction, base);
+  return src ? loadImage(src) : null;
+};
 import { DISPLAY, FONT, MONO, background, fit, loadImage, loadRoleIcons, rankBadge, roleLine, roundRect, slantedArt } from './teamCard.js';
 
 export const AGENT_CARDS = [
@@ -165,10 +171,15 @@ function pill(ctx, text, x, y, { h = 28, size = 14, fg = K.text, bg = 'rgba(255,
 }
 
 /** Role, faction and version chips, then the stat targets to aim for. */
-function infoBlock(ctx, a, x, y, w, targetLines = 1) {
+function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   const t = STAT_TARGETS[a.id];
   let px = x;
   [t?.role, a.faction, a.version ? `Ver ${a.version}` : 'Upcoming'].filter(Boolean).forEach((label) => {
+    if (label === a.faction && logo) {
+      // Faction logo just before its chip.
+      ctx.drawImage(logo, px, y - 4, 36, 36);
+      px += 40;
+    }
     px += pill(ctx, label, px, y) + 8;
   });
   if (t?.targets?.length) {
@@ -255,7 +266,7 @@ async function drawBuild(ctx, W, H, a, base) {
   }
   const icons = await loadEngines(b.wEngines.slice(0, 5), base);
   const discs = await loadDiscs([...b.fourPiece.slice(0, 3), ...b.twoPiece.slice(0, 3)], base);
-  infoBlock(ctx, a, 214, 194, 860, 1);
+  infoBlock(ctx, a, 214, 194, 860, 1, await loadFactionLogo(a, base));
   const top = 282;
   const ph = 296;
   panel(ctx, 40, top, 420, ph, 'W-Engines', 'best first');
@@ -383,7 +394,7 @@ async function drawGuide(ctx, W, H, a, base) {
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
   agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52, nameW: W - 234 - 160, roles: await loadRoleIcons(base, [a]) });
-  infoBlock(ctx, a, 234, 206, 760, 2);
+  infoBlock(ctx, a, 234, 206, 760, 2, await loadFactionLogo(a, base));
   let y = 322;
   if (b) {
     panel(ctx, 40, y, 1000, 282, 'Build');

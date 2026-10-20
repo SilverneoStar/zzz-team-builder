@@ -14,6 +14,7 @@ import ExportIcon from './ExportIcon.jsx';
 import { AGENT_CARDS, renderAgentCard } from '../lib/agentCards.js';
 import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
+import FactionLogo from './FactionLogo.jsx';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -28,7 +29,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         <div><dt>Attribute</dt><dd className="cell-el"><AttributeGlyph attribute={a.attribute} size={15} />{attr?.name}{attr?.base && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}</dd></div>
         <div><dt>Specialty</dt><dd><SpecialtyTag specialty={a.specialty} size={16} /></dd></div>
         <div><dt>Attack type</dt><dd>{a.attackType.map(cap).join(', ') || <span className="muted">Not announced yet</span>}</dd></div>
-        <div><dt>Faction</dt><dd>{a.faction}</dd></div>
+        <div><dt>Faction</dt><dd className="cell-faction"><FactionLogo faction={a.faction} size={22} />{a.faction}</dd></div>
         <div><dt>Released</dt><dd>{a.version ? `Version ${a.version}` : <span className="muted">Upcoming</span>}</dd></div>
       </dl>
       {featured.length > 0 && (

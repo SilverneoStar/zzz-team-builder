@@ -18,6 +18,7 @@ import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import ViewToggle from './ViewToggle.jsx';
 import AgentFrame from './AgentFrame.jsx';
+import FactionLogo from './FactionLogo.jsx';
 
 const VIEW_KEY = 'zzz-team-builder:agentView';
 const loadView = () => {
@@ -218,7 +219,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
                   <td className="cell-meta-rank">{a.rank === 'S' || a.rank === 'A' ? <RankBadge rank={a.rank} size={22} /> : '—'}</td>
                   <td className="cell-meta-roles"><SpecialtyTag specialty={a.specialty} /></td>
                   <td className="small" data-label="Attack type">{a.attackType.map(cap).join(', ') || '—'}</td>
-                  <td className="small" data-label="Faction">{a.faction}</td>
+                  <td className="small" data-label="Faction"><span className="cell-faction"><FactionLogo faction={a.faction} size={20} />{a.faction}</span></td>
                   <td className="small" data-label="Version">{a.version ?? '—'}</td>
                 </tr>
               ))}

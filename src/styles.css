@@ -6138,3 +6138,6 @@ section.mats .skills__peek { flex: 1 1 auto; }
 .mats__icon { width: 34px; height: 34px; object-fit: contain; display: block; }
 .mats__exp { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 6px; }
 .mats__exp img { object-fit: contain; }
+
+.faction-logo { flex: none; object-fit: contain; display: inline-block; vertical-align: middle; }
+.cell-faction { display: inline-flex; align-items: center; gap: 6px; }
