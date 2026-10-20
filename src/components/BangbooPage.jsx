@@ -93,15 +93,12 @@ function ToyBox({ bangboo: b }) {
         <span className="toybox__back" />
         {src && <img className="toybox__art" src={src} alt="" loading="lazy" />}
         <span className="toybox__glass" />
-        {b.rank && (
-          <span className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>
-            <b>{b.rank}</b>
-            <small>Bangboo</small>
-          </span>
-        )}
       </span>
       <span className="toybox__base">
-        <span>Bangboo</span>
+        <span>
+          Bangboo
+          {b.rank && <i className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>{b.rank}</i>}
+        </span>
       </span>
     </span>
   );
