@@ -6194,7 +6194,7 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
   background: color-mix(in srgb, var(--el) 70%, transparent); filter: blur(0.5px); opacity: 0.55;
 }
 .toybox__art {
-  position: absolute; left: 50%; bottom: 9%; height: calc(88% * var(--s, 1)); width: auto; max-width: 98%;
+  position: absolute; left: 50%; bottom: 14%; height: min(calc(80% * var(--s, 1)), 85%); width: auto; max-width: 98%;
   transform: translateX(-50%); object-fit: contain;
   /* A thin light rim and a dark drop shadow lift it off the striped backing. */
   filter:
