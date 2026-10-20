@@ -88,18 +88,20 @@ function ToyBox({ bangboo: b }) {
   const src = bangbooArt(b.id);
   return (
     <span className="toybox" aria-hidden="true">
-      <span className="toybox__tab">Spotlight</span>
+      <span className="toybox__tab"><span className="toybox__tab-text">Spotlight</span></span>
       <span className="toybox__case">
         <span className="toybox__back" />
         {src && <img className="toybox__art" src={src} alt="" loading="lazy" />}
         <span className="toybox__glass" />
       </span>
       <span className="toybox__base">
-        <span>
+        <span className="toybox__tagline">For Hollow investigation</span>
+        <span className="toybox__brand">
           Bangboo
-          {b.rank && <i className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>{b.rank}</i>}
         </span>
+        <span className="toybox__barcode" />
       </span>
+      {b.rank && <i className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>{b.rank}</i>}
     </span>
   );
 }
