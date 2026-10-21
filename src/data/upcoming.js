@@ -23,6 +23,8 @@ export const UPCOMING = {
     },
     teams: [
       { members: ['severian-lowell', 'norma-hollowell', 'astra-yao'], source: '3.3 livestream gameplay' },
+      { members: ['severian-lowell', 'roxy-ifrita-pryce', 'sunna'], source: 'Community guides' },
+      { members: ['severian-lowell', 'dialyn', 'sunna'], source: 'Community guides' },
       { members: ['severian-lowell', 'roxy-ifrita-pryce', 'astra-yao'], source: 'Estimate: Wind Stun partner' },
     ],
   },
