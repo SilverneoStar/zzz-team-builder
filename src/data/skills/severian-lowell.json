@@ -4,48 +4,48 @@
       "Basic Attack",
       "Basic Attack",
       "Swift Edge",
-      "Up to 4 Wind hits. The 4th hit builds 20 Flowing Breath and dodges as it starts: dodging an attack with it raises it to Fierce Whirl's multipliers and adds 15 Flowing Breath. Invulnerable on the 4th hit. Dash Attack, Dodge Counter and Freehand don't break the combo."
+      "Up to 4 Wind hits. The 4th hit builds 20 Flow and dodges as it starts: dodging an attack with it raises it to Raging Whirlwind's multipliers and adds 15 Flow. Invulnerable on the 4th hit. Dash Attack, Dodge Counter and Spontaneity don't break the combo."
     ],
     [
       "Basic Attack",
       "Basic Attack",
-      "Fierce Whirl (Blazing Spin)",
-      "Triggers by itself when he's hit as one of the first three Basic hits starts, or when Glint Shadow dodges a hit for him: a dash dealing massive Wind DMG. Builds 15 Flowing Breath, +20 on hit. Hold to go straight into Azure Wind Shadow Hunt, whose final hit adds 20 more. Invulnerable."
+      "Raging Whirlwind",
+      "Triggers by itself when he's hit as one of the first three Basic hits starts, or when Shadowflash dodges a hit for him: a dash dealing massive Wind DMG. Builds 15 Flow, +20 on hit. Hold Basic to go straight into Azure Wind's Shadowhunt, whose final hit adds 20 Flow. Invulnerable."
     ],
     [
       "Basic Attack",
       "Basic Attack",
-      "Azure Wind Shadow Hunt",
-      "Spends 100 Flowing Breath (hold Basic): a backstep, then nonstop weaving slashes for massive Wind DMG. The backstep counts as a dodge: dodging a hit triggers Vital View and +15 Flowing Breath. Invulnerable."
+      "Azure Wind's Shadowhunt",
+      "Spends 100 Flow (hold Basic): a backstep, then nonstop darting slashes for massive Wind DMG. The backstep dodges: dodging a hit triggers Vital View and +15 Flow. Invulnerable."
     ],
     [
       "Dodge",
       "Dodge",
-      "Drift Break",
-      "Quick dash dodge. A Perfect Dodge with it gives 15 Flowing Breath (once per 0.5s). Invulnerable."
+      "Windshift",
+      "Quick dash dodge. A Perfect Dodge with it gives 15 Flow (once per 0.5s). Invulnerable."
     ],
     [
       "Dodge",
       "Dash Attack",
-      "Lynn Strike",
-      "Wind attack on enemies ahead."
+      "Sheer Assault",
+      "Wind attack forward."
     ],
     [
       "Dodge",
       "Dodge Counter",
-      "Treetop Slay",
-      "After a Perfect Dodge with Drift Break: a quick Wind slash. Triggers by itself if you swap him out at that moment. Invulnerable."
+      "Fatal End",
+      "After a Perfect Dodge with Windshift: a quick Wind slash. Triggers by itself if you swap him out right after. Invulnerable."
     ],
     [
       "Dodge",
       "Dodge",
-      "Freehand",
-      "Keep holding after a back dash to taunt the enemy."
+      "Spontaneity",
+      "Hold Dodge after a back dodge to taunt the enemy."
     ],
     [
       "Assist",
       "Quick Assist",
-      "Frontline Orders",
+      "Field Orders",
       "Dashes in with claw strikes and slashes for Wind DMG. Invulnerable."
     ],
     [
@@ -57,56 +57,56 @@
     [
       "Assist",
       "Assist Follow-Up",
-      "Ceasefire by Force",
-      "A slash, a claw strike and a cannon blast for Wind DMG. Invulnerable."
+      "Fight Force with Force",
+      "Slashes, claw strikes and cannon fire for Wind DMG. Invulnerable."
     ],
     [
       "Assist",
       "Entry Skill",
-      "Clear the Floor",
-      "With Windrider, in combat, switch him in to unleash a powerful Wind slash. Counts as a Quick Assist, not a heavy attack. Invulnerable."
+      "Clear Out",
+      "With Windborne, in combat, switch him in for a powerful Wind slash. Counts as a Quick Assist, not a heavy attack. Invulnerable."
     ],
     [
       "Special Attack",
       "Special Attack",
-      "Flash Wind Slash Break",
-      "Slashes and thrusts forward for Wind DMG."
+      "Gale Rend",
+      "Slashes and stabs forward for Wind DMG."
     ],
     [
       "Special Attack",
       "EX Special Attack",
-      "Gale Ripper",
-      "Costs Energy: a slash, claw and cannon combo for massive Wind DMG, gaining 1 Flickershade. Hold before the cannon to keep spending Energy on Wind Blades; spending the maximum gives 1 extra Shimmering Shadow. Invulnerable."
+      "Swiftwind Rupture",
+      "Costs Energy: a slash, claw and cannon combo for massive Wind DMG, gaining 1 Shadowflash. Hold before the cannon to keep spending Energy on wind blades; spending the maximum gives 1 more Shadowflash. Invulnerable."
     ],
     [
       "Chain Attack",
       "Chain Attack",
-      "Frostblade Harvest",
-      "Rapid attacks for massive Wind DMG, then +35 Flowing Breath. Invulnerable."
+      "Coldblade Reap",
+      "A series of attacks for massive Wind DMG, then +35 Flow. Invulnerable."
     ],
     [
       "Chain Attack",
       "Ultimate",
       "Annihilating Windstorm",
-      "Several rapid slashes for massive Wind DMG, then +100 Flowing Breath. Invulnerable."
+      "Several rapid slashes for massive Wind DMG, then +100 Flow. Invulnerable."
     ]
   ],
   "core": {
-    "name": "Wind Without End",
-    "text": "CRIT DMG +60% and DMG +20%, plus another +30% DMG with another Wind Agent in the squad.\nUsing Swift Edge just as he's about to be hit dodges the attack: during the first three hits it unleashes Fierce Whirl; on the 4th it raises that hit to Fierce Whirl's multipliers.\nEntering the field gives 2 Flickershade (once per 180s in Investigation Zones).\nWith Glint Shadow (max 2) and not invulnerable, a non-Control hit he fails to dodge or parry uses 1 stack to dodge it automatically and unleash Fierce Whirl. Gaining Glint Shadow at max gives 1 Windrider and upgrades his next Swift Edge to Fierce Whirl.\nThese dodges all count as Perfect Dodges. Each Perfect Dodge gives 1 Windborne, which lets him switch in with his Entry Skill.\nHitting with set skills or Perfect Dodging builds Flowing Breath (max 150); at 100, hold to spend it on Azure Wind Shadow Hunt.\nCore Skill Base → F (total by F): CRIT DMG +28.8% and Base ATK +75.",
+    "name": "Endless Breeze",
+    "text": "CRIT DMG +55% and DMG +22.9%, plus another +27.5% DMG with another Wind Agent in the squad.\nUsing Swift Edge just before he's hit dodges the attack: during the first three hits it launches Raging Whirlwind; on the 4th it raises that hit to Raging Whirlwind's multipliers.\nEntering the field gives 2 Shadowflash (once per 180s in Investigation Zones). With Shadowflash (max 2) and not invulnerable, a non-Control hit he fails to dodge or parry uses 1 stack to dodge it automatically and launch Raging Whirlwind. Gaining Shadowflash at max gives 1 Windborne instead and upgrades his next Swift Edge to Raging Whirlwind.\nThese dodges all count as Perfect Dodges. Each Perfect Dodge gives 1 Windborne, which lets him switch in with his Entry Skill.\nHitting with certain skills or Perfect Dodging builds Flow (max 150); at 100, hold Basic to spend it on Azure Wind's Shadowhunt.\nCore Skill Base → F (total by F): CRIT DMG +28.8% and Base ATK +75.",
     "values": {}
   },
   "ability": {
-    "name": "Optimal Deployment",
+    "name": "Optimal Setup",
     "text": "Each 1% CRIT Rate gives +8.5 ATK, up to 100% CRIT Rate."
   },
   "mindscapes": [
-    "Chain Attack gives 50 Flowing Breath. Entering with the Entry Skill uses a Chain Attack instead (still a non-heavy entry; once per 60s). Each Azure Wind Shadow Hunt gives 1 Windborne. His hits ignore 15% Wind RES.",
-    "Entering the field restores 150 Flowing Breath (once per 180s in Investigation Zones). Perfect Dodges and Azure Wind Shadow Hunt give +20% PEN Ratio for 25s.",
-    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
-    "Entering combat or switching in: +10% ATK for 30s. Fierce Whirl and Azure Wind Shadow Hunt: +10% Decibel generation for 15s.",
-    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
-    "Flowing Breath cap 180, and entering the field restores 180. Azure Wind Shadow Hunt's final hit gets a fixed +350% multiplier and grants Rising Wind: +5 Flowing Breath per second for 5s."
+    "Double Espresso: Chain Attack gives 50 Flow. Entering with Clear Out uses a Chain Attack instead (still a non-heavy entry; once per 60s). Each Azure Wind's Shadowhunt gives 1 Windborne. His hits ignore 15% Wind RES.",
+    "Reins of Reason: entering the field restores 150 Flow (once per 180s in Investigation Zones). Perfect Dodges and Azure Wind's Shadowhunt give +20% PEN Ratio for 25s.",
+    "The Last Light: Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "Between Light and Shadow: entering combat or switching in gives +10% ATK for 30s. Raging Whirlwind and Azure Wind's Shadowhunt give +10% Decibel generation for 15s.",
+    "A Heart Above 0℃: Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "Beneath a Little Star: Flow cap 180, and entering the field restores 180. Azure Wind's Shadowhunt's final hit gets a fixed +350% multiplier and grants Rising Wind: +5 Flow per second for 5s."
   ],
   "source": "From his 3.3 kit, summarised."
 }
