@@ -10,19 +10,83 @@
       "Basic Attack",
       "Basic Attack",
       "Purifying Flame",
-      "With enough Pyre, hold Basic Attack to unleash Fire DMG. Its finishing move triggers 1 Abloom on enemies with an Attribute Anomaly. Invulnerable while using it."
+      "With enough Pyreflame, hold Basic Attack to unleash Fire DMG. Its finishing move triggers 1 Abloom on enemies with an Attribute Anomaly. Invulnerable while using it."
     ],
     [
       "Basic Attack",
       "Basic Attack",
       "Meltdown",
-      "If Special Attack: Fire Sweep doesn't land a Perfect Block, press Basic Attack to follow up."
+      "If Special Attack: Fire Snatch doesn't land a Perfect Block, press Basic Attack to follow up."
+    ],
+    [
+      "Assist",
+      "Quick Assist",
+      "First Aid",
+      "Dash in with a quick Fire slash. Invulnerable; can chain into the 3rd Basic Attack hit."
+    ],
+    [
+      "Assist",
+      "Defensive Assist",
+      "Pain Is the Best Teacher",
+      "Parries an incoming attack for massive Daze. Invulnerable."
+    ],
+    [
+      "Assist",
+      "Assist Follow-Up",
+      "Regen Therapy",
+      "Throws her weapon and recalls it into a Fire slash. Invulnerable; can chain into the 3rd Basic Attack hit."
+    ],
+    [
+      "Special Attack",
+      "Special Attack",
+      "Fire Snatch",
+      "Backstep (40% less DMG taken), then a rising Fire attack. Getting hit as it starts, or hitting a red/yellow-flashing enemy, is a Perfect Block that blocks that hit and can go straight into the 3rd Basic Attack hit. Higher Anti-Interrupt."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Blazing Slash",
+      "Uses 1 Promotion stack: backstep (hold to charge), then a powerful rising Fire slash. Skips the backstep after a Combustion Attack. Can Perfect Block; counts as a Combustion Attack. Invulnerable."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Dazzling Flare",
+      "Costs Energy: a fast spin dealing massive Fire DMG. Can Perfect Block; counts as a Combustion Attack. Invulnerable."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Solar Plunge",
+      "After Dazzling Flare, costs Energy: leaps up and hurls her weapon for massive Fire DMG, gaining 1 Promotion stack (max 1). Can Perfect Block; counts as a Combustion Attack. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Chain Attack",
+      "Last Stand",
+      "Multi-hit Fire attack forward. Counts as a Combustion Attack. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "Radiance from a Thousand Deaths",
+      "Dives at enemies and spends all her own HP on a massive Fire explosion, entering Life Drain (she can't attack) and calling in the next Agent's Quick Assist. Counts as a Combustion Attack. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "Cinderfire Soulhunt",
+      "Next time she comes in while in Life Drain (swap, Quick Assist or Defensive Assist): a flame burst that ends Life Drain, restores the HP spent plus 10% Max HP, and on an enemy with any Attribute Anomaly triggers 1 Abloom at 597%, with +40% CRIT DMG if it crits. Invulnerable."
     ]
   ],
   "core": {
     "name": "Nirvana",
-    "text": "Attribute Anomalies applied by any squad member can CRIT, and Anomaly Mastery makes those crits stronger.\nOnce per fight, fatal damage doesn't take her down: switching back to Phoenix restores 50% of her Max HP.\nCombustion Attacks build up Pyre (up to 120), which powers her enhanced Basic Attack: Purifying Flame, an Abloom trigger.\nUsing an EX Special Attack puts her in her Wither and Bloom / Wax and Wane state for 20s.\nCore Skill A–F: Anomaly Mastery +12 at A, C and E, and Base ATK +25 at B, D and F.",
+    "text": "Anomaly Proficiency +85.\nWhen any squad member deals Attribute Anomaly DMG, the enemy is Seared (Searing Corrosion) for 20s. Attribute Anomaly DMG on Seared enemies can CRIT: 30% Rate and 25% DMG, +0.7% Rate per point of her initial Anomaly Mastery above 155, maxing out at 255.\nEvery 8s Seared enemies take Fire DMG equal to 50% of her ATK, counted as EX Special Attack DMG.\nDuring Blazing Assault she has higher Anti-Interrupt, builds Pyreflame by dealing DMG (max 120), and skips the backstep of Fire Snatch and Blazing Slash. Perfect Blocks give 5 Pyreflame (once per 10s).\nFatal DMG doesn't take her down: next time she comes in she restores 50% Max HP (once per 1,200s in Withering Domain).\nEX Specials put her in Wax and Wane for 20s; there, the next Dazzling Flare after one becomes Falling Sun.\nCore Skill A–F: Anomaly Mastery +12 at A, C and E (+36), Base ATK +25 at B, D and F (+75).",
     "values": {}
+  },
+  "ability": {
+    "name": "Krampus Ace",
+    "text": "Seared enemies take 15% more CRIT DMG from Attribute Anomaly DMG."
   },
   "mindscapes": [
     "Starts each fight with 1 Ascension point (once every 180s in Investigation Zones). Anomaly DMG against enemies in Sear gets +25% CRIT DMG. Combustion Attacks build Pyre 15% faster.",
@@ -31,6 +95,5 @@
     "When the Soul-Searching Blaze finishing move or Basic Attack: Purifying Flame hits an enemy with an Attribute Anomaly, it triggers 1 extra Abloom at a fixed 600% multiplier.",
     "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
     "Ignores 15% of enemies' All-Attribute RES. EX Special Attack: Dazzling Flare grants 1 Ascension point. Her Abloom ignores 40% of enemy DEF."
-  ],
-  "source": "From her 3.3 release, summarised. Her other skills are added as their details come in."
+  ]
 }

@@ -2,23 +2,7 @@
 // (official reveals, livestream gameplay) and teams that follow from them, plus
 // the expected build style. Replaced by the full build data once they're out.
 export const UPCOMING = {
-  'phoenix-reffaella': {
-    // Community picks (videos): her signature, then engines that give the same kind of stats.
-    engines: ['nirvana-s-first-plume', 'angel-in-the-shell', 'flight-of-fancy', 'fusion-compiler', 'electro-lip-gloss', 'weeping-gemini'],
-    style:
-      'On-field Fire Anomaly damage dealer with strong Anomaly buildup who lets the whole squad’s Anomaly DMG crit, including Abloom, Vortex and Luminize.',
-    // Build guidance from community guides (October 2026); full build data to follow.
-    trial: {
-      source: 'community guides',
-      main: { 4: 'Anomaly Proficiency', 5: 'Fire DMG / PEN Ratio', 6: 'Anomaly Mastery' },
-      substats: 'Anomaly Proficiency > ATK % > ATK / PEN',
-      skills: [['Core Skill', 'F'], ['Basic Attack', '12'], ['Special Attack', '12'], ['Chain Attack', '11'], ['Assist', '10'], ['Dodge', '7']],
-    },
-    teams: [
-      { members: ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'], source: 'Official reveal' },
-      { members: ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'], source: 'Official reveal' },
-    ],
-  },
+
   'severian-lowell': {
     style:
       'CRIT-based Wind Attack Agent whose enhanced Basic Attacks do most of the damage.',

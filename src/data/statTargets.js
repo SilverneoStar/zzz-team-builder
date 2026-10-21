@@ -31,6 +31,11 @@ export const STAT_TARGETS = {
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,500–2,900+ with an ATK main-stat W-Engine, 2,300–2,700+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 320–350+ otherwise'],
   },
+  'phoenix-reffaella': {
+    version: '3.3',
+    role: 'On-Field DPS · Anomaly',
+    targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,500+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Anomaly Mastery 255 caps the CRIT Rate her Core Passive gives Attribute Anomalies'],
+  },
   'ukinami-yuzuha': {
     version: '3.0',
     role: 'Anomaly Support',
