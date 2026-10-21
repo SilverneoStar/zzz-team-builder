@@ -1,0 +1,17 @@
+{
+  "skills": [],
+  "core": {
+    "name": "Nirvana",
+    "text": "Attribute Anomalies applied by any squad member can CRIT, and Anomaly Mastery makes those crits stronger.\nOnce per fight, fatal damage doesn't take her down: switching back to Phoenix restores 50% of her Max HP.\nCombustion Attacks build up Pyre (up to 120), which powers her enhanced Basic Attack: Purifying Flame, an Abloom trigger.\nUsing an EX Special Attack puts her in her Wither and Bloom / Wax and Wane state for 20s.\nCore Skill A–F: Anomaly Mastery +12 at A, C and E, and Base ATK +25 at B, D and F.",
+    "values": {}
+  },
+  "mindscapes": [
+    "Starts each fight with 1 Ascension point (once every 180s in Investigation Zones). Anomaly DMG against enemies in Sear gets +25% CRIT DMG. Combustion Attacks build Pyre 15% faster.",
+    "Burn she applies lasts 2s longer. +30% DMG against enemies in Sear.",
+    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "When the Soul-Searching Blaze finishing move or Basic Attack: Purifying Flame hits an enemy with an Attribute Anomaly, it triggers 1 extra Abloom at a fixed 600% multiplier.",
+    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "Ignores 15% of enemies' All-Attribute RES. EX Special Attack: Dazzling Flare grants 1 Ascension point. Her Abloom ignores 40% of enemy DEF."
+  ],
+  "source": "Pre-release details from her 3.3 reveal and test builds, summarised. They may change at launch."
+}

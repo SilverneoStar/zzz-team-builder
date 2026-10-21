@@ -95,14 +95,18 @@ export default function SkillsTab({ agent: a, team }) {
       })}
 
       <Core core={kit.core} />
-      <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />
+      {kit.ability && <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />}
       <Mindscapes list={kit.mindscapes} current={mindscape} />
       {kit.potential && <Potential potential={kit.potential} current={inTeam ? team.loadouts?.[a.id]?.potential ?? 0 : null} />}
 
+      {kit.source ? (
+        <p className="muted small skills__src"><span className="card__tag card__tag--warn">Subject to change</span> {kit.source}</p>
+      ) : (
       <p className="muted small skills__src">
         Skill details from the <a href={WIKI + a.name.replace(/ /g, '_')} target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a>{' '}
         (CC BY-SA), summarised.
       </p>
+      )}
     </section>
   );
 }

@@ -199,15 +199,40 @@ function NoBuild({ agent }) {
       )}
       {trial && (
         <>
-          <h4 className="micro-title">Drive Discs · {trial.source}</h4>
-          <div className="build__discs">
-            <div><h4 className="micro-title">4-piece set</h4><SetList ids={trial.fourPiece} /></div>
-            <div><h4 className="micro-title">2-piece set</h4><SetList ids={trial.twoPiece} /></div>
-          </div>
-          <h4 className="micro-title">What to build for</h4>
-          <ul className="small trial-notes">
-            {trial.notes.map((n) => <li key={n}>{n}</li>)}
-          </ul>
+          {trial.fourPiece && (
+            <>
+              <h4 className="micro-title">Drive Discs · {trial.source}</h4>
+              <div className="build__discs">
+                <div><h4 className="micro-title">4-piece set</h4><SetList ids={trial.fourPiece} /></div>
+                <div><h4 className="micro-title">2-piece set</h4><SetList ids={trial.twoPiece} /></div>
+              </div>
+            </>
+          )}
+          {trial.main && (
+            <>
+              <h4 className="micro-title">Main stats · {trial.source} <span className="card__tag card__tag--warn">Subject to change</span></h4>
+              <dl className="build__stats">
+                {[4, 5, 6].map((n) => <div key={n}><dt>Slot {n}</dt><dd>{trial.main[n]}</dd></div>)}
+                <div><dt>Substats</dt><dd>{trial.substats}</dd></div>
+              </dl>
+            </>
+          )}
+          {trial.skills && (
+            <>
+              <h4 className="micro-title">Skill priority</h4>
+              <ol className="small trial-notes">
+                {trial.skills.map(([k, lv]) => <li key={k}>{k} → {lv}</li>)}
+              </ol>
+            </>
+          )}
+          {trial.notes && (
+            <>
+              <h4 className="micro-title">What to build for</h4>
+              <ul className="small trial-notes">
+                {trial.notes.map((n) => <li key={n}>{n}</li>)}
+              </ul>
+            </>
+          )}
         </>
       )}
       {style && (
