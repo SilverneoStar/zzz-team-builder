@@ -62,6 +62,6 @@ export const AGENTS = [
   {"id": "yixuan", "name": "Yixuan", "rank": "S", "attribute": "auric-ink", "specialty": "rupture", "attackType": ["strike"], "faction": "Yunkui Summit", "version": "2.0"},
   {"id": "zhao", "name": "Zhao", "rank": "S", "attribute": "ice", "specialty": "defense", "attackType": ["slash"], "faction": "Krampus Compliance Authority", "version": "2.5"},
   {"id": "zhu-yuan", "name": "Zhu Yuan", "rank": "S", "attribute": "ether", "specialty": "attack", "attackType": ["pierce"], "faction": "Criminal Investigation Special Response Team", "version": "1.0"},
-  {"id": "phoenix-reffaella", "name": "Phoenix Reffaella", "rank": "S", "attribute": "fire", "specialty": "anomaly", "attackType": [], "faction": "Krampus Compliance Authority", "version": "3.3"},
-  {"id": "severian-lowell", "name": "Severian Lowell", "rank": "S", "attribute": "wind", "specialty": "attack", "attackType": [], "faction": "Metropolitan Order Division", "version": null, "upcoming": true},
+  {"id": "phoenix-reffaella", "name": "Phoenix Reffaella", "rank": "S", "attribute": "fire", "specialty": "anomaly", "attackType": ["slash"], "faction": "Krampus Compliance Authority", "version": "3.3"},
+  {"id": "severian-lowell", "name": "Severian Lowell", "rank": "S", "attribute": "wind", "specialty": "attack", "attackType": ["slash"], "faction": "Metropolitan Order Division", "version": null, "upcoming": true},
 ];
