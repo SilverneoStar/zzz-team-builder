@@ -6275,3 +6275,4 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 
 
 .trial-notes { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.best-teams__more { justify-self: start; margin-top: 6px; }

@@ -87,7 +87,11 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
   );
 }
 
+// Best teams show this many, the rest fold behind a button.
+const TEAMS_SHOWN = 3;
+
 export function AgentTeams({ agent: a, onLoadTeam }) {
+  const [allTeams, setAllTeams] = useState(false);
   const b = BUILDS[a.id];
   if (!b && UPCOMING[a.id]?.teams) return <UpcomingTeams agent={a} onLoadTeam={onLoadTeam} />;
   if (!b) return <NoBuild agent={a} />;
@@ -99,7 +103,7 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
         Load a team to add it to your teams, with each Agent’s recommended W-Engine and Drive Discs equipped.
       </p>
       <ul className="best-teams">
-        {b.teams.map((members, i) => {
+        {(allTeams ? b.teams : b.teams.slice(0, TEAMS_SHOWN)).map((members, i) => {
           const passives = passiveStatus(members);
           const kit = kitLinks(members);
           return (
@@ -127,6 +131,11 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
           );
         })}
       </ul>
+      {b.teams.length > TEAMS_SHOWN && (
+        <button type="button" className="btn btn--quiet btn--small best-teams__more" onClick={() => setAllTeams(!allTeams)} aria-expanded={allTeams}>
+          {allTeams ? 'Show fewer teams' : `Show ${b.teams.length - TEAMS_SHOWN} more teams`}
+        </button>
+      )}
       {bangboo.length > 0 && (
         <>
           <h4 className="micro-title">Bangboo</h4>
