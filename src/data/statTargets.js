@@ -31,6 +31,11 @@ export const STAT_TARGETS = {
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,500–2,900+ with an ATK main-stat W-Engine, 2,300–2,700+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 320–350+ otherwise'],
   },
+  'severian-lowell': {
+    version: '3.3',
+    role: 'On-Field DPS',
+    targets: ['CRIT Rate 100% in combat: about 80% from gear, +20% from his signature W-Engine'],
+  },
   'phoenix-reffaella': {
     version: '3.3',
     role: 'On-Field DPS · Anomaly',
