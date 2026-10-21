@@ -34,4 +34,4 @@ Official artwork is used only for this free, non-commercial fan project, within 
 Rights holders may request changes or removal of any content by [opening an issue](https://github.com/SilverneoStar/zzz-team-builder/issues).
 
 
-W-Engine passive effects are short summaries, written in our own words, of each W-Engine's in-game passive at Phase 1. Sin-Ban Cage has none yet because it is not released.
+W-Engine passive effects are short summaries, written in our own words, of each W-Engine's in-game passive at Phase 1. Incarcerating Grip has none yet because it is not released.
