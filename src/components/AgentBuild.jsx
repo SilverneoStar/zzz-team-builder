@@ -162,6 +162,7 @@ function SetList({ ids }) {
 
 function NoBuild({ agent }) {
   const style = UPCOMING[agent.id]?.style;
+  const trial = UPCOMING[agent.id]?.trial;
   const sig = signatureOf(agent.id);
   const engines = (UPCOMING[agent.id]?.engines ?? []).map((id) => W_ENGINE_BY_ID[id]).filter(Boolean);
   return (
@@ -194,6 +195,19 @@ function NoBuild({ agent }) {
             {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
             <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
           </a>
+        </>
+      )}
+      {trial && (
+        <>
+          <h4 className="micro-title">Drive Discs · {trial.source}</h4>
+          <div className="build__discs">
+            <div><h4 className="micro-title">4-piece set</h4><SetList ids={trial.fourPiece} /></div>
+            <div><h4 className="micro-title">2-piece set</h4><SetList ids={trial.twoPiece} /></div>
+          </div>
+          <h4 className="micro-title">What to build for</h4>
+          <ul className="small trial-notes">
+            {trial.notes.map((n) => <li key={n}>{n}</li>)}
+          </ul>
         </>
       )}
       {style && (

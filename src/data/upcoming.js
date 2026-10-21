@@ -12,7 +12,19 @@ export const UPCOMING = {
   },
   'severian-lowell': {
     style:
-      'CRIT-based Wind Attack Agent, expected to build like other CRIT damage dealers such as Sigrid and Pyrois.',
+      'CRIT-based Wind Attack Agent whose enhanced Basic Attacks do most of the damage.',
+    // From his 3.3 trial in Virtual Annihilation Operation (official in-game trial).
+    trial: {
+      source: '3.3 trial (Virtual Annihilation Operation)',
+      fourPiece: ['dawns-bloom'],
+      twoPiece: ['puffer-electro'],
+      notes: [
+        'CRIT Rate is the key stat: it converts into ATK, up to 100% CRIT Rate.',
+        'His signature W-Engine gives +20% CRIT Rate in combat, so aim for about 80% from discs and substats (hard with discs alone, so its advanced stat may also be CRIT Rate).',
+        'Enhanced Basic Attacks hit very hard, with multipliers up to around 4000%.',
+        'PEN Ratio works well too. Damage bonus comes from Dawn’s Bloom and his Core Skill, and ATK from the CRIT Rate conversion.',
+      ],
+    },
     teams: [
       { members: ['severian-lowell', 'norma-hollowell', 'astra-yao'], source: '3.3 livestream gameplay' },
       { members: ['severian-lowell', 'roxy-ifrita-pryce', 'astra-yao'], source: 'Estimate: Wind Stun partner' },

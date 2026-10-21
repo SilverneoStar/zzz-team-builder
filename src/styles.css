@@ -6273,3 +6273,5 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
   filter: drop-shadow(0 0.8px 0 rgb(255 226 140 / 0.35)) drop-shadow(0 -0.6px 0 rgb(0 0 0 / 0.8));
 }
 
+
+.trial-notes { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
