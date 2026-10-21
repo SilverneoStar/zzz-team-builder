@@ -219,7 +219,7 @@ function NoBuild({ agent }) {
           )}
           {trial.main && (
             <>
-              <h4 className="micro-title">Main stats · {trial.source}{agent.upcoming && <> <span className="card__tag card__tag--warn">Subject to change</span></>}</h4>
+              <h4 className="micro-title">Main stats · {trial.source}{agent.upcoming && !UPCOMING[agent.id]?.confirmed && <> <span className="card__tag card__tag--warn">Subject to change</span></>}</h4>
               <dl className="build__stats">
                 {[4, 5, 6].map((n) => <div key={n}><dt>Slot {n}</dt><dd>{trial.main[n]}</dd></div>)}
                 <div><dt>Substats</dt><dd>{trial.substats}</dd></div>
@@ -248,13 +248,13 @@ function NoBuild({ agent }) {
         <>
           <h3 className="mini-title">Expected build</h3>
           <p className="small">
-            {style} {agent.upcoming && <span className="passive__est">Estimated</span>}
+            {style} {agent.upcoming && !UPCOMING[agent.id]?.confirmed && <span className="passive__est">Estimated</span>}
           </p>
         </>
       )}
       <p className="muted small">
         {agent.upcoming
-          ? `${agent.name} isn’t released yet, so the full recommended build comes at launch.`
+          ? `${agent.name} isn’t released yet${agent.phase ? ` (coming in Version ${agent.version}, phase ${agent.phase})` : ''}, so the full recommended build comes at launch.`
           : `${agent.name}’s full recommended build (Drive Disc sets and best teams) is on the way.`}
       </p>
     </section>
@@ -268,7 +268,9 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
     <section className="build">
       <h3 className="mini-title">Teams so far</h3>
       <p className="muted small">
-        {a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.
+        {UPCOMING[a.id]?.confirmed
+          ? `${a.name} isn’t released yet${a.phase ? ` (Version ${a.version}, phase ${a.phase})` : ''}. These teams come from his in-game data and community guides.`
+          : `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`}
       </p>
       <ul className="best-teams">
         {UPCOMING[a.id].teams.map(({ members, source }, i) => {

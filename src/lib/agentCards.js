@@ -174,7 +174,7 @@ function pill(ctx, text, x, y, { h = 28, size = 14, fg = K.text, bg = 'rgba(255,
 function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   const t = STAT_TARGETS[a.id];
   let px = x;
-  [t?.role, a.faction, a.version ? `Ver ${a.version}` : 'Upcoming'].filter(Boolean).forEach((label) => {
+  [t?.role, a.faction, a.upcoming ? (a.version ? `Ver ${a.version}${a.phase ? ` · phase ${a.phase}` : ''} · upcoming` : 'Upcoming') : `Ver ${a.version}`].filter(Boolean).forEach((label) => {
     if (label === a.faction && logo) {
       // Faction logo just before its chip.
       ctx.drawImage(logo, px, y - 4, 36, 36);

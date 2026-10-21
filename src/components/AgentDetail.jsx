@@ -30,7 +30,7 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
         <div><dt>Specialty</dt><dd><SpecialtyTag specialty={a.specialty} size={16} /></dd></div>
         <div><dt>Attack type</dt><dd>{a.attackType.map(cap).join(', ') || <span className="muted">Not announced yet</span>}</dd></div>
         <div><dt>Faction</dt><dd className="cell-faction"><FactionLogo faction={a.faction} size={22} />{a.faction}</dd></div>
-        <div><dt>Released</dt><dd>{a.version ? `Version ${a.version}` : <span className="muted">Upcoming</span>}</dd></div>
+        <div><dt>Released</dt><dd>{a.upcoming ? <span className="muted">{a.version ? `Version ${a.version}${a.phase ? `, phase ${a.phase}` : ''} (upcoming)` : 'Upcoming'}</span> : `Version ${a.version}`}</dd></div>
       </dl>
       {featured.length > 0 && (
         <section>

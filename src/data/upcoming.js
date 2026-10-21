@@ -4,6 +4,8 @@
 export const UPCOMING = {
 
   'severian-lowell': {
+    // His kit is in the game files ahead of his 3.3 phase 2 release, so nothing here is an estimate.
+    confirmed: true,
     style:
       'CRIT-based Wind Attack Agent whose enhanced Basic Attacks do most of the damage.',
     engines: ['sin-ban-cage', 'sol-exuvia', 'the-brimstone', 'marcato-desire'],
@@ -25,7 +27,6 @@ export const UPCOMING = {
       { members: ['severian-lowell', 'norma-hollowell', 'astra-yao'], source: '3.3 livestream gameplay' },
       { members: ['severian-lowell', 'roxy-ifrita-pryce', 'sunna'], source: 'Community guides' },
       { members: ['severian-lowell', 'dialyn', 'sunna'], source: 'Community guides' },
-      { members: ['severian-lowell', 'roxy-ifrita-pryce', 'astra-yao'], source: 'Estimate: Wind Stun partner' },
     ],
   },
 };

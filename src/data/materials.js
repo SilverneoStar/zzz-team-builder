@@ -37,8 +37,7 @@ export const AGENT_MATS = {
   'luciana-de-montefio': ["Support", "Burn", "Steel Malice", "Ferocious Grip"],
   // Released in 3.3.
   'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
-  // Not released: Wind Attack Agent, so Attack seals and Wind chips. The Expert Challenge and
-  // Notorious Hunt drops come from community reports (October 2026).
+  // 3.3 phase 2 (data in the game already).
   'severian-lowell': ["Attack", "Windbite", "Imitation Core", "Timeworn Husk"],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
@@ -122,7 +121,7 @@ export const HUNT = {
 };
 
 // Agents whose Core Skill drops are estimates until release.
-export const ESTIMATED_MATS = new Set(['severian-lowell']);
+export const ESTIMATED_MATS = new Set([]);
 
 /** True when the Core Skill drops (Expert Challenge and Notorious Hunt) are known. */
 export const AGENT_MATS_KNOWN = (id) => Boolean(AGENT_MATS[id]?.[2] && AGENT_MATS[id]?.[3]);
