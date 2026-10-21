@@ -210,7 +210,7 @@ function NoBuild({ agent }) {
           )}
           {trial.main && (
             <>
-              <h4 className="micro-title">Main stats · {trial.source} <span className="card__tag card__tag--warn">Subject to change</span></h4>
+              <h4 className="micro-title">Main stats · {trial.source}{agent.upcoming && <> <span className="card__tag card__tag--warn">Subject to change</span></>}</h4>
               <dl className="build__stats">
                 {[4, 5, 6].map((n) => <div key={n}><dt>Slot {n}</dt><dd>{trial.main[n]}</dd></div>)}
                 <div><dt>Substats</dt><dd>{trial.substats}</dd></div>
@@ -239,14 +239,14 @@ function NoBuild({ agent }) {
         <>
           <h3 className="mini-title">Expected build</h3>
           <p className="small">
-            {style} <span className="passive__est">Estimated</span>
+            {style} {agent.upcoming && <span className="passive__est">Estimated</span>}
           </p>
         </>
       )}
       <p className="muted small">
         {agent.upcoming
           ? `${agent.name} isn’t released yet, so the full recommended build comes at launch.`
-          : `No recommended build for ${agent.name} yet.`}
+          : `${agent.name}’s full recommended build (Drive Disc sets and best teams) is on the way.`}
       </p>
     </section>
   );

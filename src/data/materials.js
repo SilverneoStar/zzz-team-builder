@@ -35,8 +35,7 @@ export const AGENT_MATS = {
   'lighter': ["Stun", "Burn", "Crimson Awe", "Scarlet Engine"],
   'lucia-elowen': ["Support", "Ether", "Corrupted Dreamsteel", "Crimson Miasma Spike"],
   'luciana-de-montefio': ["Support", "Burn", "Steel Malice", "Ferocious Grip"],
-  // Not released: seal and chip follow Anomaly and Fire; the Expert Challenge and
-  // Notorious Hunt drops come from community reports (same Hunt drop as Claret and Roxy).
+  // Released in 3.3.
   'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
   // Not released: Wind Attack Agent, so Attack seals and Wind chips. The Expert Challenge and
   // Notorious Hunt drops come from community reports (October 2026).
@@ -123,7 +122,7 @@ export const HUNT = {
 };
 
 // Agents whose Core Skill drops are estimates until release.
-export const ESTIMATED_MATS = new Set(['phoenix-reffaella', 'severian-lowell']);
+export const ESTIMATED_MATS = new Set(['severian-lowell']);
 
 /** True when the Core Skill drops (Expert Challenge and Notorious Hunt) are known. */
 export const AGENT_MATS_KNOWN = (id) => Boolean(AGENT_MATS[id]?.[2] && AGENT_MATS[id]?.[3]);

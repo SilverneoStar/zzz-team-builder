@@ -1,5 +1,24 @@
 {
-  "skills": [],
+  "skills": [
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Sever Life",
+      "Up to 4 Fire hits forward. The 3rd and 4th hits count as Combustion Attacks."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Purifying Flame",
+      "With enough Pyre, hold Basic Attack to unleash Fire DMG. Its finishing move triggers 1 Abloom on enemies with an Attribute Anomaly. Invulnerable while using it."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Meltdown",
+      "If Special Attack: Fire Sweep doesn't land a Perfect Block, press Basic Attack to follow up."
+    ]
+  ],
   "core": {
     "name": "Nirvana",
     "text": "Attribute Anomalies applied by any squad member can CRIT, and Anomaly Mastery makes those crits stronger.\nOnce per fight, fatal damage doesn't take her down: switching back to Phoenix restores 50% of her Max HP.\nCombustion Attacks build up Pyre (up to 120), which powers her enhanced Basic Attack: Purifying Flame, an Abloom trigger.\nUsing an EX Special Attack puts her in her Wither and Bloom / Wax and Wane state for 20s.\nCore Skill A–F: Anomaly Mastery +12 at A, C and E, and Base ATK +25 at B, D and F.",
@@ -13,5 +32,5 @@
     "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
     "Ignores 15% of enemies' All-Attribute RES. EX Special Attack: Dazzling Flare grants 1 Ascension point. Her Abloom ignores 40% of enemy DEF."
   ],
-  "source": "Pre-release details from her 3.3 reveal and test builds, summarised. They may change at launch."
+  "source": "From her 3.3 release, summarised. Her other skills are added as their details come in."
 }

@@ -100,7 +100,7 @@ export default function SkillsTab({ agent: a, team }) {
       {kit.potential && <Potential potential={kit.potential} current={inTeam ? team.loadouts?.[a.id]?.potential ?? 0 : null} />}
 
       {kit.source ? (
-        <p className="muted small skills__src"><span className="card__tag card__tag--warn">Subject to change</span> {kit.source}</p>
+        <p className="muted small skills__src">{a.upcoming && <><span className="card__tag card__tag--warn">Subject to change</span> </>}{kit.source}</p>
       ) : (
       <p className="muted small skills__src">
         Skill details from the <a href={WIKI + a.name.replace(/ /g, '_')} target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a>{' '}
