@@ -19,6 +19,24 @@
       "If Special Attack: Fire Snatch doesn't land a Perfect Block, press Basic Attack to follow up."
     ],
     [
+      "Dodge",
+      "Dodge",
+      "Sway",
+      "Quick dash dodge. Invulnerable."
+    ],
+    [
+      "Dodge",
+      "Dash Attack",
+      "Lunge",
+      "Dashing Fire slash forward."
+    ],
+    [
+      "Dodge",
+      "Dodge Counter",
+      "Twin Crossing of Karmic Fire",
+      "After a Perfect Dodge: dash in with a quick Fire slash. Invulnerable; can chain into the 3rd Basic Attack hit."
+    ],
+    [
       "Assist",
       "Quick Assist",
       "First Aid",
