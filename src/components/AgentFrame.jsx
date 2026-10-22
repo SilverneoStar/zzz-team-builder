@@ -5,7 +5,7 @@ import AttributeGlyph from './AttributeGlyph.jsx';
 import { agentArt } from './Portrait.jsx';
 import PassiveFace from './PassiveFace.jsx';
 import RankBadge from './RankBadge.jsx';
-import FactionLogo from './FactionLogo.jsx';
+import { factionLogo, factionSlug } from './FactionLogo.jsx';
 
 // The slanted Agent card from the game's squad screen: a dark leaning card
 // with the art inset, and a footer with the attribute and specialty icons in
@@ -13,16 +13,19 @@ import FactionLogo from './FactionLogo.jsx';
 // the level), and the rank in a pill on the right.
 // `passive` ({ state: 'on' | 'off' | 'unknown', title }) puts the squad screen's
 // passive face in the round badge instead; the rank then moves to the art's corner.
-// `faction` (the Agents page) puts the faction logo in the round badge, the
+// `faction` (the Agents page) shows the faction logo faded behind the art (a
+// small 160px copy in public/factions/bg/, cached after the first load), the
 // attribute and specialty icons on the right, and the rank on the art's corner.
 export default function AgentFrame({ agent, sub, tag, tall = false, passive, faction = false }) {
   const src = agentArt(agent.id);
   const [failedSrc, setFailedSrc] = useState(null);
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color;
   const ranked = agent.rank === 'S' || agent.rank === 'A';
+  const factionBg = faction && factionLogo(agent.faction) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(agent.faction)}.webp` : null;
   return (
-    <span className={`frame${tall ? ' frame--tall' : ''}`} style={{ '--el': color }} title={agent.name}>
+    <span className={`frame${tall ? ' frame--tall' : ''}${faction ? ' frame--no-badge' : ''}`} style={{ '--el': color }} title={agent.name}>
       <span className="frame__art-box">
+        {factionBg && <span className="frame__faction-bg" style={{ backgroundImage: `url(${factionBg})` }} aria-hidden="true" />}
         {failedSrc === src ? (
           <span className="frame__initials">{initials(agent.name)}</span>
         ) : (
@@ -41,13 +44,10 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
         )}
       </span>
       <span className="frame__foot">
+        {!faction && (
         <span className="frame__badge">
           {passive ? (
             <PassiveFace state={passive.state} size={30} title={passive.title} />
-          ) : faction ? (
-            <span className="frame__faction" title={agent.faction}>
-              <FactionLogo faction={agent.faction} size={24} />
-            </span>
           ) : (
             <span className="frame__badge-icons">
               <AttributeGlyph attribute={agent.attribute} size={14} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
@@ -55,6 +55,7 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
             </span>
           )}
         </span>
+        )}
         <span className="frame__text">
           <span className="frame__name-line">
             <span className="frame__name">{shortName(agent)}</span>

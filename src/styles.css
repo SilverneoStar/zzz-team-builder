@@ -8186,19 +8186,19 @@ details.disc-guide + details.disc-guide {
   margin-bottom: 10px;
 }
 
-/* Agents page cards: faction logo in the round badge, attribute and
+/* Agents page cards: faction logo faded behind the art, attribute and
    specialty icons on the right with no backing, rank on the art's corner. */
-.frame__faction {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
+.frame__faction-bg {
+  position: absolute;
+  inset: -6% -18% auto;
+  height: 104%;
+  background: center / contain no-repeat;
+  opacity: 0.34;
   transform: skewX(var(--unlean));
+  pointer-events: none;
 }
-.frame__faction .faction-logo {
-  width: 78%;
-  height: 78%;
-  object-fit: contain;
+.frame--no-badge .frame__foot {
+  padding-left: 10px;
 }
 .frame__corner-rank--right {
   left: auto;
@@ -8237,16 +8237,4 @@ details.disc-guide + details.disc-guide {
     height: 13px;
   }
 }
-@container (max-width: 104px) {
-  /* Smallest cards: the faction badge moves onto the art's corner so the
-     name keeps the footer. */
-  .frame__badge:has(.frame__faction) {
-    display: grid;
-    position: absolute;
-    left: 9px;
-    bottom: 47px;
-    width: 22px;
-    height: 22px;
-    box-shadow: inset 0 0 0 1.5px #303030, 0 2px 4px rgb(0 0 0 / 0.5);
-  }
-}
+
