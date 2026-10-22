@@ -207,7 +207,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
                 aria-current={a.id === agentId ? 'true' : undefined}
                 aria-label={a.name}
               >
-                <AgentFrame agent={a} tag={a.upcoming ? 'Upcoming' : null} />
+                <AgentFrame agent={a} tag={a.upcoming ? 'Upcoming' : null} faction />
               </a>
             </li>
           ))}
