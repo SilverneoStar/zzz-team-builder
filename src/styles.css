@@ -8238,3 +8238,15 @@ details.disc-guide + details.disc-guide {
   }
 }
 
+/* Agents page cards: the element colour runs the full height of the art,
+   faint at the top and strongest at the bottom. */
+.frame--no-badge .frame__art-box {
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.05) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--el, #888) 14%, #1b2028) 0%,
+      color-mix(in srgb, var(--el, #888) 30%, #1b2028) 45%,
+      color-mix(in srgb, var(--el, #888) 55%, #1b2028) 100%
+    );
+}
