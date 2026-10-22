@@ -8250,3 +8250,114 @@ details.disc-guide + details.disc-guide {
       color-mix(in srgb, var(--el, #888) 55%, #1b2028) 100%
     );
 }
+
+/* ---------- Record player finishes ----------
+   Same parts in every theme; only colours, textures and a few fine outlines
+   change. Classic is the default above, with outlines added here. */
+.deck {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+.deck__platter {
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 2px #444,
+    0 0 0 1px rgb(255 255 255 / 0.14);
+}
+.deck__record {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.7), inset 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+.deck__spindle {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.6);
+}
+.deck__pivot {
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+.deck__rod {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.35);
+}
+.deck__rod::after {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.55);
+}
+.deck__led {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+/* Wood & copper: walnut plinth, brass-copper tonearm, amber light. */
+[data-deck='wood'] .deck {
+  background:
+    radial-gradient(120% 80% at 30% 0%, rgb(255 230 190 / 0.12), transparent 60%),
+    repeating-linear-gradient(
+      93deg,
+      rgb(0 0 0 / 0.1) 0 1px,
+      transparent 1px 7px,
+      rgb(255 210 160 / 0.05) 7px 9px,
+      transparent 9px 15px
+    ),
+    linear-gradient(180deg, #6b4128, #4a2b19 55%, #3a2113);
+  box-shadow: inset 0 0 0 1px rgb(255 214 160 / 0.18), inset 0 -6px 12px rgb(0 0 0 / 0.35);
+}
+[data-deck='wood'] .deck__platter {
+  background: radial-gradient(circle, #2f2620 0 62%, #1c1612 63% 100%);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px #8a6a3e,
+    0 0 0 1px rgb(255 214 160 / 0.25);
+}
+[data-deck='wood'] .deck__spindle,
+[data-deck='wood'] .deck__pivot {
+  background: radial-gradient(circle at 35% 35%, #fff1c7, #d9a24a 55%, #7a4a1c);
+}
+[data-deck='wood'] .deck__rod {
+  background: linear-gradient(90deg, #9a5b22, #f6c36a 45%, #b0702c);
+  box-shadow: 0 0 0 1px rgb(60 30 8 / 0.7), inset 0 1px 0 rgb(255 240 200 / 0.45);
+}
+[data-deck='wood'] .deck__rod::after {
+  background: linear-gradient(180deg, #f3c16a, #9a5b22);
+  box-shadow: 0 0 0 1px rgb(60 30 8 / 0.7);
+}
+[data-deck='wood'] .deck.is-playing .deck__led {
+  background: #ffb347;
+  box-shadow: 0 0 8px #ffb347;
+}
+
+/* Urban: matte asphalt with a hazard-tape edge, black arm, neon accents. */
+[data-deck='urban'] .deck {
+  background:
+    repeating-linear-gradient(-45deg, #f2c200 0 7px, #151515 7px 14px) bottom / 100% 5% no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.05) 1px, transparent 1.4px) 0 0 / 6px 6px,
+    radial-gradient(circle, rgb(0 0 0 / 0.35) 1px, transparent 1.6px) 3px 3px / 7px 7px,
+    linear-gradient(180deg, #2b2d31, #1a1b1e);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+[data-deck='urban'] .deck__platter {
+  background: radial-gradient(circle, #202226 0 62%, #0f1012 63% 100%);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px #2fe0d0,
+    0 0 0 1px rgb(0 0 0 / 0.8);
+}
+[data-deck='urban'] .deck__spindle {
+  background: radial-gradient(circle at 35% 35%, #c9fff9, #2fe0d0 55%, #0d6d66);
+}
+[data-deck='urban'] .deck__pivot {
+  background: radial-gradient(circle at 35% 35%, #5a5d63, #26282c 60%, #0d0e10);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px #ff3d9a,
+    inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+[data-deck='urban'] .deck__rod {
+  background: linear-gradient(90deg, #1b1c1f, #4a4d53 45%, #1e1f22);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.18);
+}
+[data-deck='urban'] .deck__rod::after {
+  background: linear-gradient(180deg, #ff3d9a, #a8125c);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.7);
+}
+[data-deck='urban'] .deck.is-playing .deck__led {
+  background: #2fe0d0;
+  box-shadow: 0 0 8px #2fe0d0;
+}

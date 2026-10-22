@@ -25,6 +25,22 @@ const loadView = () => {
   }
 };
 
+// Record player look, remembered on this device. Same parts, different finish.
+const DECK_KEY = 'zzz-team-builder:deckTheme';
+const DECK_THEMES = [
+  { id: 'classic', label: 'Classic' },
+  { id: 'wood', label: 'Wood & copper' },
+  { id: 'urban', label: 'Urban' },
+];
+const loadDeck = () => {
+  try {
+    const v = localStorage.getItem(DECK_KEY);
+    return DECK_THEMES.some((t) => t.id === v) ? v : 'classic';
+  } catch {
+    return 'classic';
+  }
+};
+
 // The stat a 2-piece bonus raises: "CRIT DMG +16%" → "CRIT DMG".
 const twoStat = (d) => d.twoPiece.replace(/\s*[+-]?\d+(\.\d+)?%?\s*$/, '').trim();
 const TWO_STATS = [...new Set(DRIVE_DISC_SETS.map(twoStat))].sort();
@@ -43,6 +59,15 @@ export default function DriveDiscsPage({ discId }) {
   const [stat, setStat] = useState('all');
   const [usedBy, setUsedBy] = useState('all');
   const [view, setView] = useState(loadView);
+  const [deck, setDeck] = useState(loadDeck);
+  const pickDeck = (v) => {
+    setDeck(v);
+    try {
+      localStorage.setItem(DECK_KEY, v);
+    } catch {
+      /* storage unavailable */
+    }
+  };
 
   useEffect(() => {
     try {
@@ -64,7 +89,7 @@ export default function DriveDiscsPage({ discId }) {
   const selected = discId ? DRIVE_DISC_BY_ID[discId] : null;
 
   return (
-    <div className="page">
+    <div className="page" data-deck={deck}>
       <header className="page__head">
         <h2 className="page__title">Drive Discs</h2>
         <p className="muted">
@@ -104,6 +129,16 @@ export default function DriveDiscsPage({ discId }) {
             {SPECIALTIES.filter((s) => USED_BY[s.id]).map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name} Agents
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="select">
+          <span>Player</span>
+          <select value={deck} onChange={(e) => pickDeck(e.target.value)}>
+            {DECK_THEMES.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label}
               </option>
             ))}
           </select>
