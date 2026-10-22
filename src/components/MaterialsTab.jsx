@@ -22,7 +22,9 @@ export default function MaterialsTab({ agent: a }) {
       <section className="mats">
         <h3 className="mini-title">Materials</h3>
         <p className="muted small">
-          {a.upcoming ? `${a.name}’s materials are listed here once they’re released.` : `No material list for ${a.name} yet.`}
+          {a.upcoming
+            ? `${a.name}’s materials are listed here once they’re released.`
+            : `No material list for ${a.name} yet.`}
         </p>
       </section>
     );
@@ -45,7 +47,8 @@ export default function MaterialsTab({ agent: a }) {
             <img src={materialIcon('Senior Investigator Log')} alt="" width="22" height="22" />
             <img src={materialIcon('Official Investigator Log')} alt="" width="22" height="22" />
           </span>
-          Agent EXP: Trainee, Senior and Official Investigator Logs from Combat Simulation · Investigation Specialization.
+          Agent EXP: Trainee, Senior and Official Investigator Logs from Combat Simulation · Investigation
+          Specialization.
         </p>
       </Group>
 
@@ -59,20 +62,33 @@ export default function MaterialsTab({ agent: a }) {
               [true, `All ${SKILL_COUNT}`],
               [false, 'One'],
             ].map(([v, l]) => (
-              <button key={l} type="button" role="radio" aria-checked={allSkills === v} className={`skills__level${allSkills === v ? ' is-on' : ''}`} onClick={() => setAllSkills(v)}>
+              <button
+                key={l}
+                type="button"
+                role="radio"
+                aria-checked={allSkills === v}
+                className={`skills__level${allSkills === v ? ' is-on' : ''}`}
+                onClick={() => setAllSkills(v)}
+              >
                 {l}
               </button>
             ))}
           </div>
         }
       >
-        <p className="muted small mats__foot">{m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12.</p>
+        <p className="muted small mats__foot">
+          {m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12.
+        </p>
       </Group>
 
       <Group title="Core Skill" note="Base → F" items={m.core}>
         {ESTIMATED_MATS.has(a.id) && (
           <p className="muted small mats__foot">
-            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill chips follow other {ATTRIBUTE_BY_ID[a.attribute]?.name} {SPECIALTY_BY_ID[a.specialty]?.name} Agents; {AGENT_MATS_KNOWN(a.id) ? 'the Core Skill drops come from community reports until they’re confirmed in game.' : 'the Expert Challenge and Notorious Hunt drops haven’t been announced yet.'}
+            <span className="passive__est">Estimated</span> {a.name} isn’t released yet. The promotion seals and skill
+            chips follow other {ATTRIBUTE_BY_ID[a.attribute]?.name} {SPECIALTY_BY_ID[a.specialty]?.name} Agents;{' '}
+            {AGENT_MATS_KNOWN(a.id)
+              ? 'the Core Skill drops come from community reports until they’re confirmed in game.'
+              : 'the Expert Challenge and Notorious Hunt drops haven’t been announced yet.'}
           </p>
         )}
         <Shared label="Same Expert Challenge" ids={sharedWith(a.id, 2)} />
@@ -82,8 +98,11 @@ export default function MaterialsTab({ agent: a }) {
       {sigMats && (
         <Group title="Signature W-Engine" note={`${sig.name}, level 1 → 60`} items={sigMats}>
           <p className="muted small mats__foot">
-            <a href={`#w-engine-${sig.id}`} className="mats__sig"><WEngineArt w={sig} size={22} />{sig.name}</a>
-            {' '}Promotion components follow its type ({SPECIALTY_BY_ID[sig.specialty]?.name}).
+            <a href={`#w-engine-${sig.id}`} className="mats__sig">
+              <WEngineArt w={sig} size={22} />
+              {sig.name}
+            </a>{' '}
+            Promotion components follow its type ({SPECIALTY_BY_ID[sig.specialty]?.name}).
           </p>
         </Group>
       )}
@@ -93,7 +112,11 @@ export default function MaterialsTab({ agent: a }) {
       </Group>
 
       <p className="muted small">
-        Costs and drop locations from the <a href="https://zenless-zone-zero.fandom.com/" target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a>.
+        Costs and drop locations from the{' '}
+        <a href="https://zenless-zone-zero.fandom.com/" target="_blank" rel="noreferrer">
+          Zenless Zone Zero Wiki
+        </a>
+        .
       </p>
     </section>
   );
@@ -103,7 +126,11 @@ export default function MaterialsTab({ agent: a }) {
 export function MatIcon({ item }) {
   const src = materialIcon(item.name);
   if (src) return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" />;
-  return <span className="mats__dot" aria-hidden="true">{KIND_MARK[item.kind] ?? ''}</span>;
+  return (
+    <span className="mats__dot" aria-hidden="true">
+      {KIND_MARK[item.kind] ?? ''}
+    </span>
+  );
 }
 
 /** A list of items with icon, name, where it drops and how many. */

@@ -38,7 +38,9 @@ export default function SharePanel({ team, dispatch }) {
 
   return (
     <section className="share" aria-labelledby="share-title">
-      <h2 id="share-title" className="section-title">Presets &amp; sharing</h2>
+      <h2 id="share-title" className="section-title">
+        Presets &amp; sharing
+      </h2>
 
       <label className="field">
         <span>Load a community preset into this team</span>
@@ -50,32 +52,50 @@ export default function SharePanel({ team, dispatch }) {
             if (p) dispatch({ type: 'loadPreset', ...p });
           }}
         >
-          <option value="" disabled>Choose a preset…</option>
-          {PRESETS.map((p, i) => <option key={p.name} value={i}>{p.name}</option>)}
+          <option value="" disabled>
+            Choose a preset…
+          </option>
+          {PRESETS.map((p, i) => (
+            <option key={p.name} value={i}>
+              {p.name}
+            </option>
+          ))}
         </select>
       </label>
 
       <div className="field">
-        <label htmlFor="card-code">Short code <span className="muted">· the one printed on team images</span></label>
+        <label htmlFor="card-code">
+          Short code <span className="muted">· the one printed on team images</span>
+        </label>
         <div className="code-row">
           <input id="card-code" className="code" readOnly value={cardCode} onFocus={(e) => e.target.select()} />
-          <button className="btn" onClick={() => copy(cardCode, 'card-code')}>{copied === 'card-code' ? 'Copied' : 'Copy'}</button>
+          <button className="btn" onClick={() => copy(cardCode, 'card-code')}>
+            {copied === 'card-code' ? 'Copied' : 'Copy'}
+          </button>
         </div>
       </div>
 
       <div className="field">
-        <label htmlFor="team-code">Full team code <span className="muted">· squad, Bangboo and gear</span></label>
+        <label htmlFor="team-code">
+          Full team code <span className="muted">· squad, Bangboo and gear</span>
+        </label>
         <div className="code-row">
           <input id="team-code" className="code" readOnly value={code} onFocus={(e) => e.target.select()} />
-          <button className="btn" onClick={() => copy(code, 'team-code')}>{copied === 'team-code' ? 'Copied' : 'Copy'}</button>
+          <button className="btn" onClick={() => copy(code, 'team-code')}>
+            {copied === 'team-code' ? 'Copied' : 'Copy'}
+          </button>
         </div>
       </div>
 
       <div className="field">
-        <label htmlFor="team-link">Team link <span className="muted">· opens straight into the builder</span></label>
+        <label htmlFor="team-link">
+          Team link <span className="muted">· opens straight into the builder</span>
+        </label>
         <div className="code-row">
           <input id="team-link" className="code" readOnly value={link} onFocus={(e) => e.target.select()} />
-          <button className="btn" onClick={() => copy(link, 'team-link')}>{copied === 'team-link' ? 'Copied' : 'Copy'}</button>
+          <button className="btn" onClick={() => copy(link, 'team-link')}>
+            {copied === 'team-link' ? 'Copied' : 'Copy'}
+          </button>
         </div>
       </div>
 
@@ -89,7 +109,9 @@ export default function SharePanel({ team, dispatch }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button className="btn" type="submit" disabled={!input.trim()}>Add team</button>
+          <button className="btn" type="submit" disabled={!input.trim()}>
+            Add team
+          </button>
         </div>
         {error && <p className="field__error">{error}</p>}
       </form>

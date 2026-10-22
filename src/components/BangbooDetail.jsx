@@ -15,7 +15,13 @@ const LEVELS = ['1', '2', '3', '4', '5'];
 const fill = (text, values) =>
   text.split(/(\{\d+\})/).map((part, i) => {
     const m = part.match(/^\{(\d+)\}$/);
-    return m ? <b key={i} className="skills__num">{values[Number(m[1])] ?? '?'}</b> : part;
+    return m ? (
+      <b key={i} className="skills__num">
+        {values[Number(m[1])] ?? '?'}
+      </b>
+    ) : (
+      part
+    );
   });
 
 // Agents whose recommended builds list this Bangboo.
@@ -42,10 +48,40 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
   const overview = (
     <div className="detail__main">
       <dl className="facts">
-        <div><dt>Rank</dt><dd>{b.rank ? `${b.rank}-rank` : '—'}</dd></div>
-        <div><dt>Attribute</dt><dd className="cell-el">{attr ? <><AttributeGlyph attribute={b.attribute} size={15} />{attr.name}</> : <span className="muted">None</span>}</dd></div>
-        <div><dt>Faction</dt><dd className="cell-faction">{b.faction ? <><FactionLogo faction={b.faction} size={22} />{b.faction}</> : <span className="muted">None</span>}</dd></div>
-        <div><dt>Released</dt><dd>{b.version ? `Version ${b.version}` : <span className="muted">Upcoming</span>}</dd></div>
+        <div>
+          <dt>Rank</dt>
+          <dd>{b.rank ? `${b.rank}-rank` : '—'}</dd>
+        </div>
+        <div>
+          <dt>Attribute</dt>
+          <dd className="cell-el">
+            {attr ? (
+              <>
+                <AttributeGlyph attribute={b.attribute} size={15} />
+                {attr.name}
+              </>
+            ) : (
+              <span className="muted">None</span>
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt>Faction</dt>
+          <dd className="cell-faction">
+            {b.faction ? (
+              <>
+                <FactionLogo faction={b.faction} size={22} />
+                {b.faction}
+              </>
+            ) : (
+              <span className="muted">None</span>
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt>Released</dt>
+          <dd>{b.version ? `Version ${b.version}` : <span className="muted">Upcoming</span>}</dd>
+        </div>
       </dl>
       {kit && <AbilityStatus ability={kit.ability} squad={squad} />}
       {stats && (
@@ -53,7 +89,10 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
           <h3 className="mini-title">Stats at level 60</h3>
           <dl className="build__stats bb-stats">
             {STAT_LABELS.map((l, i) => (
-              <div key={l}><dt>{l}</dt><dd>{stats[i]}</dd></div>
+              <div key={l}>
+                <dt>{l}</dt>
+                <dd>{stats[i]}</dd>
+              </div>
             ))}
           </dl>
         </section>
@@ -77,7 +116,11 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
         <p className="muted small">{b.name} has no Bangboo Chain Attack.</p>
       )}
       <p className="muted small skills__src">
-        Skill details from the <a href="https://zenless-zone-zero.fandom.com/" target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a> (CC BY-SA), summarised.
+        Skill details from the{' '}
+        <a href="https://zenless-zone-zero.fandom.com/" target="_blank" rel="noreferrer">
+          Zenless Zone Zero Wiki
+        </a>{' '}
+        (CC BY-SA), summarised.
       </p>
     </section>
   ) : (
@@ -95,7 +138,11 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       ) : (
         <p className="muted small">No Agent’s recommended build lists {b.name} yet.</p>
       )}
-      {kit && <p className="muted small">Its Additional Ability turns on with {needText(kit.ability[1], (id) => AGENT_BY_ID[id]?.name ?? id)}.</p>}
+      {kit && (
+        <p className="muted small">
+          Its Additional Ability turns on with {needText(kit.ability[1], (id) => AGENT_BY_ID[id]?.name ?? id)}.
+        </p>
+      )}
     </section>
   );
 
@@ -107,31 +154,50 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
         {[...BANGBOO_MATS.slice(0, -1), BANGBOO_EXP, ...BANGBOO_MATS.slice(-1)].map((x) => (
           <li key={x.name} className={`mats__item mats__item--${x.kind}`}>
             <MatIcon item={x} />
-            <span className="mats__name"><b>{x.name}</b><span className="muted small">{x.source}</span></span>
+            <span className="mats__name">
+              <b>{x.name}</b>
+              <span className="muted small">{x.source}</span>
+            </span>
             <span className="mats__qty">×{fmt(x.qty)}</span>
           </li>
         ))}
       </ul>
-      <p className="muted small mats__foot">Bangboo EXP: any one of the three data tiers gives the same total. Raising a Bangboo’s skills needs extra copies of it instead.</p>
+      <p className="muted small mats__foot">
+        Bangboo EXP: any one of the three data tiers gives the same total. Raising a Bangboo’s skills needs extra copies
+        of it instead.
+      </p>
     </section>
   );
 
   return (
     <article className="detail bb-detail" style={attr ? { '--el': attr.color } : undefined} aria-labelledby="bb-name">
       <header className="detail__head">
-        <span className="bb-detail__art"><BangbooArt id={b.id} size={96} /></span>
+        <span className="bb-detail__art">
+          <BangbooArt id={b.id} size={96} />
+        </span>
         <div className="detail__title">
           <p className="eyebrow">
             <span className="eyebrow__meta">
-              {attr ? <><AttributeGlyph attribute={b.attribute} size={16} /><span>{attr.name}</span></> : <span>No attribute</span>}
+              {attr ? (
+                <>
+                  <AttributeGlyph attribute={b.attribute} size={16} />
+                  <span>{attr.name}</span>
+                </>
+              ) : (
+                <span>No attribute</span>
+              )}
               {b.rank && <span className="nowrap"> · {b.rank}-rank</span>}
             </span>
             {b.version && <span className="eyebrow__ver">Ver {b.version}</span>}
           </p>
-          <h2 id="bb-name" className="detail__name">{b.name}</h2>
+          <h2 id="bb-name" className="detail__name">
+            {b.name}
+          </h2>
         </div>
         <div className="detail__head-actions">
-          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">×</button>
+          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
+            ×
+          </button>
         </div>
       </header>
 
@@ -147,7 +213,11 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       />
 
       <div className="detail__actions">
-        <button className={on ? 'btn btn--quiet' : 'btn btn--primary'} onClick={() => onPick(on ? null : b.id)} aria-pressed={on}>
+        <button
+          className={on ? 'btn btn--quiet' : 'btn btn--primary'}
+          onClick={() => onPick(on ? null : b.id)}
+          aria-pressed={on}
+        >
           {on ? 'In current team · remove' : 'Use in current team'}
         </button>
       </div>
@@ -178,7 +248,10 @@ function Skill({ title, name, extra, badge, children }) {
     <details className="skills__group">
       <summary>
         <span className="skills__cat">{title}</span>
-        <span className="skills__peek">{name}{extra ? ` · ${extra}` : ''}</span>
+        <span className="skills__peek">
+          {name}
+          {extra ? ` · ${extra}` : ''}
+        </span>
         {badge}
       </summary>
       <div className="skills__body">{children}</div>
@@ -198,17 +271,32 @@ function Ability({ ability: [name, need, text, values], squad }) {
       name={name}
       badge={met == null ? null : <span className={`skills__state${met ? ' is-on' : ''}`}>{met ? 'On' : 'Off'}</span>}
     >
-      <p className="muted small">Turns on with {condition}.{met != null && (met ? ' Your current team has it.' : ' Your current team doesn’t yet.')}</p>
+      <p className="muted small">
+        Turns on with {condition}.
+        {met != null && (met ? ' Your current team has it.' : ' Your current team doesn’t yet.')}
+      </p>
       {keys.length > 0 && (
         <div className="skills__levels" role="radiogroup" aria-label="Additional Ability level">
           {LEVELS.map((l, i) => (
-            <button key={l} type="button" role="radio" aria-checked={lv === i} className={`skills__level${lv === i ? ' is-on' : ''}`} onClick={() => setLv(i)}>
+            <button
+              key={l}
+              type="button"
+              role="radio"
+              aria-checked={lv === i}
+              className={`skills__level${lv === i ? ' is-on' : ''}`}
+              onClick={() => setLv(i)}
+            >
               Lv {l}
             </button>
           ))}
         </div>
       )}
-      <p>{fill(text, keys.map((k) => values[k][lv]))}</p>
+      <p>
+        {fill(
+          text,
+          keys.map((k) => values[k][lv]),
+        )}
+      </p>
     </Skill>
   );
 }

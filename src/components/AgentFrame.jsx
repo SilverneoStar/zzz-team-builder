@@ -26,7 +26,11 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive }) {
           <img className="frame__art" src={src} alt="" loading="lazy" onError={() => setFailedSrc(src)} />
         )}
         {tag && <span className="frame__tag">{tag}</span>}
-        {passive && ranked && <span className="frame__corner-rank"><RankBadge rank={agent.rank} size={22} /></span>}
+        {passive && ranked && (
+          <span className="frame__corner-rank">
+            <RankBadge rank={agent.rank} size={22} />
+          </span>
+        )}
       </span>
       <span className="frame__foot">
         <span className="frame__badge">

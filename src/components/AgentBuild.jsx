@@ -81,7 +81,11 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
           Equip on {shortName(a)} in current team
         </button>
         {!inActiveTeam && <span className="muted small">Add {shortName(a)} to the current team first.</span>}
-        {inActiveTeam && done && <span className="muted small" role="status">Equipped: best W-Engine, 4 + 2 discs and main stats.</span>}
+        {inActiveTeam && done && (
+          <span className="muted small" role="status">
+            Equipped: best W-Engine, 4 + 2 discs and main stats.
+          </span>
+        )}
       </div>
     </section>
   );
@@ -121,8 +125,14 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
                 })}
               </span>
               <span className="best-team__meta">
-                <span className="fit-tag" title="Additional Abilities active">Abilities {passives.active}/{passives.total}</span>
-                {kit.map((k) => <span key={k.id} className="fit-tag fit-tag--kit">{k.name}</span>)}
+                <span className="fit-tag" title="Additional Abilities active">
+                  Abilities {passives.active}/{passives.total}
+                </span>
+                {kit.map((k) => (
+                  <span key={k.id} className="fit-tag fit-tag--kit">
+                    {k.name}
+                  </span>
+                ))}
               </span>
               <button className="btn btn--small" onClick={() => onLoadTeam(recommendedTeam(a.id, members))}>
                 Load team
@@ -132,7 +142,12 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
         })}
       </ul>
       {b.teams.length > TEAMS_SHOWN && (
-        <button type="button" className="btn btn--quiet btn--small best-teams__more" onClick={() => setAllTeams(!allTeams)} aria-expanded={allTeams}>
+        <button
+          type="button"
+          className="btn btn--quiet btn--small best-teams__more"
+          onClick={() => setAllTeams(!allTeams)}
+          aria-expanded={allTeams}
+        >
           {allTeams ? 'Show fewer teams' : `Show ${b.teams.length - TEAMS_SHOWN} more teams`}
         </button>
       )}
@@ -188,23 +203,29 @@ function NoBuild({ agent }) {
                   <RankBadge rank={w.rank} size={16} />
                   {w.signatureOf === agent.id && <span className="chip-tag">Signature</span>}
                   {w.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
-                  <span className="muted small">{w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : 'Stats not published yet'}</span>
+                  <span className="muted small">
+                    {w.advanced ? `${w.advanced.stat} ${w.advanced.max}` : 'Stats not published yet'}
+                  </span>
                 </a>
               </li>
             ))}
           </ol>
         </>
-      ) : sig && (
-        <>
-          <h4 className="micro-title">Signature W-Engine</h4>
-          <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
-            <WEngineArt w={sig} size={30} />
-            <span className="engine-row__name">{sig.name}</span>
-            <RankBadge rank={sig.rank} size={16} />
-            {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
-            <span className="muted small">{sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}</span>
-          </a>
-        </>
+      ) : (
+        sig && (
+          <>
+            <h4 className="micro-title">Signature W-Engine</h4>
+            <a className="engine-row engine-row--sig" href={`#w-engine-${sig.id}`}>
+              <WEngineArt w={sig} size={30} />
+              <span className="engine-row__name">{sig.name}</span>
+              <RankBadge rank={sig.rank} size={16} />
+              {sig.provisional && <span className="card__tag card__tag--warn">Subject to change</span>}
+              <span className="muted small">
+                {sig.advanced ? `${sig.advanced.stat} ${sig.advanced.max}` : 'Stats not published yet'}
+              </span>
+            </a>
+          </>
+        )
       )}
       {trial && (
         <>
@@ -212,17 +233,39 @@ function NoBuild({ agent }) {
             <>
               <h4 className="micro-title">Drive Discs · {trial.source}</h4>
               <div className="build__discs">
-                <div><h4 className="micro-title">4-piece set</h4><SetList ids={trial.fourPiece} /></div>
-                <div><h4 className="micro-title">2-piece set</h4><SetList ids={trial.twoPiece} /></div>
+                <div>
+                  <h4 className="micro-title">4-piece set</h4>
+                  <SetList ids={trial.fourPiece} />
+                </div>
+                <div>
+                  <h4 className="micro-title">2-piece set</h4>
+                  <SetList ids={trial.twoPiece} />
+                </div>
               </div>
             </>
           )}
           {trial.main && (
             <>
-              <h4 className="micro-title">Main stats · {trial.source}{agent.upcoming && !UPCOMING[agent.id]?.confirmed && <> <span className="card__tag card__tag--warn">Subject to change</span></>}</h4>
+              <h4 className="micro-title">
+                Main stats · {trial.source}
+                {agent.upcoming && !UPCOMING[agent.id]?.confirmed && (
+                  <>
+                    {' '}
+                    <span className="card__tag card__tag--warn">Subject to change</span>
+                  </>
+                )}
+              </h4>
               <dl className="build__stats">
-                {[4, 5, 6].map((n) => <div key={n}><dt>Slot {n}</dt><dd>{trial.main[n]}</dd></div>)}
-                <div><dt>Substats</dt><dd>{trial.substats}</dd></div>
+                {[4, 5, 6].map((n) => (
+                  <div key={n}>
+                    <dt>Slot {n}</dt>
+                    <dd>{trial.main[n]}</dd>
+                  </div>
+                ))}
+                <div>
+                  <dt>Substats</dt>
+                  <dd>{trial.substats}</dd>
+                </div>
               </dl>
             </>
           )}
@@ -230,7 +273,11 @@ function NoBuild({ agent }) {
             <>
               <h4 className="micro-title">Skill priority</h4>
               <ol className="small trial-notes">
-                {trial.skills.map(([k, lv]) => <li key={k}>{k} → {lv}</li>)}
+                {trial.skills.map(([k, lv]) => (
+                  <li key={k}>
+                    {k} → {lv}
+                  </li>
+                ))}
               </ol>
             </>
           )}
@@ -238,7 +285,9 @@ function NoBuild({ agent }) {
             <>
               <h4 className="micro-title">What to build for</h4>
               <ul className="small trial-notes">
-                {trial.notes.map((n) => <li key={n}>{n}</li>)}
+                {trial.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
               </ul>
             </>
           )}
@@ -248,7 +297,8 @@ function NoBuild({ agent }) {
         <>
           <h3 className="mini-title">Expected build</h3>
           <p className="small">
-            {style} {agent.upcoming && !UPCOMING[agent.id]?.confirmed && <span className="passive__est">Estimated</span>}
+            {style}{' '}
+            {agent.upcoming && !UPCOMING[agent.id]?.confirmed && <span className="passive__est">Estimated</span>}
           </p>
         </>
       )}
@@ -291,8 +341,14 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
                 })}
               </span>
               <span className="best-team__meta">
-                <span className="fit-tag" title="Additional Abilities active">Abilities {passives.active}/{passives.total}</span>
-                {kit.map((k) => <span key={k.id} className="fit-tag fit-tag--kit">{k.name}</span>)}
+                <span className="fit-tag" title="Additional Abilities active">
+                  Abilities {passives.active}/{passives.total}
+                </span>
+                {kit.map((k) => (
+                  <span key={k.id} className="fit-tag fit-tag--kit">
+                    {k.name}
+                  </span>
+                ))}
                 <span className={`fit-tag${source.startsWith('Estimate') ? '' : ' fit-tag--kit'}`}>{source}</span>
               </span>
               <button className="btn btn--small" onClick={() => onLoadTeam(recommendedTeam(a.id, members))}>
@@ -320,13 +376,19 @@ function Targets({ agent }) {
         <>
           <h4 className="micro-title">Stat targets · in combat</h4>
           <ul className="targets__list">
-            {t.targets.map((x) => <li key={x}>{x}</li>)}
+            {t.targets.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
           </ul>
         </>
       )}
       {t.note && <p className="muted small">{t.note}</p>}
       <p className="muted small targets__src">
-        From the community <a href={GUIDE_URL} target="_blank" rel="noreferrer">ZZZ Agent Build Guide</a>{t.version ? ` (updated for ${t.version})` : ''}.
+        From the community{' '}
+        <a href={GUIDE_URL} target="_blank" rel="noreferrer">
+          ZZZ Agent Build Guide
+        </a>
+        {t.version ? ` (updated for ${t.version})` : ''}.
       </p>
     </div>
   );

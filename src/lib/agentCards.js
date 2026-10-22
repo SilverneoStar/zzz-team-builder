@@ -3,7 +3,15 @@
 //   farm   1200×675  everything to farm, grouped by what it's for
 //   guide  1080×1350 one-page guide: build, best teams and what to farm
 // Same black / gray / white look as the team images.
-import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, SPECIALTY_BY_ID, W_ENGINE_BY_ID, shortName } from '../data/game.js';
+import {
+  AGENT_BY_ID,
+  ATTRIBUTE_BY_ID,
+  BANGBOO_BY_ID,
+  DRIVE_DISC_BY_ID,
+  SPECIALTY_BY_ID,
+  W_ENGINE_BY_ID,
+  shortName,
+} from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { SKILL_COUNT, materialsFor } from '../data/materials.js';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
@@ -21,7 +29,20 @@ const loadFactionLogo = async (a, base) => {
   const src = factionLogo(a.faction, base);
   return src ? loadImage(src) : null;
 };
-import { DISPLAY, EXPORT_SCALE, FONT, MONO, background, fit, loadImage, loadRoleIcons, rankBadge, roleLine, roundRect, slantedArt } from './teamCard.js';
+import {
+  DISPLAY,
+  EXPORT_SCALE,
+  FONT,
+  MONO,
+  background,
+  fit,
+  loadImage,
+  loadRoleIcons,
+  rankBadge,
+  roleLine,
+  roundRect,
+  slantedArt,
+} from './teamCard.js';
 
 export const AGENT_CARDS = [
   { id: 'build', label: 'Build', hint: '16:9' },
@@ -32,7 +53,14 @@ export const AGENT_CARDS = [
 export const MY_BUILD_CARD = { id: 'mine', label: 'My build', hint: '16:9' };
 const SIZES = { build: [1200, 675], farm: [1200, 675], guide: [1080, 1350], mine: [1200, 675] };
 
-const K = { panel: 'rgba(24,24,24,0.94)', line: '#333', fg: '#f2f2f2', text: '#e6e6e6', muted: '#a3a3a3', dim: '#7a7a7a' };
+const K = {
+  panel: 'rgba(24,24,24,0.94)',
+  line: '#333',
+  fg: '#f2f2f2',
+  text: '#e6e6e6',
+  muted: '#a3a3a3',
+  dim: '#7a7a7a',
+};
 const fmt = (n) => n.toLocaleString('en');
 const KIND = { seal: '#8fa3b8', chip: '#7fb89a', hdd: '#c9a56a', boss: '#d9826a', denny: '#9a9a9a', pass: '#b58fd0' };
 
@@ -102,7 +130,9 @@ function engineIcon(ctx, img, x, y, size) {
 
 async function head(ctx, W, a, base, subtitle) {
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
-  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, arr) => grad.addColorStop(i / (arr.length - 1), c));
+  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, arr) =>
+    grad.addColorStop(i / (arr.length - 1), c),
+  );
   ctx.fillStyle = grad;
   roundRect(ctx, 40, 32, W - 80, 6, 3);
   ctx.fill();
@@ -116,26 +146,33 @@ async function head(ctx, W, a, base, subtitle) {
 function foot(ctx, W, H) {
   ctx.fillStyle = K.muted;
   ctx.font = `500 14px ${FONT}`;
-  ctx.fillText('silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse', 40, H - 30);
+  ctx.fillText(
+    'silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse',
+    40,
+    H - 30,
+  );
   ctx.textAlign = 'right';
   ctx.fillText('salman-SilverStarneo', W - 40, H - 30);
   ctx.textAlign = 'left';
 }
 
-
 async function loadEngines(ids, base) {
   const out = {};
-  await Promise.all(ids.map(async (id) => {
-    if (W_ENGINES_WITH_ART.has(id)) out[id] = await loadImage(`${base}w-engines/${id}.webp`);
-  }));
+  await Promise.all(
+    ids.map(async (id) => {
+      if (W_ENGINES_WITH_ART.has(id)) out[id] = await loadImage(`${base}w-engines/${id}.webp`);
+    }),
+  );
   return out;
 }
 
 async function loadDiscs(ids, base) {
   const out = {};
-  await Promise.all([...new Set(ids)].map(async (id) => {
-    if (DISCS_WITH_ART.has(id)) out[id] = await loadImage(`${base}discs/${id}.webp`);
-  }));
+  await Promise.all(
+    [...new Set(ids)].map(async (id) => {
+      if (DISCS_WITH_ART.has(id)) out[id] = await loadImage(`${base}discs/${id}.webp`);
+    }),
+  );
   return out;
 }
 
@@ -161,7 +198,13 @@ function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize =
 }
 
 /** A rounded label; returns its width. */
-function pill(ctx, text, x, y, { h = 28, size = 14, fg = K.text, bg = 'rgba(255,255,255,0.06)', line = '#3a3a3a' } = {}) {
+function pill(
+  ctx,
+  text,
+  x,
+  y,
+  { h = 28, size = 14, fg = K.text, bg = 'rgba(255,255,255,0.06)', line = '#3a3a3a' } = {},
+) {
   ctx.font = `600 ${size}px ${FONT}`;
   const w = ctx.measureText(text).width + 24;
   ctx.fillStyle = bg;
@@ -179,14 +222,24 @@ function pill(ctx, text, x, y, { h = 28, size = 14, fg = K.text, bg = 'rgba(255,
 function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   const t = STAT_TARGETS[a.id];
   let px = x;
-  [t?.role, a.faction, a.upcoming ? (a.version ? `Ver ${a.version}${a.phase ? ` · phase ${a.phase}` : ''} · upcoming` : 'Upcoming') : `Ver ${a.version}`].filter(Boolean).forEach((label) => {
-    if (label === a.faction && logo) {
-      // Faction logo just before its chip.
-      ctx.drawImage(logo, px, y - 4, 36, 36);
-      px += 40;
-    }
-    px += pill(ctx, label, px, y) + 8;
-  });
+  [
+    t?.role,
+    a.faction,
+    a.upcoming
+      ? a.version
+        ? `Ver ${a.version}${a.phase ? ` · phase ${a.phase}` : ''} · upcoming`
+        : 'Upcoming'
+      : `Ver ${a.version}`,
+  ]
+    .filter(Boolean)
+    .forEach((label) => {
+      if (label === a.faction && logo) {
+        // Faction logo just before its chip.
+        ctx.drawImage(logo, px, y - 4, 36, 36);
+        px += 40;
+      }
+      px += pill(ctx, label, px, y) + 8;
+    });
   if (t?.targets?.length) {
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
@@ -211,7 +264,11 @@ function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     const stat = e.advanced ? `${e.advanced.stat} ${e.advanced.max}` : '';
-    ctx.fillText(fit(ctx, `${i === 0 ? 'BEST' : `#${i + 1}`}${stat ? ` · ${stat}` : ''}`, w - rowH - 60), x + rowH + 4, ry + rowH / 2 + 18);
+    ctx.fillText(
+      fit(ctx, `${i === 0 ? 'BEST' : `#${i + 1}`}${stat ? ` · ${stat}` : ''}`, w - rowH - 60),
+      x + rowH + 4,
+      ry + rowH / 2 + 18,
+    );
     rankBadge(ctx, e.rank, x + w - 18, ry + rowH / 2 - 4, 14);
   });
 }
@@ -254,14 +311,23 @@ function drawMains(ctx, b, x, y, w) {
   ctx.fillText('SUBSTATS', x, sy);
   ctx.fillStyle = K.text;
   ctx.font = `500 17px ${FONT}`;
-  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 3).forEach((l, i) => ctx.fillText(l, x, sy + 26 + i * 22));
+  wrap(ctx, b.substats.replace(/\bER\b/g, 'Energy Regen'), w, 3).forEach((l, i) =>
+    ctx.fillText(l, x, sy + 26 + i * 22),
+  );
 }
 
 async function drawBuild(ctx, W, H, a, base) {
   const b = BUILDS[a.id];
   await head(ctx, W, a, base, 'Build card');
   const art = await loadImage(`${base}agents/${a.id}.webp`);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160, roles: await loadRoleIcons(base, [a]) });
+  agentBlock(ctx, a, art, 56, 100, {
+    w: 130,
+    h: 170,
+    lean: 24,
+    nameSize: 46,
+    nameW: W - 214 - 160,
+    roles: await loadRoleIcons(base, [a]),
+  });
   if (!b) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -290,7 +356,9 @@ async function drawBuild(ctx, W, H, a, base) {
 
   const bangboo = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
   if (bangboo) {
-    const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bangboo.id) ? bangboo.id : 'placeholder'}.webp`);
+    const bArt = await loadImage(
+      `${base}bangboo/${BANGBOO_WITH_ART.has(bangboo.id) ? bangboo.id : 'placeholder'}.webp`,
+    );
     ctx.fillStyle = K.muted;
     ctx.font = `500 14px ${MONO}`;
     ctx.fillText('BANGBOO', 60, 614);
@@ -311,10 +379,12 @@ async function drawBuild(ctx, W, H, a, base) {
 
 async function loadMatIcons(items, base) {
   const out = {};
-  await Promise.all(items.map(async (it) => {
-    const src = materialIcon(it.name, base);
-    if (src && !(it.name in out)) out[it.name] = await loadImage(src);
-  }));
+  await Promise.all(
+    items.map(async (it) => {
+      const src = materialIcon(it.name, base);
+      if (src && !(it.name in out)) out[it.name] = await loadImage(src);
+    }),
+  );
   return out;
 }
 
@@ -338,7 +408,11 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
     const qw = ctx.measureText(qty).width;
     ctx.textAlign = 'left';
     const hdd = it.kind === 'hdd';
-    ctx.fillText(fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 76 - qw), x + 52, ry + 22);
+    ctx.fillText(
+      fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 76 - qw),
+      x + 52,
+      ry + 22,
+    );
     ctx.fillStyle = K.dim;
     ctx.font = `500 12.5px ${FONT}`;
     const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 72, 2);
@@ -363,11 +437,25 @@ async function drawFarm(ctx, W, H, a, base) {
   const w = 354;
   const icons = await loadMatIcons([...m.promotion, ...m.skill, ...m.core], base);
   drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
-  drawMatGroup(ctx, 40 + w + 29, top, w, ph, 'Skills', `all ${SKILL_COUNT}, level 1 → 12`, m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })), icons);
+  drawMatGroup(
+    ctx,
+    40 + w + 29,
+    top,
+    w,
+    ph,
+    'Skills',
+    `all ${SKILL_COUNT}, level 1 → 12`,
+    m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })),
+    icons,
+  );
   drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core, icons);
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
-  ctx.fillText(`${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`, 40, 616);
+  ctx.fillText(
+    `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`,
+    40,
+    616,
+  );
   foot(ctx, W, H);
 }
 
@@ -398,7 +486,14 @@ async function drawGuide(ctx, W, H, a, base) {
     ...ids.map((id) => loadImage(`${base}agents/${id}.webp`)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
-  agentBlock(ctx, a, art, 56, 100, { w: 150, h: 196, lean: 28, nameSize: 52, nameW: W - 234 - 160, roles: await loadRoleIcons(base, [a]) });
+  agentBlock(ctx, a, art, 56, 100, {
+    w: 150,
+    h: 196,
+    lean: 28,
+    nameSize: 52,
+    nameW: W - 234 - 160,
+    roles: await loadRoleIcons(base, [a]),
+  });
   infoBlock(ctx, a, 234, 206, 760, 2, await loadFactionLogo(a, base));
   let y = 322;
   if (b) {
@@ -482,7 +577,14 @@ function shrink(ctx, text, w, weight, max, min) {
 async function drawMine(ctx, W, H, a, base, lo) {
   await head(ctx, W, a, base, 'My build');
   const art = await loadImage(`${base}agents/${a.id}.webp`);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160, roles: await loadRoleIcons(base, [a]) });
+  agentBlock(ctx, a, art, 56, 100, {
+    w: 130,
+    h: 170,
+    lean: 24,
+    nameSize: 46,
+    nameW: W - 214 - 160,
+    roles: await loadRoleIcons(base, [a]),
+  });
   if (!lo) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -530,7 +632,10 @@ async function drawMine(ctx, W, H, a, base, lo) {
     ctx.font = `700 21px ${FONT}`;
     const lines = wrap(ctx, e.name, 260, 2);
     lines.forEach((l, i) => ctx.fillText(l, 60, top + 210 + i * 26));
-    const stats = [e.base && `Base ${e.base.stat} ${e.base.max}`, e.advanced && `${e.advanced.stat} ${e.advanced.max}`].filter(Boolean);
+    const stats = [
+      e.base && `Base ${e.base.stat} ${e.base.max}`,
+      e.advanced && `${e.advanced.stat} ${e.advanced.max}`,
+    ].filter(Boolean);
     ctx.fillStyle = K.muted;
     ctx.font = `500 15px ${FONT}`;
     stats.forEach((t, i) => ctx.fillText(fit(ctx, t, 260), 60, top + 214 + lines.length * 26 + i * 20));
@@ -582,7 +687,7 @@ async function drawMine(ctx, W, H, a, base, lo) {
     }
     ctx.fillStyle = K.fg;
     // Shrink a long set name before cutting it short.
-    const name = d.set ? DRIVE_DISC_BY_ID[d.set]?.name ?? '' : 'Empty';
+    const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
     shrink(ctx, name, tw - 20, 600, 15, 12);
     ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + 80);
     const st = mainStatOf(slot, d);
@@ -602,7 +707,9 @@ async function drawMine(ctx, W, H, a, base, lo) {
   if (!twos.length) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 16px ${FONT}`;
-    wrap(ctx, 'No set bonus yet: two discs of a set give its 2-piece bonus.', bw - 40, 3).forEach((l, i) => ctx.fillText(l, bx + 20, by + i * 22));
+    wrap(ctx, 'No set bonus yet: two discs of a set give its 2-piece bonus.', bw - 40, 3).forEach((l, i) =>
+      ctx.fillText(l, bx + 20, by + i * 22),
+    );
   }
   twos.slice(0, 3).forEach((id) => {
     const set = DRIVE_DISC_BY_ID[id];
@@ -644,7 +751,10 @@ async function drawMine(ctx, W, H, a, base, lo) {
 const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMine };
 
 /** Renders one of the Agent cards onto a canvas. */
-export async function renderAgentCard(agent, { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null } = {}) {
+export async function renderAgentCard(
+  agent,
+  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null } = {},
+) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
   const [W, H] = SIZES[id];

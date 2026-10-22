@@ -1,4 +1,11 @@
-import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, DRIVE_DISC_BY_ID, TEAM_SIZE, W_ENGINE_BY_ID } from '../data/game.js';
+import {
+  AGENT_BY_ID,
+  BANGBOO_BY_ID,
+  DISC_MAIN_STATS,
+  DRIVE_DISC_BY_ID,
+  TEAM_SIZE,
+  W_ENGINE_BY_ID,
+} from '../data/game.js';
 import { RANKS, normaliseDiscs } from './discs.js';
 import { hasPotential } from '../data/potentials.js';
 
@@ -71,9 +78,16 @@ export function decodeTeam(code) {
       const [d4, d2, ...mains] = rest;
       const main = {};
       SLOTS.forEach((s, k) => {
-        main[s] = mains[k] !== '' ? DISC_MAIN_STATS[s][Number(mains[k])] ?? null : null;
+        main[s] = mains[k] !== '' ? (DISC_MAIN_STATS[s][Number(mains[k])] ?? null) : null;
       });
-      loadouts[id] = { ...base, discs: normaliseDiscs(null, { disc4: DRIVE_DISC_BY_ID[d4] ? d4 : null, disc2: DRIVE_DISC_BY_ID[d2] ? d2 : null, main }) };
+      loadouts[id] = {
+        ...base,
+        discs: normaliseDiscs(null, {
+          disc4: DRIVE_DISC_BY_ID[d4] ? d4 : null,
+          disc2: DRIVE_DISC_BY_ID[d2] ? d2 : null,
+          main,
+        }),
+      };
       return;
     }
     const discs = rest.slice(0, 6).map((cell, i) => {
@@ -82,7 +96,7 @@ export function decodeTeam(code) {
       return {
         set: DRIVE_DISC_BY_ID[set] ? set : null,
         rank: RANKS.includes(rank) ? rank : 'S',
-        main: slot >= 4 && m !== '' && m != null ? DISC_MAIN_STATS[slot][Number(m)] ?? null : null,
+        main: slot >= 4 && m !== '' && m != null ? (DISC_MAIN_STATS[slot][Number(m)] ?? null) : null,
       };
     });
     const pot = Math.min(6, Math.max(0, Number(rest[6]) || 0));

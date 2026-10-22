@@ -42,26 +42,42 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
       <div className="loadout__head">
         <Portrait agent={agent} size="sm" />
         <h3 className="loadout__title">{agent.name}</h3>
-        <span className="muted small loadout__meta"><SpecialtyTag specialty={agent.specialty} /> · {attrName}</span>
-        <a className="loadout__link" href={`#agent-${agent.id}`}>Agent page</a>
-        <button className="btn btn--quiet loadout__close" onClick={onClose} aria-label="Close loadout">×</button>
+        <span className="muted small loadout__meta">
+          <SpecialtyTag specialty={agent.specialty} /> · {attrName}
+        </span>
+        <a className="loadout__link" href={`#agent-${agent.id}`}>
+          Agent page
+        </a>
+        <button className="btn btn--quiet loadout__close" onClick={onClose} aria-label="Close loadout">
+          ×
+        </button>
       </div>
 
       <div className="loadout__grid loadout__grid--wheel">
         <div className="loadout__block">
           <label className="field">
             <span>W-Engine</span>
-            <select ref={engineRef} value={loadout.wEngine ?? ''} onChange={(e) => onChange({ wEngine: e.target.value || null })}>
+            <select
+              ref={engineRef}
+              value={loadout.wEngine ?? ''}
+              onChange={(e) => onChange({ wEngine: e.target.value || null })}
+            >
               <option value="">None</option>
               <optgroup label={`${SPECIALTY_BY_ID[agent.specialty]?.name} W-Engines`}>
                 {fits.map((x) => (
                   <option key={x.id} value={x.id}>
-                    {x.rank} · {x.name}{x.signatureOf === agent.id ? ' (signature)' : ''}{x.upcoming ? ' (upcoming)' : ''}
+                    {x.rank} · {x.name}
+                    {x.signatureOf === agent.id ? ' (signature)' : ''}
+                    {x.upcoming ? ' (upcoming)' : ''}
                   </option>
                 ))}
               </optgroup>
               <optgroup label="Other specialties (passive won’t apply)">
-                {others.map((x) => <option key={x.id} value={x.id}>{x.rank} · {x.name}</option>)}
+                {others.map((x) => (
+                  <option key={x.id} value={x.id}>
+                    {x.rank} · {x.name}
+                  </option>
+                ))}
               </optgroup>
             </select>
           </label>
@@ -70,7 +86,12 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               <RankBadge rank={w.rank} size={16} />{' '}
               {w.base ? `Base ${w.base.stat} ${w.base.max}` : `Base ${w.base?.stat ?? 'stat'} not published yet`}
               {w.advanced ? ` · ${w.advanced.stat} ${w.advanced.max}` : ''}
-              {w.specialty !== agent.specialty && <span className="loadout__warn"> · Its passive only works on {SPECIALTY_BY_ID[w.specialty]?.name} Agents.</span>}
+              {w.specialty !== agent.specialty && (
+                <span className="loadout__warn">
+                  {' '}
+                  · Its passive only works on {SPECIALTY_BY_ID[w.specialty]?.name} Agents.
+                </span>
+              )}
             </p>
           )}
           <div className="loadout__steppers">
@@ -109,14 +130,22 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               <span>4-piece · slots 1–4</span>
               <select value="" onChange={(e) => e.target.value && fill([0, 1, 2, 3], e.target.value)}>
                 <option value="">Choose a set…</option>
-                {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                {DRIVE_DISC_SETS.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
               </select>
             </label>
             <label className="quickfill__row">
               <span>2-piece · slots 5–6</span>
               <select value="" onChange={(e) => e.target.value && fill([4, 5], e.target.value)}>
                 <option value="">Choose a set…</option>
-                {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name} · {d.twoPiece}</option>)}
+                {DRIVE_DISC_SETS.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name} · {d.twoPiece}
+                  </option>
+                ))}
               </select>
             </label>
           </div>
@@ -138,21 +167,41 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               <div className="disc-edit__head">
                 <span className="disc-slot__n">{slot}</span>
                 <b>Slot {slot}</b>
-                <button className="btn btn--quiet btn--small" onClick={() => setDisc(slot - 1, { set: null, main: null })}>Clear</button>
-                <button className="btn btn--quiet btn--small" onClick={() => setSlot(null)} aria-label="Done editing slot">Done</button>
+                <button
+                  className="btn btn--quiet btn--small"
+                  onClick={() => setDisc(slot - 1, { set: null, main: null })}
+                >
+                  Clear
+                </button>
+                <button
+                  className="btn btn--quiet btn--small"
+                  onClick={() => setSlot(null)}
+                  aria-label="Done editing slot"
+                >
+                  Done
+                </button>
               </div>
               <label className="field">
                 <span>Set</span>
                 <select value={cur.set ?? ''} onChange={(e) => setDisc(slot - 1, { set: e.target.value || null })}>
                   <option value="">Empty</option>
-                  {DRIVE_DISC_SETS.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                  {DRIVE_DISC_SETS.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                    </option>
+                  ))}
                 </select>
               </label>
               <div className="disc-edit__row">
                 <span className="field__label">Rank</span>
                 <div className="chips" role="group" aria-label="Disc rank">
                   {RANKS.map((r) => (
-                    <button key={r} className="chip" aria-pressed={cur.rank === r} onClick={() => setDisc(slot - 1, { rank: r })}>
+                    <button
+                      key={r}
+                      className="chip"
+                      aria-pressed={cur.rank === r}
+                      onClick={() => setDisc(slot - 1, { rank: r })}
+                    >
                       {r}
                     </button>
                   ))}
@@ -178,13 +227,17 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               )}
             </div>
           ) : (
-            <p className="muted small wheel__hint">Tap a disc slot to set its Drive Disc, rank and main stat. Tap the middle to change the W-Engine.</p>
+            <p className="muted small wheel__hint">
+              Tap a disc slot to set its Drive Disc, rank and main stat. Tap the middle to change the W-Engine.
+            </p>
           )}
 
           <div className="bonuses">
             <span className="field__label">Set bonuses</span>
             {bonuses.twos.length === 0 ? (
-              <p className="muted small">Equip two discs of a set for its 2-piece bonus, and four for its 4-piece bonus.</p>
+              <p className="muted small">
+                Equip two discs of a set for its 2-piece bonus, and four for its 4-piece bonus.
+              </p>
             ) : (
               <ul className="bonuses__list">
                 {bonuses.twos.map((id) => {
@@ -197,8 +250,16 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                         <b>{set.name}</b>
                         <span className="muted small">×{count}</span>
                       </span>
-                      <span className="bonus__line"><span className="bonus__tag">2</span>{set.twoPiece}</span>
-                      {count >= 4 && <span className="bonus__line"><span className="bonus__tag">4</span>{set.fourPiece}</span>}
+                      <span className="bonus__line">
+                        <span className="bonus__tag">2</span>
+                        {set.twoPiece}
+                      </span>
+                      {count >= 4 && (
+                        <span className="bonus__line">
+                          <span className="bonus__tag">4</span>
+                          {set.fourPiece}
+                        </span>
+                      )}
                     </li>
                   );
                 })}
@@ -215,9 +276,25 @@ function Stepper({ label, value, min, max, format, onChange, disabled }) {
   return (
     <div className="stepper" role="group" aria-label={label}>
       <span className="stepper__label">{label}</span>
-      <button className="stepper__btn" disabled={disabled || value <= min} onClick={() => onChange(value - 1)} aria-label={`Lower ${label}`}>−</button>
-      <span className="stepper__value" aria-live="polite">{format(value)}</span>
-      <button className="stepper__btn" disabled={disabled || value >= max} onClick={() => onChange(value + 1)} aria-label={`Raise ${label}`}>+</button>
+      <button
+        className="stepper__btn"
+        disabled={disabled || value <= min}
+        onClick={() => onChange(value - 1)}
+        aria-label={`Lower ${label}`}
+      >
+        −
+      </button>
+      <span className="stepper__value" aria-live="polite">
+        {format(value)}
+      </span>
+      <button
+        className="stepper__btn"
+        disabled={disabled || value >= max}
+        onClick={() => onChange(value + 1)}
+        aria-label={`Raise ${label}`}
+      >
+        +
+      </button>
     </div>
   );
 }

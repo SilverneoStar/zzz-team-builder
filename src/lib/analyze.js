@@ -38,20 +38,27 @@ export function analyzeTeam(memberIds, bangbooId) {
 
   const dps = agents.filter((a) => DAMAGE_SPECIALTIES.includes(a.specialty));
   if (dps.length === 0) {
-    notes.push({ level: 'warn', text: 'No Attack, Anomaly or Rupture Agent yet, so nobody is built to deal the main damage.' });
+    notes.push({
+      level: 'warn',
+      text: 'No Attack, Anomaly or Rupture Agent yet, so nobody is built to deal the main damage.',
+    });
   }
   if (!specialtyCounts.stun && specialtyCounts.anomaly < 2 && n === 3) {
-    notes.push({ level: 'warn', text: 'No Stun Agent: enemies will take longer to Daze, so there are fewer Stun windows for burst damage.' });
+    notes.push({
+      level: 'warn',
+      text: 'No Stun Agent: enemies will take longer to Daze, so there are fewer Stun windows for burst damage.',
+    });
   }
   if (!specialtyCounts.support && !specialtyCounts.defense && n === 3) {
     notes.push({ level: 'info', text: 'No Support or Defense Agent: the squad has no buffer or shielder.' });
   }
 
-  const anomalyAttrs = new Set(
-    agents.filter((a) => a.specialty === 'anomaly').map((a) => baseAttribute(a.attribute)),
-  );
+  const anomalyAttrs = new Set(agents.filter((a) => a.specialty === 'anomaly').map((a) => baseAttribute(a.attribute)));
   if (anomalyAttrs.size >= 2) {
-    notes.push({ level: 'good', text: 'Anomaly Agents with different attributes can set off Disorder by stacking a second Attribute Anomaly on an enemy.' });
+    notes.push({
+      level: 'good',
+      text: 'Anomaly Agents with different attributes can set off Disorder by stacking a second Attribute Anomaly on an enemy.',
+    });
   }
   if (specialtyCounts.stun && dps.length) {
     notes.push({ level: 'good', text: 'Stun plus a damage dealer: the classic shape for Stun-window burst.' });
@@ -127,7 +134,14 @@ export function passiveStatus(memberIds) {
       .map((o) => o.name);
     const on = via.length > 0;
     if (on) active += 1;
-    byId[a.id] = { known: true, estimated: !!p.estimated, active: on, name: p.name ?? 'Additional Ability', condition: passiveCondition(a.id), via };
+    byId[a.id] = {
+      known: true,
+      estimated: !!p.estimated,
+      active: on,
+      name: p.name ?? 'Additional Ability',
+      condition: passiveCondition(a.id),
+      via,
+    };
   });
   return { byId, active, total: squad.length };
 }
@@ -149,15 +163,17 @@ export function kitLinks(memberIds) {
       const payoff = [];
       const providers = new Set();
       squad.forEach((a) => {
-        (KIT_LINKS[a.id] ?? []).filter((l) => l.mechanic === id && l.side === 'payoff').forEach((l) => {
-          const from = squad.filter(
-            (o) => o.id !== a.id && (KIT_LINKS[o.id] ?? []).some((x) => x.side === 'provider' && fits(l, x)),
-          );
-          if (from.length) {
-            payoff.push({ agent: a, text: l.text, from: from.map((o) => o.name) });
-            from.forEach((o) => providers.add(o.name));
-          }
-        });
+        (KIT_LINKS[a.id] ?? [])
+          .filter((l) => l.mechanic === id && l.side === 'payoff')
+          .forEach((l) => {
+            const from = squad.filter(
+              (o) => o.id !== a.id && (KIT_LINKS[o.id] ?? []).some((x) => x.side === 'provider' && fits(l, x)),
+            );
+            if (from.length) {
+              payoff.push({ agent: a, text: l.text, from: from.map((o) => o.name) });
+              from.forEach((o) => providers.add(o.name));
+            }
+          });
       });
       return { id, name: m.name, payoff, providers: [...providers] };
     })
@@ -184,7 +200,10 @@ export function kitLinksBetween(a, b) {
   const names = new Set();
   la.forEach((x) =>
     lb.forEach((y) => {
-      if ((x.side === 'payoff' && y.side === 'provider' && fits(x, y)) || (y.side === 'payoff' && x.side === 'provider' && fits(y, x))) {
+      if (
+        (x.side === 'payoff' && y.side === 'provider' && fits(x, y)) ||
+        (y.side === 'payoff' && x.side === 'provider' && fits(y, x))
+      ) {
         names.add(MECHANICS[x.mechanic].name);
       }
     }),

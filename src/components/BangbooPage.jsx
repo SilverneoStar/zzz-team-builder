@@ -23,18 +23,35 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
     <div className="page">
       <header className="page__head">
         <h2 className="page__title">Bangboo</h2>
-        <p className="muted">Each squad brings one Bangboo. Pick one here or from the Bangboo slot in the Team Builder.</p>
+        <p className="muted">
+          Each squad brings one Bangboo. Pick one here or from the Bangboo slot in the Team Builder.
+        </p>
       </header>
 
-      {selected && <BangbooDetail bangboo={selected} activeTeam={activeTeam} onPick={onPick} onClose={() => navigate('bangboo')} />}
+      {selected && (
+        <BangbooDetail bangboo={selected} activeTeam={activeTeam} onPick={onPick} onClose={() => navigate('bangboo')} />
+      )}
 
       <div className="filters filters--page filters--row">
-        <label className="sr-only" htmlFor="bangboo-search">Search Bangboo</label>
-        <input id="bangboo-search" className="search search--inline" type="search" placeholder="Search name or faction" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <label className="sr-only" htmlFor="bangboo-search">
+          Search Bangboo
+        </label>
+        <input
+          id="bangboo-search"
+          className="search search--inline"
+          type="search"
+          placeholder="Search name or faction"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
         <div className="chips" role="group" aria-label="Filter by rank">
-          <button className="chip" aria-pressed={rank === 'all'} onClick={() => setRank('all')}>Any rank</button>
+          <button className="chip" aria-pressed={rank === 'all'} onClick={() => setRank('all')}>
+            Any rank
+          </button>
           {['S', 'A'].map((r) => (
-            <button key={r} className="chip" aria-pressed={rank === r} onClick={() => setRank(rank === r ? 'all' : r)}>{r}-rank</button>
+            <button key={r} className="chip" aria-pressed={rank === r} onClick={() => setRank(rank === r ? 'all' : r)}>
+              {r}-rank
+            </button>
           ))}
         </div>
       </div>
@@ -47,7 +64,11 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
             const on = activeTeam.bangboo === b.id;
             return (
               <li key={b.id} className={`bangboo-card${on ? ' is-on' : ''}`} style={{ '--el': boxColor(b) }}>
-                <a className="bangboo-card__link" href={`#bangboo-${b.id}`} aria-current={bangbooId === b.id ? 'page' : undefined}>
+                <a
+                  className="bangboo-card__link"
+                  href={`#bangboo-${b.id}`}
+                  aria-current={bangbooId === b.id ? 'page' : undefined}
+                >
                   <ToyBox bangboo={b} />
                   <span className="bangboo-card__body">
                     <span className="bangboo-card__name">
@@ -55,12 +76,23 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
                       {b.rank && <RankBadge rank={b.rank} size={16} />}
                     </span>
                     <span className="bangboo-card__meta">
-                      {b.attribute ? <><AttributeGlyph attribute={b.attribute} size={12} />{ATTRIBUTE_BY_ID[b.attribute].name}</> : 'No attribute'}
+                      {b.attribute ? (
+                        <>
+                          <AttributeGlyph attribute={b.attribute} size={12} />
+                          {ATTRIBUTE_BY_ID[b.attribute].name}
+                        </>
+                      ) : (
+                        'No attribute'
+                      )}
                     </span>
                     <span className="muted small">Ver {b.version}</span>
                   </span>
                 </a>
-                <button className={on ? 'btn btn--quiet btn--small' : 'btn btn--small'} onClick={() => onPick(on ? null : b.id)} aria-pressed={on}>
+                <button
+                  className={on ? 'btn btn--quiet btn--small' : 'btn btn--small'}
+                  onClick={() => onPick(on ? null : b.id)}
+                  aria-pressed={on}
+                >
                   {on ? 'In current team' : 'Use in team'}
                 </button>
               </li>
@@ -88,17 +120,21 @@ function ToyBox({ bangboo: b }) {
   const src = bangbooArt(b.id);
   return (
     <span className="toybox" aria-hidden="true">
-      <span className="toybox__tab"><span className="toybox__tab-text"><span>Spotlight</span></span></span>
+      <span className="toybox__tab">
+        <span className="toybox__tab-text">
+          <span>Spotlight</span>
+        </span>
+      </span>
       <span className="toybox__case">
         <span className="toybox__back" />
-        {src && <img className="toybox__art" src={src} alt="" loading="lazy" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />}
+        {src && (
+          <img className="toybox__art" src={src} alt="" loading="lazy" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />
+        )}
         <span className="toybox__glass" />
       </span>
       <span className="toybox__base">
         <span className="toybox__tagline">For Hollow investigation</span>
-        <span className="toybox__brand">
-          Bangboo
-        </span>
+        <span className="toybox__brand">Bangboo</span>
         <span className="toybox__barcode" />
       </span>
       {b.rank && <i className={`toybox__sticker toybox__sticker--${b.rank.toLowerCase()}`}>{b.rank}</i>}

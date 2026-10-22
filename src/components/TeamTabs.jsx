@@ -24,7 +24,9 @@ export default function TeamTabs({ teams, activeId, dispatch, onExport }) {
               }}
             >
               <span className="tab__name">{t.name || 'Untitled'}</span>
-              <span className="tab__count">{filled}/{TEAM_SIZE}</span>
+              <span className="tab__count">
+                {filled}/{TEAM_SIZE}
+              </span>
             </button>
           );
         })}
@@ -34,7 +36,9 @@ export default function TeamTabs({ teams, activeId, dispatch, onExport }) {
       </div>
 
       <div className="tabs__edit">
-        <label className="sr-only" htmlFor="team-name">Team name</label>
+        <label className="sr-only" htmlFor="team-name">
+          Team name
+        </label>
         <input
           id="team-name"
           className="team-name"
@@ -44,7 +48,8 @@ export default function TeamTabs({ teams, activeId, dispatch, onExport }) {
         />
         <div className="tabs__actions">
           <button className="btn btn--primary" onClick={onExport} disabled={!active.members.some(Boolean)}>
-            <ExportIcon />Export image
+            <ExportIcon />
+            Export image
           </button>
           <button className="btn btn--quiet" onClick={() => dispatch({ type: 'duplicate' })}>
             Duplicate

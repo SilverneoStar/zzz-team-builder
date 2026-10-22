@@ -16,22 +16,42 @@ export const emptyDiscs = () => SLOTS.map(() => emptyDisc());
 // Highest main stat at level 15, by rank (B-rank maxima aren't published).
 const MAIN_MAX = {
   S: {
-    HP: '2,200', ATK: '316', DEF: '184',
-    'HP%': '30%', 'ATK%': '30%', 'DEF%': '48%', 'CRIT Rate': '24%', 'CRIT DMG': '48%',
-    'Anomaly Proficiency': '92', 'PEN Ratio': '24%', 'Attribute DMG': '30%',
-    'Anomaly Mastery': '30%', Impact: '18%', 'Energy Regen': '60%',
+    HP: '2,200',
+    ATK: '316',
+    DEF: '184',
+    'HP%': '30%',
+    'ATK%': '30%',
+    'DEF%': '48%',
+    'CRIT Rate': '24%',
+    'CRIT DMG': '48%',
+    'Anomaly Proficiency': '92',
+    'PEN Ratio': '24%',
+    'Attribute DMG': '30%',
+    'Anomaly Mastery': '30%',
+    Impact: '18%',
+    'Energy Regen': '60%',
   },
   A: {
-    HP: '1,468', ATK: '212', DEF: '124',
-    'HP%': '20%', 'ATK%': '20%', 'DEF%': '32%', 'CRIT Rate': '16%', 'CRIT DMG': '32%',
-    'Anomaly Proficiency': '60', 'PEN Ratio': '16%', 'Attribute DMG': '20%',
-    'Anomaly Mastery': '20%', Impact: '12%', 'Energy Regen': '40%',
+    HP: '1,468',
+    ATK: '212',
+    DEF: '124',
+    'HP%': '20%',
+    'ATK%': '20%',
+    'DEF%': '32%',
+    'CRIT Rate': '16%',
+    'CRIT DMG': '32%',
+    'Anomaly Proficiency': '60',
+    'PEN Ratio': '16%',
+    'Attribute DMG': '20%',
+    'Anomaly Mastery': '20%',
+    Impact: '12%',
+    'Energy Regen': '40%',
   },
 };
-export const mainStatOf = (slot, disc) => (slot <= 3 ? DISC_FIXED[slot - 1].stat : disc?.main ?? null);
+export const mainStatOf = (slot, disc) => (slot <= 3 ? DISC_FIXED[slot - 1].stat : (disc?.main ?? null));
 export const mainMax = (slot, disc) => {
   const stat = mainStatOf(slot, disc);
-  return stat ? MAIN_MAX[disc?.rank]?.[stat] ?? null : null;
+  return stat ? (MAIN_MAX[disc?.rank]?.[stat] ?? null) : null;
 };
 
 /** Normalise whatever was saved (or nothing) into six slots. */
@@ -76,8 +96,10 @@ export function discBonuses(discs) {
 export function discSummary(discs) {
   const { counts } = discBonuses(discs);
   if (!counts.length) return null;
-  return counts
-    .filter((c) => c.count >= 2)
-    .map((c) => `${c.count} ${DRIVE_DISC_BY_ID[c.id].name}`)
-    .join(' + ') || `${counts.reduce((n, c) => n + c.count, 0)} mixed discs`;
+  return (
+    counts
+      .filter((c) => c.count >= 2)
+      .map((c) => `${c.count} ${DRIVE_DISC_BY_ID[c.id].name}`)
+      .join(' + ') || `${counts.reduce((n, c) => n + c.count, 0)} mixed discs`
+  );
 }

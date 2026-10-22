@@ -12,7 +12,9 @@ export default function Analysis({ analysis }) {
 
   return (
     <section className="analysis" aria-labelledby="analysis-title">
-      <h2 id="analysis-title" className="section-title">Synergy</h2>
+      <h2 id="analysis-title" className="section-title">
+        Synergy
+      </h2>
       <div className="analysis__side">
         <div className="roles">
           {SPECIALTIES.map((s) => (
@@ -26,7 +28,10 @@ export default function Analysis({ analysis }) {
         {agents.length > 0 && (
           <div className="passives">
             <h3 className="mini-title">
-              Additional Abilities <span className="passives__count">{passives.active}/{passives.total}</span>
+              Additional Abilities{' '}
+              <span className="passives__count">
+                {passives.active}/{passives.total}
+              </span>
             </h3>
             <ul className="passives__list">
               {agents.map((a) => {
@@ -39,7 +44,11 @@ export default function Analysis({ analysis }) {
                       <span className="passive__head">
                         <b>{shortName(a)}</b>
                         {st.name && <span className="passive__name">{st.name}</span>}
-                        {st.estimated && <span className="passive__est" title="Based on the 3.3 livestream; not confirmed yet">Estimated</span>}
+                        {st.estimated && (
+                          <span className="passive__est" title="Based on the 3.3 livestream; not confirmed yet">
+                            Estimated
+                          </span>
+                        )}
                       </span>
                       <span className="passive__cond">
                         {!st.known
@@ -76,7 +85,9 @@ export default function Analysis({ analysis }) {
             {sharedAttributes.map((s) => (
               <li key={s.id} className="reaction">
                 <div className="reaction__head">
-                  <span className="reaction__pair"><AttributeGlyph attribute={s.id} size={14} /></span>
+                  <span className="reaction__pair">
+                    <AttributeGlyph attribute={s.id} size={14} />
+                  </span>
                   <span className="reaction__name">{s.name}</span>
                   <span className="reaction__kind">Same attribute</span>
                 </div>
@@ -97,7 +108,9 @@ export default function Analysis({ analysis }) {
 
         <ul className="notes">
           {notes.map((n, i) => (
-            <li key={i} className={`note note--${n.level}`}>{n.text}</li>
+            <li key={i} className={`note note--${n.level}`}>
+              {n.text}
+            </li>
           ))}
         </ul>
       </div>

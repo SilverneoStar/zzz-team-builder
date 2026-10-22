@@ -50,8 +50,12 @@ export default function Roster({ members, usage, dispatch }) {
   return (
     <section className="roster" aria-labelledby="roster-title">
       <div className="roster__head">
-        <h2 id="roster-title" className="section-title">Agents</h2>
-        <label className="sr-only" htmlFor="roster-search">Search Agents</label>
+        <h2 id="roster-title" className="section-title">
+          Agents
+        </h2>
+        <label className="sr-only" htmlFor="roster-search">
+          Search Agents
+        </label>
         <input
           id="roster-search"
           className="search"
@@ -64,7 +68,9 @@ export default function Roster({ members, usage, dispatch }) {
 
       <div className="filters">
         <div className="chips" role="group" aria-label="Filter by attribute">
-          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>All</button>
+          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>
+            All
+          </button>
           {BASE_ATTRIBUTES.map((a) => (
             <button
               key={a.id}
@@ -82,7 +88,11 @@ export default function Roster({ members, usage, dispatch }) {
             <span>Specialty</span>
             <select id="filter-specialty" value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
               <option value="all">Any</option>
-              {SPECIALTIES.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+              {SPECIALTIES.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
             </select>
           </label>
           <label className="select">
@@ -97,7 +107,11 @@ export default function Roster({ members, usage, dispatch }) {
             <span>Faction</span>
             <select id="filter-faction" value={faction} onChange={(e) => setFaction(e.target.value)}>
               <option value="all">Any</option>
-              {FACTIONS.map((f) => <option key={f} value={f}>{f}</option>)}
+              {FACTIONS.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
             </select>
           </label>
           <label className="check">
@@ -129,7 +143,9 @@ export default function Roster({ members, usage, dispatch }) {
                       <span className="card__nm">{a.name}</span>
                       {(a.rank === 'S' || a.rank === 'A') && <RankBadge rank={a.rank} size={18} />}
                     </span>
-                    <span className="card__role"><SpecialtyTag specialty={a.specialty} size={14} /></span>
+                    <span className="card__role">
+                      <SpecialtyTag specialty={a.specialty} size={14} />
+                    </span>
                     {gains.length > 0 && <span className="card__gain">Shares {gains.join(' + ')}</span>}
                     {a.upcoming && <span className="card__tag">Upcoming</span>}
                     {others && (

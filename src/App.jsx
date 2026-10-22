@@ -78,7 +78,12 @@ export default function App() {
           </div>
           <nav className="nav" aria-label="Sections">
             {VIEWS.map((v) => (
-              <a key={v.id} href={`#${v.id}`} className="nav__link" aria-current={route.view === v.id ? 'page' : undefined}>
+              <a
+                key={v.id}
+                href={`#${v.id}`}
+                className="nav__link"
+                aria-current={route.view === v.id ? 'page' : undefined}
+              >
                 {v.label}
               </a>
             ))}
@@ -101,30 +106,44 @@ export default function App() {
         </div>
       </header>
 
-      {route.view === 'agents' && <AgentsPage
+      {route.view === 'agents' && (
+        <AgentsPage
           agentId={route.agentId}
           activeTeam={active}
           onAdd={addFromIndex}
           onApplyBuild={(agentId, loadout) => {
             dispatch({ type: 'setLoadout', agentId, patch: loadout });
-            dispatch({ type: 'notice', text: `Equipped the recommended build on ${AGENT_BY_ID[agentId].name} in “${active.name}”.` });
+            dispatch({
+              type: 'notice',
+              text: `Equipped the recommended build on ${AGENT_BY_ID[agentId].name} in “${active.name}”.`,
+            });
           }}
           onLoadTeam={(team) => {
             dispatch({ type: 'import', ...team });
             navigate('builder');
           }}
-        />}
+        />
+      )}
       {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
       {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
       {route.view === 'bangboo' && (
-        <BangbooPage bangbooId={route.bangbooId} activeTeam={active} onPick={(id) => dispatch({ type: 'setBangboo', id })} />
+        <BangbooPage
+          bangbooId={route.bangbooId}
+          activeTeam={active}
+          onPick={(id) => dispatch({ type: 'setBangboo', id })}
+        />
       )}
       {route.view === 'glossary' && <GlossaryPage />}
 
       {route.view === 'builder' && (
         <main className="layout">
           <div className="bench">
-            <TeamTabs teams={state.teams} activeId={state.activeId} dispatch={dispatch} onExport={() => setExporting(true)} />
+            <TeamTabs
+              teams={state.teams}
+              activeId={state.activeId}
+              dispatch={dispatch}
+              onExport={() => setExporting(true)}
+            />
 
             {state.isExample && (
               <p className="banner">
@@ -132,7 +151,12 @@ export default function App() {
               </p>
             )}
 
-            <TeamSlots team={active} selected={selectedAgent ? selectedSlot : null} onSelect={setSelectedSlot} dispatch={dispatch} />
+            <TeamSlots
+              team={active}
+              selected={selectedAgent ? selectedSlot : null}
+              onSelect={setSelectedSlot}
+              dispatch={dispatch}
+            />
 
             {selectedAgent ? (
               <LoadoutPanel
@@ -148,7 +172,9 @@ export default function App() {
               )
             )}
 
-            <p className="notice" role="status" aria-live="polite">{state.notice}</p>
+            <p className="notice" role="status" aria-live="polite">
+              {state.notice}
+            </p>
 
             <Analysis analysis={analysis} />
             <SharePanel team={active} dispatch={dispatch} />
@@ -159,7 +185,11 @@ export default function App() {
               <span className="mini__name">{active.name}</span>
               <span className="mini__slots">
                 {active.members.map((id, i) =>
-                  id ? <Portrait key={i} agent={AGENT_BY_ID[id]} size="sm" /> : <span key={i} className="mini__empty" />,
+                  id ? (
+                    <Portrait key={i} agent={AGENT_BY_ID[id]} size="sm" />
+                  ) : (
+                    <span key={i} className="mini__empty" />
+                  ),
                 )}
               </span>
               <span className="mini__count">{active.members.filter(Boolean).length}/3</span>
@@ -174,9 +204,9 @@ export default function App() {
       <footer className="foot">
         <SocialLinks />
         <p className="foot__notes">
-          Your teams are saved only in this browser on this device. Nobody else can see or change them.
-          Game data is compiled from community sources and may lag behind patches; only released and officially
-          announced content is included. Zenless Zone Zero and all related content belong to HoYoverse.
+          Your teams are saved only in this browser on this device. Nobody else can see or change them. Game data is
+          compiled from community sources and may lag behind patches; only released and officially announced content is
+          included. Zenless Zone Zero and all related content belong to HoYoverse.
         </p>
       </footer>
     </div>

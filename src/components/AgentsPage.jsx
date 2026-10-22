@@ -93,7 +93,9 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
     <div className="page">
       <header className="page__head">
         <h2 className="page__title">Agents</h2>
-        <p className="muted">Every released Agent, plus announced ones marked Upcoming. Select an Agent for details and W-Engines.</p>
+        <p className="muted">
+          Every released Agent, plus announced ones marked Upcoming. Select an Agent for details and W-Engines.
+        </p>
       </header>
 
       {selected && (
@@ -111,22 +113,42 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
 
       <div className="filters filters--page">
         <div className="chips" role="group" aria-label="Filter by attribute">
-          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>All</button>
+          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>
+            All
+          </button>
           {BASE_ATTRIBUTES.map((a) => (
-            <button key={a.id} className="chip" aria-pressed={attribute === a.id} onClick={() => setAttribute(attribute === a.id ? 'all' : a.id)}>
+            <button
+              key={a.id}
+              className="chip"
+              aria-pressed={attribute === a.id}
+              onClick={() => setAttribute(attribute === a.id ? 'all' : a.id)}
+            >
               <AttributeGlyph attribute={a.id} size={13} />
               {a.name}
             </button>
           ))}
         </div>
         <div className="filters__row">
-          <label className="sr-only" htmlFor="index-search">Search Agents</label>
-          <input id="index-search" className="search search--inline" type="search" placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <label className="sr-only" htmlFor="index-search">
+            Search Agents
+          </label>
+          <input
+            id="index-search"
+            className="search search--inline"
+            type="search"
+            placeholder="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <label className="select">
             <span>Specialty</span>
             <select value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
               <option value="all">Any</option>
-              {SPECIALTIES.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+              {SPECIALTIES.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
             </select>
           </label>
           <label className="select">
@@ -141,7 +163,11 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
             <span>Faction</span>
             <select value={faction} onChange={(e) => setFaction(e.target.value)}>
               <option value="all">Any</option>
-              {FACTIONS.map((f) => <option key={f} value={f}>{f}</option>)}
+              {FACTIONS.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
             </select>
           </label>
           <label className={`select${view === 'list' ? ' select--phone-only' : ''}`}>
@@ -199,7 +225,9 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
                   >
                     <button className="th-btn" onClick={() => toggleSort(col.id)}>
                       {col.label}
-                      <span className="th-arrow" aria-hidden="true">{sort.id === col.id ? (sort.dir === 1 ? '▲' : '▼') : ''}</span>
+                      <span className="th-arrow" aria-hidden="true">
+                        {sort.id === col.id ? (sort.dir === 1 ? '▲' : '▼') : ''}
+                      </span>
                     </button>
                   </th>
                 ))}
@@ -215,12 +243,27 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
                       {a.upcoming && <span className="card__tag">Upcoming</span>}
                     </a>
                   </td>
-                  <td className="cell-meta-el"><AttributeTag attribute={a.attribute} /></td>
-                  <td className="cell-meta-rank">{a.rank === 'S' || a.rank === 'A' ? <RankBadge rank={a.rank} size={22} /> : '—'}</td>
-                  <td className="cell-meta-roles"><SpecialtyTag specialty={a.specialty} /></td>
-                  <td className="small" data-label="Attack type">{a.attackType.map(cap).join(', ') || '—'}</td>
-                  <td className="small" data-label="Faction"><span className="cell-faction"><FactionLogo faction={a.faction} size={20} />{a.faction}</span></td>
-                  <td className="small" data-label="Version">{a.version ?? '—'}</td>
+                  <td className="cell-meta-el">
+                    <AttributeTag attribute={a.attribute} />
+                  </td>
+                  <td className="cell-meta-rank">
+                    {a.rank === 'S' || a.rank === 'A' ? <RankBadge rank={a.rank} size={22} /> : '—'}
+                  </td>
+                  <td className="cell-meta-roles">
+                    <SpecialtyTag specialty={a.specialty} />
+                  </td>
+                  <td className="small" data-label="Attack type">
+                    {a.attackType.map(cap).join(', ') || '—'}
+                  </td>
+                  <td className="small" data-label="Faction">
+                    <span className="cell-faction">
+                      <FactionLogo faction={a.faction} size={20} />
+                      {a.faction}
+                    </span>
+                  </td>
+                  <td className="small" data-label="Version">
+                    {a.version ?? '—'}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -231,4 +274,3 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
     </div>
   );
 }
-

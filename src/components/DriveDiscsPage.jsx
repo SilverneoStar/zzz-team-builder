@@ -5,7 +5,15 @@ import MiniAgents from './MiniAgents.jsx';
 import { MatList } from './MaterialsTab.jsx';
 import { DISC_LEVEL_MATS } from '../data/levelMats.js';
 import { navigate } from '../lib/route.js';
-import { AGENT_BY_ID, DRIVE_DISC_BY_ID, DISC_FIXED, DISC_MAIN_MAX, DISC_MAIN_STATS, DRIVE_DISC_SETS, SPECIALTIES } from '../data/game.js';
+import {
+  AGENT_BY_ID,
+  DRIVE_DISC_BY_ID,
+  DISC_FIXED,
+  DISC_MAIN_MAX,
+  DISC_MAIN_STATS,
+  DRIVE_DISC_SETS,
+  SPECIALTIES,
+} from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 
 const VIEW_KEY = 'zzz-team-builder:discView';
@@ -26,7 +34,7 @@ const USED_BY = {};
 Object.entries(BUILDS).forEach(([id, b]) => {
   const sp = AGENT_BY_ID[id]?.specialty;
   if (!sp) return;
-  (USED_BY[sp] ??= new Set());
+  USED_BY[sp] ??= new Set();
   b.fourPiece.forEach((s) => USED_BY[sp].add(s));
 });
 
@@ -59,27 +67,45 @@ export default function DriveDiscsPage({ discId }) {
     <div className="page">
       <header className="page__head">
         <h2 className="page__title">Drive Discs</h2>
-        <p className="muted">An Agent equips six discs. Two from one set give its 2-piece bonus; four give both bonuses.</p>
+        <p className="muted">
+          An Agent equips six discs. Two from one set give its 2-piece bonus; four give both bonuses.
+        </p>
       </header>
-
 
       {selected && <DiscDetail disc={selected} onClose={() => navigate('drive-discs')} />}
 
       <div className="filters filters--page filters--row">
-        <label className="sr-only" htmlFor="disc-search">Search sets</label>
-        <input id="disc-search" className="search search--inline" type="search" placeholder="Search name or bonus" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <label className="sr-only" htmlFor="disc-search">
+          Search sets
+        </label>
+        <input
+          id="disc-search"
+          className="search search--inline"
+          type="search"
+          placeholder="Search name or bonus"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
         <label className="select">
           <span>2-piece</span>
           <select value={stat} onChange={(e) => setStat(e.target.value)}>
             <option value="all">Any stat</option>
-            {TWO_STATS.map((s) => <option key={s} value={s}>{s}</option>)}
+            {TWO_STATS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
           </select>
         </label>
         <label className="select">
           <span>Used by</span>
           <select value={usedBy} onChange={(e) => setUsedBy(e.target.value)}>
             <option value="all">Any Agent</option>
-            {SPECIALTIES.filter((s) => USED_BY[s.id]).map((s) => <option key={s.id} value={s.id}>{s.name} Agents</option>)}
+            {SPECIALTIES.filter((s) => USED_BY[s.id]).map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name} Agents
+              </option>
+            ))}
           </select>
         </label>
         <ViewToggle view={view} onChange={setView} />
@@ -91,7 +117,11 @@ export default function DriveDiscsPage({ discId }) {
         <ul className="vinyl-grid">
           {list.map((d) => (
             <li key={d.id} id={`disc-${d.id}`} className="vinyl">
-              <a className="vinyl__link" href={`#drive-disc-${d.id}`} aria-current={d.id === discId ? 'page' : undefined}>
+              <a
+                className="vinyl__link"
+                href={`#drive-disc-${d.id}`}
+                aria-current={d.id === discId ? 'page' : undefined}
+              >
                 <Turntable id={d.id} />
                 <span className="vinyl__name">{d.name}</span>
               </a>
@@ -107,8 +137,14 @@ export default function DriveDiscsPage({ discId }) {
                 <h3 className="arc-card__name">{d.name}</h3>
               </div>
               <dl className="disc-bonus">
-                <div><dt>2-piece</dt><dd>{d.twoPiece}</dd></div>
-                <div><dt>4-piece</dt><dd>{d.fourPiece}</dd></div>
+                <div>
+                  <dt>2-piece</dt>
+                  <dd>{d.twoPiece}</dd>
+                </div>
+                <div>
+                  <dt>4-piece</dt>
+                  <dd>{d.fourPiece}</dd>
+                </div>
               </dl>
             </li>
           ))}
@@ -118,7 +154,9 @@ export default function DriveDiscsPage({ discId }) {
       <details className="disc-guide">
         <summary className="mini-title">Levelling discs (+0 → +15)</summary>
         <div className="table-wrap mats">
-          <p className="muted small">For one S-rank disc. A full set of six needs six times as much: 144 Ether Plating Agents.</p>
+          <p className="muted small">
+            For one S-rank disc. A full set of six needs six times as much: 144 Ether Plating Agents.
+          </p>
           <MatList items={DISC_LEVEL_MATS} />
         </div>
       </details>
@@ -128,11 +166,19 @@ export default function DriveDiscsPage({ discId }) {
         <div className="table-wrap">
           <table className="index-table index-table--plain">
             <thead>
-              <tr><th scope="col">Slot</th><th scope="col">Possible main stats (max at S-rank +15)</th></tr>
+              <tr>
+                <th scope="col">Slot</th>
+                <th scope="col">Possible main stats (max at S-rank +15)</th>
+              </tr>
             </thead>
             <tbody>
               {DISC_FIXED.map((d) => (
-                <tr key={d.slot}><td>{d.slot}</td><td>{d.stat} {d.max}</td></tr>
+                <tr key={d.slot}>
+                  <td>{d.slot}</td>
+                  <td>
+                    {d.stat} {d.max}
+                  </td>
+                </tr>
               ))}
               {[4, 5, 6].map((s) => (
                 <tr key={s}>
@@ -157,7 +203,9 @@ function Turntable({ id, playing = false }) {
         <span className="deck__record">{art && <img src={art} alt="" loading="lazy" />}</span>
         <span className="deck__spindle" />
       </span>
-      <span className="deck__arm"><span className="deck__rod" /></span>
+      <span className="deck__arm">
+        <span className="deck__rod" />
+      </span>
       <span className="deck__pivot" />
       <span className="deck__led" />
     </span>
@@ -179,17 +227,29 @@ function DiscDetail({ disc: d, onClose }) {
       <header className="detail__head disc-detail__head">
         <Turntable key={d.id} id={d.id} playing />
         <div className="detail__title">
-          <p className="eyebrow"><span className="eyebrow__meta">Drive Disc set</span></p>
-          <h2 id="disc-name" className="detail__name">{d.name}</h2>
+          <p className="eyebrow">
+            <span className="eyebrow__meta">Drive Disc set</span>
+          </p>
+          <h2 id="disc-name" className="detail__name">
+            {d.name}
+          </h2>
         </div>
         <div className="detail__head-actions">
-          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">×</button>
+          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
+            ×
+          </button>
         </div>
       </header>
       <div className="disc-detail__body">
         <dl className="disc-bonus">
-          <div><dt>2-piece</dt><dd>{d.twoPiece}</dd></div>
-          <div><dt>4-piece</dt><dd>{d.fourPiece}</dd></div>
+          <div>
+            <dt>2-piece</dt>
+            <dd>{d.twoPiece}</dd>
+          </div>
+          <div>
+            <dt>4-piece</dt>
+            <dd>{d.fourPiece}</dd>
+          </div>
         </dl>
         <section className="mates">
           <h3 className="mini-title">Used by</h3>
@@ -197,8 +257,18 @@ function DiscDetail({ disc: d, onClose }) {
             <p className="muted small">No Agent’s recommended build uses {d.name} yet.</p>
           ) : (
             <>
-              {four.length > 0 && (<><p className="muted small">As their 4-piece set</p><AgentRow ids={four} /></>)}
-              {two.length > 0 && (<><p className="muted small">As a 2-piece set</p><AgentRow ids={two} /></>)}
+              {four.length > 0 && (
+                <>
+                  <p className="muted small">As their 4-piece set</p>
+                  <AgentRow ids={four} />
+                </>
+              )}
+              {two.length > 0 && (
+                <>
+                  <p className="muted small">As a 2-piece set</p>
+                  <AgentRow ids={two} />
+                </>
+              )}
             </>
           )}
         </section>

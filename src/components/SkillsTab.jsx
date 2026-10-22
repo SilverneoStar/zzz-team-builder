@@ -8,11 +8,25 @@ export const hasSkills = (id) => Boolean(fileFor(id));
 
 const CATS = ['Basic Attack', 'Dodge', 'Assist', 'Special Attack', 'Chain Attack'];
 const ICON = {
-  'Basic Attack': 'basic', Dodge: 'dodge', Assist: 'assist', 'Special Attack': 'special', 'Chain Attack': 'chain', 'Core Passive': 'core',
+  'Basic Attack': 'basic',
+  Dodge: 'dodge',
+  Assist: 'assist',
+  'Special Attack': 'special',
+  'Chain Attack': 'chain',
+  'Core Passive': 'core',
 };
 // The in-game skill-type icons in public/skills/<name>.webp.
 const SkillIcon = ({ cat }) =>
-  ICON[cat] ? <img className="skills__icon" src={`${import.meta.env.BASE_URL}skills/${ICON[cat]}.webp`} alt="" width="28" height="28" loading="lazy" /> : null;
+  ICON[cat] ? (
+    <img
+      className="skills__icon"
+      src={`${import.meta.env.BASE_URL}skills/${ICON[cat]}.webp`}
+      alt=""
+      width="28"
+      height="28"
+      loading="lazy"
+    />
+  ) : null;
 
 const LEVELS = ['Base', 'A', 'B', 'C', 'D', 'E', 'F'];
 const WIKI = 'https://zenless-zone-zero.fandom.com/wiki/';
@@ -21,12 +35,17 @@ const WIKI = 'https://zenless-zone-zero.fandom.com/wiki/';
 function fill(text, values) {
   return text.split(/(\{\d+\})/).map((part, i) => {
     const m = part.match(/^\{(\d+)\}$/);
-    return m ? <b key={i} className="skills__num">{values[Number(m[1])] ?? '?'}</b> : part;
+    return m ? (
+      <b key={i} className="skills__num">
+        {values[Number(m[1])] ?? '?'}
+      </b>
+    ) : (
+      part
+    );
   });
 }
 
-const paras = (text, values = []) =>
-  text.split('\n').map((line, i) => <p key={i}>{fill(line, values)}</p>);
+const paras = (text, values = []) => text.split('\n').map((line, i) => <p key={i}>{fill(line, values)}</p>);
 
 // The Agent page's Skills tab: every skill in short, the Core Passive at each
 // level (Base, A–F), the Additional Ability and whether the current team turns
@@ -40,7 +59,10 @@ export default function SkillsTab({ agent: a, team }) {
     setKit(null);
     setFailed(false);
     const load = fileFor(a.id);
-    if (load) load().then((k) => live && setKit(k)).catch(() => live && setFailed(true));
+    if (load)
+      load()
+        .then((k) => live && setKit(k))
+        .catch(() => live && setFailed(true));
     return () => {
       live = false;
     };
@@ -58,18 +80,22 @@ export default function SkillsTab({ agent: a, team }) {
       </section>
     );
   }
-  if (failed) return <p className="muted small">Couldn’t load the skills. Check your connection and reopen this tab.</p>;
-  if (!kit) return <p className="muted small" role="status">Loading skills…</p>;
+  if (failed)
+    return <p className="muted small">Couldn’t load the skills. Check your connection and reopen this tab.</p>;
+  if (!kit)
+    return (
+      <p className="muted small" role="status">
+        Loading skills…
+      </p>
+    );
 
   const inTeam = team?.members.includes(a.id);
-  const mindscape = inTeam ? team.loadouts?.[a.id]?.mindscape ?? 0 : null;
+  const mindscape = inTeam ? (team.loadouts?.[a.id]?.mindscape ?? 0) : null;
 
   return (
     <section className="skills">
       <h3 className="mini-title">Skills</h3>
-      <p className="muted small">
-        Short summaries in plain words, with the game’s numbers. Tap a section to open it.
-      </p>
+      <p className="muted small">Short summaries in plain words, with the game’s numbers. Tap a section to open it.</p>
 
       {CATS.map((cat) => {
         const list = kit.skills.filter((s) => s[0] === cat);
@@ -97,15 +123,27 @@ export default function SkillsTab({ agent: a, team }) {
       <Core core={kit.core} />
       {kit.ability && <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />}
       <Mindscapes list={kit.mindscapes} current={mindscape} />
-      {kit.potential && <Potential potential={kit.potential} current={inTeam ? team.loadouts?.[a.id]?.potential ?? 0 : null} />}
+      {kit.potential && (
+        <Potential potential={kit.potential} current={inTeam ? (team.loadouts?.[a.id]?.potential ?? 0) : null} />
+      )}
 
       {kit.source ? (
-        <p className="muted small skills__src">{a.upcoming && !a.version && <><span className="card__tag card__tag--warn">Subject to change</span> </>}{kit.source}</p>
+        <p className="muted small skills__src">
+          {a.upcoming && !a.version && (
+            <>
+              <span className="card__tag card__tag--warn">Subject to change</span>{' '}
+            </>
+          )}
+          {kit.source}
+        </p>
       ) : (
-      <p className="muted small skills__src">
-        Skill details from the <a href={WIKI + a.name.replace(/ /g, '_')} target="_blank" rel="noreferrer">Zenless Zone Zero Wiki</a>{' '}
-        (CC BY-SA), summarised.
-      </p>
+        <p className="muted small skills__src">
+          Skill details from the{' '}
+          <a href={WIKI + a.name.replace(/ /g, '_')} target="_blank" rel="noreferrer">
+            Zenless Zone Zero Wiki
+          </a>{' '}
+          (CC BY-SA), summarised.
+        </p>
       )}
     </section>
   );
@@ -211,12 +249,25 @@ function Potential({ potential: p, current }) {
     <details className="skills__group">
       <summary>
         <span className="skills__cat">Potential</span>
-        <span className="skills__peek">{p.name}{current != null ? ` · Your team: ${current ? ['I', 'II', 'III', 'IV', 'V', 'VI'][current - 1] : 'none'}` : ''}</span>
+        <span className="skills__peek">
+          {p.name}
+          {current != null
+            ? ` · Your team: ${current ? ['I', 'II', 'III', 'IV', 'V', 'VI'][current - 1] : 'none'}`
+            : ''}
+        </span>
       </summary>
       <div className="skills__body">
-        <LevelPicker labels={['I', 'II', 'III', 'IV', 'V', 'VI']} value={lv - 1} onChange={(i) => setLv(i + 1)} name="Potential level" />
+        <LevelPicker
+          labels={['I', 'II', 'III', 'IV', 'V', 'VI']}
+          value={lv - 1}
+          onChange={(i) => setLv(i + 1)}
+          name="Potential level"
+        />
         <p className="small">
-          <b>{p.name} {['I', 'II', 'III', 'IV', 'V', 'VI'][lv - 1]}:</b> {p.levels[lv - 1]}
+          <b>
+            {p.name} {['I', 'II', 'III', 'IV', 'V', 'VI'][lv - 1]}:
+          </b>{' '}
+          {p.levels[lv - 1]}
         </p>
         <h4 className="micro-title">Upgraded skills</h4>
         {p.note && <p className="muted small">{p.note}</p>}
@@ -233,7 +284,10 @@ function Potential({ potential: p, current }) {
           <>
             <h4 className="micro-title">Awakened Potential · {aw.name}</h4>
             {awIdx >= 0 ? (
-              paras(aw.text, aw.values.map((v) => v[awIdx]))
+              paras(
+                aw.text,
+                aw.values.map((v) => v[awIdx]),
+              )
             ) : (
               <p className="muted small">Unlocks at {p.name} II.</p>
             )}

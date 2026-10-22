@@ -97,7 +97,9 @@ export function background(ctx, W, H) {
 
 async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
-  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, a) => grad.addColorStop(i / (a.length - 1), c));
+  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, a) =>
+    grad.addColorStop(i / (a.length - 1), c),
+  );
   ctx.fillStyle = grad;
   roundRect(ctx, 40, 32, W - 80, 6, 3);
   ctx.fill();
@@ -131,7 +133,11 @@ function footer(ctx, W, H, team) {
   ctx.fillText(fit(ctx, encodeCardCode(team, loadoutOf), W - 120 - labelW), 40 + labelW + 16, H - 63);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
-  ctx.fillText('silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse', 40, H - 35);
+  ctx.fillText(
+    'silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse',
+    40,
+    H - 35,
+  );
   ctx.textAlign = 'right';
   ctx.fillText('salman-SilverStarneo', W - 40, H - 35);
   ctx.textAlign = 'left';
@@ -187,7 +193,11 @@ export function slantedArt(ctx, { x, y, w, h, lean, art, agent, color, border = 
 
 /** Small S/A/B badge drawn on the canvas, in the site's rank colours. */
 export function rankBadge(ctx, rank, cx, cy, r) {
-  const stops = { S: ['#ffe866', '#ff9d3a', '#ff3d8f'], A: ['#ff7ad9', '#e04cff', '#9c46ff'], B: ['#c35bff', '#7f7dff', '#47d9ff'] }[rank];
+  const stops = {
+    S: ['#ffe866', '#ff9d3a', '#ff3d8f'],
+    A: ['#ff7ad9', '#e04cff', '#9c46ff'],
+    B: ['#c35bff', '#7f7dff', '#47d9ff'],
+  }[rank];
   if (!stops) return;
   ctx.save();
   ctx.beginPath();
@@ -247,11 +257,11 @@ const SHORT_STAT = {
   'Attribute DMG': 'Elem DMG',
 };
 
-
 // Attribute and specialty icons (public/attributes, public/specialties).
 // Variant attributes (Frost, Honed Edge, Auric Ink) use their base icon.
 const ATTR_ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux']);
-const attrIconId = (id) => (ATTR_ICONS.has(id) ? id : ATTR_ICONS.has(ATTRIBUTE_BY_ID[id]?.base) ? ATTRIBUTE_BY_ID[id].base : null);
+const attrIconId = (id) =>
+  ATTR_ICONS.has(id) ? id : ATTR_ICONS.has(ATTRIBUTE_BY_ID[id]?.base) ? ATTRIBUTE_BY_ID[id].base : null;
 
 /** Loads the attribute and specialty icons the given Agents need. */
 export async function loadRoleIcons(base, agents) {
@@ -264,7 +274,8 @@ export async function loadRoleIcons(base, agents) {
         if (id && !(id in attr)) attr[id] = await loadImage(`${base}attributes/${id}.png`);
       })(),
       (async () => {
-        if (a.specialty && !(a.specialty in spec)) spec[a.specialty] = await loadImage(`${base}specialties/${a.specialty}.png`);
+        if (a.specialty && !(a.specialty in spec))
+          spec[a.specialty] = await loadImage(`${base}specialties/${a.specialty}.png`);
       })(),
     ]),
   );
@@ -302,7 +313,8 @@ async function loadArt(team, base) {
     team.members.map(async (id) => {
       const lo = id && loadoutOf(team, id);
       const wid = lo?.wEngine;
-      if (wid && W_ENGINES_WITH_ART.has(wid) && !engines[wid]) engines[wid] = await loadImage(`${base}w-engines/${wid}.webp`);
+      if (wid && W_ENGINES_WITH_ART.has(wid) && !engines[wid])
+        engines[wid] = await loadImage(`${base}w-engines/${wid}.webp`);
     }),
   );
   const discs = {};
@@ -311,16 +323,25 @@ async function loadArt(team, base) {
     const a = id && AGENT_BY_ID[id];
     if (a) gearOf(team, a).setIds.forEach((s) => DISCS_WITH_ART.has(s) && setIds.add(s));
   });
-  await Promise.all([...setIds].map(async (s) => { discs[s] = await loadImage(`${base}discs/${s}.webp`); }));
+  await Promise.all(
+    [...setIds].map(async (s) => {
+      discs[s] = await loadImage(`${base}discs/${s}.webp`);
+    }),
+  );
   const b = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const bArt = b ? await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(b.id) ? b.id : 'placeholder'}.webp`) : null;
-  const roles = await loadRoleIcons(base, team.members.map((id) => id && AGENT_BY_ID[id]));
+  const roles = await loadRoleIcons(
+    base,
+    team.members.map((id) => id && AGENT_BY_ID[id]),
+  );
   const factions = {};
-  await Promise.all(team.members.map(async (id) => {
-    const f = id && AGENT_BY_ID[id]?.faction;
-    const src = f && factionLogo(f, base);
-    if (src && !(f in factions)) factions[f] = await loadImage(src);
-  }));
+  await Promise.all(
+    team.members.map(async (id) => {
+      const f = id && AGENT_BY_ID[id]?.faction;
+      const src = f && factionLogo(f, base);
+      if (src && !(f in factions)) factions[f] = await loadImage(src);
+    }),
+  );
   return { arts, bangboo: b, bArt, engines, discs, roles, factions };
 }
 
@@ -598,7 +619,14 @@ async function drawSquare(ctx, W, H, team, base) {
       return;
     }
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
-    factionWatermark(ctx, factions[a.faction], { x: 40, y, w: W - 80, h: rowH, r: 16 }, W - 80 - 200, y - 10, rowH + 20);
+    factionWatermark(
+      ctx,
+      factions[a.faction],
+      { x: 40, y, w: W - 80, h: rowH, r: 16 },
+      W - 80 - 200,
+      y - 10,
+      rowH + 20,
+    );
     ctx.fillStyle = color;
     roundRect(ctx, 40, y, 6, rowH, 3);
     ctx.fill();

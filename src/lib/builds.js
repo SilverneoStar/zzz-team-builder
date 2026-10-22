@@ -45,9 +45,7 @@ export function recommendedLoadout(agentId) {
 export function recommendedTeam(agentId, members) {
   const b = BUILDS[agentId];
   const bangboo = b?.bangboo.find((id) => BANGBOO_BY_ID[id]) ?? null;
-  const loadouts = Object.fromEntries(
-    members.map((id) => [id, recommendedLoadout(id)]).filter(([, lo]) => lo),
-  );
+  const loadouts = Object.fromEntries(members.map((id) => [id, recommendedLoadout(id)]).filter(([, lo]) => lo));
   const name = members.map((id) => shortName(AGENT_BY_ID[id])).join(' · ');
   return { name, members, bangboo, loadouts };
 }

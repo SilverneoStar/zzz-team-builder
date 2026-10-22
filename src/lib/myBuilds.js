@@ -42,7 +42,11 @@ export function deleteMyBuild(agentId) {
   return store(all);
 }
 
-const solo = (agentId, loadout) => ({ members: [agentId, null, null], bangboo: null, loadouts: { [agentId]: loadout } });
+const solo = (agentId, loadout) => ({
+  members: [agentId, null, null],
+  bangboo: null,
+  loadouts: { [agentId]: loadout },
+});
 
 /** Short share code for one Agent's build (the same format as team image codes). */
 export const buildCode = (agentId, loadout) => encodeCardCode(solo(agentId, loadout), loadoutOf);

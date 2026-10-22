@@ -27,31 +27,53 @@ const savedLayout = () => {
 const LAYOUT_ICONS = {
   columns: (
     <svg viewBox="0 0 48 27" aria-hidden="true">
-      <rect x="3" y="5" width="12" height="18" rx="2" /><rect x="18" y="5" width="12" height="18" rx="2" /><rect x="33" y="5" width="12" height="18" rx="2" />
+      <rect x="3" y="5" width="12" height="18" rx="2" />
+      <rect x="18" y="5" width="12" height="18" rx="2" />
+      <rect x="33" y="5" width="12" height="18" rx="2" />
     </svg>
   ),
   squad: (
     <svg viewBox="0 0 48 27" aria-hidden="true">
-      <path d="M6 4h8l-3 19H3Z" /><path d="M18 4h8l-3 19h-8Z" /><path d="M30 4h8l-3 19h-8Z" /><circle cx="42" cy="14" r="4" />
+      <path d="M6 4h8l-3 19H3Z" />
+      <path d="M18 4h8l-3 19h-8Z" />
+      <path d="M30 4h8l-3 19h-8Z" />
+      <circle cx="42" cy="14" r="4" />
     </svg>
   ),
   square: (
     <svg viewBox="0 0 48 27" aria-hidden="true">
-      <rect x="13" y="2" width="22" height="6.5" rx="1.5" /><rect x="13" y="10.2" width="22" height="6.5" rx="1.5" /><rect x="13" y="18.4" width="22" height="6.5" rx="1.5" />
+      <rect x="13" y="2" width="22" height="6.5" rx="1.5" />
+      <rect x="13" y="10.2" width="22" height="6.5" rx="1.5" />
+      <rect x="13" y="18.4" width="22" height="6.5" rx="1.5" />
     </svg>
   ),
 };
 
 const BASE = import.meta.env.BASE_URL;
 
-const slug = (name) => (name || 'team').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'team';
+const slug = (name) =>
+  (name || 'team')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '') || 'team';
 
 // Shows a rendered card with ways to save, copy or share it. By default it
 // renders the team card; pass `render`, `title`, `name` and `suffix` for others.
-export default function ExportDialog({ team, onClose, render, title = 'Team image', name, suffix = 'zzz-team', kinds, kind, onKind }) {
+export default function ExportDialog({
+  team,
+  onClose,
+  render,
+  title = 'Team image',
+  name,
+  suffix = 'zzz-team',
+  kinds,
+  kind,
+  onKind,
+}) {
   const label = name ?? team?.name;
   const [layout, setLayout] = useState(() => (render ? null : savedLayout()));
-  const fileName = () => `${slug(label)}-${kind ? `${suffix}-${kind}` : `${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}`}.png`;
+  const fileName = () =>
+    `${slug(label)}-${kind ? `${suffix}-${kind}` : `${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}`}.png`;
   const pickLayout = (id) => {
     setLayout(id);
     try {
@@ -133,8 +155,12 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
     <div className="dialog-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="export-title">
         <header className="dialog__head">
-          <h2 id="export-title" className="section-title">{title}</h2>
-          <button ref={closeRef} className="btn btn--quiet" onClick={onClose}>Close</button>
+          <h2 id="export-title" className="section-title">
+            {title}
+          </h2>
+          <button ref={closeRef} className="btn btn--quiet" onClick={onClose}>
+            Close
+          </button>
         </header>
 
         {kinds && (
@@ -186,7 +212,9 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
               title={z.hint}
             >
               <b>{z.label}</b>
-              <span className="muted">{z.id}×{scale === z.id && dims ? ` · ${dims[0]}×${dims[1]}` : ''}</span>
+              <span className="muted">
+                {z.id}×{scale === z.id && dims ? ` · ${dims[0]}×${dims[1]}` : ''}
+              </span>
             </button>
           ))}
         </div>
@@ -206,12 +234,18 @@ export default function ExportDialog({ team, onClose, render, title = 'Team imag
             </a>
           )}
           {url && canCopy && (
-            <button className="btn" onClick={copy}>Copy image</button>
+            <button className="btn" onClick={copy}>
+              Copy image
+            </button>
           )}
           {url && canShare && (
-            <button className="btn" onClick={share}>Share…</button>
+            <button className="btn" onClick={share}>
+              Share…
+            </button>
           )}
-          <p className="dialog__status" role="status" aria-live="polite">{url ? status : ''}</p>
+          <p className="dialog__status" role="status" aria-live="polite">
+            {url ? status : ''}
+          </p>
         </div>
       </div>
     </div>

@@ -10,7 +10,9 @@ export default function GlossaryPage() {
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     const matches = GLOSSARY.filter(
-      (e) => (category === 'all' || e.category === category) && (!q || [e.term, e.also, e.text].some((s) => s?.toLowerCase().includes(q))),
+      (e) =>
+        (category === 'all' || e.category === category) &&
+        (!q || [e.term, e.also, e.text].some((s) => s?.toLowerCase().includes(q))),
     );
     return GLOSSARY_CATEGORIES.map((cat) => ({
       cat,
@@ -26,12 +28,30 @@ export default function GlossaryPage() {
       </header>
 
       <div className="filters filters--page">
-        <label className="sr-only" htmlFor="glossary-search">Search terms</label>
-        <input id="glossary-search" className="search search--inline" type="search" placeholder="Search terms" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <label className="sr-only" htmlFor="glossary-search">
+          Search terms
+        </label>
+        <input
+          id="glossary-search"
+          className="search search--inline"
+          type="search"
+          placeholder="Search terms"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
         <div className="chips" role="group" aria-label="Filter by category">
-          <button className="chip" aria-pressed={category === 'all'} onClick={() => setCategory('all')}>All</button>
+          <button className="chip" aria-pressed={category === 'all'} onClick={() => setCategory('all')}>
+            All
+          </button>
           {GLOSSARY_CATEGORIES.map((c) => (
-            <button key={c} className="chip" aria-pressed={category === c} onClick={() => setCategory(category === c ? 'all' : c)}>{c}</button>
+            <button
+              key={c}
+              className="chip"
+              aria-pressed={category === c}
+              onClick={() => setCategory(category === c ? 'all' : c)}
+            >
+              {c}
+            </button>
           ))}
         </div>
       </div>
@@ -40,7 +60,9 @@ export default function GlossaryPage() {
 
       {groups.map((g) => (
         <section key={g.cat} className="gloss-group" aria-labelledby={`g-${slug(g.cat)}`}>
-          <h3 id={`g-${slug(g.cat)}`} className="gloss-group__title">{g.cat}</h3>
+          <h3 id={`g-${slug(g.cat)}`} className="gloss-group__title">
+            {g.cat}
+          </h3>
           <dl className="gloss">
             {g.entries.map((e) => (
               <div key={e.term} className="gloss__item">

@@ -1,4 +1,11 @@
-import { BANGBOO_BY_ID, DISC_MAIN_STATS, DRIVE_DISC_BY_ID, TEAM_SIZE, W_ENGINE_BY_ID, AGENT_BY_ID } from '../data/game.js';
+import {
+  BANGBOO_BY_ID,
+  DISC_MAIN_STATS,
+  DRIVE_DISC_BY_ID,
+  TEAM_SIZE,
+  W_ENGINE_BY_ID,
+  AGENT_BY_ID,
+} from '../data/game.js';
 import { RANKS, SLOTS, normaliseDiscs } from './discs.js';
 import { hasPotential } from '../data/potentials.js';
 
@@ -89,7 +96,7 @@ const check = (bits) => {
     for (let k = 0; k < 5; k += 1) v = (v << 1) | (bits[i + k] ?? 0);
     sum += v * (i / 5 + 3);
   }
-  return (sum % 32) ^ SALT;
+  return sum % 32 ^ SALT;
 };
 
 const pos = (list, id) => (id ? list.indexOf(id) + 1 : 0); // 0 = none; −1 + 1 = 0 also when unknown
@@ -98,12 +105,7 @@ const mainIndex = (slot, main) => (main ? DISC_MAIN_STATS[slot].indexOf(main) + 
 /** Slots 1–4 one set, slots 5–6 another (or none), all S-rank: the usual 4 + 2 build. */
 function simple(discs) {
   const [a, b] = [discs[0].set, discs[4].set];
-  return (
-    a &&
-    discs.slice(0, 4).every((d) => d.set === a) &&
-    discs[5].set === b &&
-    discs.every((d) => d.rank === 'S')
-  );
+  return a && discs.slice(0, 4).every((d) => d.set === a) && discs[5].set === b && discs.every((d) => d.rank === 'S');
 }
 
 /** The short code for a team. `loadoutOf(team, id)` returns an Agent's gear. */
@@ -143,7 +145,7 @@ export function encodeCardCode(team, loadoutOf) {
   return chars.match(new RegExp(`.{1,${GROUP}}`, 'g')).join('-');
 }
 
-const fromPos = (list, n) => (n === 0 ? null : list[n - 1] ?? undefined);
+const fromPos = (list, n) => (n === 0 ? null : (list[n - 1] ?? undefined));
 
 /** { members, bangboo, loadouts } from a short code, or null if it isn't valid. */
 export function decodeCardCode(code) {
@@ -203,7 +205,13 @@ export function decodeCardCode(code) {
           return { ...d, main: s >= 4 ? main(s, m) : null };
         });
       }
-      loadouts[id] = { wEngine, refinement, mindscape, potential: hasPotential(id) ? potential : 0, discs: normaliseDiscs(discs) };
+      loadouts[id] = {
+        wEngine,
+        refinement,
+        mindscape,
+        potential: hasPotential(id) ? potential : 0,
+        discs: normaliseDiscs(discs),
+      };
     }
     return { name: 'Shared team', members, bangboo, loadouts };
   } catch {

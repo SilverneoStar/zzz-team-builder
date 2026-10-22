@@ -80,8 +80,8 @@ export default function SocialLinks() {
         ))}
       </ul>
       <p className="social__note">
-        These are the fan-run accounts and community server of this site, not official
-        Zenless Zone Zero channels. For official news, follow the game&apos;s own accounts.
+        These are the fan-run accounts and community server of this site, not official Zenless Zone Zero channels. For
+        official news, follow the game&apos;s own accounts.
       </p>
     </section>
   );

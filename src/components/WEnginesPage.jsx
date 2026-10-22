@@ -1,6 +1,14 @@
 import SpecialtyIcon, { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useMemo, useState } from 'react';
-import { AGENTS, AGENT_BY_ID, SPECIALTIES, SPECIALTY_BY_ID, W_ENGINES, W_ENGINE_BY_ID, shortName } from '../data/game.js';
+import {
+  AGENTS,
+  AGENT_BY_ID,
+  SPECIALTIES,
+  SPECIALTY_BY_ID,
+  W_ENGINES,
+  W_ENGINE_BY_ID,
+  shortName,
+} from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
 import MiniAgents, { MINI_LIMIT } from './MiniAgents.jsx';
@@ -18,7 +26,9 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
   const [rank, setRank] = useState('all');
   const [query, setQuery] = useState('');
   const [allUsers, setAllUsers] = useState(false);
-  const counts = Object.fromEntries(SPECIALTIES.map((s) => [s.id, W_ENGINES.filter((w) => w.specialty === s.id).length]));
+  const counts = Object.fromEntries(
+    SPECIALTIES.map((s) => [s.id, W_ENGINES.filter((w) => w.specialty === s.id).length]),
+  );
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -26,8 +36,15 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
       (w) =>
         (specialty === 'all' || w.specialty === specialty) &&
         (rank === 'all' || w.rank === rank) &&
-        (!q || w.name.toLowerCase().includes(q) || (w.signatureOf && AGENT_BY_ID[w.signatureOf]?.name.toLowerCase().includes(q))),
-    ).sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank] || (b.base?.max ?? 0) - (a.base?.max ?? 0) || a.name.localeCompare(b.name));
+        (!q ||
+          w.name.toLowerCase().includes(q) ||
+          (w.signatureOf && AGENT_BY_ID[w.signatureOf]?.name.toLowerCase().includes(q))),
+    ).sort(
+      (a, b) =>
+        RANK_ORDER[a.rank] - RANK_ORDER[b.rank] ||
+        (b.base?.max ?? 0) - (a.base?.max ?? 0) ||
+        a.name.localeCompare(b.name),
+    );
   }, [specialty, rank, query]);
 
   const users = specialty === 'all' ? [] : AGENTS.filter((a) => a.specialty === specialty && !a.upcoming);
@@ -36,7 +53,9 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
     <div className="page">
       <header className="page__head">
         <h2 className="page__title">W-Engines</h2>
-        <p className="muted">An Agent can equip any W-Engine, but its passive only works when the W-Engine matches their specialty.</p>
+        <p className="muted">
+          An Agent can equip any W-Engine, but its passive only works when the W-Engine matches their specialty.
+        </p>
       </header>
 
       {selected && <WEngineDetail w={selected} onClose={() => navigate(`w-engines-${selected.specialty}`)} />}
@@ -67,7 +86,12 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
             ))}
             {users.length > MINI_LIMIT && (
               <li>
-                <button type="button" className="wielder mates__more" onClick={() => setAllUsers(!allUsers)} aria-expanded={allUsers}>
+                <button
+                  type="button"
+                  className="wielder mates__more"
+                  onClick={() => setAllUsers(!allUsers)}
+                  aria-expanded={allUsers}
+                >
                   {allUsers ? 'Show fewer' : `+${users.length - MINI_LIMIT} more`}
                 </button>
               </li>
@@ -77,12 +101,25 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
       )}
 
       <div className="filters filters--page filters--row">
-        <label className="sr-only" htmlFor="engine-search">Search W-Engines</label>
-        <input id="engine-search" className="search search--inline" type="search" placeholder="Search name or Agent" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <label className="sr-only" htmlFor="engine-search">
+          Search W-Engines
+        </label>
+        <input
+          id="engine-search"
+          className="search search--inline"
+          type="search"
+          placeholder="Search name or Agent"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
         <div className="chips" role="group" aria-label="Filter by rank">
-          <button className="chip" aria-pressed={rank === 'all'} onClick={() => setRank('all')}>Any rank</button>
+          <button className="chip" aria-pressed={rank === 'all'} onClick={() => setRank('all')}>
+            Any rank
+          </button>
           {RANKS.map((r) => (
-            <button key={r} className="chip" aria-pressed={rank === r} onClick={() => setRank(rank === r ? 'all' : r)}>{r}-rank</button>
+            <button key={r} className="chip" aria-pressed={rank === r} onClick={() => setRank(rank === r ? 'all' : r)}>
+              {r}-rank
+            </button>
           ))}
         </div>
       </div>
@@ -103,12 +140,18 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                 }}
               >
                 <a className="arc-card__link" href={`#w-engine-${w.id}`}>
-                  <span className="arc-card__icon"><WEngineArt w={w} size={64} /></span>
+                  <span className="arc-card__icon">
+                    <WEngineArt w={w} size={64} />
+                  </span>
                   <span className="arc-card__top">
                     <h3 className="arc-card__name">
                       <NameWithRank name={w.name} rank={w.rank} />
                     </h3>
-                    {specialty === 'all' && <span className="arc-card__type"><SpecialtyTag specialty={w.specialty} size={15} /></span>}
+                    {specialty === 'all' && (
+                      <span className="arc-card__type">
+                        <SpecialtyTag specialty={w.specialty} size={15} />
+                      </span>
+                    )}
                     {(w.upcoming || w.provisional) && (
                       <span className="arc-card__tags">
                         {w.upcoming && <span className="card__tag">Upcoming</span>}
@@ -118,8 +161,14 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
                   </span>
                 </a>
                 <dl className="gear-stats">
-                  <div><dt>Base {w.base?.stat ?? 'stat'}</dt><dd>{w.base?.max ?? '—'}</dd></div>
-                  <div><dt>{w.advanced?.stat ?? 'Advanced'}</dt><dd>{w.advanced?.max ?? '—'}</dd></div>
+                  <div>
+                    <dt>Base {w.base?.stat ?? 'stat'}</dt>
+                    <dd>{w.base?.max ?? '—'}</dd>
+                  </div>
+                  <div>
+                    <dt>{w.advanced?.stat ?? 'Advanced'}</dt>
+                    <dd>{w.advanced?.max ?? '—'}</dd>
+                  </div>
                 </dl>
                 {sig && (
                   <div className="arc-card__users">
@@ -147,11 +196,18 @@ function NameWithRank({ name, rank }) {
   const cut = name.lastIndexOf(' ');
   const last = name.slice(cut + 1);
   const badge = <RankBadge rank={rank} size={16} />;
-  if (last.length > 10) return <>{name} {badge}</>;
+  if (last.length > 10)
+    return (
+      <>
+        {name} {badge}
+      </>
+    );
   return (
     <>
       {cut > 0 ? `${name.slice(0, cut)} ` : ''}
-      <span className="nowrap">{last} {badge}</span>
+      <span className="nowrap">
+        {last} {badge}
+      </span>
     </>
   );
 }
@@ -166,40 +222,64 @@ function WEngineDetail({ w, onClose }) {
         <WEngineArt w={w} size={64} />
         <div className="detail__title">
           <p className="eyebrow">
-            <span>{w.rank}-rank · <SpecialtyTag specialty={w.specialty} size={15} /></span>
+            <span>
+              {w.rank}-rank · <SpecialtyTag specialty={w.specialty} size={15} />
+            </span>
             <span className="eyebrow__ver">Ver {w.version}</span>
           </p>
-          <h2 id="engine-name" className="detail__name">{w.name}</h2>
+          <h2 id="engine-name" className="detail__name">
+            {w.name}
+          </h2>
         </div>
         <div className="detail__head-actions">
-          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">×</button>
+          <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
+            ×
+          </button>
         </div>
       </header>
       <dl className="facts">
-        <div><dt>Base {w.base?.stat ?? 'stat'}</dt><dd>{w.base ? `${w.base.lv1} → ${w.base.max}` : 'Not published yet'}</dd></div>
-        <div><dt>Advanced stat</dt><dd>{w.advanced ? `${w.advanced.stat} ${w.advanced.lv1} → ${w.advanced.max}` : 'Not published yet'}</dd></div>
-        <div><dt>Signature of</dt><dd>{sig ? <a href={`#agent-${sig.id}`}>{sig.name}</a> : 'None'}</dd></div>
+        <div>
+          <dt>Base {w.base?.stat ?? 'stat'}</dt>
+          <dd>{w.base ? `${w.base.lv1} → ${w.base.max}` : 'Not published yet'}</dd>
+        </div>
+        <div>
+          <dt>Advanced stat</dt>
+          <dd>{w.advanced ? `${w.advanced.stat} ${w.advanced.lv1} → ${w.advanced.max}` : 'Not published yet'}</dd>
+        </div>
+        <div>
+          <dt>Signature of</dt>
+          <dd>{sig ? <a href={`#agent-${sig.id}`}>{sig.name}</a> : 'None'}</dd>
+        </div>
       </dl>
       {w.passive && (
         <section className="passive-text">
           <h3 className="mini-title">Passive · {w.passive.name}</h3>
           <ul>
-            {w.passive.effect.map((line) => <li key={line}>{line}</li>)}
+            {w.passive.effect.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
           </ul>
-          <p className="muted small">Phase 1 values. A higher Phase strengthens them. Only {SPECIALTY_BY_ID[w.specialty]?.name} Agents get the passive.</p>
+          <p className="muted small">
+            Phase 1 values. A higher Phase strengthens them. Only {SPECIALTY_BY_ID[w.specialty]?.name} Agents get the
+            passive.
+          </p>
         </section>
       )}
       {w.provisional && (
         <p className="muted small">
-          <span className="card__tag card__tag--warn">Subject to change</span>{' '}
-          These stats are from test-server data ahead of its release and may change before Version {w.version} goes live.
+          <span className="card__tag card__tag--warn">Subject to change</span> These stats are from test-server data
+          ahead of its release and may change before Version {w.version} goes live.
         </p>
       )}
       {mats && (
         <section className="mats">
           <h3 className="mini-title">Materials · level 1 → 60</h3>
           <MatList items={mats} />
-          {w.rank !== 'S' && <p className="muted small mats__foot">EXP: W-Engine Energy Modules, Power Supplies or Batteries (fewer than an S-rank needs).</p>}
+          {w.rank !== 'S' && (
+            <p className="muted small mats__foot">
+              EXP: W-Engine Energy Modules, Power Supplies or Batteries (fewer than an S-rank needs).
+            </p>
+          )}
         </section>
       )}
       {fits.length > 0 && (

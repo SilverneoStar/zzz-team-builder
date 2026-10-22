@@ -37,8 +37,24 @@ export default function AttributeGlyph({ attribute, size = 14, title }) {
     >
       {title && <title>{title}</title>}
       <path d="M10 1.5 17.4 5.75v8.5L10 18.5 2.6 14.25v-8.5Z" fill={a.color} stroke="#0a0a0a" strokeWidth="1.2" />
-      {a.base && <path d="M10 4.6 14.7 7.3v5.4L10 15.4 5.3 12.7V7.3Z" fill="none" stroke="#0a0a0a" strokeOpacity="0.45" strokeWidth="1" />}
-      <text x="10" y="13.6" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#0a0a0a" fontFamily="IBM Plex Sans, system-ui, sans-serif">
+      {a.base && (
+        <path
+          d="M10 4.6 14.7 7.3v5.4L10 15.4 5.3 12.7V7.3Z"
+          fill="none"
+          stroke="#0a0a0a"
+          strokeOpacity="0.45"
+          strokeWidth="1"
+        />
+      )}
+      <text
+        x="10"
+        y="13.6"
+        textAnchor="middle"
+        fontSize="9.5"
+        fontWeight="700"
+        fill="#0a0a0a"
+        fontFamily="IBM Plex Sans, system-ui, sans-serif"
+      >
         {letter}
       </text>
     </svg>

@@ -106,13 +106,15 @@ function Group({ title, note, list, tags }) {
               <a href={`#agent-${x.id}`} title={x.name} className={`mini-agent${t.length ? ' mini-agent--best' : ''}`}>
                 <Portrait agent={x} size="sm" />
                 <span>{shortName(x)}</span>
-                {t.map((k) => (
+                {t.map((k) =>
                   k === 'Both ways' ? (
                     <BothWays key={k} />
                   ) : (
-                    <span key={k} className="fit-tag fit-tag--kit">{k}</span>
-                  )
-                ))}
+                    <span key={k} className="fit-tag fit-tag--kit">
+                      {k}
+                    </span>
+                  ),
+                )}
               </a>
             </li>
           );
@@ -120,7 +122,9 @@ function Group({ title, note, list, tags }) {
         {list.length > SHOW && (
           <li>
             <button className="mini-agent mates__more" onClick={() => setOpen(!open)} aria-expanded={open}>
-              <span><span>{open ? 'Show fewer' : `+${list.length - SHOW} more`}</span></span>
+              <span>
+                <span>{open ? 'Show fewer' : `+${list.length - SHOW} more`}</span>
+              </span>
             </button>
           </li>
         )}
@@ -135,7 +139,14 @@ export function BothWays() {
   return (
     <span className="both-ways" role="img" aria-label="Both ways" title="Turns on each other’s Additional Ability">
       <svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true">
-        <path d="M4 7h12M12.5 3.5 16 7l-3.5 3.5M16 13H4M7.5 9.5 4 13l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M4 7h12M12.5 3.5 16 7l-3.5 3.5M16 13H4M7.5 9.5 4 13l3.5 3.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </span>
   );

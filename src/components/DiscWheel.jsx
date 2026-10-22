@@ -33,7 +33,9 @@ export default function DiscWheel({ agent, wEngine, phase, discs, selected, onSe
             {wEngineArt(wEngine.id) ? (
               <span className="wheel__engine-art">
                 <img src={wEngineArt(wEngine.id)} alt="" />
-                <span className="wheel__engine-rank"><RankBadge rank={wEngine.rank} size={20} /></span>
+                <span className="wheel__engine-rank">
+                  <RankBadge rank={wEngine.rank} size={20} />
+                </span>
               </span>
             ) : (
               <>
@@ -46,7 +48,9 @@ export default function DiscWheel({ agent, wEngine, phase, discs, selected, onSe
           <span className="wheel__engine-name">W-Engine</span>
         )}
       </button>
-      <span className="wheel__phase" aria-label={`Phase ${phase}`}>P{phase}</span>
+      <span className="wheel__phase" aria-label={`Phase ${phase}`}>
+        P{phase}
+      </span>
 
       {SLOTS.map((slot) => {
         const d = discs[slot - 1];
@@ -66,7 +70,11 @@ export default function DiscWheel({ agent, wEngine, phase, discs, selected, onSe
             title={label}
           >
             <span className="wheel__disc">
-              {art ? <img className="wheel__art" src={art} alt="" /> : <span className="wheel__label">{set ? shortSet(set.name) : '+'}</span>}
+              {art ? (
+                <img className="wheel__art" src={art} alt="" />
+              ) : (
+                <span className="wheel__label">{set ? shortSet(set.name) : '+'}</span>
+              )}
             </span>
             <span className="wheel__num">{slot}</span>
             {set && (
