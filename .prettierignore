@@ -5,3 +5,5 @@ public/
 # Game data: long hand-kept tables, one entry per line, easier to diff as they are
 src/data/
 *.md
+# Workflows (the Actions token may not change them)
+.github/
