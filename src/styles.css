@@ -6276,3 +6276,18 @@ details.disc-guide + details.disc-guide { margin-top: 10px; }
 
 .trial-notes { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
 .best-teams__more { justify-self: start; margin-top: 6px; }
+
+/* ---------- My build (personal Agent build) ---------- */
+.mybuild { display: grid; gap: 14px; }
+.mybuild--empty > p { margin: 0; }
+.mybuild__starts { display: flex; flex-wrap: wrap; gap: 8px; }
+.mybuild__actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.mybuild__editor .loadout__close,
+.mybuild__editor .loadout__link { display: none; }
+.mybuild__status { margin: -4px 0 0; min-height: 1.2em; }
+.mybuild__error { margin: 6px 0 0; color: #ff8a80; font-size: 0.85rem; }
+.mybuild__paste { margin: 0; }
+.mybuild__more { border-top: 1px solid var(--line, #333); padding-top: 10px; }
+.mybuild__more > summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; }
+.mybuild__more[open] > summary { margin-bottom: 10px; }
+.mybuild__more .mybuild__starts { margin-bottom: 10px; }

@@ -11,10 +11,12 @@ import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
 import ExportDialog from './ExportDialog.jsx';
 import ExportIcon from './ExportIcon.jsx';
-import { AGENT_CARDS, renderAgentCard } from '../lib/agentCards.js';
+import { AGENT_CARDS, MY_BUILD_CARD, renderAgentCard } from '../lib/agentCards.js';
 import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
 import FactionLogo from './FactionLogo.jsx';
+import MyBuild from './MyBuild.jsx';
+import { myBuildOf } from '../lib/myBuilds.js';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -76,6 +78,11 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
           { id: 'skills', label: 'Skills', content: <SkillsTab agent={a} team={team} /> },
           { id: 'materials', label: 'Materials', content: <MaterialsTab agent={a} /> },
           { id: 'build', label: 'Build', content: <AgentBuild agent={a} inActiveTeam={inActiveTeam} onApply={onApplyBuild} /> },
+          {
+            id: 'mine',
+            label: 'My build',
+            content: <MyBuild agent={a} team={team} inActiveTeam={inActiveTeam} onApply={onApplyBuild} onExport={() => setCard('mine')} />,
+          },
           { id: 'teams', label: 'Best teams', content: <AgentTeams agent={a} onLoadTeam={onLoadTeam} /> },
           { id: 'mates', label: 'Teammates', content: mates },
         ]}
@@ -95,10 +102,10 @@ export default function AgentDetail({ agent: a, inActiveTeam, teamFull, onAdd, o
           title="Agent card"
           name={a.name}
           suffix="zzz"
-          kinds={AGENT_CARDS}
+          kinds={myBuildOf(a.id) ? [...AGENT_CARDS, MY_BUILD_CARD] : AGENT_CARDS}
           kind={card}
           onKind={setCard}
-          render={(opts) => renderAgentCard(a, opts)}
+          render={(opts) => renderAgentCard(a, { ...opts, loadout: myBuildOf(a.id) })}
         />
       )}
     </article>

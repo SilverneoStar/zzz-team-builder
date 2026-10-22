@@ -13,6 +13,9 @@ import { setColor } from '../components/DiscWheel.jsx';
 import { STAT_TARGETS } from '../data/statTargets.js';
 import { materialIcon } from './materialIcons.js';
 import { factionLogo } from '../components/FactionLogo.jsx';
+import { discBonuses, mainMax, mainStatOf } from './discs.js';
+import { buildCode } from './myBuilds.js';
+import { ROMAN, hasPotential } from '../data/potentials.js';
 
 const loadFactionLogo = async (a, base) => {
   const src = factionLogo(a.faction, base);
@@ -25,7 +28,9 @@ export const AGENT_CARDS = [
   { id: 'farm', label: 'Farming', hint: '16:9' },
   { id: 'guide', label: 'Guide', hint: '4:5' },
 ];
-const SIZES = { build: [1200, 675], farm: [1200, 675], guide: [1080, 1350] };
+// Only offered once the reader has saved their own build for the Agent.
+export const MY_BUILD_CARD = { id: 'mine', label: 'My build', hint: '16:9' };
+const SIZES = { build: [1200, 675], farm: [1200, 675], guide: [1080, 1350], mine: [1200, 675] };
 
 const K = { panel: 'rgba(24,24,24,0.94)', line: '#333', fg: '#f2f2f2', text: '#e6e6e6', muted: '#a3a3a3', dim: '#7a7a7a' };
 const fmt = (n) => n.toLocaleString('en');
@@ -464,10 +469,182 @@ async function drawGuide(ctx, W, H, a, base) {
   foot(ctx, W, H);
 }
 
-const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide };
+// ---------- my build ----------
+
+/** Sets a font that fits `text` in `w`, shrinking from `max` to `min` px. */
+function shrink(ctx, text, w, weight, max, min) {
+  let size = max;
+  ctx.font = `${weight} ${size}px ${FONT}`;
+  while (size > min && ctx.measureText(text).width > w) ctx.font = `${weight} ${(size -= 0.5)}px ${FONT}`;
+}
+
+/** The reader's own build: their W-Engine, each Drive Disc and the set bonuses. */
+async function drawMine(ctx, W, H, a, base, lo) {
+  await head(ctx, W, a, base, 'My build');
+  const art = await loadImage(`${base}agents/${a.id}.webp`);
+  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, nameW: W - 214 - 160, roles: await loadRoleIcons(base, [a]) });
+  if (!lo) {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 22px ${FONT}`;
+    ctx.fillText('No build saved yet.', 56, 340);
+    foot(ctx, W, H);
+    return;
+  }
+  const attrName = ATTRIBUTE_BY_ID[a.attribute]?.name;
+  const label = (st) => (st === 'Attribute DMG' ? `${attrName} DMG` : st);
+  const e = lo.wEngine && W_ENGINE_BY_ID[lo.wEngine];
+  const setIds = lo.discs.map((d) => d.set).filter(Boolean);
+  const [engines, discArt, logo] = await Promise.all([
+    loadEngines(e ? [e.id] : [], base),
+    loadDiscs(setIds, base),
+    loadFactionLogo(a, base),
+  ]);
+
+  // Mindscape / Potential chips beside the faction, in place of the stat targets.
+  let px = 214;
+  const chips = [`Mindscape M${lo.mindscape ?? 0}`];
+  if (hasPotential(a.id)) chips.push(`Potential ${lo.potential ? ROMAN[lo.potential] : 'none'}`);
+  if (logo) {
+    ctx.drawImage(logo, px, 190, 36, 36);
+    px += 40;
+  }
+  [a.faction, ...chips].forEach((t, i) => {
+    px += pill(ctx, t, px, 194, i > 0 ? { fg: K.fg, bg: 'rgba(255,255,255,0.12)', line: '#5a5a5a' } : {}) + 8;
+  });
+
+  const top = 262;
+  const ph = 300;
+
+  // W-Engine
+  panel(ctx, 40, top, 300, ph, 'W-Engine');
+  if (e) {
+    engineIcon(ctx, engines[e.id], 60, top + 48, 128);
+    rankBadge(ctx, e.rank, 192, top + 66, 16);
+    ctx.fillStyle = K.fg;
+    ctx.font = `800 30px ${DISPLAY}`;
+    ctx.fillText(`P${lo.refinement ?? 1}`, 216, top + 76);
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 13px ${MONO}`;
+    ctx.fillText('PHASE', 216, top + 98);
+    ctx.fillStyle = K.fg;
+    ctx.font = `700 21px ${FONT}`;
+    const lines = wrap(ctx, e.name, 260, 2);
+    lines.forEach((l, i) => ctx.fillText(l, 60, top + 210 + i * 26));
+    const stats = [e.base && `Base ${e.base.stat} ${e.base.max}`, e.advanced && `${e.advanced.stat} ${e.advanced.max}`].filter(Boolean);
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 15px ${FONT}`;
+    stats.forEach((t, i) => ctx.fillText(fit(ctx, t, 260), 60, top + 214 + lines.length * 26 + i * 20));
+    if (e.specialty !== a.specialty) {
+      ctx.fillStyle = '#d9a35a';
+      ctx.font = `500 13px ${FONT}`;
+      ctx.fillText(fit(ctx, 'Other specialty: passive won’t apply', 260), 60, top + ph - 14);
+    }
+  } else {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 18px ${FONT}`;
+    ctx.fillText('None equipped', 60, top + 80);
+  }
+
+  // Drive Discs: six tiles in wheel order, 3 × 2.
+  const dx = 356;
+  const dw = 530;
+  panel(ctx, dx, top, dw, ph, 'Drive Discs');
+  const tw = (dw - 40 - 16) / 3;
+  const th = 118;
+  lo.discs.forEach((d, i) => {
+    const slot = i + 1;
+    const tx = dx + 20 + (i % 3) * (tw + 8);
+    const ty = top + 46 + Math.floor(i / 3) * (th + 10);
+    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    roundRect(ctx, tx, ty, tw, th, 10);
+    ctx.fill();
+    ctx.strokeStyle = d.set ? setColor(d.set) : '#3a3a3a';
+    ctx.globalAlpha = d.set ? 0.55 : 1;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    const img = d.set && discArt[d.set];
+    if (img) ctx.drawImage(img, tx + 10, ty + 10, 46, 46);
+    else {
+      ctx.beginPath();
+      ctx.arc(tx + 33, ty + 33, 21, 0, Math.PI * 2);
+      ctx.strokeStyle = '#4a4a4a';
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.fillStyle = K.dim;
+    ctx.font = `600 13px ${MONO}`;
+    ctx.fillText(`SLOT ${slot}`, tx + 64, ty + 28);
+    if (d.set) {
+      ctx.fillStyle = K.muted;
+      ctx.fillText(`${d.rank}-RANK`, tx + 64, ty + 47);
+    }
+    ctx.fillStyle = K.fg;
+    // Shrink a long set name before cutting it short.
+    const name = d.set ? DRIVE_DISC_BY_ID[d.set]?.name ?? '' : 'Empty';
+    shrink(ctx, name, tw - 20, 600, 15, 12);
+    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + 80);
+    const st = mainStatOf(slot, d);
+    const max = d.set ? mainMax(slot, d) : null;
+    ctx.fillStyle = K.text;
+    const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
+    shrink(ctx, mainText, tw - 20, 500, 14, 11.5);
+    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + 102);
+  });
+
+  // Set bonuses
+  const bx = 902;
+  const bw = W - 40 - bx;
+  panel(ctx, bx, top, bw, ph, 'Set bonuses');
+  const { twos, counts } = discBonuses(lo.discs);
+  let by = top + 58;
+  if (!twos.length) {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 16px ${FONT}`;
+    wrap(ctx, 'No set bonus yet: two discs of a set give its 2-piece bonus.', bw - 40, 3).forEach((l, i) => ctx.fillText(l, bx + 20, by + i * 22));
+  }
+  twos.slice(0, 3).forEach((id) => {
+    const set = DRIVE_DISC_BY_ID[id];
+    const n = counts.find((c) => c.id === id).count;
+    if (discArt[id]) ctx.drawImage(discArt[id], bx + 20, by - 22, 30, 30);
+    ctx.fillStyle = K.fg;
+    shrink(ctx, set.name, bw - 106, 700, 17, 13);
+    ctx.fillText(fit(ctx, set.name, bw - 106), bx + 58, by - 2);
+    ctx.fillStyle = K.dim;
+    ctx.font = `600 13px ${MONO}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`×${n}`, bx + bw - 20, by - 2);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = K.text;
+    ctx.font = `500 14px ${FONT}`;
+    const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${set.fourPiece}`] : [`2: ${set.twoPiece}`];
+    by += 10;
+    parts.forEach((t) => {
+      const lines = wrap(ctx, t, bw - 40, twos.length > 1 ? (n >= 4 ? 5 : 2) : n >= 4 ? 7 : 3);
+      lines.forEach((l) => {
+        by += 19;
+        ctx.fillText(l, bx + 20, by);
+      });
+    });
+    by += 34;
+  });
+
+  // Build code: paste into My build (or the team builder) to load this build.
+  ctx.fillStyle = '#b5b5b5';
+  ctx.font = `600 13px ${MONO}`;
+  ctx.fillText('BUILD CODE', 40, H - 66);
+  const labelW = ctx.measureText('BUILD CODE').width;
+  ctx.fillStyle = '#e6e6e6';
+  ctx.font = `600 20px ${MONO}`;
+  ctx.fillText(fit(ctx, buildCode(a.id, lo), W - 120 - labelW), 40 + labelW + 16, H - 63);
+  foot(ctx, W, H);
+}
+
+const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMine };
 
 /** Renders one of the Agent cards onto a canvas. */
-export async function renderAgentCard(agent, { base = '/', kind = 'build', scale = EXPORT_SCALE } = {}) {
+export async function renderAgentCard(agent, { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null } = {}) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
   const [W, H] = SIZES[id];
@@ -481,6 +658,6 @@ export async function renderAgentCard(agent, { base = '/', kind = 'build', scale
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
-  await DRAW[id](ctx, W, H, agent, base);
+  await DRAW[id](ctx, W, H, agent, base, loadout);
   return canvas;
 }
