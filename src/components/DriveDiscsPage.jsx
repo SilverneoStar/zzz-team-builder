@@ -27,11 +27,14 @@ const loadView = () => {
 
 // Record player look, remembered on this device. Same parts, different finish.
 const DECK_KEY = 'zzz-team-builder:deckTheme';
+// Each finish has a sticker on the corner of the plinth (public/stickers/).
 const DECK_THEMES = [
-  { id: 'classic', label: 'Classic' },
-  { id: 'wood', label: 'Wood & copper' },
-  { id: 'urban', label: 'Urban' },
+  { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
+  { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
+  { id: 'urban', label: 'Urban', sticker: 'eous' },
 ];
+const stickerFor = (theme) =>
+  `${import.meta.env.BASE_URL}stickers/${(DECK_THEMES.find((t) => t.id === theme) ?? DECK_THEMES[0]).sticker}.webp`;
 const loadDeck = () => {
   try {
     const v = localStorage.getItem(DECK_KEY);
@@ -97,7 +100,7 @@ export default function DriveDiscsPage({ discId }) {
         </p>
       </header>
 
-      {selected && <DiscDetail disc={selected} onClose={() => navigate('drive-discs')} />}
+      {selected && <DiscDetail disc={selected} theme={deck} onClose={() => navigate('drive-discs')} />}
 
       <div className="filters filters--page filters--row">
         <label className="sr-only" htmlFor="disc-search">
@@ -157,7 +160,7 @@ export default function DriveDiscsPage({ discId }) {
                 href={`#drive-disc-${d.id}`}
                 aria-current={d.id === discId ? 'page' : undefined}
               >
-                <Turntable id={d.id} />
+                <Turntable id={d.id} theme={deck} />
                 <span className="vinyl__name">{d.name}</span>
               </a>
             </li>
@@ -230,10 +233,11 @@ export default function DriveDiscsPage({ discId }) {
 }
 
 /** A turntable with the set's record on it; spins with the arm down when playing. */
-function Turntable({ id, playing = false }) {
+function Turntable({ id, playing = false, theme = 'classic' }) {
   const art = discArt(id);
   return (
     <span className={`deck${playing ? ' is-playing' : ''}`} aria-hidden="true">
+      <img className="deck__sticker" src={stickerFor(theme)} alt="" loading="lazy" />
       <span className="deck__platter">
         <span className="deck__record">{art && <img src={art} alt="" loading="lazy" />}</span>
         <span className="deck__spindle" />
@@ -254,13 +258,13 @@ const AgentRow = ({ ids }) => <MiniAgents ids={ids} />;
 
 // One set's page: its record playing on the deck, both bonuses, and the
 // Agents whose recommended builds use it.
-function DiscDetail({ disc: d, onClose }) {
+function DiscDetail({ disc: d, theme, onClose }) {
   const four = usersOf(d.id, 'fourPiece');
   const two = usersOf(d.id, 'twoPiece').filter((a) => !four.includes(a));
   return (
     <article className="detail disc-detail" aria-labelledby="disc-name">
       <header className="detail__head disc-detail__head">
-        <Turntable key={d.id} id={d.id} playing />
+        <Turntable key={d.id} id={d.id} theme={theme} playing />
         <div className="detail__title">
           <p className="eyebrow">
             <span className="eyebrow__meta">Drive Disc set</span>

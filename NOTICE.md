@@ -19,7 +19,9 @@ Agent roles and stat targets on the Build tab (`src/data/statTargets.js`) come f
 | Content | Source | Terms |
 | --- | --- | --- |
 | Agent portraits in `public/agents/`, Bangboo art in `public/bangboo/`, W-Engine icons in `public/w-engines/`, attribute icons in `public/attributes/`, specialty icons in `public/specialties/` and skill-type icons in `public/skills/`, Drive Disc art in `public/discs/`, item icons in `public/materials/` and faction logos in `public/factions/` (cropped to size and cleaned up for display, otherwise unchanged) | Official game art by HoYoverse | © HoYoverse; publisher's terms apply; not covered by this repository's license |
-| Cortado, the site mascot (all four headwear versions and its emotes), and site icons (`public/mascot*.svg`, `public/favicon.ico`, `public/icon-*.png`, `public/apple-touch-icon.png`, `src/components/Mascot.jsx`) | Original artwork by SilverneoStar (SilverStarneo-Cortado) | [CC BY-NC-ND 4.0](LICENSE-ARTWORK.md); not covered by the MIT License |
+| Eous sticker on the Urban record player (`public/stickers/eous.webp`, with a white sticker edge added) | Official "En-Nah Stroll" Sticker Pack 1 by HoYoverse (hoyo.link/8QBlFEAL) | © HoYoverse; publisher's terms apply; not covered by this repository's license |
+| Cortado, the site mascot (all four headwear versions and its emotes, including the "Chill" sticker in `public/stickers/cortado-chill.webp`), and site icons (`public/mascot*.svg`, `public/favicon.ico`, `public/icon-*.png`, `public/apple-touch-icon.png`, `src/components/Mascot.jsx`) | Original artwork by SilverneoStar (SilverStarneo-Cortado) | [CC BY-NC-ND 4.0](LICENSE-ARTWORK.md); not covered by the MIT License |
+| Leaf sticker on the Wood & copper record player (`public/stickers/leaf.webp`) | Drawn for this site | Covered by this repository's license |
 
 Official artwork is used only for this free, non-commercial fan project, within the publisher's terms, and will be removed on request.
 
