@@ -24,6 +24,7 @@ import { factionLogo } from '../components/FactionLogo.jsx';
 import { discBonuses, mainMax, mainStatOf } from './discs.js';
 import { buildCode } from './myBuilds.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
+import { SKILL_PRIORITY } from '../data/skillPriority.js';
 
 const loadFactionLogo = async (a, base) => {
   const src = factionLogo(a.faction, base);
@@ -250,6 +251,54 @@ function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   }
 }
 
+// ---------- skill priority ----------
+
+const SKILL_SHORT = { core: 'Core', basic: 'Basic', dodge: 'Dodge', assist: 'Assist', special: 'Special', chain: 'Chain' };
+
+async function loadSkillIcons(ids, base) {
+  const out = {};
+  await Promise.all(ids.map(async (id) => (out[id] = await loadImage(`${base}skills/${id}.webp`))));
+  return out;
+}
+
+/**
+ * Skill icons in levelling order, best first, spread across `w` with › between.
+ * Stacked puts each name under its icon; otherwise the name sits beside it.
+ */
+function drawPriority(ctx, ids, icons, x, y, w, size = 30, stacked = true) {
+  const step = w / ids.length;
+  ids.forEach((id, i) => {
+    const cx = x + step * i + step / 2;
+    const first = i === 0;
+    ctx.font = `${first ? 700 : 500} ${stacked ? 13 : 14}px ${FONT}`;
+    const label = SKILL_SHORT[id];
+    const lw = ctx.measureText(label).width;
+    if (first) {
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      if (stacked) roundRect(ctx, cx - step / 2 + 4, y - 4, step - 8, size + 30, 8);
+      else roundRect(ctx, cx - (size + 6 + lw) / 2 - 8, y - 4, size + 6 + lw + 16, size + 8, (size + 8) / 2);
+      ctx.fill();
+    }
+    const ix = stacked ? cx - size / 2 : cx - (size + 6 + lw) / 2;
+    if (icons[id]) ctx.drawImage(icons[id], ix, y, size, size);
+    ctx.fillStyle = first ? K.fg : i < 3 ? K.text : K.muted;
+    if (stacked) {
+      ctx.textAlign = 'center';
+      ctx.fillText(label, cx, y + size + 17);
+      ctx.textAlign = 'left';
+    } else {
+      ctx.fillText(label, ix + size + 6, y + size / 2 + 5);
+    }
+    if (i < ids.length - 1) {
+      ctx.fillStyle = K.dim;
+      ctx.font = `600 16px ${FONT}`;
+      ctx.textAlign = 'center';
+      ctx.fillText('›', x + step * (i + 1), y + size / 2 + 6);
+      ctx.textAlign = 'left';
+    }
+  });
+}
+
 // ---------- build ----------
 
 function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
@@ -342,7 +391,7 @@ async function drawBuild(ctx, W, H, a, base) {
   const ph = 296;
   panel(ctx, 40, top, 420, ph, 'W-Engines', 'best first');
   drawEngineRows(ctx, b.wEngines, icons, 58, top + 44, 384, 49, 5);
-  panel(ctx, 476, top, 330, ph, 'Drive Disc sets');
+  panel(ctx, 476, top, 330, ph, 'Drive Disc sets', 'community picks');
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 494, top + 56);
@@ -367,11 +416,15 @@ async function drawBuild(ctx, W, H, a, base) {
     ctx.font = `700 20px ${FONT}`;
     ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 615);
   }
-  ctx.fillStyle = K.dim;
-  ctx.font = `400 13px ${FONT}`;
-  ctx.textAlign = 'right';
-  ctx.fillText('Community picks, they shift with patches.', W - 40, 615);
-  ctx.textAlign = 'left';
+  const order = SKILL_PRIORITY[a.id];
+  if (order) {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 14px ${MONO}`;
+    ctx.textAlign = 'right';
+    ctx.fillText('LEVEL FIRST', 600, 614);
+    ctx.textAlign = 'left';
+    drawPriority(ctx, order, await loadSkillIcons(order, base), 612, 596, W - 40 - 612, 24, false);
+  }
   foot(ctx, W, H);
 }
 
@@ -522,15 +575,27 @@ async function drawGuide(ctx, W, H, a, base) {
       ctx.stroke();
     }
     y += 60 + tn * 100 + 18;
+    // Bangboo and skill levelling order share one row.
     const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
-    if (bg) {
-      const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bg.id) ? bg.id : 'placeholder'}.webp`);
-      panel(ctx, 40, y, 1000, 96, 'Bangboo');
-      if (bArt) ctx.drawImage(bArt, 60, y + 38, (bArt.width / bArt.height) * 48, 48);
-      ctx.fillStyle = K.fg;
-      ctx.font = `700 22px ${FONT}`;
-      ctx.fillText(bg.name, 60 + (bArt ? (bArt.width / bArt.height) * 48 + 16 : 0), y + 70);
-      y += 116;
+    const order = SKILL_PRIORITY[a.id];
+    if (bg || order) {
+      const bw = bg && order ? 400 : 1000;
+      if (bg) {
+        const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bg.id) ? bg.id : 'placeholder'}.webp`);
+        panel(ctx, 40, y, bw, 104, 'Bangboo');
+        if (bArt) ctx.drawImage(bArt, 60, y + 42, (bArt.width / bArt.height) * 50, 50);
+        ctx.fillStyle = K.fg;
+        ctx.font = `700 22px ${FONT}`;
+        const tx = 60 + (bArt ? (bArt.width / bArt.height) * 50 + 16 : 0);
+        ctx.fillText(fit(ctx, bg.name, 40 + bw - 20 - tx), tx, y + 76);
+      }
+      if (order) {
+        const px = bg ? 40 + bw + 16 : 40;
+        const pw = 1040 - px;
+        panel(ctx, px, y, pw, 104, 'Skill priority', a.upcoming ? 'subject to change' : 'level first →');
+        drawPriority(ctx, order, await loadSkillIcons(order, base), px + 12, y + 44, pw - 24, bg ? 28 : 32);
+      }
+      y += 120;
     }
   }
   if (m) {
