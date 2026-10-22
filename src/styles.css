@@ -8362,18 +8362,18 @@ details.disc-guide + details.disc-guide {
   background: #c8f000;
   box-shadow: 0 0 8px #c8f000;
 }
-/* The finish's sticker, stuck on the plinth's top-left corner and tucked
-   just under the platter's edge. */
+/* The finish's sticker, stuck on the plinth's bottom-right corner, under the
+   tonearm when it rests. */
 .deck__sticker {
   position: absolute;
-  left: 1.5%;
-  top: 2%;
-  width: 21%;
+  right: 1%;
+  bottom: 1.5%;
+  width: 18%;
   height: auto;
-  transform: rotate(-12deg);
+  transform: rotate(10deg);
   filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.55));
   pointer-events: none;
 }
 [data-deck='wood'] .deck__sticker {
-  transform: rotate(8deg);
+  transform: rotate(-8deg);
 }
