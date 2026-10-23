@@ -41,8 +41,15 @@ export default function AgentDetail({
             <AttributeGlyph attribute={a.attribute} size={15} />
             {attr?.name}
             {attr?.base && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
+            {a.attributeNote && <span className="muted"> · {a.attributeNote}</span>}
           </dd>
         </div>
+        {a.members && (
+          <div>
+            <dt>Members</dt>
+            <dd>{a.members.join(', ')}</dd>
+          </div>
+        )}
         <div>
           <dt>Specialty</dt>
           <dd>

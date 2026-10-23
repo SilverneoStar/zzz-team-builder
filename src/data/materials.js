@@ -39,6 +39,9 @@ export const AGENT_MATS = {
   'phoenix-reffaella': ["Anomaly", "Burn", "Bloodstained Miasma Feather", "Counterfeit Nucleus"],
   // 3.3 phase 2 (data in the game already).
   'severian-lowell': ["Attack", "Windbite", "Imitation Core", "Timeworn Husk"],
+  // Armorer seals and Fire (Burn) chips follow from her specialty and attribute;
+  // Core Skill drops aren't announced yet.
+  'sunbringer': ["Armorer", "Burn", null, null],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],

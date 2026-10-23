@@ -64,4 +64,5 @@ export const AGENTS = [
   {"id": "zhu-yuan", "name": "Zhu Yuan", "rank": "S", "attribute": "ether", "specialty": "attack", "attackType": ["pierce"], "faction": "Criminal Investigation Special Response Team", "version": "1.0"},
   {"id": "phoenix-reffaella", "name": "Phoenix Reffaella", "rank": "S", "attribute": "fire", "specialty": "anomaly", "attackType": ["slash"], "faction": "Krampus Compliance Authority", "version": "3.3"},
   {"id": "severian-lowell", "name": "Severian Lowell", "rank": "S", "attribute": "wind", "specialty": "attack", "attackType": ["slash"], "faction": "Metropolitan Order Division", "version": "3.3", "phase": 2, "upcoming": true},
+  {"id": "sunbringer", "name": "Sunbringer", "rank": "S", "attribute": "fire", "attributeNote": "a special Fire variant, name not announced yet", "specialty": "armorer", "attackType": [], "faction": "Roscaelifer", "version": "3.4", "upcoming": true, "members": ["Eldreda Sunbringer", "Lindverne Sunbringer", "Dracaene Sunbringer"]},
 ];
