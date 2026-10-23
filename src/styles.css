@@ -8570,3 +8570,22 @@ details.disc-guide + details.disc-guide {
 .gloss__members a {
   color: var(--fg);
 }
+.detail > .member-pick {
+  margin: 0 0 12px;
+}
+@media (max-width: 520px) {
+  .detail > .member-pick {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.member-pick__btn .member-pick__trio {
+  display: inline-flex;
+  flex-direction: row;
+  flex: none;
+}
+.member-pick__btn .member-pick__trio img {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}

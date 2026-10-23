@@ -129,7 +129,6 @@ export default function AgentDetail({
               <li>Upcoming</li>
             </ul>
           )}
-          {a.members && <MemberPicker agent={a} />}
         </div>
         <div className="detail__head-actions">
           <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
@@ -137,6 +136,8 @@ export default function AgentDetail({
           </button>
         </div>
       </header>
+      {/* Full width under the header, so the buttons sit in one row on phones too. */}
+      {a.members && <MemberPicker agent={a} />}
 
       <SwipeTabs
         key={a.id}
