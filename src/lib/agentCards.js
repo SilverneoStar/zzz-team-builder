@@ -23,11 +23,12 @@ import { materialIcon } from './materialIcons.js';
 import { factionLogo } from '../components/FactionLogo.jsx';
 import { discBonuses, mainMax, mainStatOf } from './discs.js';
 import { buildCode } from './myBuilds.js';
+import { shownFaction } from './memberArt.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { SKILL_PRIORITY } from '../data/skillPriority.js';
 
 const loadFactionLogo = async (a, base) => {
-  const src = factionLogo(a.faction, base);
+  const src = factionLogo(shownFaction(a).logo, base);
   return src ? loadImage(src) : null;
 };
 import {
@@ -226,7 +227,7 @@ function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   let px = x;
   [
     t?.role,
-    a.faction,
+    shownFaction(a).name,
     a.upcoming
       ? a.version
         ? `Ver ${a.version}${a.phase ? ` · phase ${a.phase}` : ''} · upcoming`
@@ -235,7 +236,7 @@ function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   ]
     .filter(Boolean)
     .forEach((label) => {
-      if (label === a.faction && logo) {
+      if (label === shownFaction(a).name && logo) {
         // Faction logo just before its chip.
         ctx.drawImage(logo, px, y - 4, 36, 36);
         px += 40;
@@ -710,7 +711,7 @@ async function drawMine(ctx, W, H, a, base, lo) {
     ctx.drawImage(logo, px, 190, 36, 36);
     px += 40;
   }
-  [a.faction, ...chips].forEach((t, i) => {
+  [shownFaction(a).name, ...chips].forEach((t, i) => {
     px += pill(ctx, t, px, 194, i > 0 ? { fg: K.fg, bg: 'rgba(255,255,255,0.12)', line: '#5a5a5a' } : {}) + 8;
   });
 

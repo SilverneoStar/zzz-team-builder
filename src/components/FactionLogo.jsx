@@ -23,6 +23,7 @@ const WITH_LOGO = new Set([
   'airspace-patrol-department',
   'administrative-affairs-department',
   'central-computing-department',
+  'roscaelifer',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const factionSlug = (name) =>

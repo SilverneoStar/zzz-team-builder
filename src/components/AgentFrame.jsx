@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, initials, shortName } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import { agentArt } from './Portrait.jsx';
-import { memberArt, useMemberIndex } from '../lib/memberArt.js';
+import { memberArt, shownFaction, useMemberIndex } from '../lib/memberArt.js';
 import PassiveFace from './PassiveFace.jsx';
 import RankBadge from './RankBadge.jsx';
 import { factionLogo, factionSlug } from './FactionLogo.jsx';
@@ -26,7 +26,7 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color;
   const ranked = agent.rank === 'S' || agent.rank === 'A';
   // A picked member shows their own department's logo.
-  const factionName = agent.members && member >= 0 ? agent.members[member].faction ?? agent.faction : agent.faction;
+  const factionName = shownFaction(agent, member).logo;
   const factionBg = faction && factionLogo(factionName) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(factionName)}.webp` : null;
   return (
     <span

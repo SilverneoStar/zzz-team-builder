@@ -18,7 +18,7 @@ import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
-import { memberIndex } from './memberArt.js';
+import { memberIndex, shownFaction } from './memberArt.js';
 
 // Team images, in three layouts:
 //   columns  1200×675  three gear columns (the original card)
@@ -392,7 +392,7 @@ async function loadArt(team, base) {
   const factions = {};
   await Promise.all(
     team.members.map(async (id) => {
-      const f = id && AGENT_BY_ID[id]?.faction;
+      const f = id && shownFaction(AGENT_BY_ID[id]).logo;
       const src = f && factionLogo(f, base);
       if (src && !(f in factions)) factions[f] = await loadImage(src);
     }),
@@ -483,7 +483,7 @@ async function drawColumns(ctx, W, H, team, base) {
       return;
     }
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
-    factionWatermark(ctx, factions[a.faction], { x, y: top, w: colW, h: 360, r: 14 }, x + colW - 210, top + 140, 240);
+    factionWatermark(ctx, factions[shownFaction(a).logo], { x, y: top, w: colW, h: 360, r: 14 }, x + colW - 210, top + 140, 240);
     ctx.fillStyle = color;
     roundRect(ctx, x, top, colW, 5, 2);
     ctx.fill();
@@ -568,7 +568,7 @@ async function drawSquad(ctx, W, H, team, base) {
     const sx = x + 6 + 0.18 * fy;
     ctx.fillStyle = '#f2f2f2';
     ctx.font = `800 24px ${FONT}`;
-    const flogo = factions[a.faction];
+    const flogo = factions[shownFaction(a).logo];
     ctx.fillText(fit(ctx, shortName(a), cardW - (flogo ? 90 : 40)), sx, fy);
     ctx.fillStyle = '#cfcfcf';
     ctx.font = `800 15px ${FONT}`;
@@ -676,7 +676,7 @@ async function drawSquare(ctx, W, H, team, base) {
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
     factionWatermark(
       ctx,
-      factions[a.faction],
+      factions[shownFaction(a).logo],
       { x: 40, y, w: W - 80, h: rowH, r: 16 },
       W - 80 - 200,
       y - 10,

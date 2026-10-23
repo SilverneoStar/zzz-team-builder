@@ -49,3 +49,12 @@ export const memberArt = (agent, i = memberIndex(agent)) => {
   const m = agent?.members?.[Math.max(0, i)];
   return m ? `${BASE}agents/${agent.id}-${m.key}.webp` : `${BASE}agents/${agent.id}.webp`;
 };
+
+/**
+ * The faction to show for an Agent: a picked member's own department as
+ * "RSC.<department>" (with that department's logo), else the Agent's faction.
+ */
+export const shownFaction = (agent, i = memberIndex(agent)) => {
+  const m = agent?.members?.[i];
+  return m?.faction ? { name: `RSC.${m.faction}`, logo: m.faction } : { name: agent?.faction, logo: agent?.faction };
+};

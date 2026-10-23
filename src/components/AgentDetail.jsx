@@ -14,6 +14,7 @@ import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
 import FactionLogo from './FactionLogo.jsx';
 import MemberPicker from './MemberPicker.jsx';
+import { shownFaction, useMemberIndex } from '../lib/memberArt.js';
 import MyBuild from './MyBuild.jsx';
 import { myBuildOf } from '../lib/myBuilds.js';
 
@@ -29,6 +30,7 @@ export default function AgentDetail({
   onLoadTeam,
   team,
 }) {
+  const fac = shownFaction(a, useMemberIndex(a));
   const [card, setCard] = useState(null);
   const attr = ATTRIBUTE_BY_ID[a.attribute];
   const featured = PRESETS.filter((p) => p.members.includes(a.id));
@@ -71,8 +73,8 @@ export default function AgentDetail({
         <div>
           <dt>Faction</dt>
           <dd className="cell-faction">
-            <FactionLogo faction={a.faction} size={22} />
-            {a.faction}
+            <FactionLogo faction={fac.logo} size={22} />
+            {fac.name}
           </dd>
         </div>
         <div>
