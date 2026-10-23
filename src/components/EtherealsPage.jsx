@@ -117,11 +117,23 @@ function BonusCard({ bonus, onLoadTeam }) {
         <span className="eg-bonus__badge">{bonus.title}</span>
         <h4 className="eg-boss__name">{bonus.name ?? <span className="muted">Name to be added</span>}</h4>
       </div>
+      <div className="eg-bonus__body">
+        {bonus.art && <img className="eg-bonus__art" src={`${BASE}${bonus.art}`} alt="" loading="lazy" />}
+        <div className="eg-bonus__info">
       <p className="small">{bonus.unlock}</p>
       {known ? (
         <>
           <Attrs ids={bonus.weak} label="Weak to" />
           <Attrs ids={bonus.resist} label="Resists" />
+          {bonus.mechanics && (
+            <ul className="eg-mech">
+              {bonus.mechanics.map((m) => (
+                <li key={m}>
+                  <Keywords text={m} />
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="eg-boss__teams">
             {teams.map((t) => (
               <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
@@ -131,6 +143,8 @@ function BonusCard({ bonus, onLoadTeam }) {
       ) : (
         <p className="muted small">Weaknesses and suggested teams will be added once they’re confirmed.</p>
       )}
+        </div>
+      </div>
     </article>
   );
 }

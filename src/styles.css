@@ -8828,3 +8828,9 @@ details.disc-guide + details.disc-guide {
   :root:not([data-theme='light']) .kw--stat { color: #9fd3ff; }
 }
 .eg-buff-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.78rem; color: var(--muted); }
+.eg-bonus__body { display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.eg-bonus__body:not(:has(.eg-bonus__art)) { grid-template-columns: 1fr; }
+.eg-bonus__art { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; }
+.eg-bonus__info { display: grid; gap: 8px; min-width: 0; }
+.eg-mech { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.88rem; color: var(--muted); }
+@media (max-width: 640px) { .eg-bonus__body { grid-template-columns: 1fr; } .eg-bonus__art { aspect-ratio: 16 / 10; object-position: 50% 20%; } }

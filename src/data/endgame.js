@@ -20,9 +20,16 @@ export const DEADLY_ASSAULT = {
   bonus: {
     title: 'Adversity',
     unlock: 'Unlocks once you earn all 9 stars (3 stars on each of the three bosses). Score = damage + Performance Points (capped at 5,000), with a 3-minute limit; your best score of the season is kept.',
-    name: null,
-    weak: [],
+    name: 'Girtablullu',
+    art: 'enemies/da-3-3-1-adversity.webp',
+    weak: ['wind'],
     resist: [],
+    mechanics: [
+      'Each Attribute Anomaly applied adds a Shadow stack (up to 3): each raises Anomaly DMG taken by 7.5% and Vortex DMG taken by 5% for 10s.',
+      'During its Corruptive Barrier, applying Shadow shrinks the barrier by 20% and adds Daze.',
+      'Stunning it turns Shadow stacks into Laceration: lower Anomaly Buildup RES and a higher Stun DMG multiplier until the Stun ends.',
+      'Parries during the smashes after the barrier, a Chain Parry on the final slam, and breaking the barrier all give Performance Points.',
+    ],
   },
   buffs: [
     {

@@ -48,8 +48,9 @@ export function scoreTeam(ids, target, buffs = []) {
   if (ids.includes('soldier-0-anby') && ids.includes('anby-demara')) return null;
   const dealers = agents.filter((a) => DAMAGE.has(a.specialty) && !SUB_DPS.has(a.id));
   if (!dealers.length) return null;
-  const main = dealers[0];
-  if (!target.weak.includes(attr(main))) return null; // the carry must hit a weakness
+  // The carry must hit a weakness: the first damage dealer who does.
+  const main = dealers.find((a) => target.weak.includes(attr(a)));
+  if (!main) return null;
   let score = 6;
   const reasons = [`${shortName(main)} hits its weakness`];
   agents.forEach((a) => {
