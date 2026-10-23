@@ -41,6 +41,8 @@ function favorScore(a, favors) {
 /** Scores one team. Returns { score, reasons } or null if it doesn't fit at all. */
 export function scoreTeam(ids, target, buffs = []) {
   const agents = ids.map((id) => AGENT_BY_ID[id]);
+  // Soldier 0 – Anby plays with the Obol Squad (and Soldier 11), not her A-rank self.
+  if (ids.includes('soldier-0-anby') && ids.includes('anby-demara')) return null;
   const dealers = agents.filter((a) => DAMAGE.has(a.specialty) && !SUB_DPS.has(a.id));
   if (!dealers.length) return null;
   const main = dealers[0];

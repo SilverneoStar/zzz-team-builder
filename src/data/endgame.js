@@ -115,7 +115,15 @@ export const SHIYU_DEFENSE = {
       score: 'S-rank above 25,000 · A above 16,000 · B above 8,000 (all three rooms)',
       buffs: [],
       sides: [
-        { weak: ['wind', 'electric'], resist: ['ice'], buffs: [ROOM_1] },
+        {
+          weak: ['wind', 'electric'],
+          resist: ['ice'],
+          buffs: [ROOM_1],
+          picks: [
+            ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
+            ['soldier-0-anby', 'trigger', 'seed'],
+          ],
+        },
         {
           weak: ['ether', 'wind'],
           resist: ['electric'],
