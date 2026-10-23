@@ -8757,7 +8757,7 @@ details.disc-guide + details.disc-guide {
 .eg-dates { font: 600 0.85rem var(--font-mono); letter-spacing: 0.06em; color: var(--muted); }
 .eg-buffs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
 .eg-buff { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 0.88rem; }
-.eg-buff b { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+.eg-buff > b { display: block; margin-bottom: 4px; font-size: 0.95rem; }
 .eg-buff p { margin: 4px 0 0; color: var(--muted); line-height: 1.4; }
 .eg-bosses { display: grid; gap: 14px; }
 .eg-boss { display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr); gap: 16px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
@@ -8816,3 +8816,15 @@ details.disc-guide + details.disc-guide {
 .eg-waves { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: 0.85rem; }
 .eg-waves li span { display: inline-block; min-width: 56px; margin-right: 6px; font: 600 0.7rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .eg-tip { margin: 0; padding: 8px 10px; border-left: 3px solid var(--line); background: rgb(255 255 255 / 0.03); border-radius: 0 8px 8px 0; color: var(--muted); }
+/* Key words in endgame buffs and tips */
+.kw { font-weight: 700; }
+.kw--num { color: #ffd166; }
+.kw--spec { color: var(--fg); padding: 0 5px; border-radius: 5px; background: rgb(255 255 255 / 0.1); }
+.kw--stat { color: #9fd3ff; }
+:root:not([data-theme='dark']) .kw--num { color: #a86b00; }
+:root:not([data-theme='dark']) .kw--stat { color: #1f5fa8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .kw--num { color: #ffd166; }
+  :root:not([data-theme='light']) .kw--stat { color: #9fd3ff; }
+}
+.eg-buff-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.78rem; color: var(--muted); }

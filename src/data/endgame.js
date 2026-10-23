@@ -139,6 +139,7 @@ export const SHIYU_DEFENSE = {
           picks: [
             ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
             ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
+            ['seed', 'trigger', 'cissia'],
           ],
         },
         {

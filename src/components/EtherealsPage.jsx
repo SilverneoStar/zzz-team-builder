@@ -5,6 +5,7 @@ import { bestBuff, disjointTeams, suggestTeams } from '../lib/endgame.js';
 import { recommendedTeam } from '../lib/builds.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
+import Keywords from './Keywords.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 const MODE_KEY = 'zzz-team-builder:endgameMode';
@@ -52,7 +53,9 @@ function BuffCard({ buff, highlight }) {
     <div className={`eg-buff${highlight ? ' is-best' : ''}`}>
       <b>{buff.name}</b>
       {buff.text.map((t) => (
-        <p key={t}>{t}</p>
+        <p key={t}>
+          <Keywords text={t} />
+        </p>
       ))}
     </div>
   );
@@ -155,6 +158,13 @@ function DeadlyAssault({ onLoadTeam }) {
       <p className="muted small">{da.note}</p>
 
       <h4 className="mini-title">Buffs</h4>
+      <p className="eg-buff-legend">
+        <span>
+          Highlighted: <b className="kw kw--attr" style={{ color: '#f04a1a' }}>attributes</b>,{' '}
+          <b className="kw kw--spec">specialties</b>, <b className="kw kw--stat">key stats</b> and{' '}
+          <b className="kw kw--num">numbers</b>, so you can build your own team for each buff.
+        </span>
+      </p>
       <div className="eg-buffs">
         {da.buffs.map((b) => (
           <BuffCard key={b.id} buff={b} />
@@ -268,7 +278,11 @@ function Shiyu({ onLoadTeam }) {
                       ))}
                     </ol>
                   )}
-                  {side.tip && <p className="small eg-tip">{side.tip}</p>}
+                  {side.tip && (
+                    <p className="small eg-tip">
+                      <Keywords text={side.tip} />
+                    </p>
+                  )}
                   {side.buffs?.map((b) => (
                     <BuffCard key={b.id} buff={b} />
                   ))}

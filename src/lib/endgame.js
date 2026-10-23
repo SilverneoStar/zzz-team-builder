@@ -14,6 +14,8 @@ const DAMAGE = new Set(['attack', 'anomaly', 'rupture', 'armorer']);
 const SUB_DPS = new Set(['orphie-magnusson-and-magus']);
 // Defense Agents are rarely used in endgame now; Zhao plays as a support, so she's fine.
 const DEFENSE_OK = new Set(['zhao']);
+// Agents that have fallen out of endgame use; suggestions avoid them.
+const RARELY_USED = new Set(['anby-demara']);
 
 // Every recommended team once, keyed by its members, main damage dealer first.
 const TEAMS = (() => {
@@ -57,6 +59,7 @@ export function scoreTeam(ids, target, buffs = []) {
   });
   const defense = agents.filter((a) => a.specialty === 'defense' && !DEFENSE_OK.has(a.id));
   score -= defense.length * 3;
+  score -= agents.filter((a) => RARELY_USED.has(a.id)).length * 3;
   // Members whose Additional Ability stays off in this squad count against it.
   const passives = passiveStatus(ids);
   const idle = agents.filter((a) => passives.byId[a.id]?.known && !passives.byId[a.id].active);
