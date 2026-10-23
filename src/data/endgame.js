@@ -3,6 +3,7 @@
 // resistances, buff effects); which teams fit is worked out by the site in
 // lib/endgame.js from these facts and the community team list in builds.js.
 //
+// A boss or side can list `picks`: hand-picked teams shown first.
 // `favors` says what a buff rewards, for scoring teams:
 //   specialty / attribute / attackType: { id: weight }
 //   anomalyPair: true when 2+ Anomaly Agents in the squad unlock the buff
@@ -45,7 +46,19 @@ export const DEADLY_ASSAULT = {
   ],
   bosses: [
     { id: 'da-3-3-1-1', name: null, art: 'enemies/da-3-3-1-1.webp', weak: ['fire'], resist: ['ice'] },
-    { id: 'da-3-3-1-2', name: null, art: 'enemies/da-3-3-1-2.webp', weak: ['electric', 'ether'], resist: [] },
+    {
+      id: 'da-3-3-1-2',
+      name: null,
+      art: 'enemies/da-3-3-1-2.webp',
+      weak: ['electric', 'ether'],
+      resist: [],
+      // Hand-picked teams, shown before the site's own suggestions.
+      picks: [
+        ['pyrois', 'dialyn', 'nicole-demara'],
+        ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
+        ['soldier-0-anby', 'trigger', 'seed'],
+      ],
+    },
     { id: 'da-3-3-1-3', name: null, art: 'enemies/da-3-3-1-3.webp', weak: ['wind', 'ether'], resist: ['ice', 'fire'] },
   ],
 };

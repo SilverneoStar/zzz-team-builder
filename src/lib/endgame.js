@@ -7,7 +7,8 @@ import { BUILDS } from '../data/builds.js';
 // most, any member the target resists counts against, and members the buffs
 // reward add a little.
 
-const DAMAGE = new Set(['attack', 'anomaly', 'rupture']);
+// Armorers (Claret, Sunbringer) carry teams too, so they count as damage dealers.
+const DAMAGE = new Set(['attack', 'anomaly', 'rupture', 'armorer']);
 
 // Every recommended team once, keyed by its members, main damage dealer first.
 const TEAMS = (() => {
@@ -70,21 +71,32 @@ export function scoreTeam(ids, target, buffs = []) {
   return { ids: ordered, score: Math.round(score * 10) / 10, reasons };
 }
 
-/** The best few teams for a target, best first. */
+/**
+ * The best few teams for a target, best first: hand-picked teams in the data
+ * (`target.picks`) come first, then the best-scoring others, with one team per
+ * main damage dealer so the list shows different options.
+ */
 export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set()) {
-  return TEAMS.filter((ids) => !ids.some((id) => exclude.has(id)))
+  const ok = (ids) => !ids.some((id) => exclude.has(id));
+  const picked = (target.picks ?? [])
+    .filter(ok)
+    .map((ids) => scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] })
+    .map((t) => ({ ...t, score: t.score + 100, reasons: ['Pick for this boss', ...t.reasons] }));
+  const mains = new Set(picked.map((t) => t.ids[0]));
+  const rest = TEAMS.filter(ok)
     .map((ids) => scoreTeam(ids, target, buffs))
     .filter(Boolean)
     .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+    .filter((t) => (mains.has(t.ids[0]) ? false : (mains.add(t.ids[0]), true)));
+  return [...picked, ...rest].slice(0, Math.max(limit, picked.length));
 }
 
 /** The buff that gives the best team for this target. */
 export function bestBuff(target, buffs) {
   let best = null;
   buffs.forEach((b) => {
-    const top = suggestTeams(target, [b], 1)[0];
-    if (top && (!best || top.score > best.score)) best = { buff: b, score: top.score };
+    const top2 = suggestTeams({ ...target, picks: [] }, [b], 1)[0];
+    if (top2 && (!best || top2.score > best.score)) best = { buff: b, score: top2.score };
   });
   return best?.buff ?? null;
 }
