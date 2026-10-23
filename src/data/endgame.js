@@ -56,8 +56,8 @@ export const DEADLY_ASSAULT = {
     { id: 'da-3-3-1-1', name: 'The Blasphemer', isNew: true, art: 'enemies/da-3-3-1-1.webp', weak: ['fire'], resist: ['ice'] },
     {
       id: 'da-3-3-1-2',
-      name: null,
-      about: 'A returning Ethereal.',
+      name: 'Unknown Corruption Complex',
+      type: 'Ethereal',
       art: 'enemies/da-3-3-1-2.webp',
       weak: ['electric', 'ether'],
       resist: [],
@@ -68,7 +68,7 @@ export const DEADLY_ASSAULT = {
         ['soldier-0-anby', 'trigger', 'seed'],
       ],
     },
-    { id: 'da-3-3-1-3', name: null, about: 'A returning Ethereal based on Vespera, the intelligent construct.', art: 'enemies/da-3-3-1-3.webp', weak: ['wind', 'ether'], resist: ['ice', 'fire'] },
+    { id: 'da-3-3-1-3', name: 'Discordant Solo – Vesper', type: 'Machine', art: 'enemies/da-3-3-1-3.webp', weak: ['wind', 'ether'], resist: ['ice', 'fire'] },
   ],
 };
 
