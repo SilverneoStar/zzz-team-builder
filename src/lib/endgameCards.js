@@ -11,6 +11,21 @@ const H = 1350;
 const K = { panel: 'rgba(22,22,22,0.94)', line: '#333', fg: '#f2f2f2', text: '#e2e2e2', muted: '#a3a3a3', dim: '#7a7a7a' };
 const ICON_FILE = { physical: 'physical', fire: 'fire', ice: 'ice', electric: 'electric', ether: 'ether', wind: 'wind' };
 
+const ROLE = { stun: 'Stunner', support: 'Support', defense: 'Defense', anomaly: 'Anomaly' };
+const ROLE_ORDER = ['Stunner', 'Support', 'Sub-DPS', 'Anomaly', 'Defense'];
+const cap = (w) => w.charAt(0).toUpperCase() + w.slice(1);
+
+/** Team makeup in words, e.g. "Electric or Ether DMG, Stunner and Support". */
+function teamComp(ids, target) {
+  if (!ids?.length) return '';
+  const [carry, ...rest] = ids.map((id) => AGENT_BY_ID[id]);
+  const weak = (target.weak ?? []).map((w) => ATTRIBUTE_BY_ID[w]?.name ?? cap(w)).join(' or ');
+  const head = `${weak || ATTRIBUTE_BY_ID[carry.attribute]?.name} ${carry.specialty === 'anomaly' ? 'Anomaly' : 'DMG'}`;
+  const roles = rest.map((a) => ROLE[a.specialty] ?? 'Sub-DPS').sort((a, b) => ROLE_ORDER.indexOf(a) - ROLE_ORDER.indexOf(b));
+  const words = roles.every((r) => r === roles[0]) && roles.length > 1 ? [`${roles.length} more ${roles[0]}`] : roles;
+  return `${head}, ${words.length > 1 ? `${words.slice(0, -1).join(', ')} and ${words.at(-1)}` : words[0]}`;
+}
+
 const fmtDate = (d) => new Date(`${d}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
 function wrap(ctx, text, w, max = 3) {
@@ -175,7 +190,7 @@ async function drawDeadlyAssault(ctx, base) {
     const { boss, buff } = bosses[i];
     const x = 40 + i * (colW + 16);
     panel(ctx, x, top, colW, ph);
-    cover(ctx, arts[i], x + 12, top + 12, colW - 24, 300, 12, 0.25);
+    cover(ctx, arts[i], x + 12, top + 12, colW - 24, 288, 12, 0.25);
     ctx.fillStyle = 'rgba(10,10,10,0.8)';
     roundRect(ctx, x + 22, top + 22, 74, 24, 12);
     ctx.fill();
@@ -185,8 +200,8 @@ async function drawDeadlyAssault(ctx, base) {
     ctx.fillStyle = K.fg;
     ctx.font = `800 22px ${FONT}`;
     const nameLines = wrap(ctx, boss.name ?? 'To be announced', colW - 32, 2);
-    nameLines.forEach((l, k) => ctx.fillText(l, x + 16, top + 344 + k * 26));
-    let y = top + 344 + nameLines.length * 26;
+    nameLines.forEach((l, k) => ctx.fillText(l, x + 16, top + 330 + k * 26));
+    let y = top + 330 + nameLines.length * 26;
     attrRow(ctx, 'WEAK', boss.weak, icons, x + 16, y);
     attrRow(ctx, 'RESIST', boss.resist, icons, x + 16, y + 34);
     y += 82;
@@ -202,14 +217,14 @@ async function drawDeadlyAssault(ctx, base) {
     ctx.fillStyle = K.dim;
     ctx.font = `600 13px ${MONO}`;
     ctx.fillText('TEAM', x + 16, y + 8);
-    const size = Math.min(76, (colW - 32 - 16) / 3);
-    await teamPortraits(ctx, run[i]?.ids, base, x + 16, y + 20, size, 8);
-    const alt = run[i]?.options && Object.values(run[i].options)[0];
-    if (alt) {
+    const size = Math.min(70, (colW - 32 - 16) / 3);
+    const comp = teamComp(run[i]?.ids, boss);
+    if (comp) {
       ctx.fillStyle = K.muted;
       ctx.font = `500 13px ${FONT}`;
-      ctx.fillText(fit(ctx, `or ${alt.slice(1).map((id) => shortName(AGENT_BY_ID[id])).join(' / ')}`, colW - 32), x + 16, y + size + 58);
+      ctx.fillText(fit(ctx, comp, colW - 32), x + 16, y + 28);
     }
+    await teamPortraits(ctx, run[i]?.ids, base, x + 16, y + 40, size, 8);
   }
 
   // Buffs
@@ -284,7 +299,12 @@ async function drawDeadlyAssault(ctx, base) {
       attrRow(ctx, 'WEAK', bonus.weak, icons, tx, y + 56);
       attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 200, y + 56);
       const t = suggestTeams(bonus, [], 1)[0];
-      if (t) await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
+      if (t) {
+        await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
+        ctx.fillStyle = K.muted;
+        ctx.font = `500 14px ${FONT}`;
+        ctx.fillText(fit(ctx, teamComp(t.ids, bonus), 300), tx + 340, y + 75);
+      }
     }
   }
   foot(ctx);
@@ -335,13 +355,13 @@ async function drawShiyu(ctx, base) {
     ctx.fillStyle = K.dim;
     ctx.font = `600 13px ${MONO}`;
     ctx.fillText('TEAM', W - 40 - 340, y + 40);
-    await teamPortraits(ctx, plan[i]?.ids, base, W - 40 - 340, y + 54, 96, 12);
-    const alt = plan[i]?.options && Object.values(plan[i].options)[0];
-    if (alt) {
+    const comp = teamComp(plan[i]?.ids, side);
+    if (comp) {
       ctx.fillStyle = K.muted;
       ctx.font = `500 14px ${FONT}`;
-      ctx.fillText(`or ${alt.slice(1).map((id) => shortName(AGENT_BY_ID[id])).join(' / ')}`, W - 40 - 340, y + 190);
+      ctx.fillText(fit(ctx, comp, 340), W - 40 - 340, y + 62);
     }
+    await teamPortraits(ctx, plan[i]?.ids, base, W - 40 - 340, y + 76, 96, 12);
     y += rh + 16;
   }
   ctx.fillStyle = K.muted;
