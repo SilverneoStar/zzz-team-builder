@@ -9,6 +9,10 @@ import { BUILDS } from '../data/builds.js';
 
 // Armorers (Claret, Sunbringer) carry teams too, so they count as damage dealers.
 const DAMAGE = new Set(['attack', 'anomaly', 'rupture', 'armorer']);
+// Damage dealers who play as a sub-DPS, so they never lead a team here.
+const SUB_DPS = new Set(['orphie-magnusson-and-magus']);
+// Defense Agents are rarely used in endgame now; Zhao plays as a support, so she's fine.
+const DEFENSE_OK = new Set(['zhao']);
 
 // Every recommended team once, keyed by its members, main damage dealer first.
 const TEAMS = (() => {
@@ -37,7 +41,7 @@ function favorScore(a, favors) {
 /** Scores one team. Returns { score, reasons } or null if it doesn't fit at all. */
 export function scoreTeam(ids, target, buffs = []) {
   const agents = ids.map((id) => AGENT_BY_ID[id]);
-  const dealers = agents.filter((a) => DAMAGE.has(a.specialty));
+  const dealers = agents.filter((a) => DAMAGE.has(a.specialty) && !SUB_DPS.has(a.id));
   if (!dealers.length) return null;
   const main = dealers[0];
   if (!target.weak.includes(attr(main))) return null; // the carry must hit a weakness
@@ -48,6 +52,8 @@ export function scoreTeam(ids, target, buffs = []) {
     if (target.weak.includes(attr(a))) score += DAMAGE.has(a.specialty) ? 3 : 1.5;
     if (target.resist.includes(attr(a))) score -= DAMAGE.has(a.specialty) ? 4 : 1.5;
   });
+  const defense = agents.filter((a) => a.specialty === 'defense' && !DEFENSE_OK.has(a.id));
+  score -= defense.length * 3;
   let buffPts = 0;
   buffs.forEach((b) => {
     const f = b.favors ?? {};
