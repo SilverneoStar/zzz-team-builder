@@ -25,7 +25,9 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
   const [failedSrc, setFailedSrc] = useState(null);
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color;
   const ranked = agent.rank === 'S' || agent.rank === 'A';
-  const factionBg = faction && factionLogo(agent.faction) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(agent.faction)}.webp` : null;
+  // A picked member shows their own department's logo.
+  const factionName = agent.members && member >= 0 ? agent.members[member].faction ?? agent.faction : agent.faction;
+  const factionBg = faction && factionLogo(factionName) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(factionName)}.webp` : null;
   return (
     <span
       className={`frame${tall ? ' frame--tall' : ''}${faction ? ' frame--no-badge' : ''}`}

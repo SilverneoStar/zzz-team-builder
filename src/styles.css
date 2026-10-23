@@ -8568,3 +8568,12 @@ details.disc-guide + details.disc-guide {
     animation: none;
   }
 }
+.member-pick__dept {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.members-list {
+  display: grid;
+  gap: 4px;
+}

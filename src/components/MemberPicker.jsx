@@ -1,3 +1,4 @@
+import FactionLogo from './FactionLogo.jsx';
 import { memberArt, setMemberIndex, useMemberIndex } from '../lib/memberArt.js';
 
 // For Agents played as several people (Sunbringer): show them all as a
@@ -22,7 +23,10 @@ export default function MemberPicker({ agent: a }) {
           <img src={memberArt(a, i)} alt="" width={28} height={28} loading="lazy" />
           <span>
             <b>{m.name.split(' ')[0]}</b>
-            <small title={m.deptName}>{m.dept}</small>
+            <small className="member-pick__dept" title={m.deptName}>
+              <FactionLogo faction={m.faction} size={13} />
+              {m.dept}
+            </small>
           </span>
         </button>
       ))}

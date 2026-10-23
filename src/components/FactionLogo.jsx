@@ -21,6 +21,8 @@ const WITH_LOGO = new Set([
   'flint-workshop',
   'obol-squad',
   'airspace-patrol-department',
+  'administrative-affairs-department',
+  'central-computing-department',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const factionSlug = (name) =>

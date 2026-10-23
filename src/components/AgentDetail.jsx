@@ -48,7 +48,14 @@ export default function AgentDetail({
         {a.members && (
           <div>
             <dt>Members</dt>
-            <dd>{a.members.map((m) => `${m.name}, ${m.deptName} (${m.dept})`).join(' · ')}</dd>
+            <dd className="members-list">
+              {a.members.map((m) => (
+                <span key={m.key} className="cell-faction">
+                  <FactionLogo faction={m.faction} size={20} />
+                  {m.name}, {m.deptName} ({m.dept})
+                </span>
+              ))}
+            </dd>
           </div>
         )}
         <div>
