@@ -78,6 +78,7 @@ export const DEADLY_ASSAULT = {
         ['pyrois', 'dialyn', 'nicole-demara'],
         ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
         ['soldier-0-anby', 'trigger', 'seed'],
+            ['soldier-0-anby', 'trigger', 'orphie-magnusson-and-magus'],
       ],
     },
     { id: 'da-3-3-1-3', name: 'Discordant Solo – Vesper', type: 'Machine', art: 'enemies/da-3-3-1-3.webp', weak: ['wind', 'ether'], resist: ['ice', 'fire'] },
@@ -122,6 +123,7 @@ export const SHIYU_DEFENSE = {
           picks: [
             ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
             ['soldier-0-anby', 'trigger', 'seed'],
+            ['soldier-0-anby', 'trigger', 'orphie-magnusson-and-magus'],
           ],
         },
         {
