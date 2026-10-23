@@ -201,7 +201,8 @@ async function drawDeadlyAssault(ctx, base) {
     ctx.font = `800 22px ${FONT}`;
     const nameLines = wrap(ctx, boss.name ?? 'To be announced', colW - 32, 2);
     nameLines.forEach((l, k) => ctx.fillText(l, x + 16, top + 330 + k * 26));
-    let y = top + 330 + nameLines.length * 26;
+    // Same height for every name, so the rows line up across the three columns.
+    let y = top + 330 + 2 * 26;
     attrRow(ctx, 'WEAK', boss.weak, icons, x + 16, y);
     attrRow(ctx, 'RESIST', boss.resist, icons, x + 16, y + 34);
     y += 82;
@@ -268,12 +269,15 @@ async function drawDeadlyAssault(ctx, base) {
         ctx.fillStyle = K.line;
         ctx.fillRect(cx - 1, y + 14, 1, sh - 28);
       }
-      for (let k = 0; k <= i; k += 1) star(ctx, cx + 30 + k * 26, y + sh / 2, 11, '#f5c542');
-      ctx.fillStyle = K.fg;
+      // Stars and score centred together in their cell.
       ctx.font = `800 24px ${FONT}`;
-      ctx.textAlign = 'right';
-      ctx.fillText(pts.toLocaleString('en-US'), cx + cw - 24, y + sh / 2 + 9);
-      ctx.textAlign = 'left';
+      const label = pts.toLocaleString('en-US');
+      const sw = (i + 1) * 26 - 4;
+      const total = sw + 16 + ctx.measureText(label).width;
+      const sx = cx + (cw - total) / 2;
+      for (let k = 0; k <= i; k += 1) star(ctx, sx + 11 + k * 26, y + sh / 2, 11, '#f5c542');
+      ctx.fillStyle = K.fg;
+      ctx.fillText(label, sx + sw + 16, y + sh / 2 + 9);
     });
     y += sh + 18;
   }
@@ -297,13 +301,15 @@ async function drawDeadlyAssault(ctx, base) {
     ctx.fillText(bonus.name ?? 'To be announced', tx + 124, y + 38);
     if (bonus.weak?.length) {
       attrRow(ctx, 'WEAK', bonus.weak, icons, tx, y + 56);
-      attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 200, y + 56);
+      attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 150, y + 56);
       const t = suggestTeams(bonus, [], 1)[0];
       if (t) {
         await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
         ctx.fillStyle = K.muted;
         ctx.font = `500 14px ${FONT}`;
-        ctx.fillText(fit(ctx, teamComp(t.ids, bonus), 300), tx + 340, y + 75);
+        ctx.textAlign = 'right';
+        ctx.fillText(fit(ctx, teamComp(t.ids, bonus), 300), W - 80 - 3 * 60 - 8 - 24, y + 74);
+        ctx.textAlign = 'left';
       }
     }
   }
@@ -319,7 +325,7 @@ async function drawShiyu(ctx, base) {
   const arts = await Promise.all(st.sides.map((s) => (s.art ? loadImage(`${base}${s.art}`) : null)));
 
   let y = 182;
-  const rh = 304;
+  const rh = 322;
   for (let i = 0; i < st.sides.length; i += 1) {
     const side = st.sides[i];
     panel(ctx, 40, y, W - 80, rh);
