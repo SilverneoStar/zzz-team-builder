@@ -8834,3 +8834,4 @@ details.disc-guide + details.disc-guide {
 .eg-bonus__info { display: grid; gap: 8px; min-width: 0; }
 .eg-mech { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.88rem; color: var(--muted); }
 @media (max-width: 640px) { .eg-bonus__body { grid-template-columns: 1fr; } .eg-bonus__art { aspect-ratio: 16 / 10; object-position: 50% 20%; } }
+.eg-export { margin-left: auto; }

@@ -6,6 +6,9 @@ import { recommendedTeam } from '../lib/builds.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 import Keywords from './Keywords.jsx';
+import ExportDialog from './ExportDialog.jsx';
+import ExportIcon from './ExportIcon.jsx';
+import { renderEndgameCard } from '../lib/endgameCards.js';
 
 const BASE = import.meta.env.BASE_URL;
 const MODE_KEY = 'zzz-team-builder:endgameMode';
@@ -328,6 +331,7 @@ function Shiyu({ onLoadTeam }) {
 
 export default function EtherealsPage({ onLoadTeam }) {
   const [mode, setMode] = useState(loadMode);
+  const [exporting, setExporting] = useState(false);
   useEffect(() => {
     try {
       localStorage.setItem(MODE_KEY, mode);
@@ -353,8 +357,24 @@ export default function EtherealsPage({ onLoadTeam }) {
             </button>
           ))}
         </div>
+        <button className="btn eg-export" onClick={() => setExporting(true)}>
+          <ExportIcon />
+          Export card
+        </button>
       </div>
       {mode === 'deadly-assault' ? <DeadlyAssault onLoadTeam={onLoadTeam} /> : <Shiyu onLoadTeam={onLoadTeam} />}
+      {exporting && (
+        <ExportDialog
+          onClose={() => setExporting(false)}
+          title="Endgame card"
+          name={MODES.find((m) => m.id === mode).label}
+          suffix="zzz"
+          kinds={[{ id: mode, label: MODES.find((m) => m.id === mode).label, hint: '4:5' }]}
+          kind={mode}
+          onKind={() => {}}
+          render={(opts) => renderEndgameCard(mode, opts)}
+        />
+      )}
     </div>
   );
 }
