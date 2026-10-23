@@ -144,6 +144,7 @@ function DeadlyAssault({ onLoadTeam }) {
             </div>
             <div className="eg-boss__body">
               <h4 className="eg-boss__name">{boss.name ?? <span className="muted">Name to be added</span>}</h4>
+              {boss.about && <p className="muted small eg-boss__about">{boss.about}</p>}
               <Attrs ids={boss.weak} label="Weak to" />
               <Attrs ids={boss.resist} label="Resists" />
               {buff && (
