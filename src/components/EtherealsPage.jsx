@@ -249,7 +249,13 @@ function Shiyu({ onLoadTeam }) {
             <div className="eg-sides">
               {st.sides.map((side, i) => (
                 <div key={i} className="eg-side">
-                  <h5 className="eg-side__name">{st.sides.length > 2 ? `Room ${i + 1}` : `Side ${i + 1}`}</h5>
+                  <div className="eg-side__head">
+                    {side.art && <img className="eg-side__art" src={`${BASE}${side.art}`} alt="" loading="lazy" />}
+                    <div>
+                      <h5 className="eg-side__name">{st.sides.length > 2 ? `Room ${i + 1}` : `Side ${i + 1}`}</h5>
+                      {side.name && <p className="small eg-side__boss">{side.name}</p>}
+                    </div>
+                  </div>
                   <Attrs ids={side.weak} label="Weak to" />
                   <Attrs ids={side.resist} label="Resists" />
                   {side.buffs?.map((b) => (

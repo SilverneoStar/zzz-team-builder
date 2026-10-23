@@ -129,6 +129,7 @@ export const SHIYU_DEFENSE = {
       buffs: [],
       sides: [
         {
+          art: 'enemies/sd-5-1.webp',
           weak: ['wind', 'electric'],
           resist: ['ice'],
           buffs: [ROOM_1],
@@ -138,6 +139,7 @@ export const SHIYU_DEFENSE = {
           ],
         },
         {
+          art: 'enemies/sd-5-2.webp',
           weak: ['ether', 'wind'],
           resist: ['electric'],
           buffs: [
@@ -154,6 +156,7 @@ export const SHIYU_DEFENSE = {
           ],
         },
         {
+          art: 'enemies/sd-5-3.webp',
           weak: ['fire', 'physical'],
           resist: ['ice', 'wind'],
           buffs: [

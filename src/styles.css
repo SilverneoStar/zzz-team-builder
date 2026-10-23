@@ -8810,3 +8810,6 @@ details.disc-guide + details.disc-guide {
 :root:not([data-theme='dark']) .eg-logo { filter: invert(1) brightness(0.25); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .eg-logo { filter: none; } }
 :root[data-theme='dark'] .eg-logo { filter: none; }
+.eg-side__head { display: flex; align-items: center; gap: 12px; }
+.eg-side__art { width: 72px; height: 72px; border-radius: 14px; object-fit: cover; flex: none; box-shadow: 0 4px 10px rgb(0 0 0 / 0.4); }
+.eg-side__boss { margin: 2px 0 0; font-weight: 600; }
