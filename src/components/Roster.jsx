@@ -28,7 +28,10 @@ function links(agent, members) {
   return out;
 }
 
-export default function Roster({ members, usage, dispatch }) {
+// In the phone picker sheet (`sheet`), ids get a prefix, a tap fills `slot`,
+// and `onPick` closes the sheet once an Agent is added.
+export default function Roster({ members, usage, dispatch, sheet = false, slot = null, onPick }) {
+  const pre = sheet ? 'sheet-' : '';
   const [query, setQuery] = useState('');
   const [attribute, setAttribute] = useState('all');
   const [specialty, setSpecialty] = useState('all');
@@ -48,16 +51,16 @@ export default function Roster({ members, usage, dispatch }) {
   });
 
   return (
-    <section className="roster" aria-labelledby="roster-title">
+    <section className="roster" aria-labelledby={`${pre}roster-title`}>
       <div className="roster__head">
-        <h2 id="roster-title" className="section-title">
+        <h2 id={`${pre}roster-title`} className="section-title">
           Agents
         </h2>
-        <label className="sr-only" htmlFor="roster-search">
+        <label className="sr-only" htmlFor={`${pre}roster-search`}>
           Search Agents
         </label>
         <input
-          id="roster-search"
+          id={`${pre}roster-search`}
           className="search"
           type="search"
           placeholder="Search"
@@ -86,7 +89,7 @@ export default function Roster({ members, usage, dispatch }) {
         <div className="filters__row">
           <label className="select">
             <span>Specialty</span>
-            <select id="filter-specialty" value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
+            <select id={`${pre}filter-specialty`} value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
               <option value="all">Any</option>
               {SPECIALTIES.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -97,7 +100,7 @@ export default function Roster({ members, usage, dispatch }) {
           </label>
           <label className="select">
             <span>Rank</span>
-            <select id="filter-rank" value={rank} onChange={(e) => setRank(e.target.value)}>
+            <select id={`${pre}filter-rank`} value={rank} onChange={(e) => setRank(e.target.value)}>
               <option value="all">Any</option>
               <option value="S">S</option>
               <option value="A">A</option>
@@ -105,7 +108,7 @@ export default function Roster({ members, usage, dispatch }) {
           </label>
           <label className="select">
             <span>Faction</span>
-            <select id="filter-faction" value={faction} onChange={(e) => setFaction(e.target.value)}>
+            <select id={`${pre}filter-faction`} value={faction} onChange={(e) => setFaction(e.target.value)}>
               <option value="all">Any</option>
               {FACTIONS.map((f) => (
                 <option key={f} value={f}>
@@ -135,7 +138,11 @@ export default function Roster({ members, usage, dispatch }) {
                   className={`card${inTeam ? ' card--in' : ''}`}
                   aria-pressed={inTeam}
                   disabled={!inTeam && teamFull}
-                  onClick={() => dispatch({ type: 'toggle', agentId: a.id })}
+                  onClick={() => {
+                    const adding = !members.includes(a.id);
+                    dispatch({ type: 'toggle', agentId: a.id, slot });
+                    if (adding) onPick?.(a.id);
+                  }}
                 >
                   <Portrait agent={a} />
                   <span className="card__body">

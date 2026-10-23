@@ -17,6 +17,7 @@ import LoadoutPanel from './components/LoadoutPanel.jsx';
 import Mascot from './components/Mascot.jsx';
 import Portrait from './components/Portrait.jsx';
 import Roster from './components/Roster.jsx';
+import PickerSheet from './components/PickerSheet.jsx';
 import SharePanel from './components/SharePanel.jsx';
 import SocialLinks from './components/SocialLinks.jsx';
 import TeamSlots from './components/TeamSlots.jsx';
@@ -31,6 +32,16 @@ export default function App() {
 
   // Which squad slot's loadout is open. Closes when switching teams.
   const [selectedSlot, setSelectedSlot] = useState(null);
+  // Phone picker sheet: which empty slot is being filled (null when closed).
+  const [pickSlot, setPickSlot] = useState(null);
+  const pickEmpty = (index) => {
+    // Wide screens already show the Agents list beside the squad: just jump to its search.
+    if (window.matchMedia('(min-width: 960px)').matches) {
+      document.getElementById('roster-search')?.focus();
+      return;
+    }
+    setPickSlot(index);
+  };
   useEffect(() => setSelectedSlot(null), [state.activeId]);
   const [exporting, setExporting] = useState(false);
   const selectedAgent = selectedSlot != null ? AGENT_BY_ID[active.members[selectedSlot]] : null;
@@ -156,6 +167,7 @@ export default function App() {
               selected={selectedAgent ? selectedSlot : null}
               onSelect={setSelectedSlot}
               dispatch={dispatch}
+              onPickEmpty={pickEmpty}
             />
 
             {selectedAgent ? (
@@ -200,6 +212,18 @@ export default function App() {
       )}
 
       {exporting && <ExportDialog team={active} onClose={() => setExporting(false)} />}
+      {pickSlot != null && (
+        <PickerSheet onClose={() => setPickSlot(null)}>
+          <Roster
+            sheet
+            slot={pickSlot}
+            members={active.members}
+            usage={usage}
+            dispatch={dispatch}
+            onPick={() => setPickSlot(null)}
+          />
+        </PickerSheet>
+      )}
 
       <footer className="foot">
         <SocialLinks />

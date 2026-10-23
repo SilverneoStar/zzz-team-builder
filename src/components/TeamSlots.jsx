@@ -19,7 +19,8 @@ import { passiveStatus } from '../lib/analyze.js';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
 // its loadout below.
-export default function TeamSlots({ team, selected, onSelect, dispatch }) {
+// Tapping an empty slot calls `onPickEmpty(index)` to choose an Agent for it.
+export default function TeamSlots({ team, selected, onSelect, dispatch, onPickEmpty }) {
   const bangboo = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const passives = passiveStatus(team.members);
   const allOn = passives.total > 0 && passives.active === passives.total;
@@ -38,8 +39,10 @@ export default function TeamSlots({ team, selected, onSelect, dispatch }) {
           if (!a) {
             return (
               <li key={index} className="slot slot--empty">
-                <EmptyFrame />
-                <span className="slot__hint">Pick from the Agents list</span>
+                <button className="slot__btn slot__btn--empty" onClick={() => onPickEmpty?.(index)} aria-label={`Slot ${index + 1}: choose an Agent`}>
+                  <EmptyFrame />
+                </button>
+                <span className="slot__hint">Tap to choose an Agent</span>
               </li>
             );
           }

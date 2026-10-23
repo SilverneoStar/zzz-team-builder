@@ -8499,3 +8499,72 @@ details.disc-guide + details.disc-guide {
   object-fit: cover;
   box-shadow: 0 0 0 1.5px var(--surface);
 }
+
+/* Empty squad slots are buttons that open the Agent picker. */
+.slot__btn--empty {
+  width: 100%;
+  cursor: pointer;
+}
+.slot__btn--empty:hover .frame--empty,
+.slot__btn--empty:focus-visible .frame--empty {
+  border-color: var(--fg);
+}
+/* Phone picker sheet for filling an empty slot. */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.55);
+  animation: sheet-fade 0.15s ease both;
+}
+.sheet__panel {
+  width: min(640px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px 18px 0 0;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  background: var(--bg, #111);
+  box-shadow: 0 -10px 30px rgb(0 0 0 / 0.45);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  animation: sheet-up 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.sheet__bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 8px 12px 2px;
+}
+.sheet__grip {
+  width: 40px;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.sheet__close {
+  position: absolute;
+  right: 8px;
+  top: 2px;
+}
+.sheet__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 16px 16px;
+}
+@keyframes sheet-up {
+  from { transform: translateY(40px); opacity: 0; }
+}
+@keyframes sheet-fade {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet__panel {
+    animation: none;
+  }
+}

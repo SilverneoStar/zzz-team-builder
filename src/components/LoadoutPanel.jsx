@@ -18,6 +18,7 @@ import DiscWheel, { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
 import { MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
 import RankBadge from './RankBadge.jsx';
+import MemberPicker from './MemberPicker.jsx';
 
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
 // the six Drive Disc slots on the equipment wheel, each with its own set, rank
@@ -52,6 +53,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
           ×
         </button>
       </div>
+      {agent.members && <MemberPicker agent={agent} />}
 
       <div className="loadout__grid loadout__grid--wheel">
         <div className="loadout__block">
