@@ -16,6 +16,8 @@ export const DEADLY_ASSAULT = {
   start: '2026-10-23',
   end: '2026-11-06',
   note: 'Pick one buff for each boss. An Agent can only be used against one boss per run.',
+  // Score needed on each boss for 1, 2 and 3 stars (3 stars = S rank).
+  stars: [6000, 14000, 20000],
   // The extra boss for players who earn all 9 stars. Fill in once known.
   bonus: {
     title: 'Adversity',

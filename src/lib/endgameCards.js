@@ -148,6 +148,18 @@ function foot(ctx) {
   ctx.textAlign = 'left';
 }
 
+function star(ctx, cx, cy, r, color) {
+  ctx.beginPath();
+  for (let i = 0; i < 10; i += 1) {
+    const rad = i % 2 ? r * 0.45 : r;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    ctx[i ? 'lineTo' : 'moveTo'](cx + rad * Math.cos(a), cy + rad * Math.sin(a));
+  }
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
 async function drawDeadlyAssault(ctx, base) {
   const da = DEADLY_ASSAULT;
   await header(ctx, base, 'modes/deadly-assault.webp', 'Deadly Assault', `${fmtDate(da.start)} – ${fmtDate(da.end)}`);
@@ -223,6 +235,34 @@ async function drawDeadlyAssault(ctx, base) {
   });
   y += bh + 18;
 
+  // Score needed on each boss for each star
+  if (da.stars) {
+    const sh = 72;
+    panel(ctx, 40, y, W - 80, sh);
+    ctx.fillStyle = K.dim;
+    ctx.font = `600 13px ${MONO}`;
+    ctx.fillText('STARS PER BOSS', 60, y + 26);
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 13px ${FONT}`;
+    ctx.fillText('3 stars on all three', 60, y + 45);
+    ctx.fillText('unlock Adversity', 60, y + 61);
+    const cw = (W - 80 - 220) / 3;
+    da.stars.forEach((pts, i) => {
+      const cx = 40 + 220 + i * cw;
+      if (i) {
+        ctx.fillStyle = K.line;
+        ctx.fillRect(cx - 1, y + 14, 1, sh - 28);
+      }
+      for (let k = 0; k <= i; k += 1) star(ctx, cx + 30 + k * 26, y + sh / 2, 11, '#f5c542');
+      ctx.fillStyle = K.fg;
+      ctx.font = `800 24px ${FONT}`;
+      ctx.textAlign = 'right';
+      ctx.fillText(pts.toLocaleString('en-US'), cx + cw - 24, y + sh / 2 + 9);
+      ctx.textAlign = 'left';
+    });
+    y += sh + 18;
+  }
+
   // Adversity
   const bonus = da.bonus;
   if (bonus) {
@@ -240,14 +280,11 @@ async function drawDeadlyAssault(ctx, base) {
     ctx.fillStyle = K.fg;
     ctx.font = `800 22px ${FONT}`;
     ctx.fillText(bonus.name ?? 'To be announced', tx + 124, y + 38);
-    ctx.fillStyle = K.muted;
-    ctx.font = `500 14px ${FONT}`;
-    ctx.fillText(fit(ctx, 'Unlocks with all 9 stars.', 400), tx, y + 66);
     if (bonus.weak?.length) {
-      attrRow(ctx, 'WEAK', bonus.weak, icons, tx, y + 80);
-      attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 200, y + 80);
+      attrRow(ctx, 'WEAK', bonus.weak, icons, tx, y + 56);
+      attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 200, y + 56);
       const t = suggestTeams(bonus, [], 1)[0];
-      if (t) await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 64 - 16, y + 24, 56, 8);
+      if (t) await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
     }
   }
   foot(ctx);

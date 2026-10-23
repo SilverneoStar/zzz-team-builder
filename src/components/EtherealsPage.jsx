@@ -173,6 +173,11 @@ function DeadlyAssault({ onLoadTeam }) {
         <span className="eg-dates">{range(da.start, da.end)}</span>
       </header>
       <p className="muted small">{da.note}</p>
+      {da.stars && (
+        <p className="muted small">
+          Stars per boss: {da.stars.map((n, i) => `${'★'.repeat(i + 1)} ${n.toLocaleString('en-US')}`).join(' · ')}
+        </p>
+      )}
 
       <h4 className="mini-title">Buffs</h4>
       <p className="eg-buff-legend">
