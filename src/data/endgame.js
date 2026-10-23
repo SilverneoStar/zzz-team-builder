@@ -102,6 +102,8 @@ export const DEADLY_ASSAULT = {
       resist: ['ice', 'fire'],
       // In order of cleared runs this rotation (best first): the full Angels of Delusion squad leads.
       ranked: true,
+      // The Angels of Delusion squad does best with Buff 3.
+      buff: 'da-3',
       picks: [
         ['aria', 'nangong-yu', 'sunna'],
         ['aria', 'velina-airgid', 'remielle-dan'],

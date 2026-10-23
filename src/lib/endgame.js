@@ -124,6 +124,9 @@ export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set())
 
 /** The buff that gives the best team for this target. */
 export function bestBuff(target, buffs) {
+  // A buff set in the data (from proven runs) wins over the site's own scoring.
+  const set = target.buff && buffs.find((b) => b.id === target.buff);
+  if (set) return set;
   let best = null;
   buffs.forEach((b) => {
     const top2 = suggestTeams({ ...target, picks: [] }, [b], 1)[0];
