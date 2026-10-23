@@ -70,9 +70,11 @@ export const DEADLY_ASSAULT = {
       art: 'enemies/da-3-3-1-1.webp',
       weak: ['fire'],
       resist: ['ice'],
+      // In order of cleared runs this rotation (best first).
+      ranked: true,
       picks: [
-        ['burnice-white', 'velina-airgid', 'remielle-dan'],
         ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
+        ['burnice-white', 'velina-airgid', 'remielle-dan'],
         ['evelyn-chevalier', 'norma-hollowell', 'astra-yao'],
       ],
     },
@@ -97,7 +99,10 @@ export const DEADLY_ASSAULT = {
       art: 'enemies/da-3-3-1-3.webp',
       weak: ['wind', 'ether'],
       resist: ['ice', 'fire'],
+      // In order of cleared runs this rotation (best first): the full Angels of Delusion squad leads.
+      ranked: true,
       picks: [
+        ['aria', 'nangong-yu', 'sunna'],
         ['aria', 'velina-airgid', 'remielle-dan'],
         ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
         ['yixuan', 'dialyn', 'lucia-elowen'],
