@@ -140,6 +140,7 @@ function DeadlyAssault({ onLoadTeam }) {
             <div className="eg-boss__art">
               <img src={`${BASE}${boss.art}`} alt="" loading="lazy" />
               <span className="eg-boss__stage">Boss {i + 1}</span>
+              {boss.isNew && <span className="eg-boss__new">New</span>}
             </div>
             <div className="eg-boss__body">
               <h4 className="eg-boss__name">{boss.name ?? <span className="muted">Name to be added</span>}</h4>

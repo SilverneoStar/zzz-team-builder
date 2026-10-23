@@ -8794,3 +8794,4 @@ details.disc-guide + details.disc-guide {
 .eg-bonus__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .eg-bonus__badge { padding: 2px 10px; border-radius: 999px; background: #8c1f1f; color: #fff; font: 700 0.72rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .eg-bonus p { margin: 0; }
+.eg-boss__new { position: absolute; right: 8px; top: 8px; padding: 2px 10px; border-radius: 999px; background: linear-gradient(180deg, #fff, #cfd3da); color: #111; font: 800 0.72rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
