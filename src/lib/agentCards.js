@@ -37,6 +37,7 @@ import {
   MONO,
   background,
   fit,
+  loadAgentArt,
   loadImage,
   loadRoleIcons,
   rankBadge,
@@ -251,6 +252,36 @@ function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
   }
 }
 
+// ---------- placeholder text for Agents without a build yet ----------
+
+/** A titled panel of short verses (e.g. Sunbringer's reveal text), wrapped to fit. Returns its height. */
+function drawQuote(ctx, quote, x, y, w, maxH) {
+  const size = w > 900 ? 17 : 18;
+  const lh = size * 1.38;
+  ctx.font = `italic 500 ${size}px ${FONT}`;
+  const blocks = quote.stanzas.map((st) => st.flatMap((line) => wrap(ctx, line, w - 48, 4)));
+  const needed = 72 + blocks.reduce((n, b) => n + b.length * lh + 12, 0);
+  const h = Math.min(maxH, needed);
+  panel(ctx, x, y, w, h, '');
+  // The title as written, rather than the panels' usual small caps.
+  ctx.fillStyle = K.fg;
+  ctx.font = `700 20px ${FONT}`;
+  ctx.fillText(quote.title, x + 24, y + 36);
+  let ty = y + 72;
+  blocks.forEach((lines) => {
+    lines.forEach((l, i) => {
+      if (ty > y + h - 12) return;
+      // The first line of each verse names the child; it's set brighter.
+      ctx.fillStyle = i === 0 ? K.fg : K.text;
+      ctx.font = `${i === 0 ? 'italic 700' : 'italic 500'} ${size}px ${FONT}`;
+      ctx.fillText(l, x + 24, ty);
+      ty += lh;
+    });
+    ty += 12;
+  });
+  return h;
+}
+
 // ---------- skill priority ----------
 
 const SKILL_SHORT = { core: 'Core', basic: 'Basic', dodge: 'Dodge', assist: 'Assist', special: 'Special', chain: 'Chain' };
@@ -368,7 +399,7 @@ function drawMains(ctx, b, x, y, w) {
 async function drawBuild(ctx, W, H, a, base) {
   const b = BUILDS[a.id];
   await head(ctx, W, a, base, 'Build card');
-  const art = await loadImage(`${base}agents/${a.id}.webp`);
+  const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
     w: 130,
     h: 170,
@@ -378,9 +409,12 @@ async function drawBuild(ctx, W, H, a, base) {
     roles: await loadRoleIcons(base, [a]),
   });
   if (!b) {
-    ctx.fillStyle = K.muted;
-    ctx.font = `500 22px ${FONT}`;
-    ctx.fillText('No recommended build yet.', 56, 340);
+    if (a.quote) drawQuote(ctx, a.quote, 40, 282, W - 80, 330);
+    else {
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 22px ${FONT}`;
+      ctx.fillText('No recommended build yet.', 56, 340);
+    }
     foot(ctx, W, H);
     return;
   }
@@ -476,7 +510,7 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
 async function drawFarm(ctx, W, H, a, base) {
   const m = materialsFor(a.id);
   await head(ctx, W, a, base, 'Farming card');
-  const art = await loadImage(`${base}agents/${a.id}.webp`);
+  const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, roles: await loadRoleIcons(base, [a]) });
   if (!m) {
     ctx.fillStyle = K.muted;
@@ -533,10 +567,10 @@ async function drawGuide(ctx, W, H, a, base) {
   await head(ctx, W, a, base, 'Agent guide');
   const ids = [...new Set((b?.teams ?? []).flat())];
   const [art, icons, discs, ...rest] = await Promise.all([
-    loadImage(`${base}agents/${a.id}.webp`),
+    loadAgentArt(a, base),
     loadEngines(b?.wEngines.slice(0, 3) ?? [], base),
     loadDiscs(b ? [...b.fourPiece.slice(0, 2), ...b.twoPiece.slice(0, 2)] : [], base),
-    ...ids.map((id) => loadImage(`${base}agents/${id}.webp`)),
+    ...ids.map((id) => loadAgentArt(id, base)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
   agentBlock(ctx, a, art, 56, 100, {
@@ -598,6 +632,7 @@ async function drawGuide(ctx, W, H, a, base) {
       y += 120;
     }
   }
+  if (!b && a.quote) y += drawQuote(ctx, a.quote, 40, y, 1000, 420) + 18;
   if (m) {
     const items = [m.promotion[1], m.skill[2], m.core[0], m.core[1]].filter(Boolean);
     const rh = 56;
@@ -641,7 +676,7 @@ function shrink(ctx, text, w, weight, max, min) {
 /** The reader's own build: their W-Engine, each Drive Disc and the set bonuses. */
 async function drawMine(ctx, W, H, a, base, lo) {
   await head(ctx, W, a, base, 'My build');
-  const art = await loadImage(`${base}agents/${a.id}.webp`);
+  const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
     w: 130,
     h: 170,

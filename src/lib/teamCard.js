@@ -18,6 +18,7 @@ import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
+import { memberIndex } from './memberArt.js';
 
 // Team images, in three layouts:
 //   columns  1200×675  three gear columns (the original card)
@@ -50,6 +51,60 @@ export function loadImage(src) {
     img.onerror = () => resolve(null);
     img.src = src;
   });
+}
+
+/** Draws `img` to cover the box like CSS object-fit: cover, then zooms in on `focus` ("x% y%"). */
+function coverAt(ctx, img, x, y, w, h, focus = '50% 40%', zoom = 1) {
+  const [fx, fy] = focus.split(' ').map((v) => parseFloat(v) / 100);
+  const s = Math.max(w / img.width, h / img.height);
+  const dw = img.width * s;
+  const dh = img.height * s;
+  const ox = x + fx * w;
+  const oy = y + fy * h;
+  const dx = x + (w - dw) * fx;
+  const dy = y + (h - dh) * fy;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.clip();
+  ctx.drawImage(img, ox + (dx - ox) * zoom, oy + (dy - oy) * zoom, dw * zoom, dh * zoom);
+  ctx.restore();
+}
+
+/**
+ * An Agent's art for the exported images. Agents with several members
+ * (Sunbringer) follow the reader's pick: one member's art, or the collage of
+ * all of them (big box on top, two below), the same as on the site.
+ */
+export async function loadAgentArt(agentOrId, base) {
+  const a = typeof agentOrId === 'string' ? AGENT_BY_ID[agentOrId] : agentOrId;
+  if (!a) return null;
+  if (!a.members) return loadImage(`${base}agents/${a.id}.webp`);
+  const i = memberIndex(a);
+  if (i >= 0) return loadImage(`${base}agents/${a.id}-${a.members[i].key}.webp`);
+  const imgs = await Promise.all(a.members.map((m) => loadImage(`${base}agents/${a.id}-${m.key}.webp`)));
+  const W = 480;
+  const H = 600;
+  const gap = 4;
+  const c = document.createElement('canvas');
+  c.width = W;
+  c.height = H;
+  const g = c.getContext('2d');
+  g.imageSmoothingQuality = 'high';
+  g.fillStyle = '#121212';
+  g.fillRect(0, 0, W, H);
+  const topH = Math.round((H - gap) * 0.6);
+  const half = (W - gap) / 2;
+  const cells = [
+    [0, 0, W, topH, 1.25],
+    [0, topH + gap, half, H - topH - gap, 1.9],
+    [half + gap, topH + gap, half, H - topH - gap, 1.9],
+  ];
+  a.members.slice(0, 3).forEach((m, k) => {
+    const [x, y, w, h, z] = cells[k];
+    if (imgs[k]) coverAt(g, imgs[k], x, y, w, h, m.focus, k === 0 ? z : m.zoom ?? z);
+  });
+  return c;
 }
 
 export function fit(ctx, text, maxWidth) {
@@ -307,7 +362,7 @@ export function roleLine(ctx, a, icons, x, y, size, { rank = true } = {}) {
 }
 
 async function loadArt(team, base) {
-  const arts = await Promise.all(team.members.map((id) => (id ? loadImage(`${base}agents/${id}.webp`) : null)));
+  const arts = await Promise.all(team.members.map((id) => (id ? loadAgentArt(id, base) : null)));
   const engines = {};
   await Promise.all(
     team.members.map(async (id) => {
