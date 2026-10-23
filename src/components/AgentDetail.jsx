@@ -48,7 +48,7 @@ export default function AgentDetail({
         {a.members && (
           <div>
             <dt>Members</dt>
-            <dd>{a.members.map((m) => `${m.name} (${m.size.toLowerCase()})`).join(', ')}</dd>
+            <dd>{a.members.map((m) => `${m.name}, ${m.deptName} (${m.dept})`).join(' · ')}</dd>
           </div>
         )}
         <div>
@@ -210,7 +210,7 @@ function MemberPicker({ agent: a }) {
           <img src={memberArt(a, i)} alt="" width={28} height={28} loading="lazy" />
           <span>
             <b>{m.name.split(' ')[0]}</b>
-            <small>{m.size}</small>
+            <small title={m.deptName}>{m.dept}</small>
           </span>
         </button>
       ))}
