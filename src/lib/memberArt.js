@@ -2,8 +2,9 @@ import { useSyncExternalStore } from 'react';
 
 // Agents played as several people at once (Sunbringer: Eldreda, Lindverne and
 // Dracaene) list them in `members`, each with art at
-// public/agents/<agentId>-<member.key>.webp. Which one is shown on top is the
-// reader's choice, remembered on this device and shared by every portrait.
+// public/agents/<agentId>-<member.key>.webp. By default their cards show all
+// of them as a collage (index -1); the reader can pick one instead. The choice
+// is remembered on this device and shared by every portrait.
 const KEY = 'zzz-team-builder:memberArt';
 const BASE = import.meta.env.BASE_URL;
 const listeners = new Set();
@@ -18,11 +19,11 @@ function read() {
 }
 let picks = read();
 
-/** Index of the member shown for this Agent (0 when none is picked). */
+/** Index of the member shown for this Agent, or -1 for all of them (the default). */
 export const memberIndex = (agent) => {
   const n = agent?.members?.length ?? 0;
-  const i = picks[agent?.id] ?? 0;
-  return n && i >= 0 && i < n ? i : 0;
+  const i = picks[agent?.id] ?? -1;
+  return n && i >= 0 && i < n ? i : -1;
 };
 
 export function setMemberIndex(agentId, i) {
@@ -43,6 +44,8 @@ const subscribe = (fn) => {
 /** Re-renders when the reader picks another member. */
 export const useMemberIndex = (agent) => useSyncExternalStore(subscribe, () => memberIndex(agent));
 
-/** Art for one member, or the Agent's own art when it has no members. */
-export const memberArt = (agent, i = memberIndex(agent)) =>
-  agent?.members?.[i] ? `${BASE}agents/${agent.id}-${agent.members[i].key}.webp` : `${BASE}agents/${agent.id}.webp`;
+/** Art for one member (the first when showing all), or the Agent's own art when it has no members. */
+export const memberArt = (agent, i = memberIndex(agent)) => {
+  const m = agent?.members?.[Math.max(0, i)];
+  return m ? `${BASE}agents/${agent.id}-${m.key}.webp` : `${BASE}agents/${agent.id}.webp`;
+};

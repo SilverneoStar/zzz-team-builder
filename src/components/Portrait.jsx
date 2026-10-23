@@ -18,7 +18,15 @@ export default function Portrait({ agent, size = 'md' }) {
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color ?? '#888';
   return (
     <span className={`portrait portrait--${size}`} style={{ '--el': color }}>
-      {failed ? (
+      {agent.members && member < 0 && (size === 'lg' || size === 'xl') ? (
+        <span className="portrait__collage">
+          {agent.members.map((m, i) => (
+            <span key={m.key} className="portrait__collage-cell">
+              <img src={memberArt(agent, i)} alt="" loading="lazy" style={{ objectPosition: m.focus }} />
+            </span>
+          ))}
+        </span>
+      ) : failed ? (
         <span className="portrait__initials">{initials(agent.name)}</span>
       ) : (
         <img className="portrait__img" src={src} alt="" loading="lazy" onError={() => setFailedSrc(src)} />
