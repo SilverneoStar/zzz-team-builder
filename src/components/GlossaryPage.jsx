@@ -1,18 +1,31 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FACTION_MORE, FACTION_NOTES, FACTION_PARENT, GLOSSARY, GLOSSARY_CATEGORIES } from '../data/glossary.js';
 import { AGENTS, BANGBOO } from '../data/game.js';
 import FactionLogo from './FactionLogo.jsx';
+import ViewToggle from './ViewToggle.jsx';
+import { agentArt } from './Portrait.jsx';
+import { bangbooArt } from './BangbooArt.jsx';
+
+const BASE = import.meta.env.BASE_URL;
+const VIEW_KEY = 'zzz-team-builder:factionView';
+const loadView = () => {
+  try {
+    return localStorage.getItem(VIEW_KEY) === 'grid' ? 'grid' : 'list';
+  } catch {
+    return 'list';
+  }
+};
 
 // One Factions entry per faction an Agent or Bangboo belongs to, plus the
 // departments a several-member Agent's members run (Sunbringer's sisters).
 const FACTION_ENTRIES = (() => {
   const people = {};
-  const add = (f, label, href) => f && (people[f] ??= []).push({ label, href });
+  const add = (f, label, href, img, bangboo = false) => f && (people[f] ??= []).push({ label, href, img, bangboo });
   AGENTS.forEach((a) => {
-    add(a.faction, a.name, `#agent-${a.id}`);
-    a.members?.forEach((m) => add(m.faction, m.name, `#agent-${a.id}`));
+    add(a.faction, a.name, `#agent-${a.id}`, a.members ? `${BASE}agents/${a.id}-${a.members[0].key}.webp` : agentArt(a.id));
+    a.members?.forEach((m) => add(m.faction, m.name, `#agent-${a.id}`, `${BASE}agents/${a.id}-${m.key}.webp`));
   });
-  BANGBOO.forEach((b) => add(b.faction, `${b.name} (Bangboo)`, `#bangboo-${b.id}`));
+  BANGBOO.forEach((b) => add(b.faction, `${b.name} (Bangboo)`, `#bangboo-${b.id}`, bangbooArt(b.id), true));
   return Object.keys(people).map((f) => ({
     term: f,
     also: FACTION_PARENT[f] ? `Part of ${FACTION_PARENT[f]}` : undefined,
@@ -30,6 +43,15 @@ const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 export default function GlossaryPage() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
+  // Factions can be shown as a list (like the other terms) or as cards.
+  const [view, setView] = useState(loadView);
+  useEffect(() => {
+    try {
+      localStorage.setItem(VIEW_KEY, view);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [view]);
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -84,9 +106,45 @@ export default function GlossaryPage() {
 
       {groups.map((g) => (
         <section key={g.cat} className="gloss-group" aria-labelledby={`g-${slug(g.cat)}`}>
-          <h3 id={`g-${slug(g.cat)}`} className="gloss-group__title">
-            {g.cat}
-          </h3>
+          <div className="gloss-group__head">
+            <h3 id={`g-${slug(g.cat)}`} className="gloss-group__title">
+              {g.cat}
+            </h3>
+            {g.cat === 'Factions' && <ViewToggle view={view} onChange={setView} />}
+          </div>
+          {g.cat === 'Factions' && view === 'grid' ? (
+            <ul className="fac-grid">
+              {g.entries.map((e) => (
+                <li key={e.term} className="fac-card">
+                  <div className="fac-card__logo">
+                    <FactionLogo faction={e.faction} size={96} />
+                  </div>
+                  <h4 className="fac-card__name">{e.term}</h4>
+                  {e.also && <p className="fac-card__also">{e.also}</p>}
+                  {e.text && <p className="fac-card__text">{e.text}</p>}
+                  <ul className="fac-card__members" aria-label="Members">
+                    {e.members.map((m) => (
+                      <li key={m.label}>
+                        <a href={m.href} title={m.label} className={m.bangboo ? 'is-bangboo' : undefined}>
+                          <img src={m.img} alt={m.label} loading="lazy" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  {e.more && (
+                    <details className="gloss__more">
+                      <summary>More</summary>
+                      <ul>
+                        {e.more.map((t) => (
+                          <li key={t}>{t}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
           <dl className="gloss">
             {g.entries.map((e) => (
               <div key={e.term} className="gloss__item">
@@ -124,6 +182,7 @@ export default function GlossaryPage() {
               </div>
             ))}
           </dl>
+          )}
         </section>
       ))}
     </div>

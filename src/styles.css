@@ -8630,3 +8630,122 @@ details.disc-guide + details.disc-guide {
   gap: 4px;
   font-size: 0.9rem;
 }
+
+/* Glossary: Factions as cards */
+.gloss-group__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.fac-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+.fac-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 14px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgb(255 255 255 / 0.06), transparent 70%),
+    var(--surface);
+  text-align: center;
+}
+.fac-card__logo {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+}
+.fac-card__logo .faction-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.4));
+}
+.fac-card__name {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.fac-card__also {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.fac-card__text {
+  margin: 2px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.fac-card__members {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.fac-card__members a {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #20252d;
+  box-shadow: 0 0 0 1.5px var(--line);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.fac-card__members a:hover,
+.fac-card__members a:focus-visible {
+  box-shadow: 0 0 0 2px var(--fg);
+  transform: translateY(-2px);
+}
+.fac-card__members img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+.fac-card__members a.is-bangboo img {
+  object-fit: contain;
+  object-position: center;
+  padding: 3px;
+}
+.fac-card .gloss__more {
+  align-self: stretch;
+  text-align: left;
+}
+@media (max-width: 520px) {
+  .fac-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .fac-card {
+    padding: 12px 8px;
+  }
+  .fac-card__logo,
+  .fac-card__logo .faction-logo {
+    width: 72px;
+    height: 72px;
+  }
+  .fac-card__text {
+    font-size: 0.8rem;
+  }
+  .fac-card__members a {
+    width: 30px;
+    height: 30px;
+  }
+}
