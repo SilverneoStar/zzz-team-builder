@@ -81,7 +81,9 @@ export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set())
   const picked = (target.picks ?? [])
     .filter(ok)
     .map((ids) => scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] })
-    .map((t) => ({ ...t, score: t.score + 100, reasons: ['Pick for this boss', ...t.reasons] }));
+    // Picks all rank alike, so the full run can choose whichever pick leaves
+    // the best teams for the other bosses.
+    .map((t) => ({ ...t, score: 100 + t.score * 0.1, reasons: ['Pick for this boss', ...t.reasons] }));
   const mains = new Set(picked.map((t) => t.ids[0]));
   const rest = TEAMS.filter(ok)
     .map((ids) => scoreTeam(ids, target, buffs))
