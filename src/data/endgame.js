@@ -53,7 +53,19 @@ export const DEADLY_ASSAULT = {
     },
   ],
   bosses: [
-    { id: 'da-3-3-1-1', name: 'The Blasphemer', isNew: true, art: 'enemies/da-3-3-1-1.webp', weak: ['fire'], resist: ['ice'] },
+    {
+      id: 'da-3-3-1-1',
+      name: 'The Blasphemer',
+      isNew: true,
+      art: 'enemies/da-3-3-1-1.webp',
+      weak: ['fire'],
+      resist: ['ice'],
+      picks: [
+        ['burnice-white', 'velina-airgid', 'remielle-dan'],
+        ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
+        ['evelyn-chevalier', 'norma-hollowell', 'astra-yao'],
+      ],
+    },
     {
       id: 'da-3-3-1-2',
       name: 'Unknown Corruption Complex',
