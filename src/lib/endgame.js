@@ -1,5 +1,6 @@
 import { AGENT_BY_ID, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { passiveStatus } from './analyze.js';
 
 // Suggests squads for an endgame target ({ weak, resist }) under a set of buffs.
 // The candidates are the community teams in builds.js; the site scores them
@@ -56,6 +57,11 @@ export function scoreTeam(ids, target, buffs = []) {
   });
   const defense = agents.filter((a) => a.specialty === 'defense' && !DEFENSE_OK.has(a.id));
   score -= defense.length * 3;
+  // Members whose Additional Ability stays off in this squad count against it.
+  const passives = passiveStatus(ids);
+  const idle = agents.filter((a) => passives.byId[a.id]?.known && !passives.byId[a.id].active);
+  score -= idle.length * 2.5;
+  if (idle.length) reasons.push(`${idle.map((a) => shortName(a)).join(', ')}: Additional Ability off`);
   let buffPts = 0;
   buffs.forEach((b) => {
     const f = b.favors ?? {};

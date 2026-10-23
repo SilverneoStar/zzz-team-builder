@@ -159,6 +159,8 @@ export const SHIYU_DEFENSE = {
           picks: [
             ['aria', 'velina-airgid', 'remielle-dan'],
             ['velina-airgid', 'phoenix-reffaella', 'jane-doe'],
+            ['aria', 'nangong-yu', 'sunna'],
+            ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
           ],
         },
         {
