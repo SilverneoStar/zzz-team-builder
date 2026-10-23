@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // Tiny hash router: #builder, #agents, #agent-<id>, #w-engines,
 // #w-engines-<specialty>, #w-engine-<id>, #drive-discs, #drive-disc-<id>,
-// #bangboo, #glossary. Hashes stay plain tokens so links work wherever the
+// #bangboo, #ethereals, #glossary. Hashes stay plain tokens so links work wherever the
 // app is hosted.
 export const VIEWS = [
   { id: 'builder', label: 'Team Builder' },
@@ -10,6 +10,7 @@ export const VIEWS = [
   { id: 'w-engines', label: 'W-Engines' },
   { id: 'drive-discs', label: 'Drive Discs' },
   { id: 'bangboo', label: 'Bangboo' },
+  { id: 'ethereals', label: 'Ethereals' },
   { id: 'glossary', label: 'Glossary' },
 ];
 

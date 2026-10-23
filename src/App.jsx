@@ -13,6 +13,7 @@ import BangbooPage from './components/BangbooPage.jsx';
 import DriveDiscsPage from './components/DriveDiscsPage.jsx';
 import ExportDialog from './components/ExportDialog.jsx';
 import GlossaryPage from './components/GlossaryPage.jsx';
+import EtherealsPage from './components/EtherealsPage.jsx';
 import LoadoutPanel from './components/LoadoutPanel.jsx';
 import Mascot from './components/Mascot.jsx';
 import Portrait from './components/Portrait.jsx';
@@ -142,6 +143,14 @@ export default function App() {
           bangbooId={route.bangbooId}
           activeTeam={active}
           onPick={(id) => dispatch({ type: 'setBangboo', id })}
+        />
+      )}
+      {route.view === 'ethereals' && (
+        <EtherealsPage
+          onLoadTeam={(team) => {
+            dispatch({ type: 'import', ...team });
+            navigate('builder');
+          }}
         />
       )}
       {route.view === 'glossary' && <GlossaryPage />}

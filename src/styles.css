@@ -8749,3 +8749,44 @@ details.disc-guide + details.disc-guide {
     height: 30px;
   }
 }
+
+/* ---------- Ethereals (endgame) ---------- */
+.eg-mode { display: grid; gap: 14px; }
+.eg-mode__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.eg-mode__head .section-title { margin: 0; }
+.eg-dates { font: 600 0.85rem var(--font-mono); letter-spacing: 0.06em; color: var(--muted); }
+.eg-buffs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.eg-buff { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 0.88rem; }
+.eg-buff b { display: block; margin-bottom: 4px; font-size: 0.95rem; }
+.eg-buff p { margin: 4px 0 0; color: var(--muted); line-height: 1.4; }
+.eg-bosses { display: grid; gap: 14px; }
+.eg-boss { display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr); gap: 16px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.eg-boss__art { position: relative; border-radius: 12px; overflow: hidden; background: #111; align-self: start; aspect-ratio: 3 / 4; }
+.eg-boss__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eg-boss__stage { position: absolute; left: 8px; top: 8px; padding: 2px 10px; border-radius: 999px; background: rgb(10 10 10 / 0.8); font: 700 0.72rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.eg-boss__body { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.eg-boss__name { margin: 0; font-size: 1.15rem; }
+.eg-boss__buff { margin: 0; font-size: 0.9rem; }
+.eg-attrs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.eg-attrs__label { min-width: 62px; font: 600 0.72rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.eg-attr { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 6px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--el, #888) 55%, var(--line)); font-size: 0.85rem; font-weight: 600; }
+.eg-team { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: rgb(255 255 255 / 0.02); }
+.eg-team__label { font: 600 0.72rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.eg-team__members { display: flex; flex-wrap: wrap; gap: 10px; }
+.eg-team__member { display: inline-flex; align-items: center; gap: 6px; color: var(--fg); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+.eg-team__why { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.eg-team__why li { padding: 1px 8px; border-radius: 999px; background: rgb(255 255 255 / 0.06); font-size: 0.75rem; color: var(--muted); }
+.eg-team .btn { justify-self: start; }
+.eg-run { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.eg-stages { display: flex; flex-wrap: wrap; gap: 6px; }
+.eg-stage { display: grid; gap: 12px; }
+.eg-stage__name { margin: 0; font-size: 1.1rem; }
+.eg-sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.eg-side { display: grid; gap: 8px; align-content: start; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.eg-side__name { margin: 0; font-size: 1rem; }
+@media (max-width: 640px) {
+  .eg-boss { grid-template-columns: 1fr; }
+  .eg-boss__art { aspect-ratio: 16 / 10; }
+  .eg-boss__art img { object-position: 50% 25%; }
+}
+.eg-boss__teams { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px; }
