@@ -8,10 +8,15 @@ import Portrait from './Portrait.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 const MODE_KEY = 'zzz-team-builder:endgameMode';
+// Mode logos in public/modes/ (white on transparent; darkened in light mode).
 const MODES = [
-  { id: 'deadly-assault', label: 'Deadly Assault' },
-  { id: 'shiyu', label: 'Shiyu Defense' },
+  { id: 'deadly-assault', label: 'Deadly Assault', logo: 'modes/deadly-assault.webp' },
+  { id: 'shiyu', label: 'Shiyu Defense', logo: 'modes/shiyu-defense.webp' },
 ];
+const ModeLogo = ({ id, className }) => {
+  const m = MODES.find((x) => x.id === id);
+  return <img className={`eg-logo ${className ?? ''}`} src={`${BASE}${m.logo}`} alt="" />;
+};
 const loadMode = () => {
   try {
     const v = localStorage.getItem(MODE_KEY);
@@ -141,7 +146,10 @@ function DeadlyAssault({ onLoadTeam }) {
   return (
     <section className="eg-mode">
       <header className="eg-mode__head">
-        <h3 className="section-title">{da.label}</h3>
+        <h3 className="section-title eg-mode__title">
+          <ModeLogo id="deadly-assault" className="eg-logo--head" />
+          {da.label}
+        </h3>
         <span className="eg-dates">{range(da.start, da.end)}</span>
       </header>
       <p className="muted small">{da.note}</p>
@@ -207,7 +215,10 @@ function Shiyu({ onLoadTeam }) {
   return (
     <section className="eg-mode">
       <header className="eg-mode__head">
-        <h3 className="section-title">{sd.label}</h3>
+        <h3 className="section-title eg-mode__title">
+          <ModeLogo id="shiyu" className="eg-logo--head" />
+          {sd.label}
+        </h3>
         <span className="eg-dates">{range(sd.start, sd.end)}</span>
       </header>
       <p className="muted small">{sd.note}</p>
@@ -291,7 +302,8 @@ export default function EtherealsPage({ onLoadTeam }) {
       <div className="filters filters--page filters--row">
         <div className="chips" role="group" aria-label="Endgame mode">
           {MODES.map((m) => (
-            <button key={m.id} className="chip" aria-pressed={mode === m.id} onClick={() => setMode(m.id)}>
+            <button key={m.id} className="chip eg-mode-chip" aria-pressed={mode === m.id} onClick={() => setMode(m.id)}>
+              <img className="eg-logo eg-logo--chip" src={`${BASE}${m.logo}`} alt="" />
               {m.label}
             </button>
           ))}

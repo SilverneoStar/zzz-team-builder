@@ -8799,3 +8799,14 @@ details.disc-guide + details.disc-guide {
 .eg-team__choice { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 2px; border-radius: 999px; border: 1px dashed var(--line); }
 .eg-team__choice-item { display: inline-flex; align-items: center; gap: 6px; }
 .eg-team__or { font-weight: 800; color: var(--muted); }
+.eg-logo { display: block; width: auto; object-fit: contain; }
+.eg-logo--chip { height: 34px; }
+.eg-mode-chip { padding-top: 6px; padding-bottom: 6px; font-size: 1rem; }
+.eg-logo--head { height: 52px; }
+.eg-mode-chip { display: inline-flex; align-items: center; gap: 8px; }
+.eg-mode__title { display: flex; align-items: center; gap: 14px; }
+.eg-mode-chip:not([aria-pressed='true']) .eg-logo { opacity: 0.75; }
+/* The logos are white; darken them on the light theme. */
+:root:not([data-theme='dark']) .eg-logo { filter: invert(1) brightness(0.25); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .eg-logo { filter: none; } }
+:root[data-theme='dark'] .eg-logo { filter: none; }
