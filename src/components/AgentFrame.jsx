@@ -38,7 +38,7 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
           <span className="frame__collage">
             {agent.members.map((m, i) => (
               <span key={m.key} className="frame__collage-cell">
-                <img src={memberArt(agent, i)} alt="" loading="lazy" style={{ objectPosition: m.focus }} />
+                <img src={memberArt(agent, i)} alt="" loading="lazy" style={{ objectPosition: m.focus, '--focus': m.focus }} />
               </span>
             ))}
           </span>
