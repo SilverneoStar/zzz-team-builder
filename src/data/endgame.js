@@ -129,6 +129,7 @@ export const SHIYU_DEFENSE = {
       buffs: [],
       sides: [
         {
+          name: 'Metamorphosed Scorpse',
           art: 'enemies/sd-5-1.webp',
           weak: ['wind', 'electric'],
           resist: ['ice'],
@@ -139,6 +140,7 @@ export const SHIYU_DEFENSE = {
           ],
         },
         {
+          name: 'Miasmic Thracian',
           art: 'enemies/sd-5-2.webp',
           weak: ['ether', 'wind'],
           resist: ['electric'],
@@ -156,6 +158,7 @@ export const SHIYU_DEFENSE = {
           ],
         },
         {
+          name: 'Covenant Guardian',
           art: 'enemies/sd-5-3.webp',
           weak: ['fire', 'physical'],
           resist: ['ice', 'wind'],
