@@ -137,6 +137,10 @@ export const SHIYU_DEFENSE = {
               favors: { specialty: { anomaly: 2 }, anomalyPair: true },
             },
           ],
+          picks: [
+            ['aria', 'velina-airgid', 'remielle-dan'],
+            ['velina-airgid', 'phoenix-reffaella', 'jane-doe'],
+          ],
         },
         {
           weak: ['fire', 'physical'],
