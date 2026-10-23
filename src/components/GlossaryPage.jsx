@@ -90,7 +90,7 @@ export default function GlossaryPage() {
             {g.entries.map((e) => (
               <div key={e.term} className="gloss__item">
                 <dt>
-                  {e.faction && <FactionLogo faction={e.faction} size={24} />}
+                  {e.faction && <FactionLogo faction={e.faction} size={56} />}
                   <span className="gloss__term">{e.term}</span>
                   {e.also && <span className="gloss__also">{e.also}</span>}
                 </dt>

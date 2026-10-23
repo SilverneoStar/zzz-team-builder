@@ -8597,3 +8597,17 @@ details.disc-guide + details.disc-guide {
   min-width: 0;
   max-width: 100%;
 }
+/* Factions in the Glossary: a big, clear logo beside the name. */
+.gloss__item dt .faction-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex: none;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.35));
+}
+@media (max-width: 520px) {
+  .gloss__item dt .faction-logo {
+    width: 48px;
+    height: 48px;
+  }
+}
