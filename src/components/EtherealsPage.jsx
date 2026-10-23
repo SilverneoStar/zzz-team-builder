@@ -78,6 +78,36 @@ function TeamRow({ team, onLoadTeam, label }) {
   );
 }
 
+// The extra boss / challenge unlocked by top results. Teams are suggested once
+// its weaknesses are added.
+function BonusCard({ bonus, onLoadTeam }) {
+  if (!bonus) return null;
+  const known = bonus.weak.length > 0;
+  const teams = known ? suggestTeams(bonus, [], 3) : [];
+  return (
+    <article className="eg-bonus">
+      <div className="eg-bonus__head">
+        <span className="eg-bonus__badge">{bonus.title}</span>
+        <h4 className="eg-boss__name">{bonus.name ?? <span className="muted">Name to be added</span>}</h4>
+      </div>
+      <p className="small">{bonus.unlock}</p>
+      {known ? (
+        <>
+          <Attrs ids={bonus.weak} label="Weak to" />
+          <Attrs ids={bonus.resist} label="Resists" />
+          <div className="eg-boss__teams">
+            {teams.map((t) => (
+              <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <p className="muted small">Weaknesses and suggested teams will be added once they’re confirmed.</p>
+      )}
+    </article>
+  );
+}
+
 function DeadlyAssault({ onLoadTeam }) {
   const da = DEADLY_ASSAULT;
   const plan = useMemo(() => {
@@ -128,6 +158,8 @@ function DeadlyAssault({ onLoadTeam }) {
           </article>
         ))}
       </div>
+
+      <BonusCard bonus={da.bonus} onLoadTeam={onLoadTeam} />
 
       <h4 className="mini-title">Full run, no Agent used twice</h4>
       <div className="eg-run">
@@ -197,6 +229,7 @@ function Shiyu({ onLoadTeam }) {
             </div>
           </article>
         ))}
+      <BonusCard bonus={sd.bonus} onLoadTeam={onLoadTeam} />
     </section>
   );
 }

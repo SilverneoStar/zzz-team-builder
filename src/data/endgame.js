@@ -15,6 +15,14 @@ export const DEADLY_ASSAULT = {
   start: '2026-10-23',
   end: '2026-11-06',
   note: 'Pick one buff for each boss. An Agent can only be used against one boss per run.',
+  // The extra boss for players who earn all 9 stars. Fill in once known.
+  bonus: {
+    title: 'Bonus boss',
+    unlock: 'Unlocks after earning all 9 stars against the three bosses.',
+    name: null,
+    weak: [],
+    resist: [],
+  },
   buffs: [
     {
       id: 'da-1',
@@ -88,6 +96,14 @@ export const SHIYU_DEFENSE = {
   start: '2026-10-16',
   end: '2026-10-29',
   note: 'Each side of a stage needs its own squad, so an Agent can’t be on two sides of the same stage.',
+  // The extra challenge for players who score enough for S+ rank. Fill in once known.
+  bonus: {
+    title: 'S+ challenge',
+    unlock: 'Unlocks for players who score enough points to reach S+ rank.',
+    name: null,
+    weak: [],
+    resist: [],
+  },
   stages: [
     {
       n: 1,

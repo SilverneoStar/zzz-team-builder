@@ -8790,3 +8790,7 @@ details.disc-guide + details.disc-guide {
   .eg-boss__art img { object-position: 50% 25%; }
 }
 .eg-boss__teams { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px; }
+.eg-bonus { display: grid; gap: 8px; padding: 14px 16px; border: 1px solid color-mix(in srgb, #d23a3a 55%, var(--line)); border-radius: var(--radius); background: linear-gradient(135deg, rgb(160 30 30 / 0.18), transparent 60%), var(--surface); }
+.eg-bonus__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.eg-bonus__badge { padding: 2px 10px; border-radius: 999px; background: #8c1f1f; color: #fff; font: 700 0.72rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.eg-bonus p { margin: 0; }
