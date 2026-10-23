@@ -11,7 +11,7 @@ export const FACTION_NOTES = {
   'Sons of Calydon': 'A biker gang from the Outer Ring led by Caesar King.',
   'Hollow Special Operations Section 6': 'A special operations unit of the Hollow Investigative Association, led by Hoshimi Miyabi.',
   'Criminal Investigation Special Response Team': 'A New Eridu Public Security team that handles criminal cases tied to the Hollows.',
-  'Defense Force - Silver Squad': 'A squad of the New Eridu Defense Force.',
+  'Defense Force - Silver Squad': 'A New Eridu Defense Force squad of clones, all grown from one supersoldier’s genetic print by Silver Company, a Defense Force subsidiary since shut down. Soldier 0 – Anby, the first and strongest, was its captain; Soldier 11 served in it before joining the Obol Squad.',
   'Obol Squad': 'A unit of the New Eridu Defense Force.',
   'Yunkui Summit': 'A martial-arts school based on Yunkui Mountain.',
   'Mockingbird': 'A group of phantom thieves.',
