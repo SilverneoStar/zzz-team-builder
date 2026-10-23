@@ -8563,3 +8563,10 @@ details.disc-guide + details.disc-guide {
   display: grid;
   gap: 4px;
 }
+.gloss__members {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.gloss__members a {
+  color: var(--fg);
+}

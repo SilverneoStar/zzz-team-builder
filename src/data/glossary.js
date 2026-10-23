@@ -1,5 +1,32 @@
 // Glossary of ZZZ terms, written for this site. Each entry: { term, also?, category, text, related? }
-export const GLOSSARY_CATEGORIES = ['Specialties', 'Attributes', 'Combat', 'Squad', 'Gear', 'Stats'];
+export const GLOSSARY_CATEGORIES = ['Specialties', 'Attributes', 'Combat', 'Squad', 'Gear', 'Stats', 'Factions'];
+
+// Short notes for the Factions tag. Every faction an Agent or Bangboo belongs to
+// gets an entry (with its logo and members, filled in by the Glossary page);
+// these add a line where the game says plainly what the group is.
+export const FACTION_NOTES = {
+  'Cunning Hares': 'A do-anything agency run by Nicole Demara that takes on odd and risky jobs around New Eridu.',
+  'Victoria Housekeeping Co.': 'A housekeeping company led by Von Lycaon that also handles dangerous assignments for its clients.',
+  'Belobog Heavy Industries': 'A construction company led by Koleda Belobog.',
+  'Sons of Calydon': 'A biker gang from the Outer Ring led by Caesar King.',
+  'Hollow Special Operations Section 6': 'A special operations unit of the Hollow Investigative Association, led by Hoshimi Miyabi.',
+  'Criminal Investigation Special Response Team': 'A New Eridu Public Security team that handles criminal cases tied to the Hollows.',
+  'Defense Force - Silver Squad': 'A squad of the New Eridu Defense Force.',
+  'Obol Squad': 'A unit of the New Eridu Defense Force.',
+  'Yunkui Summit': 'A martial-arts school based on Yunkui Mountain.',
+  'Mockingbird': 'A group of phantom thieves.',
+  'Angels of Delusion': 'An idol group.',
+  Roscaelifer: 'An organisation run through its Five Central Departments, among them the Administrative Affairs, Airspace Patrol and Central Computing Departments.',
+  'Administrative Affairs Department': 'Roscaelifer’s supreme governing body: it makes the rules, coordinates the departments and holds final say over all operations. Directed by Eldreda Sunbringer.',
+  'Airspace Patrol Department': 'Roscaelifer’s military and security force, led by Lindverne Sunbringer.',
+  'Central Computing Department': 'Roscaelifer’s computing centre. It deciphers the laws of the Hollow and generates the Rosetta Data, which live Hollow data is checked against before it can become usable Carrots. Managed by Dracaene Sunbringer.',
+};
+// Departments that sit under a faction (shown as part of it).
+export const FACTION_PARENT = {
+  'Administrative Affairs Department': 'Roscaelifer',
+  'Airspace Patrol Department': 'Roscaelifer',
+  'Central Computing Department': 'Roscaelifer',
+};
 
 export const GLOSSARY = [
   // Specialties
