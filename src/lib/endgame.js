@@ -87,11 +87,17 @@ export function scoreTeam(ids, target, buffs = []) {
 export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set()) {
   const ok = (ids) => !ids.some((id) => exclude.has(id));
   const picked = (target.picks ?? [])
-    .filter(ok)
-    .map((ids) => scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] })
+    .map((slots) => {
+      // A slot listing several Agents: score with the first, show the others as options.
+      const ids = slots.map((x) => (Array.isArray(x) ? x[0] : x));
+      const options = Object.fromEntries(slots.map((x) => Array.isArray(x) && [x[0], x]).filter(Boolean));
+      return { ids, options };
+    })
+    .filter(({ ids }) => ok(ids))
+    .map(({ ids, options }) => ({ ...(scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] }), options }))
     // Picks all rank alike, so the full run can choose whichever pick leaves
     // the best teams for the other bosses.
-    .map((t) => ({ ...t, score: 100 + t.score * 0.1, reasons: ['Pick for this boss', ...t.reasons] }));
+    .map((t) => ({ ...t, score: 100 + t.score * 0.1, reasons: ['Recommended pick', ...t.reasons] }));
   const mains = new Set(picked.map((t) => t.ids[0]));
   const rest = TEAMS.filter(ok)
     .map((ids) => scoreTeam(ids, target, buffs))

@@ -59,12 +59,31 @@ function TeamRow({ team, onLoadTeam, label }) {
     <div className="eg-team">
       {label && <span className="eg-team__label">{label}</span>}
       <div className="eg-team__members">
-        {team.ids.map((id) => (
-          <a key={id} href={`#agent-${id}`} className="eg-team__member" title={AGENT_BY_ID[id].name}>
-            <Portrait agent={AGENT_BY_ID[id]} size="sm" />
-            <span>{shortName(AGENT_BY_ID[id])}</span>
-          </a>
-        ))}
+        {team.ids.map((id) => {
+          const choices = team.options?.[id];
+          if (choices) {
+            // Either Agent works in this slot.
+            return (
+              <span key={id} className="eg-team__choice">
+                {choices.map((c, k) => (
+                  <span key={c} className="eg-team__choice-item">
+                    {k > 0 && <span className="eg-team__or">/</span>}
+                    <a href={`#agent-${c}`} className="eg-team__member" title={AGENT_BY_ID[c].name}>
+                      <Portrait agent={AGENT_BY_ID[c]} size="sm" />
+                      <span>{shortName(AGENT_BY_ID[c])}</span>
+                    </a>
+                  </span>
+                ))}
+              </span>
+            );
+          }
+          return (
+            <a key={id} href={`#agent-${id}`} className="eg-team__member" title={AGENT_BY_ID[id].name}>
+              <Portrait agent={AGENT_BY_ID[id]} size="sm" />
+              <span>{shortName(AGENT_BY_ID[id])}</span>
+            </a>
+          );
+        })}
       </div>
       <ul className="eg-team__why">
         {team.reasons.map((r) => (
@@ -225,7 +244,22 @@ function Shiyu({ onLoadTeam }) {
                   {side.buffs?.map((b) => (
                     <BuffCard key={b.id} buff={b} />
                   ))}
-                  <TeamRow team={teams[i]} onLoadTeam={onLoadTeam} />
+                  <TeamRow team={teams[i]} onLoadTeam={onLoadTeam} label="In the full plan" />
+                  {(() => {
+                    const others = suggestTeams(side, [...st.buffs, ...(side.buffs ?? [])], 3).filter(
+                      (t) => t.ids.join() !== teams[i]?.ids.join(),
+                    );
+                    return (
+                      others.length > 0 && (
+                        <>
+                          <h5 className="micro-title">Other options</h5>
+                          {others.map((t) => (
+                            <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
+                          ))}
+                        </>
+                      )
+                    );
+                  })()}
                 </div>
               ))}
             </div>

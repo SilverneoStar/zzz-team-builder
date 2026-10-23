@@ -3,7 +3,8 @@
 // resistances, buff effects); which teams fit is worked out by the site in
 // lib/endgame.js from these facts and the community team list in builds.js.
 //
-// A boss or side can list `picks`: hand-picked teams shown first.
+// A boss or side can list `picks`: hand-picked teams shown first. A slot can
+// be a list of Agents (['seed', 'orphie-…']) when any of them works there.
 // `favors` says what a buff rewards, for scoring teams:
 //   specialty / attribute / attackType: { id: weight }
 //   anomalyPair: true when 2+ Anomaly Agents in the squad unlock the buff
@@ -77,11 +78,22 @@ export const DEADLY_ASSAULT = {
       picks: [
         ['pyrois', 'dialyn', 'nicole-demara'],
         ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
-        ['soldier-0-anby', 'trigger', 'seed'],
-            ['soldier-0-anby', 'trigger', 'orphie-magnusson-and-magus'],
+        ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
       ],
     },
-    { id: 'da-3-3-1-3', name: 'Discordant Solo – Vesper', type: 'Machine', art: 'enemies/da-3-3-1-3.webp', weak: ['wind', 'ether'], resist: ['ice', 'fire'] },
+    {
+      id: 'da-3-3-1-3',
+      name: 'Discordant Solo – Vesper',
+      type: 'Machine',
+      art: 'enemies/da-3-3-1-3.webp',
+      weak: ['wind', 'ether'],
+      resist: ['ice', 'fire'],
+      picks: [
+        ['aria', 'velina-airgid', 'remielle-dan'],
+        ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
+        ['yixuan', 'dialyn', 'lucia-elowen'],
+      ],
+    },
   ],
 };
 
@@ -122,8 +134,7 @@ export const SHIYU_DEFENSE = {
           buffs: [ROOM_1],
           picks: [
             ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
-            ['soldier-0-anby', 'trigger', 'seed'],
-            ['soldier-0-anby', 'trigger', 'orphie-magnusson-and-magus'],
+            ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
           ],
         },
         {
