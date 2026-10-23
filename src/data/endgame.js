@@ -48,9 +48,10 @@ export const DEADLY_ASSAULT = {
       name: 'Buff 2',
       text: [
         'Daze dealt by Stun Agents increases by 20%, and their Energy Generation by 20%.',
-        'After an Agent uses an EX Special Attack or Special Attack, Sharp DMG increases by 30% and their attacks ignore 20% of the target’s Electric and Ether RES for 15s. Repeated triggers reset the duration.',
+        'After an Agent uses an EX Special Attack or Special Attack, Sharp DMG (for Armorer Agents) increases by 30% and their attacks ignore 20% of the target’s Electric and Ether RES for 15s. Repeated triggers reset the duration.',
       ],
-      favors: { specialty: { stun: 1 }, attribute: { electric: 1.5, ether: 1.5 } },
+      // Sharp DMG is the Armorer part (Claret for now).
+      favors: { specialty: { stun: 1, armorer: 2 }, attribute: { electric: 1.5, ether: 1.5 } },
     },
     {
       id: 'da-3',
@@ -115,10 +116,11 @@ const ROOM_1 = {
   id: 'sd-5-1',
   name: 'Room 1',
   text: [
-    'Agent Sharp DMG +20%. After defeating normal enemies, Stun Agents restore 15 Energy.',
+    'Agent Sharp DMG +20% (for Armorer Agents). After defeating normal enemies, Stun Agents restore 15 Energy.',
     'Basic Attack, Special Attack and Ultimate hits raise PEN Ratio by 10%. Hitting a Stunned enemy ignores 15% of its Electric RES.',
   ],
-  favors: { specialty: { stun: 1 }, attribute: { electric: 1 } },
+  // Sharp DMG is the Armorer part (Claret for now).
+  favors: { specialty: { stun: 1, armorer: 3 }, attribute: { electric: 1 } },
 };
 
 export const SHIYU_DEFENSE = {
