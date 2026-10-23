@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, initials, shortName } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import { agentArt } from './Portrait.jsx';
+import { memberArt, useMemberIndex } from '../lib/memberArt.js';
 import PassiveFace from './PassiveFace.jsx';
 import RankBadge from './RankBadge.jsx';
 import { factionLogo, factionSlug } from './FactionLogo.jsx';
@@ -17,13 +18,20 @@ import { factionLogo, factionSlug } from './FactionLogo.jsx';
 // small 160px copy in public/factions/bg/, cached after the first load), the
 // attribute and specialty icons on the right, and the rank on the art's corner.
 export default function AgentFrame({ agent, sub, tag, tall = false, passive, faction = false }) {
-  const src = agentArt(agent.id);
+  const member = useMemberIndex(agent);
+  const src = agent.members ? memberArt(agent, member) : agentArt(agent.id);
+  // The other members, as cards stacked behind this one (Agents page only).
+  const behind = faction && agent.members ? agent.members.map((_, i) => i).filter((i) => i !== member) : [];
   const [failedSrc, setFailedSrc] = useState(null);
   const color = ATTRIBUTE_BY_ID[agent.attribute]?.color;
   const ranked = agent.rank === 'S' || agent.rank === 'A';
   const factionBg = faction && factionLogo(agent.faction) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(agent.faction)}.webp` : null;
-  return (
-    <span className={`frame${tall ? ' frame--tall' : ''}${faction ? ' frame--no-badge' : ''}`} style={{ '--el': color }} title={agent.name}>
+  const card = (
+    <span
+      className={`frame${tall ? ' frame--tall' : ''}${faction ? ' frame--no-badge' : ''}`}
+      style={{ '--el': color }}
+      title={agent.members ? `${agent.name} · ${agent.members[member].name}` : agent.name}
+    >
       <span className="frame__art-box">
         {factionBg && <span className="frame__faction-bg" style={{ backgroundImage: `url(${factionBg})` }} aria-hidden="true" />}
         {failedSrc === src ? (
@@ -81,6 +89,20 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
           )}
         </span>
       </span>
+    </span>
+  );
+  if (!behind.length) return card;
+  // Several members: the others' cards sit behind, offset up and right.
+  return (
+    <span className="frame-stack" style={{ '--el': color }}>
+      {behind.map((i, k) => (
+        <span key={i} className={`frame frame--ghost frame--ghost-${k + 1}`} aria-hidden="true">
+          <span className="frame__art-box">
+            <img className="frame__art" src={memberArt(agent, i)} alt="" loading="lazy" />
+          </span>
+        </span>
+      ))}
+      {card}
     </span>
   );
 }

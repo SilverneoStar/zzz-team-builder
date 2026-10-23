@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ATTRIBUTE_BY_ID, initials } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
+import { memberArt, useMemberIndex } from '../lib/memberArt.js';
 
 // Looks for public/agents/<id>.webp. If the file is missing, falls back to
 // the Agent's initials on their attribute colour.
@@ -8,7 +9,9 @@ const BASE = import.meta.env.BASE_URL;
 export const agentArt = (id) => `${BASE}agents/${id}.webp`;
 
 export default function Portrait({ agent, size = 'md' }) {
-  const src = agentArt(agent.id);
+  // Agents with several members show the one the reader picked.
+  const member = useMemberIndex(agent);
+  const src = agent.members ? memberArt(agent, member) : agentArt(agent.id);
   // Remember which image failed, so switching Agents retries.
   const [failedSrc, setFailedSrc] = useState(null);
   const failed = failedSrc === src;

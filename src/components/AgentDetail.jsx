@@ -13,6 +13,7 @@ import { AGENT_CARDS, MY_BUILD_CARD, renderAgentCard } from '../lib/agentCards.j
 import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
 import FactionLogo from './FactionLogo.jsx';
+import { memberArt, setMemberIndex, useMemberIndex } from '../lib/memberArt.js';
 import MyBuild from './MyBuild.jsx';
 import { myBuildOf } from '../lib/myBuilds.js';
 
@@ -47,7 +48,7 @@ export default function AgentDetail({
         {a.members && (
           <div>
             <dt>Members</dt>
-            <dd>{a.members.join(', ')}</dd>
+            <dd>{a.members.map((m) => `${m.name} (${m.size.toLowerCase()})`).join(', ')}</dd>
           </div>
         )}
         <div>
@@ -119,6 +120,7 @@ export default function AgentDetail({
               <li>Upcoming</li>
             </ul>
           )}
+          {a.members && <MemberPicker agent={a} />}
         </div>
         <div className="detail__head-actions">
           <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
@@ -183,5 +185,24 @@ export default function AgentDetail({
         />
       )}
     </article>
+  );
+}
+
+// For Agents played as several people (Sunbringer): pick whose art is shown
+// on top, here and on every card and portrait.
+function MemberPicker({ agent: a }) {
+  const cur = useMemberIndex(a);
+  return (
+    <div className="member-pick" role="group" aria-label="Show member">
+      {a.members.map((m, i) => (
+        <button key={m.key} className="member-pick__btn" aria-pressed={i === cur} onClick={() => setMemberIndex(a.id, i)}>
+          <img src={memberArt(a, i)} alt="" width={28} height={28} loading="lazy" />
+          <span>
+            <b>{m.name.split(' ')[0]}</b>
+            <small>{m.size}</small>
+          </span>
+        </button>
+      ))}
+    </div>
   );
 }

@@ -8397,3 +8397,88 @@ details.disc-guide + details.disc-guide {
     0 0 0 2.5px #c3c7ce,
     0 0 0 3.5px rgb(0 0 0 / 0.45);
 }
+
+/* Several-member Agents (Sunbringer): the other members' cards are stacked
+   behind, peeking out at the top right. */
+.frame-stack {
+  position: relative;
+  display: block;
+  /* The stack rises into the row gap so the front card lines up with the rest. */
+  margin-top: -12px;
+  padding-top: 12px;
+}
+.frame-stack > .frame:not(.frame--ghost) {
+  position: relative;
+  z-index: 2;
+}
+.frame--ghost {
+  position: absolute;
+  inset: 12px 0 0;
+  margin-inline: auto;
+  pointer-events: none;
+}
+.frame--ghost .frame__art-box {
+  height: calc(100% - 5px);
+  aspect-ratio: auto;
+}
+.frame--ghost .frame__art {
+  opacity: 0.6;
+}
+.frame--ghost-1 {
+  z-index: 1;
+  transform: skewX(var(--lean)) translate(6px, -6px);
+}
+.frame--ghost-2 {
+  z-index: 0;
+  transform: skewX(var(--lean)) translate(12px, -12px);
+}
+.frame--ghost-2 .frame__art {
+  opacity: 0.4;
+}
+a:hover > .frame-stack > .frame:not(.frame--ghost),
+a:focus-visible > .frame-stack > .frame:not(.frame--ghost) {
+  border-color: var(--el, #fff);
+  transform: skewX(var(--lean)) translateY(-3px);
+}
+
+.member-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.member-pick__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px 3px 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+.member-pick__btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+.member-pick__btn span {
+  display: grid;
+  line-height: 1.1;
+  text-align: left;
+}
+.member-pick__btn b {
+  font-size: 0.82rem;
+}
+.member-pick__btn small {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+.member-pick__btn[aria-pressed='true'] {
+  border-color: var(--el, var(--fg));
+  box-shadow: 0 0 0 1px var(--el, var(--fg));
+}
