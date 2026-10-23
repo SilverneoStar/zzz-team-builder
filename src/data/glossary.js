@@ -19,7 +19,7 @@ export const FACTION_NOTES = {
   'Spook Shack': 'A group on the Waifei Peninsula that deals in intel on urban legends and paranormal activity.',
   'Krampus Compliance Authority': 'The internal watchdog of TOPS, making sure TOPS-affiliated companies keep to its rules.',
   'Stars of Lyra': 'Built around Astra Yao, New Eridu’s most famous singer; her bodyguard Evelyn handles her schedule and safety.',
-  'Flint Workshop': 'Claret and Roxy’s workshop. Claret is a weaponmaster, and Roxy works the forge to make equipment.',
+  'Flint Workshop': 'The Flint family’s workshop. The family’s blood lets them forge the special material Flint Porcelloy; Claret is a weaponmaster and Roxy works the forge.',
   'Metropolitan Order Division': 'A police-style branch of New Eridu Public Security that oversees the city’s safety and residents.',
   'External Strategy Department': 'A Roscaelifer department of the Marcel Group, headed by Velina Airgid with Norma Hollowell as Chief Technician. It investigates Flint Porcelloy.',
   Phaethon: 'The legendary Proxy run by siblings Belle and Wise, who guide people through Hollows remotely with the H.D.D. system and their Bangboo, Eous.',
