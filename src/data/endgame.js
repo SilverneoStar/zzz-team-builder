@@ -84,21 +84,12 @@ export const DEADLY_ASSAULT = {
   ],
 };
 
-const STAGE_BASE = {
-  id: 'sd-base',
-  name: 'Frontier effect',
+const ROOM_1 = {
+  id: 'sd-5-1',
+  name: 'Room 1',
   text: [
-    'Agent Sharp DMG +20%.',
-    'After defeating normal enemies, Stun Agents restore 15 Energy.',
-  ],
-  favors: { specialty: { stun: 1 } },
-};
-const STAGE_PEN = {
-  id: 'sd-pen',
-  name: 'Stages 2–4',
-  text: [
-    'Basic Attack, Special Attack and Ultimate hits raise PEN Ratio by 10%.',
-    'Hitting a Stunned enemy ignores 15% of its Electric RES.',
+    'Agent Sharp DMG +20%. After defeating normal enemies, Stun Agents restore 15 Energy.',
+    'Basic Attack, Special Attack and Ultimate hits raise PEN Ratio by 10%. Hitting a Stunned enemy ignores 15% of its Electric RES.',
   ],
   favors: { specialty: { stun: 1 }, attribute: { electric: 1 } },
 };
@@ -108,7 +99,7 @@ export const SHIYU_DEFENSE = {
   label: 'Shiyu Defense: Critical Node',
   start: '2026-10-16',
   end: '2026-10-29',
-  note: 'Each side of a stage needs its own squad, so an Agent can’t be on two sides of the same stage.',
+  note: 'The score check is Stage 5: three rooms, each needing its own squad, so no Agent can be in two rooms.',
   // The extra challenge for players who score enough for S+ rank. Fill in once known.
   bonus: {
     title: 'S+ rating',
@@ -119,56 +110,12 @@ export const SHIYU_DEFENSE = {
   },
   stages: [
     {
-      n: 1,
-      name: 'First Frontier',
-      buffs: [
-        STAGE_BASE,
-        {
-          id: 'sd-1',
-          name: 'Stage 1',
-          text: ['After an Agent’s Chain Attack hits an enemy, it recovers from Stun 15% slower for 15s. Repeated triggers reset the duration.'],
-          favors: { specialty: { stun: 1 } },
-        },
-      ],
-      sides: [
-        { weak: ['wind', 'fire'], resist: [] },
-        { weak: ['physical', 'fire'], resist: ['ether'] },
-      ],
-    },
-    {
-      n: 2,
-      name: 'Second Frontier',
-      buffs: [STAGE_BASE, STAGE_PEN],
-      sides: [
-        { weak: ['wind', 'ether'], resist: ['physical'] },
-        { weak: ['physical', 'fire'], resist: ['ether'] },
-      ],
-    },
-    {
-      n: 3,
-      name: 'Third Frontier',
-      buffs: [STAGE_BASE, STAGE_PEN],
-      sides: [
-        { weak: ['wind', 'electric'], resist: [] },
-        { weak: ['physical', 'fire'], resist: ['ice'] },
-      ],
-    },
-    {
-      n: 4,
-      name: 'Fourth Frontier',
-      buffs: [STAGE_BASE, STAGE_PEN],
-      sides: [
-        { weak: ['wind', 'ice'], resist: ['ether'] },
-        { weak: ['fire', 'physical'], resist: ['ice'] },
-      ],
-    },
-    {
       n: 5,
       name: 'Fifth Frontier',
       score: 'S-rank above 25,000 · A above 16,000 · B above 8,000 (all three rooms)',
       buffs: [],
       sides: [
-        { weak: ['wind', 'electric'], resist: ['ice'], buffs: [STAGE_BASE, STAGE_PEN] },
+        { weak: ['wind', 'electric'], resist: ['ice'], buffs: [ROOM_1] },
         {
           weak: ['ether', 'wind'],
           resist: ['electric'],
@@ -188,9 +135,14 @@ export const SHIYU_DEFENSE = {
             {
               id: 'sd-5-3',
               name: 'Room 3',
-              text: ['Agent Fire and Ether DMG +15%, Sheer DMG +15%, Ultimate DMG +30%. Ultimates ignore 10% of the target’s All-Attribute RES.'],
-              favors: { attribute: { fire: 1.5, ether: 1.5 }, specialty: { rupture: 1.5 } },
+              text: ['Agent Fire and Ether DMG +15%, Sheer DMG +15% (for Rupture Agents), Ultimate DMG +30%. Ultimates ignore 10% of the target’s All-Attribute RES.'],
+              // Sheer DMG +15% is the Rupture part: this room mainly rewards Rupture Agents.
+              favors: { attribute: { fire: 1.5, ether: 1.5 }, specialty: { rupture: 4 } },
             },
+          ],
+          picks: [
+            ['banyue', 'dialyn', 'lucia-elowen'],
+            ['starlight-billy-kid', 'dialyn', 'lucia-elowen'],
           ],
         },
       ],

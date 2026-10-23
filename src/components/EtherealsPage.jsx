@@ -183,7 +183,7 @@ function Shiyu({ onLoadTeam }) {
       })),
     [sd],
   );
-  const [open, setOpen] = useState(sd.stages.length);
+  const [open, setOpen] = useState(sd.stages[sd.stages.length - 1].n);
 
   return (
     <section className="eg-mode">
@@ -193,13 +193,13 @@ function Shiyu({ onLoadTeam }) {
       </header>
       <p className="muted small">{sd.note}</p>
 
-      <div className="eg-stages" role="tablist" aria-label="Stage">
+      {sd.stages.length > 1 && <div className="eg-stages" role="tablist" aria-label="Stage">
         {sd.stages.map((st) => (
           <button key={st.n} role="tab" className="chip" aria-pressed={open === st.n} onClick={() => setOpen(st.n)}>
             Stage {st.n}
           </button>
         ))}
-      </div>
+      </div>}
 
       {stages
         .filter(({ st }) => st.n === open)
