@@ -8589,3 +8589,11 @@ details.disc-guide + details.disc-guide {
   height: 20px;
   flex: none;
 }
+/* Keep the record player inside its card so the corner sticker isn't clipped. */
+.vinyl__link {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vinyl__link .deck {
+  min-width: 0;
+  max-width: 100%;
+}
