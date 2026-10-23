@@ -17,8 +17,8 @@ export const DEADLY_ASSAULT = {
   note: 'Pick one buff for each boss. An Agent can only be used against one boss per run.',
   // The extra boss for players who earn all 9 stars. Fill in once known.
   bonus: {
-    title: 'Bonus boss',
-    unlock: 'Unlocks after earning all 9 stars against the three bosses.',
+    title: 'Adversity',
+    unlock: 'Unlocks once you earn all 9 stars (3 stars on each of the three bosses). Score = damage + Performance Points (capped at 5,000), with a 3-minute limit; your best score of the season is kept.',
     name: null,
     weak: [],
     resist: [],
@@ -98,8 +98,8 @@ export const SHIYU_DEFENSE = {
   note: 'Each side of a stage needs its own squad, so an Agent can’t be on two sides of the same stage.',
   // The extra challenge for players who score enough for S+ rank. Fill in once known.
   bonus: {
-    title: 'S+ challenge',
-    unlock: 'Unlocks for players who score enough points to reach S+ rank.',
+    title: 'S+ rating',
+    unlock: 'S+ is the top season rating: clear all three Stage 5 rooms at S and reach at least 100,000 points in total. It unlocks the full Critical Node rewards.',
     name: null,
     weak: [],
     resist: [],
