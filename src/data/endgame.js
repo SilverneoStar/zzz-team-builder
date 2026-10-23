@@ -116,7 +116,7 @@ export const SHIYU_DEFENSE = {
   // The extra challenge for players who score enough for S+ rank. Fill in once known.
   bonus: {
     title: 'S+ rating',
-    unlock: 'S+ is the top season rating: clear all three Stage 5 rooms at S and reach at least 100,000 points in total. It unlocks the full Critical Node rewards.',
+    unlock: 'S+ is the top grade: an S rating in all three rooms and at least 100,000 points in total.',
     name: null,
     weak: [],
     resist: [],
@@ -125,11 +125,13 @@ export const SHIYU_DEFENSE = {
     {
       n: 5,
       name: 'Fifth Frontier',
-      score: 'S-rank above 25,000 · A above 16,000 · B above 8,000 (all three rooms)',
+      score: 'Per room: S at 25,000 · A at 18,000 · B at 8,000. Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
       buffs: [],
       sides: [
         {
           name: 'Metamorphosed Scorpse',
+          waves: ['City Guardboo ×3', 'Special Anti-Riotboo ×1, Airspace Patrolboo ×2', 'Metamorphosed Scorpse'],
+          tip: 'The Scorpse throws out Miasma pools; standing in them deals extra damage.',
           art: 'enemies/sd-5-1.webp',
           weak: ['wind', 'electric'],
           resist: ['ice'],
@@ -141,6 +143,8 @@ export const SHIYU_DEFENSE = {
         },
         {
           name: 'Miasmic Thracian',
+          waves: ['Ionized – Farbauti, Ionized – Dullahan', 'Miasmic Thracian'],
+          tip: 'When fully charged, the Thracian vanishes and rains spears (it can’t be hit then), then teleports back with an attack that tracks your active Agent.',
           art: 'enemies/sd-5-2.webp',
           weak: ['ether', 'wind'],
           resist: ['electric'],
@@ -159,6 +163,8 @@ export const SHIYU_DEFENSE = {
         },
         {
           name: 'Covenant Guardian',
+          waves: ['Bulky Intimidator, Bulky Enforcer', 'Covenant Guardian'],
+          tip: 'Its multi-hit attacks can each be parried.',
           art: 'enemies/sd-5-3.webp',
           weak: ['fire', 'physical'],
           resist: ['ice', 'wind'],

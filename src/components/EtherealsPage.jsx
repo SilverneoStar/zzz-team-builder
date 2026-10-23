@@ -258,6 +258,17 @@ function Shiyu({ onLoadTeam }) {
                   </div>
                   <Attrs ids={side.weak} label="Weak to" />
                   <Attrs ids={side.resist} label="Resists" />
+                  {side.waves && (
+                    <ol className="eg-waves">
+                      {side.waves.map((w, k) => (
+                        <li key={k}>
+                          <span>Wave {k + 1}</span>
+                          {w}
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+                  {side.tip && <p className="small eg-tip">{side.tip}</p>}
                   {side.buffs?.map((b) => (
                     <BuffCard key={b.id} buff={b} />
                   ))}
