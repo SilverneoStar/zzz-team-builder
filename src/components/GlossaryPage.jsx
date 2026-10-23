@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FACTION_NOTES, FACTION_PARENT, GLOSSARY, GLOSSARY_CATEGORIES } from '../data/glossary.js';
+import { FACTION_MORE, FACTION_NOTES, FACTION_PARENT, GLOSSARY, GLOSSARY_CATEGORIES } from '../data/glossary.js';
 import { AGENTS, BANGBOO } from '../data/game.js';
 import FactionLogo from './FactionLogo.jsx';
 
@@ -20,6 +20,7 @@ const FACTION_ENTRIES = (() => {
     text: FACTION_NOTES[f] ?? '',
     faction: f,
     members: people[f],
+    more: FACTION_MORE[f],
   }));
 })();
 const ALL = [...GLOSSARY, ...FACTION_ENTRIES];
@@ -35,7 +36,7 @@ export default function GlossaryPage() {
     const matches = ALL.filter(
       (e) =>
         (category === 'all' || e.category === category) &&
-        (!q || [e.term, e.also, e.text, ...(e.members ?? []).map((m) => m.label)].some((s) => s?.toLowerCase().includes(q))),
+        (!q || [e.term, e.also, e.text, ...(e.more ?? []), ...(e.members ?? []).map((m) => m.label)].some((s) => s?.toLowerCase().includes(q))),
     );
     return GLOSSARY_CATEGORIES.map((cat) => ({
       cat,
@@ -108,6 +109,16 @@ export default function GlossaryPage() {
                       ))}
                       .
                     </span>
+                  )}
+                  {e.more && (
+                    <details className="gloss__more">
+                      <summary>More about {e.term}</summary>
+                      <ul>
+                        {e.more.map((t) => (
+                          <li key={t}>{t}</li>
+                        ))}
+                      </ul>
+                    </details>
                   )}
                 </dd>
               </div>

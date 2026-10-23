@@ -5,31 +5,123 @@ export const GLOSSARY_CATEGORIES = ['Specialties', 'Attributes', 'Combat', 'Squa
 // gets an entry (with its logo and members, filled in by the Glossary page);
 // these add a line where the game says plainly what the group is.
 export const FACTION_NOTES = {
-  'Cunning Hares': 'A do-anything agency run by Nicole Demara that takes on odd and risky jobs around New Eridu.',
-  'Victoria Housekeeping Co.': 'A housekeeping company led by Von Lycaon that also handles dangerous assignments for its clients.',
-  'Belobog Heavy Industries': 'A construction company led by Koleda Belobog.',
-  'Sons of Calydon': 'A biker gang from the Outer Ring led by Caesar King.',
-  'Hollow Special Operations Section 6': 'A special operations unit of the Hollow Investigative Association, led by Hoshimi Miyabi.',
-  'Criminal Investigation Special Response Team': 'A New Eridu Public Security team that handles criminal cases tied to the Hollows.',
-  'Defense Force - Silver Squad': 'A New Eridu Defense Force squad of clones, all grown from one supersoldier’s genetic print by Silver Company, a Defense Force subsidiary since shut down. Soldier 0 – Anby, the first and strongest, was its captain; Soldier 11 served in it before joining the Obol Squad.',
-  'Obol Squad': 'A unit of the New Eridu Defense Force.',
-  'Yunkui Summit': 'A martial-arts school based on Yunkui Mountain.',
-  'Mockingbird': 'A group of phantom thieves.',
-  'Angels of Delusion': 'An idol group.',
-  'Spook Shack': 'A group on the Waifei Peninsula that deals in intel on urban legends and paranormal activity.',
+  'Cunning Hares': 'A small do-anything agency led by Nicole Demara that takes on Hollow jobs around New Eridu.',
+  'Victoria Housekeeping Co.': 'A housekeeping company that keeps New Eridu’s homes clean, and its Hollows clear of monsters.',
+  'Belobog Heavy Industries': 'A construction company led by Koleda Belobog that builds New Eridu’s infrastructure and heavy machines.',
+  'Sons of Calydon': 'A biker gang from the Outer Ring led by Caesar King, running a logistics company on the side.',
+  'Hollow Special Operations Section 6': 'New Eridu’s elite Hollow task force under H.A.N.D., led by Hoshimi Miyabi.',
+  'Criminal Investigation Special Response Team': 'A Public Security division, captained by Zhu Yuan, that investigates crime in New Eridu and its Hollows.',
+  'Defense Force - Silver Squad': 'A Defense Force squad of clones grown from one supersoldier, once captained by Soldier 0 – Anby.',
+  'Obol Squad': 'A New Eridu Defense Force squad, the last line against Hollows others can’t handle.',
+  'Yunkui Summit': 'A martial-arts school on the Waifei Peninsula that takes in orphans and trains them, now led by Yixuan.',
+  Mockingbird: 'One of New Eridu’s most mysterious factions, home of a Phantom Thieves syndicate.',
+  'Angels of Delusion': 'A small underground virtual idol group aiming to become New Eridu’s next big stars.',
+  'Spook Shack': 'An open Inter-Knot forum for urban legends and the paranormal, founded by Ukinami Yuzuha.',
   'Krampus Compliance Authority': 'The internal watchdog of TOPS, making sure TOPS-affiliated companies keep to its rules.',
-  'Stars of Lyra': 'Built around Astra Yao, New Eridu’s most famous singer; her bodyguard Evelyn handles her schedule and safety.',
+  'Stars of Lyra': 'Built around Astra Yao, New Eridu’s most famous singer, and managed by her bodyguard Evelyn.',
   'Flint Workshop': 'The Flint family’s workshop. The family’s blood lets them forge the special material Flint Porcelloy; Claret is a weaponmaster and Roxy works the forge.',
   'Metropolitan Order Division': 'A police-style branch of New Eridu Public Security that oversees the city’s safety and residents.',
-  'External Strategy Department': 'A Roscaelifer department of the Marcel Group, headed by Velina Airgid with Norma Hollowell as Chief Technician. It investigates Flint Porcelloy.',
-  Phaethon: 'The legendary Proxy run by siblings Belle and Wise, who guide people through Hollows remotely with the H.D.D. system and their Bangboo, Eous.',
+  'External Strategy Department': 'A Roscaelifer department of the Marcel Group, headed by Velina Airgid, that investigates Flint Porcelloy.',
+  Phaethon: 'The legendary Proxy run in secret by siblings Belle and Wise, who guide people through Hollows remotely.',
   'Covenant of Dayat': 'A mysterious group met in Roscaelifer. Remielle Dan is its only known member so far.',
   'New Eridu Defense Force': 'The city’s military, which deals with outside threats, contains Hollows and pushes into new territory.',
-  'New Eridu Public Security': 'Keeps the peace and order in New Eridu through several branches.',
-  Roscaelifer: 'An organisation run through its Five Central Departments, among them the Administrative Affairs, Airspace Patrol and Central Computing Departments.',
-  'Administrative Affairs Department': 'Roscaelifer’s supreme governing body: it makes the rules, coordinates the departments and holds final say over all operations. Directed by Eldreda Sunbringer.',
+  'New Eridu Public Security': 'New Eridu’s police, keeping the peace through several branches.',
+  Roscaelifer: 'A floating city above New Eridu, run through its Five Central Departments.',
+  'Administrative Affairs Department': 'Roscaelifer’s supreme governing body, directed by Eldreda Sunbringer.',
   'Airspace Patrol Department': 'Roscaelifer’s military and security force, led by Lindverne Sunbringer.',
-  'Central Computing Department': 'Roscaelifer’s computing centre. It deciphers the laws of the Hollow and generates the Rosetta Data, which live Hollow data is checked against before it can become usable Carrots. Managed by Dracaene Sunbringer.',
+  'Central Computing Department': 'Roscaelifer’s computing centre, which generates the Rosetta Data. Managed by Dracaene Sunbringer.',
+};
+
+// Extra facts shown when a faction entry is expanded. Story details are
+// included, since the story chapters they come from are out.
+export const FACTION_MORE = {
+  'Cunning Hares': [
+    'Officially named Gentle House; the Cunning Hares nickname is how New Eridu knows them.',
+    'Most members were wanderers Nicole took in, and they now look out for each other like family.',
+    'Nicole is close to the Phaethon siblings and often turns up in the main story.',
+  ],
+  'Victoria Housekeeping Co.': [
+    'Von Lycaon coordinates missions and represents the company; Rina is its longest-serving member.',
+    'Its true head is New Eridu’s Mayor, of the powerful Mayflower family.',
+    'On the Mayor’s orders they look after the Phaethon siblings and gave them an upgraded H.D.D. system.',
+  ],
+  'Belobog Heavy Industries': [
+    'Motto: “Our goal is not to build a house, but a home.”',
+    'Its staff are all Hollow Investigators who take on dangerous jobs inside the Hollows.',
+    'The company fell on hard times after Koleda’s father vanished; she and her friends are rebuilding it.',
+    'Grace built its four giant machines, each with a mind of its own: Greta, Hans, Friday and Geroy.',
+  ],
+  'Sons of Calydon': [
+    'Officially Leaps and Bounds Express Services Co., a logistics company.',
+    'Caesar is Overlord of the Outer Ring’s Motor League, won in the Tour de Inferno; the gang was once led by Big Daddy.',
+    'Lighter is the gang’s Champion and Piper drives its truck; Billy Kid is a former member.',
+  ],
+  'Hollow Special Operations Section 6': [
+    'Investigates and destroys the most dangerous Hollows, and tests new H.A.N.D. and HIA technology.',
+    'Miyabi is the youngest Void Hunter, a title inherited from one of New Eridu’s founding heroes, and carries the cursed sword Tailless.',
+    'Yanagi is Deputy Chief, Harumasa the Executive Officer, and Soukaku a young Oni in Yanagi’s care.',
+  ],
+  'Criminal Investigation Special Response Team': [
+    'Works mainly around Lumina Square in the Janus Quarter, with undercover agents among its ranks.',
+    'Exposed Deputy Commander Bringer’s conspiracy to unleash Tailless at a public rally.',
+    'That case also revealed more about the Lowell siblings and the fall of the Old Capital.',
+  ],
+  'Defense Force - Silver Squad': [
+    'Created by Silver Company, a Defense Force subsidiary shut down for its unethical and costly methods.',
+    'Soldier 0 – Anby was the first and strongest of the clones, and the squad’s captain.',
+    'Soldier 11 is one of its few survivors and later moved to the Obol Squad.',
+  ],
+  'Obol Squad': [
+    'Part of the Obsidian Division, the only Division left since the Old Capital fell to Hollow Zero.',
+    'Steps in when H.A.N.D. and Section 6 can’t handle a Hollow, and researches beyond New Eridu.',
+    'Soldier 0 – Anby isn’t a member but still helps them from time to time.',
+  ],
+  'Yunkui Summit': [
+    'Based at Suibian Temple. The Qingming Sword decides who becomes High Preceptor.',
+    'The sword protects everyone but its wielder, who slowly loses their senses and memories.',
+    'Yijiang took up the sword to guard her sister Yixuan’s future; Yixuan leads without wielding it.',
+    'Ye Shunguang now holds the Qingming Sword as the Void Hunter Qingming Arbiter.',
+  ],
+  Mockingbird: [
+    'Founded by Jack, who mentored both Hugo Vlad and Von Lycaon.',
+    'After Jack’s death, Lycaon left over a disagreement with Hugo about the way forward.',
+    'Hugo later took in Vivian, a big fan of Phaethon.',
+  ],
+  'Angels of Delusion': [
+    'Usually found at the bar Error 404; their fans are called the Delulus.',
+    'Aria is the lead singer, Nangong Yu leads and handles choreography, and Sunna composes and writes the songs.',
+  ],
+  'Spook Shack': [
+    'Not a company or crew: anyone can join, and it works behind the scenes rather than in the field.',
+    'Co-founded by Yuzuha and her classmate Komano Manato.',
+    'Alice gave up her family’s pharmaceutical patent to save Yuzuha.',
+  ],
+  'Krampus Compliance Authority': [
+    'When rules are broken, Krampus “corrects” the offender in ways meant to warn everyone else.',
+    'Named after the folklore creature who punishes naughty children; it has a fearsome reputation inside TOPS.',
+    'Zhao is seen by other TOPS staff as a “walking disaster”.',
+  ],
+  'Stars of Lyra': [
+    'Evelyn arranges Astra’s schedule, protects her, and checks out anyone who gets close to her.',
+    'Despite her fame, Astra chooses underground shows at Reverb Arena over Starloop Tower.',
+  ],
+  'Metropolitan Order Division': [
+    'A sister division of the Criminal Investigation Special Response Team within Public Security.',
+    'Cissia works there as a Case Specialist; Severian Lowell, Seth’s brother, is also a member.',
+  ],
+  'External Strategy Department': [
+    'Norma Hollowell is its Chief Technician.',
+    'More is expected as the Roscaelifer story continues.',
+  ],
+  Phaethon: [
+    'Belle and Wise run the video store Random Play as their public cover.',
+    'They studied at Helios Academy under the researcher Carole Arna, where they got their special ocular implants.',
+    'Eous is Phaethon’s Hollow avatar, and Fairy their AI assistant; Pyrois is the first Agent to join them.',
+  ],
+  'Airspace Patrol Department': [
+    'Part of Roscaelifer and the Marcel Group, working roughly like an air force.',
+    'Sigrid de L’Azur is its Deputy.',
+  ],
 };
 // Departments that sit under a faction (shown as part of it).
 export const FACTION_PARENT = {

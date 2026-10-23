@@ -8611,3 +8611,22 @@ details.disc-guide + details.disc-guide {
     height: 48px;
   }
 }
+.gloss__more {
+  margin-top: 8px;
+}
+.gloss__more > summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.gloss__more[open] > summary {
+  color: var(--fg);
+}
+.gloss__more ul {
+  margin: 6px 0 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 4px;
+  font-size: 0.9rem;
+}
