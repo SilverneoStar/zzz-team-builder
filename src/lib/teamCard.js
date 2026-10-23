@@ -74,39 +74,21 @@ function coverAt(ctx, img, x, y, w, h, focus = '50% 40%', zoom = 1) {
 /**
  * An Agent's art for the exported images. Agents with several members
  * (Sunbringer) follow the reader's pick: one member's art, or the collage of
- * all of them (big box on top, two below), the same as on the site.
- * `stack: [w, h]` instead builds three equal rows at that box's shape, each
- * zoomed on a face, for wide frames where the small boxes would be squashed.
+ * all of them as three equal strips stacked top to bottom, each framed on a
+ * face, the same as on the site. `stack: [w, h]` is the shape of the frame
+ * the art goes into, so the strips fit it.
  */
-export async function loadAgentArt(agentOrId, base, { stack = null } = {}) {
+export async function loadAgentArt(agentOrId, base, { stack = [480, 600] } = {}) {
   const a = typeof agentOrId === 'string' ? AGENT_BY_ID[agentOrId] : agentOrId;
   if (!a) return null;
   if (!a.members) return loadImage(`${base}agents/${a.id}.webp`);
   const i = memberIndex(a);
   if (i >= 0) return loadImage(`${base}agents/${a.id}-${a.members[i].key}.webp`);
   const imgs = await Promise.all(a.members.map((m) => loadImage(`${base}agents/${a.id}-${m.key}.webp`)));
-  if (stack) {
-    const [sw, sh] = stack;
-    const W = 600;
-    const H = Math.round((600 * sh) / sw);
-    const gap = 5;
-    const c = document.createElement('canvas');
-    c.width = W;
-    c.height = H;
-    const g = c.getContext('2d');
-    g.imageSmoothingQuality = 'high';
-    g.fillStyle = '#121212';
-    g.fillRect(0, 0, W, H);
-    const rowH = (H - gap * 2) / 3;
-    a.members.slice(0, 3).forEach((m, k) => {
-      // A light zoom keeps each face (eyes to chin) filling its strip.
-      if (imgs[k]) coverAt(g, imgs[k], 0, k * (rowH + gap), W, rowH, m.stackFocus ?? m.focus, m.stackZoom ?? 1.1);
-    });
-    return c;
-  }
-  const W = 480;
-  const H = 600;
-  const gap = 4;
+  const [sw, sh] = stack;
+  const W = 600;
+  const H = Math.round((600 * sh) / sw);
+  const gap = 5;
   const c = document.createElement('canvas');
   c.width = W;
   c.height = H;
@@ -114,16 +96,10 @@ export async function loadAgentArt(agentOrId, base, { stack = null } = {}) {
   g.imageSmoothingQuality = 'high';
   g.fillStyle = '#121212';
   g.fillRect(0, 0, W, H);
-  const topH = Math.round((H - gap) * 0.6);
-  const half = (W - gap) / 2;
-  const cells = [
-    [0, 0, W, topH, 1.25],
-    [0, topH + gap, half, H - topH - gap, 1.9],
-    [half + gap, topH + gap, half, H - topH - gap, 1.9],
-  ];
+  const rowH = (H - gap * 2) / 3;
   a.members.slice(0, 3).forEach((m, k) => {
-    const [x, y, w, h, z] = cells[k];
-    if (imgs[k]) coverAt(g, imgs[k], x, y, w, h, m.focus, k === 0 ? z : m.zoom ?? z);
+    // A light zoom keeps each face (eyes to chin) filling its strip.
+    if (imgs[k]) coverAt(g, imgs[k], 0, k * (rowH + gap), W, rowH, m.stackFocus ?? m.focus, m.stackZoom ?? 1.1);
   });
   return c;
 }
