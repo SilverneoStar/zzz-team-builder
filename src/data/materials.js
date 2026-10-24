@@ -42,6 +42,7 @@ export const AGENT_MATS = {
   // Armorer seals and Fire (Burn) chips follow from her specialty and attribute;
   // Core Skill drops aren't announced yet.
   'sunbringer': ["Armorer", "Burn", null, null],
+  'kafka': ["Anomaly", "Shock", null, null],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],

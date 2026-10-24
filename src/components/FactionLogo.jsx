@@ -24,6 +24,7 @@ const WITH_LOGO = new Set([
   'administrative-affairs-department',
   'central-computing-department',
   'roscaelifer',
+  'unknown-realm',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const factionSlug = (name) =>

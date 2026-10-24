@@ -77,6 +77,12 @@ export default function AgentDetail({
             {fac.name}
           </dd>
         </div>
+        {a.collab && (
+          <div>
+            <dt>Collab</dt>
+            <dd>{a.collab}</dd>
+          </div>
+        )}
         <div>
           <dt>Released</dt>
           <dd>
