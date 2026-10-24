@@ -1,3 +1,4 @@
+import { UPCOMING } from '../data/upcoming.js';
 import { BUILDS } from '../data/builds.js';
 import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, shortName } from '../data/game.js';
 import { normaliseDiscs } from './discs.js';
@@ -44,7 +45,7 @@ export function recommendedLoadout(agentId) {
 /** A whole recommended team, ready for the teams reducer's `import`. */
 export function recommendedTeam(agentId, members) {
   const b = BUILDS[agentId];
-  const bangboo = b?.bangboo.find((id) => BANGBOO_BY_ID[id]) ?? null;
+  const bangboo = (b?.bangboo ?? UPCOMING[agentId]?.bangboo ?? []).find((id) => BANGBOO_BY_ID[id]) ?? null;
   const loadouts = Object.fromEntries(members.map((id) => [id, recommendedLoadout(id)]).filter(([, lo]) => lo));
   const name = members.map((id) => shortName(AGENT_BY_ID[id])).join(' · ');
   return { name, members, bangboo, loadouts };

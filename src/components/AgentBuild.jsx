@@ -293,6 +293,24 @@ function NoBuild({ agent }) {
           )}
         </>
       )}
+      {UPCOMING[agent.id]?.bangboo && (
+        <>
+          <h4 className="micro-title">Bangboo</h4>
+          <ul className="mini-agents">
+            {UPCOMING[agent.id].bangboo
+              .map((id) => BANGBOO_BY_ID[id])
+              .filter(Boolean)
+              .map((x) => (
+                <li key={x.id}>
+                  <a className="mini-agent" href={`#bangboo-${x.id}`} title={x.name}>
+                    <BangbooArt id={x.id} size={24} />
+                    <span>{x.name}</span>
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </>
+      )}
       {style && (
         <>
           <h3 className="mini-title">Expected build</h3>

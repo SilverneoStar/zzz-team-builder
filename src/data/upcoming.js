@@ -31,6 +31,8 @@ export const UPCOMING = {
   },
 
   kafka: {
+    // Default Bangboo for her teams until a better fit is known.
+    bangboo: ['booressure', 'snap'],
     // Only her drip marketing is out (Electric, Anomaly), so this whole build is
     // an estimate from Anomaly Agents who play alike (Aria, Phoenix and Promeia,
     // plus the Electric ones, Yanagi and Grace) until her kit is revealed.
@@ -63,6 +65,8 @@ export const UPCOMING = {
   },
 
   'robin-hsr': {
+    // Default Bangboo for her teams until a better fit is known.
+    bangboo: ['booressure', 'snap'],
     // Only her drip marketing is out (Ether, Defense). She's expected to play like
     // Zhao, a Defense Agent who works as a support, so the build is an estimate
     // from Zhao's until her kit is revealed.
