@@ -112,6 +112,23 @@ function TeamRow({ team, onLoadTeam, label }) {
 
 // The extra boss / challenge unlocked by top results. Teams are suggested once
 // its weaknesses are added.
+// Extra team ideas, folded away so the page stays short.
+function MoreTeams({ teams, onLoadTeam, label = 'More teams' }) {
+  if (!teams.length) return null;
+  return (
+    <details className="eg-more">
+      <summary>
+        {label} <span className="muted">({teams.length})</span>
+      </summary>
+      <div className="eg-boss__teams">
+        {teams.map((t) => (
+          <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
+        ))}
+      </div>
+    </details>
+  );
+}
+
 function BonusCard({ bonus, onLoadTeam }) {
   if (!bonus) return null;
   const known = bonus.weak.length > 0;
@@ -140,10 +157,11 @@ function BonusCard({ bonus, onLoadTeam }) {
             </ul>
           )}
           <div className="eg-boss__teams">
-            {teams.map((t) => (
+            {teams.slice(0, 1).map((t) => (
               <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
             ))}
           </div>
+          <MoreTeams teams={teams.slice(1)} onLoadTeam={onLoadTeam} />
         </>
       ) : (
         <p className="muted small">Weaknesses and suggested teams will be added once they’re confirmed.</p>
@@ -215,8 +233,9 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
               )}
               <h5 className="micro-title">Rec. teams</h5>
               <div className="eg-boss__teams">
-                {teams.length ? teams.map((t) => <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />) : <TeamRow team={null} />}
+                {teams.length ? <TeamRow team={teams[0]} onLoadTeam={onLoadTeam} /> : <TeamRow team={null} />}
               </div>
+              <MoreTeams teams={teams.slice(1)} onLoadTeam={onLoadTeam} />
             </div>
           </article>
         ))}
@@ -351,16 +370,7 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
                     const others = suggestTeams(side, [...st.buffs, ...(side.buffs ?? [])], 3).filter(
                       (t) => t.ids.join() !== teams[i]?.ids.join(),
                     );
-                    return (
-                      others.length > 0 && (
-                        <>
-                          <h5 className="micro-title">Other options</h5>
-                          {others.map((t) => (
-                            <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
-                          ))}
-                        </>
-                      )
-                    );
+                    return <MoreTeams teams={others} onLoadTeam={onLoadTeam} label="Other options" />;
                   })()}
                 </div>
               ))}

@@ -8873,3 +8873,15 @@ details.disc-guide + details.disc-guide {
 .eg-rank__score { font-weight: 700; font-variant-numeric: tabular-nums; }
 .eg-rank__note { font-size: 0.78rem; color: var(--muted); }
 @media (max-width: 520px) { .eg-ranks__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Ethereals: folded extra teams and the Your teams panel */
+.eg-more { border-top: 1px dashed var(--line); padding-top: 8px; }
+.eg-more > summary { cursor: pointer; font-size: 0.88rem; font-weight: 600; padding: 6px 0; list-style: none; display: flex; align-items: center; gap: 6px; min-height: 36px; }
+.eg-more > summary::-webkit-details-marker, .eg-mine > summary::-webkit-details-marker { display: none; }
+.eg-more > summary::before, .eg-mine__summary::before { content: ''; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform 0.15s; flex: none; margin-right: 4px; }
+.eg-more[open] > summary::before, .eg-mine[open] > .eg-mine__summary::before { transform: rotate(45deg); }
+.eg-more[open] > summary { margin-bottom: 8px; }
+.eg-mine__summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; min-height: 36px; }
+.eg-mine__summary .mini-title { margin: 0; }
+.eg-mine:not([open]) { gap: 0; }
+@media (prefers-reduced-motion: reduce) { .eg-more > summary::before, .eg-mine__summary::before { transition: none; } }

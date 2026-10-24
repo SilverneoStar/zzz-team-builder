@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { AGENTS } from '../data/game.js';
 import ExportIcon from './ExportIcon.jsx';
 import { emptyMine, hasMine } from '../lib/myEndgame.js';
@@ -56,16 +56,19 @@ function Score({ value, onChange, label }) {
  */
 export default function MyEndgameTeams({ targets, buffs, bonus, mine, onChange, onExport }) {
   const set = (patch) => onChange({ ...mine, ...patch });
+  // Folded until opened, unless the reader already filled something in.
+  const [open, setOpen] = useState(() => hasMine(mine));
   const takenBy = useMemo(
     () => mine.teams.map((_, i) => new Set(mine.teams.flatMap((t, j) => (j === i ? [] : t.filter(Boolean))))),
     [mine.teams],
   );
 
   return (
-    <section className="eg-mine" aria-labelledby="eg-mine-title">
-      <h4 id="eg-mine-title" className="mini-title">
-        Your teams
-      </h4>
+    <details className="eg-mine" open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+      <summary className="eg-mine__summary">
+        <span className="mini-title">Your teams</span>
+        <span className="muted small">Share the teams you used or suggest</span>
+      </summary>
       <p className="muted small">
         Fill in the teams you cleared with, or the ones you’d suggest, and share them as a card. Saved in this browser.
       </p>
@@ -139,6 +142,6 @@ export default function MyEndgameTeams({ targets, buffs, bonus, mine, onChange, 
           Clear
         </button>
       </div>
-    </section>
+    </details>
   );
 }
