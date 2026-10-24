@@ -259,7 +259,7 @@ function RankGrid({ stage }) {
           </div>
         )}
         {stage.ranks.map(([rank, score]) => (
-          <div key={rank} className="eg-rank">
+          <div key={rank} className={`eg-rank eg-rank--${rank.toLowerCase()}`}>
             <b className="eg-rank__name">{rank}</b>
             <span className="eg-rank__score">{score.toLocaleString('en-US')}</span>
             <span className="eg-rank__note">{n > 1 ? 'per room' : 'points'}</span>

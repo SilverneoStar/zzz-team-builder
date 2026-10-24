@@ -42,14 +42,14 @@ const teamLabel = (custom) => (!custom ? 'REC. TEAM' : custom.kind === 'used' ? 
 const picked = (ids) => (ids?.some(Boolean) ? ids.filter(Boolean) : null);
 
 /** Draws "label ......... score + stars/rank" on one line. */
-function teamHead(ctx, label, x, y, w, score, mark) {
+function teamHead(ctx, label, x, y, w, score, mark, markColor = '#f5c542') {
   ctx.fillStyle = K.dim;
   ctx.font = `600 13px ${MONO}`;
   ctx.fillText(label, x, y);
   if (!score) return;
   ctx.textAlign = 'right';
-  ctx.fillStyle = '#f5c542';
-  ctx.font = `800 14px ${FONT}`;
+  ctx.fillStyle = markColor;
+  ctx.font = `900 16px ${FONT}`;
   const m = mark ?? '';
   ctx.fillText(m, x + w, y + 1);
   const mw = m ? ctx.measureText(m).width + 8 : 0;
@@ -58,6 +58,9 @@ function teamHead(ctx, label, x, y, w, score, mark) {
   ctx.fillText(Number(score).toLocaleString('en-US'), x + w - mw, y + 1);
   ctx.textAlign = 'left';
 }
+
+// The usual rank colours: S gold, A purple, B blue (S+ is drawn in silver and light blue).
+const RANK_COLOR = { S: '#ffb72b', A: '#c66cff', B: '#3fa5ff' };
 
 const starsFor = (score, steps) => '★'.repeat(steps.filter((n) => score >= n).length);
 const rankFor = (score, ranks) => ranks?.find(([, n]) => score >= n)?.[0] ?? '';
@@ -413,7 +416,7 @@ async function drawShiyu(ctx, base, custom) {
     // Team on the right
     const ids = custom ? picked(custom.teams?.[i]) : plan[i]?.ids;
     const score = custom?.scores?.[i];
-    teamHead(ctx, teamLabel(custom), W - 40 - 340, y + 40, 316, score, score && rankFor(score, st.ranks));
+    teamHead(ctx, teamLabel(custom), W - 40 - 340, y + 40, 316, score, score && rankFor(score, st.ranks), RANK_COLOR[rankFor(score, st.ranks)]);
     const comp = ids ? teamComp(ids, side, Boolean(custom)) : custom ? 'Not filled in' : '';
     if (comp) {
       ctx.fillStyle = K.muted;
@@ -440,8 +443,8 @@ async function drawShiyu(ctx, base, custom) {
         const g = ctx.createLinearGradient(bx + 16, y + 14, bx + 50, y + 42);
         ['#f2f5f8', '#b9c2cc', '#8fd3f4', '#d9f2ff'].forEach((c, k2, arr) => g.addColorStop(k2 / (arr.length - 1), c));
         ctx.fillStyle = g;
-      } else ctx.fillStyle = K.fg;
-      ctx.font = `800 26px ${DISPLAY}`;
+      } else ctx.fillStyle = RANK_COLOR[r] ?? K.fg;
+      ctx.font = `800 30px ${DISPLAY}`;
       ctx.fillText(r, bx + 16, y + 38);
       const rw = ctx.measureText(r).width;
       ctx.fillStyle = K.fg;

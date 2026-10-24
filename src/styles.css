@@ -8859,7 +8859,10 @@ details.disc-guide + details.disc-guide {
 .eg-ranks__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .eg-rank { display: grid; justify-items: center; align-content: start; gap: 2px; padding: 12px 8px; border-radius: 12px; background: var(--band-fill); border: 1px solid var(--band-line); text-align: center; }
 .eg-rank--top { border-color: color-mix(in srgb, #9fd4f0 60%, var(--line)); background: linear-gradient(160deg, rgb(159 212 240 / 0.18), rgb(200 205 215 / 0.06) 55%, transparent 80%), var(--band-fill); }
-.eg-rank__name { font: 800 1.6rem var(--font-display); line-height: 1; }
+.eg-rank__name { font: 800 2rem var(--font-display); line-height: 1; letter-spacing: 0.02em; }
+.eg-rank--s .eg-rank__name { color: #ffb72b; }
+.eg-rank--a .eg-rank__name { color: #c66cff; }
+.eg-rank--b .eg-rank__name { color: #3fa5ff; }
 .eg-rank--top .eg-rank__name { background: linear-gradient(135deg, #f2f5f8 0%, #b9c2cc 40%, #8fd3f4 75%, #d9f2ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .eg-rank__score { font-weight: 700; font-variant-numeric: tabular-nums; }
 .eg-rank__note { font-size: 0.78rem; color: var(--muted); }
