@@ -9,6 +9,8 @@ import Keywords from './Keywords.jsx';
 import ExportDialog from './ExportDialog.jsx';
 import ExportIcon from './ExportIcon.jsx';
 import { renderEndgameCard } from '../lib/endgameCards.js';
+import MyEndgameTeams from './MyEndgameTeams.jsx';
+import { hasMine, loadMine, saveMine } from '../lib/myEndgame.js';
 
 const BASE = import.meta.env.BASE_URL;
 const MODE_KEY = 'zzz-team-builder:endgameMode';
@@ -152,7 +154,7 @@ function BonusCard({ bonus, onLoadTeam }) {
   );
 }
 
-function DeadlyAssault({ onLoadTeam }) {
+function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
   const da = DEADLY_ASSAULT;
   const plan = useMemo(() => {
     const bosses = da.bosses.map((b) => {
@@ -211,7 +213,7 @@ function DeadlyAssault({ onLoadTeam }) {
                   Best buff here: <b>{buff.name}</b>
                 </p>
               )}
-              <h5 className="micro-title">Teams that fit</h5>
+              <h5 className="micro-title">Rec. teams</h5>
               <div className="eg-boss__teams">
                 {teams.length ? teams.map((t) => <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />) : <TeamRow team={null} />}
               </div>
@@ -228,11 +230,20 @@ function DeadlyAssault({ onLoadTeam }) {
           <TeamRow key={i} team={t} onLoadTeam={onLoadTeam} label={`Boss ${i + 1} · ${plan.bosses[i].buff?.name ?? ''}`} />
         ))}
       </div>
+
+      <MyEndgameTeams
+        targets={da.bosses.map((b, i) => ({ label: `Boss ${i + 1}`, name: b.name }))}
+        buffs={da.buffs}
+        bonus={da.bonus?.name ? da.bonus : null}
+        mine={mine}
+        onChange={onMine}
+        onExport={onExportMine}
+      />
     </section>
   );
 }
 
-function Shiyu({ onLoadTeam }) {
+function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
   const sd = SHIYU_DEFENSE;
   const stages = useMemo(
     () =>
@@ -330,13 +341,30 @@ function Shiyu({ onLoadTeam }) {
           </article>
         ))}
       <BonusCard bonus={sd.bonus} onLoadTeam={onLoadTeam} />
+
+      <MyEndgameTeams
+        targets={sd.stages.at(-1).sides.map((s, i) => ({ label: `Room ${i + 1}`, name: s.name }))}
+        mine={mine}
+        onChange={onMine}
+        onExport={onExportMine}
+      />
     </section>
   );
 }
 
 export default function EtherealsPage({ onLoadTeam }) {
   const [mode, setMode] = useState(loadMode);
-  const [exporting, setExporting] = useState(false);
+  // null, 'rec' (recommended teams) or 'mine' (the reader's own teams)
+  const [exporting, setExporting] = useState(null);
+  const mineKey = mode === 'deadly-assault' ? `deadly-assault:${DEADLY_ASSAULT.id}` : `shiyu:${SHIYU_DEFENSE.id}`;
+  const targets = mode === 'deadly-assault' ? DEADLY_ASSAULT.bosses.length : SHIYU_DEFENSE.stages.at(-1).sides.length;
+  const [mineAll, setMineAll] = useState({});
+  const mine = mineAll[mineKey] ?? loadMine(mineKey, targets);
+  const setMine = (m) => {
+    setMineAll((all) => ({ ...all, [mineKey]: m }));
+    saveMine(mineKey, hasMine(m) ? m : null);
+  };
+  const mineProps = { mine, onMine: setMine, onExportMine: () => setExporting('mine') };
   useEffect(() => {
     try {
       localStorage.setItem(MODE_KEY, mode);
@@ -350,7 +378,9 @@ export default function EtherealsPage({ onLoadTeam }) {
         <h2 className="page__title">Ethereals</h2>
         <p className="muted">
           The current endgame rotations: what each enemy is weak to, the buffs on offer, and teams that fit. Teams are
-          picked by the site from the weaknesses and buffs, using the recommended teams on each Agent’s page.
+          picked by the site from the weaknesses and buffs, using the recommended teams on each Agent’s page. They’re
+          recommendations, not the only way to clear: with some investment (a strong W-Engine, good Drive Disc
+          substats), other A- and S-rank Agents can clear too.
         </p>
       </header>
       <div className="filters filters--page filters--row">
@@ -362,22 +392,29 @@ export default function EtherealsPage({ onLoadTeam }) {
             </button>
           ))}
         </div>
-        <button className="btn eg-export" onClick={() => setExporting(true)}>
+        <button className="btn eg-export" onClick={() => setExporting('rec')}>
           <ExportIcon />
           Export card
         </button>
       </div>
-      {mode === 'deadly-assault' ? <DeadlyAssault onLoadTeam={onLoadTeam} /> : <Shiyu onLoadTeam={onLoadTeam} />}
+      {mode === 'deadly-assault' ? (
+        <DeadlyAssault onLoadTeam={onLoadTeam} {...mineProps} />
+      ) : (
+        <Shiyu onLoadTeam={onLoadTeam} {...mineProps} />
+      )}
       {exporting && (
         <ExportDialog
-          onClose={() => setExporting(false)}
+          onClose={() => setExporting(null)}
           title="Endgame card"
           name={MODES.find((m) => m.id === mode).label}
           suffix="zzz"
-          kinds={[{ id: mode, label: MODES.find((m) => m.id === mode).label, hint: '4:5' }]}
-          kind={mode}
-          onKind={() => {}}
-          render={(opts) => renderEndgameCard(mode, opts)}
+          kinds={[
+            { id: 'rec', label: 'Recommended', hint: 'Rec. teams' },
+            ...(hasMine(mine) ? [{ id: 'mine', label: mine.kind === 'used' ? 'My run' : 'My picks', hint: 'Your teams' }] : []),
+          ]}
+          kind={exporting}
+          onKind={setExporting}
+          render={(opts) => renderEndgameCard(mode, { ...opts, custom: exporting === 'mine' ? mine : null })}
         />
       )}
     </div>

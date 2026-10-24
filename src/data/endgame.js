@@ -143,6 +143,8 @@ export const SHIYU_DEFENSE = {
     {
       n: 5,
       name: 'Fifth Frontier',
+      // Rank per room by score, best first.
+      ranks: [['S', 25000], ['A', 18000], ['B', 8000]],
       score: 'Per room: S at 25,000 · A at 18,000 · B at 8,000. Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
       buffs: [],
       sides: [

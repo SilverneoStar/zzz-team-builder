@@ -12,19 +12,55 @@ const K = { panel: 'rgba(22,22,22,0.94)', line: '#333', fg: '#f2f2f2', text: '#e
 const ICON_FILE = { physical: 'physical', fire: 'fire', ice: 'ice', electric: 'electric', ether: 'ether', wind: 'wind' };
 
 const ROLE = { stun: 'Stunner', support: 'Support', defense: 'Defense', anomaly: 'Anomaly' };
-const ROLE_ORDER = ['Stunner', 'Support', 'Sub-DPS', 'Anomaly', 'Defense'];
+const ROLE_ORDER = ['Stunner', 'Support', 'Sub-DPS', '2nd Anomaly', 'Anomaly', 'Defense'];
 const cap = (w) => w.charAt(0).toUpperCase() + w.slice(1);
 
-/** Team makeup in words, e.g. "Electric or Ether DMG, Stunner and Support". */
-function teamComp(ids, target) {
+/**
+ * Team makeup in words, e.g. "Electric or Ether DMG, Stunner and Support".
+ * Recommended teams name the enemy's weaknesses; a player's own team names
+ * its main damage dealer's attribute.
+ */
+function teamComp(ids, target, own = false) {
   if (!ids?.length) return '';
   const [carry, ...rest] = ids.map((id) => AGENT_BY_ID[id]);
   const weak = (target.weak ?? []).map((w) => ATTRIBUTE_BY_ID[w]?.name ?? cap(w)).join(' or ');
-  const head = `${weak || ATTRIBUTE_BY_ID[carry.attribute]?.name} ${carry.specialty === 'anomaly' ? 'Anomaly' : 'DMG'}`;
-  const roles = rest.map((a) => ROLE[a.specialty] ?? 'Sub-DPS').sort((a, b) => ROLE_ORDER.indexOf(a) - ROLE_ORDER.indexOf(b));
-  const words = roles.every((r) => r === roles[0]) && roles.length > 1 ? [`${roles.length} more ${roles[0]}`] : roles;
+  const attr = ATTRIBUTE_BY_ID[carry.attribute];
+  const carryAttr = (attr?.base ? ATTRIBUTE_BY_ID[attr.base]?.name : attr?.name) ?? '';
+  const isAnomaly = carry.specialty === 'anomaly';
+  const head = `${own || !weak ? carryAttr : weak} ${isAnomaly ? 'Anomaly' : 'DMG'}`;
+  if (!rest.length) return head;
+  const roles = rest
+    .map((a) => (a.specialty === 'anomaly' && isAnomaly ? '2nd Anomaly' : (ROLE[a.specialty] ?? 'Sub-DPS')))
+    .sort((a, b) => ROLE_ORDER.indexOf(a) - ROLE_ORDER.indexOf(b));
+  const PLURAL = { Stunner: '2 Stunners', Support: '2 Supports', 'Sub-DPS': '2 Sub-DPS', Defense: '2 Defense', '2nd Anomaly': '2 more Anomaly', Anomaly: '2 Anomaly' };
+  const words = roles.length === 2 && roles[0] === roles[1] ? [PLURAL[roles[0]] ?? `2 ${roles[0]}`] : roles;
   return `${head}, ${words.length > 1 ? `${words.slice(0, -1).join(', ')} and ${words.at(-1)}` : words[0]}`;
 }
+
+// Teams the reader picked themselves: what they used, or what they suggest.
+const teamLabel = (custom) => (!custom ? 'REC. TEAM' : custom.kind === 'used' ? 'MY TEAM' : 'SUGGESTED TEAM');
+const picked = (ids) => (ids?.some(Boolean) ? ids.filter(Boolean) : null);
+
+/** Draws "label ......... score + stars/rank" on one line. */
+function teamHead(ctx, label, x, y, w, score, mark) {
+  ctx.fillStyle = K.dim;
+  ctx.font = `600 13px ${MONO}`;
+  ctx.fillText(label, x, y);
+  if (!score) return;
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#f5c542';
+  ctx.font = `800 14px ${FONT}`;
+  const m = mark ?? '';
+  ctx.fillText(m, x + w, y + 1);
+  const mw = m ? ctx.measureText(m).width + 8 : 0;
+  ctx.fillStyle = K.fg;
+  ctx.font = `800 15px ${FONT}`;
+  ctx.fillText(Number(score).toLocaleString('en-US'), x + w - mw, y + 1);
+  ctx.textAlign = 'left';
+}
+
+const starsFor = (score, steps) => '★'.repeat(steps.filter((n) => score >= n).length);
+const rankFor = (score, ranks) => ranks?.find(([, n]) => score >= n)?.[0] ?? '';
 
 const fmtDate = (d) => new Date(`${d}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
@@ -154,7 +190,16 @@ async function header(ctx, base, logoSrc, title, dates) {
   if (mascot) ctx.drawImage(mascot, W - 130, 50, 90, 90);
 }
 
-function foot(ctx) {
+function foot(ctx, custom) {
+  ctx.fillStyle = K.dim;
+  ctx.font = `500 12px ${FONT}`;
+  ctx.fillText(
+    custom
+      ? 'Teams picked by the player. Other teams can clear too.'
+      : 'Rec. = recommended. Not the only way to clear: with investment, other A- and S-rank teams can clear too.',
+    40,
+    H - 50,
+  );
   ctx.fillStyle = K.muted;
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText('silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse', 40, H - 30);
@@ -175,11 +220,15 @@ function star(ctx, cx, cy, r, color) {
   ctx.fill();
 }
 
-async function drawDeadlyAssault(ctx, base) {
+async function drawDeadlyAssault(ctx, base, custom) {
   const da = DEADLY_ASSAULT;
-  await header(ctx, base, 'modes/deadly-assault.webp', 'Deadly Assault', `${fmtDate(da.start)} – ${fmtDate(da.end)}`);
+  const tag = custom ? (custom.kind === 'used' ? ' · My run' : ' · My picks') : '';
+  await header(ctx, base, 'modes/deadly-assault.webp', 'Deadly Assault', `${fmtDate(da.start)} – ${fmtDate(da.end)}${tag}`);
   const icons = await loadIcons(base);
-  const bosses = da.bosses.map((b) => ({ boss: b, buff: bestBuff(b, da.buffs) }));
+  const bosses = da.bosses.map((b, i) => ({
+    boss: b,
+    buff: custom ? (da.buffs.find((x) => x.id === custom.buffs?.[i]) ?? null) : bestBuff(b, da.buffs),
+  }));
   const run = disjointTeams(bosses.map((x) => ({ target: x.boss, buffs: x.buff ? [x.buff] : [] })));
   const arts = await Promise.all(da.bosses.map((b) => loadImage(`${base}${b.art}`)));
 
@@ -209,23 +258,23 @@ async function drawDeadlyAssault(ctx, base) {
     if (buff) {
       ctx.fillStyle = K.dim;
       ctx.font = `600 13px ${MONO}`;
-      ctx.fillText('BEST BUFF', x + 16, y);
+      ctx.fillText(custom ? 'BUFF' : 'BEST BUFF', x + 16, y);
       ctx.fillStyle = K.fg;
       ctx.font = `700 17px ${FONT}`;
       ctx.fillText(buff.name, x + 106, y + 1);
       y += 26;
     }
-    ctx.fillStyle = K.dim;
-    ctx.font = `600 13px ${MONO}`;
-    ctx.fillText('TEAM', x + 16, y + 8);
+    const ids = custom ? picked(custom.teams?.[i]) : run[i]?.ids;
+    const score = custom?.scores?.[i];
+    teamHead(ctx, teamLabel(custom), x + 16, y + 8, colW - 32, score, score && starsFor(score, da.stars ?? []));
     const size = Math.min(70, (colW - 32 - 16) / 3);
-    const comp = teamComp(run[i]?.ids, boss);
+    const comp = ids ? teamComp(ids, boss, Boolean(custom)) : custom ? 'Not filled in' : '';
     if (comp) {
       ctx.fillStyle = K.muted;
       ctx.font = `500 13px ${FONT}`;
       ctx.fillText(fit(ctx, comp, colW - 32), x + 16, y + 28);
     }
-    await teamPortraits(ctx, run[i]?.ids, base, x + 16, y + 40, size, 8);
+    await teamPortraits(ctx, ids, base, x + 16, y + 40, size, 8);
   }
 
   // Buffs
@@ -302,23 +351,27 @@ async function drawDeadlyAssault(ctx, base) {
     if (bonus.weak?.length) {
       attrRow(ctx, 'WEAK', bonus.weak, icons, tx, y + 56);
       attrRow(ctx, 'RESIST', bonus.resist, icons, tx + 150, y + 56);
-      const t = suggestTeams(bonus, [], 1)[0];
-      if (t) {
-        await teamPortraits(ctx, t.ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
-        ctx.fillStyle = K.muted;
-        ctx.font = `500 14px ${FONT}`;
-        ctx.textAlign = 'right';
-        ctx.fillText(fit(ctx, teamComp(t.ids, bonus), 300), W - 80 - 3 * 60 - 8 - 24, y + 74);
-        ctx.textAlign = 'left';
-      }
+      const ids = custom ? picked(custom.bonus) : suggestTeams(bonus, [], 1)[0]?.ids;
+      const rx = W - 80 - 3 * 60 - 8 - 24;
+      ctx.textAlign = 'right';
+      ctx.fillStyle = K.dim;
+      ctx.font = `600 13px ${MONO}`;
+      const head = custom?.bonusScore ? `${teamLabel(custom)} · ${Number(custom.bonusScore).toLocaleString('en-US')}` : teamLabel(custom);
+      ctx.fillText(head, rx, y + 38);
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 14px ${FONT}`;
+      ctx.fillText(fit(ctx, ids ? teamComp(ids, bonus, Boolean(custom)) : 'Not filled in', 300), rx, y + 74);
+      ctx.textAlign = 'left';
+      if (ids) await teamPortraits(ctx, ids, base, W - 80 - 3 * 60 - 8, y + 12, 52, 8);
     }
   }
-  foot(ctx);
+  foot(ctx, custom);
 }
 
-async function drawShiyu(ctx, base) {
+async function drawShiyu(ctx, base, custom) {
   const sd = SHIYU_DEFENSE;
-  await header(ctx, base, 'modes/shiyu-defense.webp', 'Shiyu Defense', `${fmtDate(sd.start)} – ${fmtDate(sd.end)} · Critical Node`);
+  const tag = custom ? (custom.kind === 'used' ? ' · My run' : ' · My picks') : '';
+  await header(ctx, base, 'modes/shiyu-defense.webp', 'Shiyu Defense', `${fmtDate(sd.start)} – ${fmtDate(sd.end)} · Critical Node${tag}`);
   const icons = await loadIcons(base);
   const st = sd.stages[sd.stages.length - 1];
   const plan = disjointTeams(st.sides.map((side) => ({ target: side, buffs: [...st.buffs, ...(side.buffs ?? [])] })));
@@ -358,16 +411,16 @@ async function drawShiyu(ctx, base) {
       });
     }
     // Team on the right
-    ctx.fillStyle = K.dim;
-    ctx.font = `600 13px ${MONO}`;
-    ctx.fillText('TEAM', W - 40 - 340, y + 40);
-    const comp = teamComp(plan[i]?.ids, side);
+    const ids = custom ? picked(custom.teams?.[i]) : plan[i]?.ids;
+    const score = custom?.scores?.[i];
+    teamHead(ctx, teamLabel(custom), W - 40 - 340, y + 40, 316, score, score && rankFor(score, st.ranks));
+    const comp = ids ? teamComp(ids, side, Boolean(custom)) : custom ? 'Not filled in' : '';
     if (comp) {
       ctx.fillStyle = K.muted;
       ctx.font = `500 14px ${FONT}`;
       ctx.fillText(fit(ctx, comp, 340), W - 40 - 340, y + 62);
     }
-    await teamPortraits(ctx, plan[i]?.ids, base, W - 40 - 340, y + 76, 96, 12);
+    await teamPortraits(ctx, ids, base, W - 40 - 340, y + 76, 96, 12);
     y += rh + 16;
   }
   ctx.fillStyle = K.muted;
@@ -380,13 +433,26 @@ async function drawShiyu(ctx, base) {
       ctx.fillText(l, 40, y + 66 + k * 22),
     );
   }
-  foot(ctx);
+  if (custom && custom.scores?.some(Boolean)) {
+    const total = custom.scores.reduce((a, b) => a + (Number(b) || 0), 0);
+    ctx.fillStyle = '#f5c542';
+    ctx.font = `800 22px ${FONT}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`Total ${total.toLocaleString('en-US')}`, W - 40, y + 66);
+    ctx.textAlign = 'left';
+  }
+  foot(ctx, custom);
 }
 
 export const ENDGAME_CARDS = { 'deadly-assault': drawDeadlyAssault, shiyu: drawShiyu };
 
-/** Renders the endgame card for a mode ('deadly-assault' or 'shiyu'). */
-export async function renderEndgameCard(mode, { base = '/', scale = EXPORT_SCALE } = {}) {
+/**
+ * Renders the endgame card for a mode ('deadly-assault' or 'shiyu'). With
+ * `custom`, it shows the reader's own teams instead of the recommended ones:
+ * { kind: 'used' | 'suggest', teams: [[id, id, id] …], scores: [n …],
+ *   buffs: [buffId …] (Deadly Assault), bonus: [ids], bonusScore }.
+ */
+export async function renderEndgameCard(mode, { base = '/', scale = EXPORT_SCALE, custom = null } = {}) {
   await document.fonts?.ready;
   const canvas = document.createElement('canvas');
   canvas.width = W * scale;
@@ -396,6 +462,6 @@ export async function renderEndgameCard(mode, { base = '/', scale = EXPORT_SCALE
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
-  await (ENDGAME_CARDS[mode] ?? drawDeadlyAssault)(ctx, base);
+  await (ENDGAME_CARDS[mode] ?? drawDeadlyAssault)(ctx, base, custom);
   return canvas;
 }
