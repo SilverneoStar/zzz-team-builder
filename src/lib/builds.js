@@ -1,6 +1,6 @@
 import { UPCOMING } from '../data/upcoming.js';
 import { BUILDS } from '../data/builds.js';
-import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, shortName } from '../data/game.js';
+import { AGENT_BY_ID, BANGBOO_BY_ID, DISC_MAIN_STATS, shortName, signatureOf } from '../data/game.js';
 import { normaliseDiscs } from './discs.js';
 
 // Turns a recommended main stat line ("CRIT Rate / CRIT DMG", "Fire DMG > ATK %")
@@ -49,4 +49,44 @@ export function recommendedTeam(agentId, members) {
   const loadouts = Object.fromEntries(members.map((id) => [id, recommendedLoadout(id)]).filter(([, lo]) => lo));
   const name = members.map((id) => shortName(AGENT_BY_ID[id])).join(' · ');
   return { name, members, bangboo, loadouts };
+}
+
+/**
+ * What the site recommends for one Agent, for the team builder's gear panel:
+ * W-Engines (best first), 4-piece and 2-piece sets, and the main stat for
+ * slots 4 to 6. Uses the full build when there is one, otherwise the estimate
+ * for an upcoming Agent (marked `estimate`). Null when nothing is known.
+ */
+export function recommendationFor(agentId) {
+  const b = BUILDS[agentId];
+  const u = UPCOMING[agentId];
+  const sig = signatureOf(agentId);
+  const src = b
+    ? { wEngines: b.wEngines, four: b.fourPiece, two: b.twoPiece, main: b.main, estimate: false }
+    : u?.trial || u?.engines
+      ? {
+          wEngines: u.engines ?? [],
+          four: u.trial?.fourPiece ?? [],
+          two: u.trial?.twoPiece ?? [],
+          main: u.trial?.main ?? {},
+          estimate: !u.confirmed,
+        }
+      : null;
+  if (!src && !sig) return null;
+  const wEngines = [...new Set([...(sig && !src?.wEngines?.includes(sig.id) ? [sig.id] : []), ...(src?.wEngines ?? [])])];
+  const four = src?.four?.[0] ?? null;
+  const two = (src?.two ?? []).find((s) => s !== four) ?? null;
+  const main = Object.fromEntries([4, 5, 6].map((n) => [n, mainStatFrom(src?.main?.[n], n)]));
+  return {
+    wEngines,
+    best: wEngines[0] ?? null,
+    signature: sig?.id ?? null,
+    fours: src?.four ?? [],
+    twos: src?.two ?? [],
+    four,
+    two,
+    main,
+    hasMain: Object.values(main).some(Boolean),
+    estimate: src?.estimate ?? false,
+  };
 }

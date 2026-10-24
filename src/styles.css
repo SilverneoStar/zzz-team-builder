@@ -8911,3 +8911,14 @@ details.disc-guide + details.disc-guide {
 .sister__game { font-size: 0.78rem; color: var(--muted); }
 .sister__arrow { margin-left: auto; font-size: 1.2rem; font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .sister { transition: none; } .sister:hover { transform: none; } }
+
+/* Team builder: recommended gear tags and one-tap fills */
+.rec-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 8px 0 4px; padding: 8px 10px; border: 1px dashed var(--line); border-radius: 12px; background: var(--band-fill); }
+.rec-bar__text { flex: 1 1 200px; }
+.rec-tag { padding: 2px 8px; border-radius: 999px; background: var(--fg); color: var(--bg); font: 700 0.7rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.field__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.rec-btn { padding: 3px 10px; min-height: 28px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--fg); font: 600 0.75rem var(--font-body); cursor: pointer; }
+.rec-btn:hover { border-color: var(--fg); }
+.rec-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.quickfill__rec { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; color: var(--fg); }
+.rec-btn:disabled { opacity: 0.6; cursor: default; border-style: dashed; }
