@@ -131,21 +131,15 @@ export const SHIYU_DEFENSE = {
   start: '2026-10-16',
   end: '2026-10-29',
   note: 'The score check is Stage 5: three rooms, each needing its own squad, so no Agent can be in two rooms.',
-  // The extra challenge for players who score enough for S+ rank. Fill in once known.
-  bonus: {
-    title: 'S+ rating',
-    unlock: 'S+ is the top grade: an S rating in all three rooms and at least 100,000 points in total.',
-    name: null,
-    weak: [],
-    resist: [],
-  },
   stages: [
     {
       n: 5,
       name: 'Fifth Frontier',
       // Rank per room by score, best first.
       ranks: [['S', 25000], ['A', 18000], ['B', 8000]],
-      score: 'Per room: S at 25,000 · A at 18,000 · B at 8,000. Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
+      // The top grade for the whole node.
+      topRank: { rank: 'S+', total: 100000, need: 'S in all three rooms' },
+      score: 'Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
       buffs: [],
       sides: [
         {

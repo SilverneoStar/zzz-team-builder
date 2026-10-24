@@ -243,6 +243,33 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
   );
 }
 
+// Shiyu ranks: S+ for the whole node, then the score each room needs.
+function RankGrid({ stage }) {
+  if (!stage.ranks) return null;
+  const n = stage.sides.length;
+  return (
+    <section className="eg-ranks" aria-label="Ranks">
+      <h4 className="mini-title">Ranks</h4>
+      <div className="eg-ranks__grid">
+        {stage.topRank && (
+          <div className="eg-rank eg-rank--top">
+            <b className="eg-rank__name">{stage.topRank.rank}</b>
+            <span className="eg-rank__score">{stage.topRank.total.toLocaleString('en-US')}</span>
+            <span className="eg-rank__note">total, with {stage.topRank.need}</span>
+          </div>
+        )}
+        {stage.ranks.map(([rank, score]) => (
+          <div key={rank} className="eg-rank">
+            <b className="eg-rank__name">{rank}</b>
+            <span className="eg-rank__score">{score.toLocaleString('en-US')}</span>
+            <span className="eg-rank__note">{n > 1 ? 'per room' : 'points'}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
   const sd = SHIYU_DEFENSE;
   const stages = useMemo(
@@ -340,7 +367,7 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
             </div>
           </article>
         ))}
-      <BonusCard bonus={sd.bonus} onLoadTeam={onLoadTeam} />
+      <RankGrid stage={sd.stages.at(-1)} />
 
       <MyEndgameTeams
         targets={sd.stages.at(-1).sides.map((s, i) => ({ label: `Room ${i + 1}`, name: s.name }))}

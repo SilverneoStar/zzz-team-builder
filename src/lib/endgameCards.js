@@ -377,8 +377,8 @@ async function drawShiyu(ctx, base, custom) {
   const plan = disjointTeams(st.sides.map((side) => ({ target: side, buffs: [...st.buffs, ...(side.buffs ?? [])] })));
   const arts = await Promise.all(st.sides.map((s) => (s.art ? loadImage(`${base}${s.art}`) : null)));
 
-  let y = 182;
-  const rh = 322;
+  let y = 186;
+  const rh = 300;
   for (let i = 0; i < st.sides.length; i += 1) {
     const side = st.sides[i];
     panel(ctx, 40, y, W - 80, rh);
@@ -423,22 +423,45 @@ async function drawShiyu(ctx, base, custom) {
     await teamPortraits(ctx, ids, base, W - 40 - 340, y + 76, 96, 12);
     y += rh + 16;
   }
-  ctx.fillStyle = K.muted;
-  ctx.font = `500 16px ${FONT}`;
-  wrap(ctx, st.score ?? '', W - 80, 2).forEach((l, k) => ctx.fillText(l, 40, y + 14 + k * 22));
-  if (sd.bonus) {
-    ctx.fillStyle = K.fg;
-    ctx.font = `700 16px ${FONT}`;
-    wrap(ctx, `S+: ${sd.bonus.unlock.replace(/^S\+ is the top grade: /, '')}`, W - 80, 2).forEach((l, k) =>
-      ctx.fillText(l, 40, y + 66 + k * 22),
-    );
+  // Ranks: S+ for the whole node, then the score each room needs.
+  const boxes = [
+    ...(st.topRank ? [[st.topRank.rank, st.topRank.total, `total · ${st.topRank.need}`, true]] : []),
+    ...(st.ranks ?? []).map(([r, n]) => [r, n, 'per room', false]),
+  ];
+  if (boxes.length) {
+    const gap = 12;
+    const bw = (W - 80 - gap * (boxes.length - 1)) / boxes.length;
+    const bh = 58;
+    boxes.forEach(([r, n, note, top], k) => {
+      const bx = 40 + k * (bw + gap);
+      panel(ctx, bx, y, bw, bh, top ? '#7fb8d6' : null);
+      if (top) {
+        // S+ in a silver to light blue mix
+        const g = ctx.createLinearGradient(bx + 16, y + 14, bx + 50, y + 42);
+        ['#f2f5f8', '#b9c2cc', '#8fd3f4', '#d9f2ff'].forEach((c, k2, arr) => g.addColorStop(k2 / (arr.length - 1), c));
+        ctx.fillStyle = g;
+      } else ctx.fillStyle = K.fg;
+      ctx.font = `800 26px ${DISPLAY}`;
+      ctx.fillText(r, bx + 16, y + 38);
+      const rw = ctx.measureText(r).width;
+      ctx.fillStyle = K.fg;
+      ctx.font = `800 18px ${FONT}`;
+      ctx.fillText(n.toLocaleString('en-US'), bx + 28 + rw, y + 27);
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 12px ${FONT}`;
+      ctx.fillText(fit(ctx, note, bw - 40 - rw), bx + 28 + rw, y + 45);
+    });
+    y += bh + 22;
   }
+  ctx.fillStyle = K.muted;
+  ctx.font = `500 14px ${FONT}`;
+  if (st.score) ctx.fillText(fit(ctx, st.score, W - 80 - 260), 40, y + 6);
   if (custom && custom.scores?.some(Boolean)) {
     const total = custom.scores.reduce((a, b) => a + (Number(b) || 0), 0);
     ctx.fillStyle = '#f5c542';
     ctx.font = `800 22px ${FONT}`;
     ctx.textAlign = 'right';
-    ctx.fillText(`Total ${total.toLocaleString('en-US')}`, W - 40, y + 66);
+    ctx.fillText(`Total ${total.toLocaleString('en-US')}`, W - 40, y + 10);
     ctx.textAlign = 'left';
   }
   foot(ctx, custom);
