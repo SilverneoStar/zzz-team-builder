@@ -19,6 +19,8 @@ export const ATTRIBUTES = [
   { id: 'fire', name: 'Fire', color: '#f04a1a' },
   { id: 'ice', name: 'Ice', color: '#3cd8d8' },
   { id: 'frost', name: 'Frost', color: '#8fe6ee', base: 'ice' },
+  // Sunbringer's own blue Fire as a Void Hunter; its name isn't announced yet.
+  { id: 'sunbringer-fire', name: 'Fire', color: '#3f6fe0', base: 'fire', unnamed: true },
   { id: 'electric', name: 'Electric', color: '#1e8ef0' },
   { id: 'ether', name: 'Ether', color: '#a956d8' },
   { id: 'auric-ink', name: 'Auric Ink', color: '#c99a3f', base: 'ether' },

@@ -43,7 +43,7 @@ export default function AgentDetail({
           <dd className="cell-el">
             <AttributeGlyph attribute={a.attribute} size={15} />
             {attr?.name}
-            {attr?.base && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
+            {attr?.base && !attr.unnamed && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
             {a.attributeNote && <span className="muted"> · {a.attributeNote}</span>}
           </dd>
         </div>
@@ -130,9 +130,10 @@ export default function AgentDetail({
           <h2 id="detail-name" className="detail__name">
             {a.name}
           </h2>
-          {a.upcoming && (
+          {(a.upcoming || a.voidHunter) && (
             <ul className="tags">
-              <li>Upcoming</li>
+              {a.upcoming && <li>Upcoming</li>}
+              {a.voidHunter && <li>Void Hunter</li>}
             </ul>
           )}
         </div>

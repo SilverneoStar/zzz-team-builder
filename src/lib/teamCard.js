@@ -311,7 +311,7 @@ const SHORT_STAT = {
 
 // Attribute and specialty icons (public/attributes, public/specialties).
 // Variant attributes (Frost, Honed Edge, Auric Ink) use their base icon.
-const ATTR_ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux']);
+const ATTR_ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux', 'sunbringer-fire']);
 const attrIconId = (id) =>
   ATTR_ICONS.has(id) ? id : ATTR_ICONS.has(ATTRIBUTE_BY_ID[id]?.base) ? ATTRIBUTE_BY_ID[id].base : null;
 
