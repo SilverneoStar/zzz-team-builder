@@ -8859,11 +8859,17 @@ details.disc-guide + details.disc-guide {
 .eg-ranks__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .eg-rank { display: grid; justify-items: center; align-content: start; gap: 2px; padding: 12px 8px; border-radius: 12px; background: var(--band-fill); border: 1px solid var(--band-line); text-align: center; }
 .eg-rank--top { border-color: color-mix(in srgb, #9fd4f0 60%, var(--line)); background: linear-gradient(160deg, rgb(159 212 240 / 0.18), rgb(200 205 215 / 0.06) 55%, transparent 80%), var(--band-fill); }
-.eg-rank__name { font: 800 2rem var(--font-display); line-height: 1; letter-spacing: 0.02em; }
-.eg-rank--s .eg-rank__name { color: #ffb72b; }
-.eg-rank--a .eg-rank__name { color: #c66cff; }
-.eg-rank--b .eg-rank__name { color: #3fa5ff; }
-.eg-rank--top .eg-rank__name { background: linear-gradient(135deg, #f2f5f8 0%, #b9c2cc 40%, #8fd3f4 75%, #d9f2ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.eg-rank__name {
+  /* Heavy italic letters with a vertical gradient, like the in-game ratings. */
+  font: italic 900 2.1rem 'Inter', 'Arial Black', 'Segoe UI Black', system-ui, sans-serif;
+  line-height: 1.05; padding: 0 0.12em; letter-spacing: -0.02em;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1.5px 0 rgb(0 0 0 / 0.55));
+}
+.eg-rank--s .eg-rank__name { background-image: linear-gradient(180deg, #fff27a 0%, #ffc21c 45%, #ff8a00 100%); }
+.eg-rank--a .eg-rank__name { background-image: linear-gradient(180deg, #f6a8ff 0%, #c55cff 50%, #8b3dff 100%); }
+.eg-rank--b .eg-rank__name { background-image: linear-gradient(180deg, #a8ecff 0%, #3fa5ff 50%, #2a62ff 100%); }
+.eg-rank--top .eg-rank__name { background-image: linear-gradient(180deg, #ffffff 0%, #c9d6e6 38%, #6fb8ff 70%, #2f74ff 100%); }
 .eg-rank__score { font-weight: 700; font-variant-numeric: tabular-nums; }
 .eg-rank__note { font-size: 0.78rem; color: var(--muted); }
 @media (max-width: 520px) { .eg-ranks__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

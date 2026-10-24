@@ -4,7 +4,7 @@
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, shortName } from '../data/game.js';
 import { DEADLY_ASSAULT, SHIYU_DEFENSE } from '../data/endgame.js';
 import { bestBuff, disjointTeams, suggestTeams } from './endgame.js';
-import { DISPLAY, EXPORT_SCALE, FONT, MONO, background, fit, loadAgentArt, loadImage, roundRect } from './teamCard.js';
+import { BADGE, DISPLAY, EXPORT_SCALE, FONT, MONO, background, fit, loadAgentArt, loadImage, roundRect } from './teamCard.js';
 
 const W = 1080;
 const H = 1350;
@@ -59,8 +59,30 @@ function teamHead(ctx, label, x, y, w, score, mark, markColor = '#f5c542') {
   ctx.textAlign = 'left';
 }
 
-// The usual rank colours: S gold, A purple, B blue (S+ is drawn in silver and light blue).
+// The usual rank colours: S gold, A purple, B blue, S+ silver into light blue.
 const RANK_COLOR = { S: '#ffb72b', A: '#c66cff', B: '#3fa5ff' };
+const RANK_STOPS = {
+  'S+': ['#ffffff', '#c9d6e6', '#6fb8ff', '#2f74ff'],
+  S: ['#fff27a', '#ffc21c', '#ff8a00'],
+  A: ['#f6a8ff', '#c55cff', '#8b3dff'],
+  B: ['#a8ecff', '#3fa5ff', '#2a62ff'],
+};
+
+/** A rank letter in heavy italic with a vertical gradient, like the game's ratings. */
+function rankLetter(ctx, r, x, baseline, size) {
+  ctx.save();
+  ctx.font = `italic 900 ${size}px ${BADGE}`;
+  const g = ctx.createLinearGradient(0, baseline - size * 0.78, 0, baseline);
+  const stops = RANK_STOPS[r] ?? ['#fff', '#fff'];
+  stops.forEach((c, k) => g.addColorStop(k / (stops.length - 1), c));
+  ctx.fillStyle = 'rgba(0,0,0,0.55)';
+  ctx.fillText(r, x, baseline + 2);
+  ctx.fillStyle = g;
+  ctx.fillText(r, x, baseline);
+  const w = ctx.measureText(r).width;
+  ctx.restore();
+  return w;
+}
 
 const starsFor = (score, steps) => '★'.repeat(steps.filter((n) => score >= n).length);
 const rankFor = (score, ranks) => ranks?.find(([, n]) => score >= n)?.[0] ?? '';
@@ -438,15 +460,7 @@ async function drawShiyu(ctx, base, custom) {
     boxes.forEach(([r, n, note, top], k) => {
       const bx = 40 + k * (bw + gap);
       panel(ctx, bx, y, bw, bh, top ? '#7fb8d6' : null);
-      if (top) {
-        // S+ in a silver to light blue mix
-        const g = ctx.createLinearGradient(bx + 16, y + 14, bx + 50, y + 42);
-        ['#f2f5f8', '#b9c2cc', '#8fd3f4', '#d9f2ff'].forEach((c, k2, arr) => g.addColorStop(k2 / (arr.length - 1), c));
-        ctx.fillStyle = g;
-      } else ctx.fillStyle = RANK_COLOR[r] ?? K.fg;
-      ctx.font = `800 30px ${DISPLAY}`;
-      ctx.fillText(r, bx + 16, y + 38);
-      const rw = ctx.measureText(r).width;
+      const rw = rankLetter(ctx, r, bx + 14, y + 41, 32);
       ctx.fillStyle = K.fg;
       ctx.font = `800 18px ${FONT}`;
       ctx.fillText(n.toLocaleString('en-US'), bx + 28 + rw, y + 27);
@@ -479,6 +493,11 @@ export const ENDGAME_CARDS = { 'deadly-assault': drawDeadlyAssault, shiyu: drawS
  *   buffs: [buffId …] (Deadly Assault), bonus: [ids], bonusScore }.
  */
 export async function renderEndgameCard(mode, { base = '/', scale = EXPORT_SCALE, custom = null } = {}) {
+  try {
+    await document.fonts?.load(`italic 900 32px ${BADGE}`);
+  } catch {
+    /* fallback font */
+  }
   await document.fonts?.ready;
   const canvas = document.createElement('canvas');
   canvas.width = W * scale;
