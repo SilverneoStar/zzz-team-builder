@@ -43,6 +43,7 @@ export const AGENT_MATS = {
   // Core Skill drops aren't announced yet.
   'sunbringer': ["Armorer", "Burn", null, null],
   'kafka': ["Anomaly", "Shock", null, null],
+  'robin-hsr': ["Defense", "Ether", null, null],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],

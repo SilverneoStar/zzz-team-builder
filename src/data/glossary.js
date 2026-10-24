@@ -30,7 +30,7 @@ export const FACTION_NOTES = {
   'Administrative Affairs Department': 'Roscaelifer’s supreme governing body, directed by Eldreda Sunbringer.',
   'Airspace Patrol Department': 'Roscaelifer’s military and security force, led by Lindverne Sunbringer.',
   'Central Computing Department': 'Roscaelifer’s computing centre, which generates the Rosetta Data. Managed by Dracaene Sunbringer.',
-  'Unknown Realm': 'Guests from beyond New Eridu, arriving in the Honkai: Star Rail collaboration. Kafka is the first revealed.',
+  'Unknown Realm': 'Guests from beyond New Eridu, arriving in the Honkai: Star Rail collaboration. Kafka and Robin are its first members.',
 };
 
 // Extra facts shown when a faction entry is expanded. Story details are

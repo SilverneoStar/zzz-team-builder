@@ -57,4 +57,36 @@ export const UPCOMING = {
       { members: ['kafka', 'nangong-yu', 'sunna'], source: 'Estimate · like Aria' },
     ],
   },
+
+  sunbringer: {
+    teams: [{ members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: '3.4 Sunbringer gameplay' }],
+  },
+
+  'robin-hsr': {
+    // Only her drip marketing is out (Ether, Defense). She's expected to play like
+    // Zhao, a Defense Agent who works as a support, so the build is an estimate
+    // from Zhao's until her kit is revealed.
+    style:
+      'Ether Defense Agent expected to work as a support, like Zhao. Until her kit is shown, build her like Zhao: HP % on slots 4 to 6, with Energy Regen to keep her buffs up.',
+    // No signature W-Engine shown yet: the Defense W-Engines Zhao uses.
+    engines: ['original-transmorpher', 'spring-embrace', 'bunny-band'],
+    trial: {
+      source: 'Estimated from Zhao',
+      fourPiece: ['swing-jazz', 'bunny-in-wonderland'],
+      twoPiece: ['swing-jazz', 'moonlight-lullaby', 'bunny-in-wonderland', 'yunkui-tales'],
+      main: { 4: 'HP %', 5: 'HP %', 6: 'HP % / Energy Regen' },
+      substats: 'HP % > Energy Regen',
+      notes: [
+        'Zhao’s buffs scale with HP, so HP % is the safe pick until Robin’s kit shows what her buffs scale with.',
+        'Swing Jazz raises the whole squad’s damage after Chain Attacks and Ultimates, which suits a support.',
+        'Swap in her signature W-Engine and her own set once they’re revealed.',
+      ],
+    },
+    teams: [
+      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: '3.4 Sunbringer gameplay' },
+      { members: ['kafka', 'nangong-yu', 'robin-hsr'], source: 'Estimate · collab pair' },
+      { members: ['aria', 'nangong-yu', 'robin-hsr'], source: 'Estimate · like Zhao' },
+      { members: ['ye-shunguang', 'dialyn', 'robin-hsr'], source: 'Estimate · like Zhao' },
+    ],
+  },
 };
