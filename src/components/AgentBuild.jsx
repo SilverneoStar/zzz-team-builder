@@ -320,7 +320,9 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
       <p className="muted small">
         {UPCOMING[a.id]?.confirmed
           ? `${a.name} isn’t released yet${a.phase ? ` (Version ${a.version}, phase ${a.phase})` : ''}. These teams come from his in-game data and community guides.`
-          : `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`}
+          : UPCOMING[a.id].teams.every((t) => t.source.startsWith('Estimate'))
+            ? `${a.name} isn’t released yet. These teams are estimates from Agents who play alike, until her kit is revealed.`
+            : `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`}
       </p>
       <ul className="best-teams">
         {UPCOMING[a.id].teams.map(({ members, source }, i) => {

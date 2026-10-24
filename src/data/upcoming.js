@@ -29,4 +29,32 @@ export const UPCOMING = {
       { members: ['severian-lowell', 'dialyn', 'sunna'], source: 'Community guides' },
     ],
   },
+
+  kafka: {
+    // Only her drip marketing is out (Electric, Anomaly), so this whole build is
+    // an estimate from Anomaly Agents who play alike (Aria, Phoenix and Promeia,
+    // plus the Electric ones, Yanagi and Grace) until her kit is revealed.
+    style:
+      'Electric Anomaly Agent. Until her kit is shown, build her like other Anomaly carries: Anomaly Proficiency first, Electric DMG on slot 5 and Anomaly Mastery on slot 6.',
+    // No signature W-Engine shown yet: the best Anomaly W-Engines in general, then free options.
+    engines: ['fusion-compiler', 'timeweaver', 'angel-in-the-shell', 'flight-of-fancy', 'weeping-gemini', 'electro-lip-gloss'],
+    trial: {
+      source: 'Estimated from similar Anomaly Agents',
+      fourPiece: ['phaethons-melody', 'thunder-metal', 'chaos-jazz'],
+      twoPiece: ['thunder-metal', 'freedom-blues', 'phaethons-melody', 'puffer-electro', 'chaos-jazz'],
+      main: { 4: 'Anomaly Proficiency', 5: 'Electric DMG > PEN Ratio / ATK %', 6: 'Anomaly Mastery / ATK %' },
+      substats: 'Anomaly Proficiency > ATK % > PEN > ATK',
+      notes: [
+        'Anomaly Proficiency raises her Attribute Anomaly damage (Shock and Disorder); Anomaly Mastery builds Shock faster.',
+        'Phaethon’s Melody suits an on-field Anomaly carry like Aria; Thunder Metal or Chaos Jazz are the Electric options Yanagi and Grace use.',
+        'Swap in her signature W-Engine and her own set once they’re revealed.',
+      ],
+    },
+    teams: [
+      { members: ['kafka', 'nangong-yu', 'ukinami-yuzuha'], source: 'Estimate · like Aria and Grace' },
+      { members: ['kafka', 'velina-airgid', 'remielle-dan'], source: 'Estimate · like Aria and Phoenix' },
+      { members: ['kafka', 'velina-airgid', 'ukinami-yuzuha'], source: 'Estimate · like Yanagi and Promeia' },
+      { members: ['kafka', 'nangong-yu', 'sunna'], source: 'Estimate · like Aria' },
+    ],
+  },
 };
