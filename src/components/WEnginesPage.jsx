@@ -267,8 +267,9 @@ function WEngineDetail({ w, onClose }) {
       )}
       {w.provisional && (
         <p className="muted small">
-          <span className="card__tag card__tag--warn">Subject to change</span> These stats are from test-server data
-          ahead of its release and may change before Version {w.version} goes live.
+          <span className="card__tag card__tag--warn">Subject to change</span> These stats are from{' '}
+          {w.provisionalSource ?? 'test-server data'} ahead of its release and may change before Version {w.version}{' '}
+          goes live.
         </p>
       )}
       {mats && (
