@@ -73,7 +73,11 @@ export default function AgentDetail({
         </div>
         <div>
           <dt>Attack type</dt>
-          <dd>{a.attackType.map(cap).join(', ') || <span className="muted">Not announced yet</span>}</dd>
+          <dd>
+            {(a.attackTypeBeta && !beta ? '' : a.attackType.map(cap).join(', ')) || (
+              <span className="muted">Not announced yet</span>
+            )}
+          </dd>
         </div>
         <div>
           <dt>Faction</dt>
@@ -154,7 +158,7 @@ export default function AgentDetail({
             <span className="card__tag card__tag--warn">Beta</span>{' '}
             {beta
               ? `Parts of this page (kit and build${attrRaw?.beta ? ', and element name' : ''}) come from beta information and may change before release.`
-              : 'Beta information for this Agent is hidden.'}{' '}
+              : 'Beta information for this Agent (kit, build and more) is hidden.'}{' '}
             Always check the{' '}
             <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer">
               official ZZZ pages

@@ -1,16 +1,16 @@
 import { useSyncExternalStore } from 'react';
 
 // Whether the reader wants to see beta information (kits, builds and names of
-// upcoming Agents taken from beta data). Shown by default; the choice is
+// upcoming Agents taken from beta data). Hidden by default; the choice is
 // remembered on this device and shared by every page.
 const KEY = 'zzz-team-builder:showBeta';
 const listeners = new Set();
 
 let show = (() => {
   try {
-    return localStorage.getItem(KEY) !== 'off';
+    return localStorage.getItem(KEY) === 'on';
   } catch {
-    return true;
+    return false;
   }
 })();
 
