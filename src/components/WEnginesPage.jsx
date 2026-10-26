@@ -266,6 +266,12 @@ function WEngineDetail({ w, onClose }) {
           <dt>Signature of</dt>
           <dd>{sig ? <a href={`#agent-${sig.id}`}>{sig.name}</a> : 'None'}</dd>
         </div>
+        {w.event && (
+          <div>
+            <dt>How to get</dt>
+            <dd>{w.event}</dd>
+          </div>
+        )}
       </dl>
       {w.passive && (
         <section className="passive-text">

@@ -111,6 +111,7 @@ export const W_ENGINES_WITH_ART = new Set([
   'vortex-arrow',
   'vortex-hatchet',
   'vortex-revolver',
+  'candlelit-scheme',
 ]);
 const BASE = import.meta.env.BASE_URL;
 /**
