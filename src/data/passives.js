@@ -52,6 +52,8 @@ export const PASSIVES = {
   'seth-lowell': {"name": "High Spirit", "attribute": true, "faction": true},
   // Severian: confirmed from his kit (3.3). (Was estimated from the livestream, like Sigrid and
   // other Attack Agents, plus his faction). Replace once his reveal is out.
+  'sunbringer': {"name": "Laceration Enhance", "specialties": ["stun", "defense", "armorer"], "beta": true},
+  'robin-hsr': {"specialties": ["armorer", "stun"], "beta": true},
   'severian-lowell': {"specialties": ["stun", "support"], "faction": true},
   'sigrid-de-lazur': {"name": "Legion of the Skies", "specialties": ["stun", "support"]},
   'soldier-0-anby': {"name": "Voltage Surge", "specialties": ["stun", "support"]},

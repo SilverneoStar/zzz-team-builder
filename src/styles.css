@@ -8922,3 +8922,5 @@ details.disc-guide + details.disc-guide {
 .rec-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .quickfill__rec { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; color: var(--fg); }
 .rec-btn:disabled { opacity: 0.6; cursor: default; border-style: dashed; }
+.beta-note { margin: 8px 0 4px; padding: 8px 12px; border: 1px dashed color-mix(in srgb, #e0a23a 55%, var(--line)); border-radius: 12px; font-size: 0.85rem; color: var(--muted); }
+.beta-note a { color: var(--fg); }

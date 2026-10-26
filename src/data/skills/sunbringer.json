@@ -1,0 +1,118 @@
+{
+  "beta": true,
+  "source": "Subject to change: summarised from beta information shared by fan sites. Always check the official ZZZ pages.",
+  "skills": [
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Thornbreaker (Lindverne)",
+      "A 4-hit combo. The heavy hit uses up to 3 Gash stacks, setting off one Maim per stack. Hits 3–4 have higher Anti-Interrupt and 40% less DMG taken; hit 4 is invulnerable."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Bannerbearer (Eldreda)",
+      "Eldreda's 4-hit combo, with the same Gash and Maim finisher and hit 3–4 bonuses."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Converging Edge",
+      "Hold Basic Attack with enough Kinetic Energy (costs 120 Willpower): switches to Eldreda for an invulnerable Genesis Flare attack."
+    ],
+    [
+      "Dodge",
+      "Dodge",
+      "Phase Fold / Spatial Reconstruction",
+      "Lindverne's and Eldreda's invulnerable dodges. Basic Attack during the dodge gives a dash attack (Void Slash Rush / Reality Reversal)."
+    ],
+    [
+      "Dodge",
+      "Dash Attack",
+      "Patrol (Eldreda)",
+      "Hold Dodge with a direction to enter Nightglide; Basic Attack then triggers Shadow Realm Raid, a Tail Swipe."
+    ],
+    [
+      "Dodge",
+      "Dodge Counter",
+      "Smoldering Fire Reignition / Cold Flame Returning Edge",
+      "Lindverne's and Eldreda's Dodge Counters after a Perfect Dodge. Invulnerable."
+    ],
+    [
+      "Assist",
+      "Quick Assist",
+      "Dauntless Aid / Path of the Gleaming Edge",
+      "Brings in Lindverne or Eldreda for an invulnerable attack."
+    ],
+    [
+      "Assist",
+      "Defensive Assist",
+      "Oath of Steadfastness",
+      "Dracaene parries the attack for heavy Daze. Invulnerable."
+    ],
+    [
+      "Assist",
+      "Counter Assist",
+      "Fortress of Hope",
+      "Dracaene grapples certain Control Skills, cancelling them and dealing Genesis Flare DMG."
+    ],
+    [
+      "Assist",
+      "Assist Follow-Up",
+      "Lighthouse / Undying Passion / Faith Unwavering",
+      "Follow-ups by Dracaene (applies 1 Gash on the heavy hit), Lindverne and Eldreda."
+    ],
+    [
+      "Special Attack",
+      "Special Attack",
+      "Night Blaze / Kindled Lamp",
+      "Switches to Lindverne or Eldreda for Genesis Flare DMG."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Night Blaze – Dawnrise / Dawnborn",
+      "Lindverne and Eldreda attack together, finishing with Gash and Maim. Dawnborn can follow certain skills and uses every Gash on the target (up to 3) for one AoE Maim each. Invulnerable."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Kindled Lamp – Gloom's End",
+      "Eldreda's linked attack with the Gash and Maim finisher; a Revised version follows certain skills."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "End of the Long Dark / Torch of Eternal Day",
+      "Needs Chain Teeth (Lindverne) or a held Flag Order (Eldreda): massive Genesis Flare DMG."
+    ],
+    [
+      "Chain Attack",
+      "Chain Attack",
+      "Building Dreams for All / In the Name of Sunbringer",
+      "Joint attacks of Lindverne and Eldreda, finishing with Gash and Maim. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "“Onward, Together”",
+      "At max Decibels: all three sisters attack together. A held Flag Order becomes a Wish Core. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "“By This Wish, All Things Remade”",
+      "Needs a Wish Core: an airborne attack that removes all Ember Scar and deals the same amount as direct HP loss. Invulnerable."
+    ]
+  ],
+  "core": {
+    "name": "Sharp Edge, Midnight Sun and Ember Scar",
+    "values": {},
+    "text": "Her skills deal Sharp DMG, which scales with DEF, and can stack up to 3 Gash. Sharp CRITs use a Laceration DMG Bonus instead of CRIT DMG; each 1% initial CRIT DMG adds 0.35% initial CRIT Rate, and CRIT Rate above 100% gives an extra Laceration check.\nEntering the field restores 60 Sharpness. Entering combat gives Midnight Sun for 15s: +40% CRIT Rate and 20% enemy DEF ignored; EX Special Attacks and Converging Edge refresh it.\nEach Gash removed by a squad member's Maim gives 40 Willpower (max 160).\nConverging Edge, some EX Special Attacks and her Ultimates store 75% of their DMG as Ember Scar, which her second Ultimate turns into direct HP loss."
+  },
+  "ability": {
+    "name": "Laceration Enhance",
+    "text": "Eldreda's Roaming Attack dash or certain EX Special Attack switch-ins give all Armorer Agents +25% Laceration DMG for 45s."
+  },
+  "mindscapes": []
+}

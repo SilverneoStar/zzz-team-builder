@@ -1,0 +1,95 @@
+{
+  "beta": true,
+  "source": "Subject to change: summarised from beta information shared by fan sites. Always check the official ZZZ pages.",
+  "skills": [
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Robin Attack",
+      "Three hits of Ether DMG (76%, 88% and 230.7% at Lv. 12)."
+    ],
+    [
+      "Dodge",
+      "Dodge",
+      "Dodge",
+      "Invulnerable dash."
+    ],
+    [
+      "Dodge",
+      "Dash Attack",
+      "Dash Attack",
+      "252.6% DMG and 74.9% Daze."
+    ],
+    [
+      "Dodge",
+      "Dodge Counter",
+      "Dodge Counter",
+      "After a Perfect Dodge: 663.4% DMG and 338.9% Daze."
+    ],
+    [
+      "Assist",
+      "Entry Skill",
+      "Robin Entrance",
+      "Needs 100 Entry Points: 2128.8% DMG and a squad shield of 4% of her initial Max HP for 20s."
+    ],
+    [
+      "Assist",
+      "Defensive Assist",
+      "Defensive Assist",
+      "Parries for heavy Daze (407.7% light, 514.4% heavy, 250.4% chain parry)."
+    ],
+    [
+      "Assist",
+      "Counter Assist",
+      "Counter Assist",
+      "Power-clashes certain enemy Control Skills to cancel them."
+    ],
+    [
+      "Special Attack",
+      "Special Attack",
+      "Robin Exit",
+      "Ether DMG, then a Quick Assist and Off-Field Guard, with a shield of 2% of her initial Max HP for 15s."
+    ],
+    [
+      "Special Attack",
+      "Special Attack",
+      "Aftershock",
+      "Off-field, once every 8s: +20 Entry Points and a 3% shield."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Enhanced Aftershock",
+      "Costs 40 Energy: adds a heavy hit worth 55% of her Max HP, +20 Entry Points and a 6% shield."
+    ],
+    [
+      "Chain Attack",
+      "Chain Attack",
+      "Chain Attack",
+      "1379% DMG."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "Ultimate",
+      "Turns 40% of each Agent's current Robin shield into HP."
+    ]
+  ],
+  "core": {
+    "name": "Robin's shields",
+    "values": {},
+    "text": "Gives every squad member a shield of up to 8% of her initial Max HP; shields last 15s and can stack up to 60s. Shielded Agents deal 25% more DMG for 15s.\nOff-Field Guard lasts 60s, and her Aftershocks build Entry Points up to 120.\nUsing her Entry Skill gives 1 Buff Enhance Point, which her next Off-Field Guard uses to raise its DEF bonus and cap by 25%.\nShe recovers 15 Energy when a squad member triggers Maim."
+  },
+  "ability": {
+    "name": "Name not shown yet",
+    "text": "Gains 1 Buff Enhance Point on entering battle (once every 180s in Investigation Zones)."
+  },
+  "mindscapes": [
+    "Using a Buff Enhance Point gives the squad +20% Laceration DMG for 60s and Robin 1 Feather Defense stack, making the active Agent briefly invulnerable when hit.",
+    "Aftershock makes the squad's DMG ignore 12% of enemy RES for 15s; shielded Agents get higher Anti-Interrupt.",
+    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "Not shown in the beta yet.",
+    "Not shown in the beta yet.",
+    "Not shown in the beta yet."
+  ]
+}

@@ -44,6 +44,7 @@ export default function AgentDetail({
             <AttributeGlyph attribute={a.attribute} size={15} />
             {attr?.name}
             {attr?.base && !attr.unnamed && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
+            {attr?.beta && <span className="card__tag card__tag--warn"> Beta</span>}
             {a.attributeNote && <span className="muted"> · {a.attributeNote}</span>}
           </dd>
         </div>
@@ -143,6 +144,16 @@ export default function AgentDetail({
           </button>
         </div>
       </header>
+      {a.beta && (
+        <p className="beta-note" role="note">
+          <span className="card__tag card__tag--warn">Beta</span> Parts of this page (kit and build{attr?.beta ? ', and element name' : ''}) come
+          from beta information and may change before release. Always check the{' '}
+          <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer">
+            official ZZZ pages
+          </a>
+          .
+        </p>
+      )}
       {/* Full width under the header, so the buttons sit in one row on phones too. */}
       {a.members && <MemberPicker agent={a} />}
 

@@ -41,7 +41,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
 
   // The site's recommendation for this Agent, to tag options and fill in one tap.
   const rec = recommendationFor(agent.id);
-  const recTag = rec?.estimate ? 'Rec. (est.)' : 'Rec.';
+  const recTag = rec?.beta ? 'Rec. (beta)' : rec?.estimate ? 'Rec. (est.)' : 'Rec.';
   const engineMark = (id) =>
     id === rec?.signature ? ' · Signature' : id === rec?.best ? ` · ${recTag} best` : rec?.wEngines.includes(id) ? ` · ${recTag}` : '';
   const setMark = (id, list) => (rec && list.includes(id) ? (id === list[0] ? ` · ${recTag} best` : ` · ${recTag}`) : '');
@@ -93,7 +93,9 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
         <div className="rec-bar">
           <span className="rec-tag">{recTag}</span>
           <span className="muted small rec-bar__text">
-            {rec.estimate
+            {rec.beta
+              ? `Build from beta information for ${agent.name}. Subject to change: always check the official ZZZ pages.`
+              : rec.estimate
               ? `Estimated build for ${agent.name} until the kit is revealed.`
               : `The recommended build from ${agent.name}’s page.`}
           </span>

@@ -70,6 +70,7 @@ export function recommendationFor(agentId) {
           two: u.trial?.twoPiece ?? [],
           main: u.trial?.main ?? {},
           estimate: !u.confirmed,
+          beta: Boolean(u.beta),
         }
       : null;
   if (!src && !sig) return null;
@@ -88,5 +89,6 @@ export function recommendationFor(agentId) {
     main,
     hasMain: Object.values(main).some(Boolean),
     estimate: src?.estimate ?? false,
+    beta: src?.beta ?? false,
   };
 }

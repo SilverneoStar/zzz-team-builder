@@ -236,6 +236,7 @@ function NoBuild({ agent }) {
                 <div>
                   <h4 className="micro-title">4-piece set</h4>
                   <SetList ids={trial.fourPiece} />
+                  {trial.newFourPiece && <p className="small">{trial.newFourPiece}</p>}
                 </div>
                 <div>
                   <h4 className="micro-title">2-piece set</h4>
@@ -316,12 +317,16 @@ function NoBuild({ agent }) {
           <h3 className="mini-title">Expected build</h3>
           <p className="small">
             {style}{' '}
-            {agent.upcoming && !UPCOMING[agent.id]?.confirmed && <span className="passive__est">Estimated</span>}
+            {agent.upcoming && !UPCOMING[agent.id]?.confirmed && (
+              <span className="passive__est">{UPCOMING[agent.id]?.beta ? 'Beta' : 'Estimated'}</span>
+            )}
           </p>
         </>
       )}
       <p className="muted small">
-        {agent.upcoming
+        {UPCOMING[agent.id]?.beta
+          ? `${agent.name} isn’t released yet. This build comes from beta information and may change: always check the official ZZZ pages.`
+          : agent.upcoming
           ? `${agent.name} isn’t released yet${agent.phase ? ` (coming in Version ${agent.version}, phase ${agent.phase})` : ''}, so the full recommended build comes at launch.`
           : `${agent.name}’s full recommended build (Drive Disc sets and best teams) is on the way.`}
       </p>
@@ -338,7 +343,9 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
       <p className="muted small">
         {UPCOMING[a.id]?.confirmed
           ? `${a.name} isn’t released yet${a.phase ? ` (Version ${a.version}, phase ${a.phase})` : ''}. These teams come from his in-game data and community guides.`
-          : UPCOMING[a.id].teams.every((t) => t.source.startsWith('Estimate'))
+          : UPCOMING[a.id].beta
+            ? `${a.name} isn’t released yet. These teams come from HoYoverse’s gameplay, beta information and close estimates, so they may change.`
+            : UPCOMING[a.id].teams.every((t) => t.source.startsWith('Estimate'))
             ? `${a.name} isn’t released yet. These teams are estimates from Agents who play alike, until her kit is revealed.`
             : UPCOMING[a.id].teams.some((t) => t.source.startsWith('Estimate'))
               ? `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`

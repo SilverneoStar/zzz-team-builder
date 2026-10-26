@@ -122,14 +122,19 @@ export default function SkillsTab({ agent: a, team }) {
 
       <Core core={kit.core} />
       {kit.ability && <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />}
-      <Mindscapes list={kit.mindscapes} current={mindscape} />
+      {kit.mindscapes?.length > 0 && <Mindscapes list={kit.mindscapes} current={mindscape} />}
       {kit.potential && (
         <Potential potential={kit.potential} current={inTeam ? (team.loadouts?.[a.id]?.potential ?? 0) : null} />
       )}
 
       {kit.source ? (
         <p className="muted small skills__src">
-          {a.upcoming && !a.version && (
+          {kit.beta && (
+            <>
+              <span className="card__tag card__tag--warn">Beta</span>{' '}
+            </>
+          )}
+          {a.upcoming && !a.version && !kit.beta && (
             <>
               <span className="card__tag card__tag--warn">Subject to change</span>{' '}
             </>

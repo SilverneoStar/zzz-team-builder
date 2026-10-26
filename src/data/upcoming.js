@@ -61,36 +61,55 @@ export const UPCOMING = {
   },
 
   sunbringer: {
-    teams: [{ members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: '3.4 Sunbringer gameplay' }],
-  },
-
-  'robin-hsr': {
-    // Default Bangboo for her teams until a better fit is known.
-    bangboo: ['booressure', 'snap'],
-    // Only her drip marketing is out (Ether, Defense). She's expected to play like
-    // Zhao, a Defense Agent who works as a support, so the build is an estimate
-    // from Zhao's until her kit is revealed.
+    // From beta information shared by fan sites (marked Beta on the site).
+    beta: true,
     style:
-      'Ether Defense Agent expected to work as a support, like Zhao. Until her kit is shown, build her like Zhao: HP % on slots 4 to 6, with Energy Regen to keep her buffs up.',
-    // No signature W-Engine shown yet: the Defense W-Engines Zhao uses.
-    engines: ['original-transmorpher', 'spring-embrace', 'bunny-band'],
+      'Armorer whose Sharp DMG scales with DEF. Build CRIT Rate, Fire DMG and DEF: her Core Passive turns CRIT DMG into extra CRIT Rate.',
+    engines: ['sunbringer-signature'],
     trial: {
-      source: 'Estimated from Zhao',
-      fourPiece: ['swing-jazz', 'bunny-in-wonderland'],
-      twoPiece: ['swing-jazz', 'moonlight-lullaby', 'bunny-in-wonderland', 'yunkui-tales'],
-      main: { 4: 'HP %', 5: 'HP %', 6: 'HP % / Energy Regen' },
-      substats: 'HP % > Energy Regen',
+      source: 'Beta',
+      fourPiece: [],
+      newFourPiece: 'Her own new 4-piece set (name not shown yet): CRIT Rate +12%, Fire Sharp DMG ignores 16% of enemy DEF.',
+      twoPiece: ['soul-rock'],
+      main: { 4: 'CRIT Rate', 5: 'Fire DMG', 6: 'DEF %' },
+      substats: 'Not shown yet',
       notes: [
-        'Zhao’s buffs scale with HP, so HP % is the safe pick until Robin’s kit shows what her buffs scale with.',
-        'Swing Jazz raises the whole squad’s damage after Chain Attacks and Ultimates, which suits a support.',
-        'Swap in her signature W-Engine and her own set once they’re revealed.',
+        'Her new 4-piece set plus 2-piece Soul Rock gives +32% DEF in total.',
+        'Midnight Sun gives +40% CRIT Rate in combat, and each 1% CRIT DMG adds 0.35% CRIT Rate.',
+        'Maim from other Armorer Agents (like Claret) feeds her Willpower.',
       ],
     },
     teams: [
       { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: '3.4 Sunbringer gameplay' },
+      { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
+    ],
+  },
+
+  'robin-hsr': {
+    // From beta information shared by fan sites (marked Beta on the site).
+    beta: true,
+    // Default Bangboo for her teams until a better fit is known.
+    bangboo: ['booressure', 'snap'],
+    style:
+      'Ether Defense Agent who shields the squad from off-field and buffs shielded Agents\u2019 DMG. Her shields and hits scale with Max HP, so build HP.',
+    engines: ['robin-hsr-signature', 'original-transmorpher', 'spring-embrace', 'bunny-band'],
+    trial: {
+      source: 'Beta',
+      fourPiece: ['bunny-in-wonderland'],
+      twoPiece: ['yunkui-tales', 'swing-jazz'],
+      main: { 4: 'HP % > CRIT Rate', 5: 'HP % > Ether DMG', 6: 'HP % > Energy Regen' },
+      substats: 'HP % > HP',
+      notes: [
+        'She works mostly off-field: Robin Exit puts her in Off-Field Guard, her Aftershocks build Entry Points, and Robin Entrance comes back in at 100.',
+        'Use Swing Jazz instead of Yunkui Tales if she runs short of Energy for Enhanced Aftershock.',
+        'Pairs well with Armorer Agents: their Maim gives her Energy.',
+      ],
+    },
+    teams: [
+      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: '3.4 Sunbringer gameplay' },
+      { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
       { members: ['kafka', 'nangong-yu', 'robin-hsr'], source: 'Estimate · collab pair' },
-      { members: ['aria', 'nangong-yu', 'robin-hsr'], source: 'Estimate · like Zhao' },
-      { members: ['ye-shunguang', 'dialyn', 'robin-hsr'], source: 'Estimate · like Zhao' },
+      { members: ['claret-flint', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Estimate · Armorer team' },
     ],
   },
 };
