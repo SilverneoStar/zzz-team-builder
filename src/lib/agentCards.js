@@ -14,7 +14,7 @@ import {
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { SKILL_COUNT, materialsFor } from '../data/materials.js';
-import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
+import { wEngineArtStem } from '../components/WEngineArt.jsx';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
 import { setColor } from '../components/DiscWheel.jsx';
@@ -163,7 +163,7 @@ async function loadEngines(ids, base) {
   const out = {};
   await Promise.all(
     ids.map(async (id) => {
-      if (W_ENGINES_WITH_ART.has(id)) out[id] = await loadImage(`${base}w-engines/${id}.webp`);
+      if (wEngineArtStem(id)) out[id] = await loadImage(`${base}w-engines/${wEngineArtStem(id)}.webp`);
     }),
   );
   return out;

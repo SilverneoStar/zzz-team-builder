@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import RankBadge from './RankBadge.jsx';
+import { W_ENGINE_BY_ID } from '../data/game.js';
 
 // W-Engine with a picture in public/w-engines/<id>.webp. Add an id here when
 // adding a new W-Engine's image; until then it falls back to the rank badge.
@@ -112,7 +113,18 @@ export const W_ENGINES_WITH_ART = new Set([
   'vortex-revolver',
 ]);
 const BASE = import.meta.env.BASE_URL;
-export const wEngineArt = (id) => (id && W_ENGINES_WITH_ART.has(id) ? `${BASE}w-engines/${id}.webp` : null);
+/**
+ * Which picture a W-Engine uses (the file name in public/w-engines/): its own
+ * art, or for an upcoming W-Engine without art yet, the shared placeholder
+ * (a grey B-rank Vortex Arrow with a "?" badge). Null when there's none.
+ * To give one a custom placeholder, add a recoloured copy under its own id.
+ */
+export function wEngineArtStem(id) {
+  if (!id) return null;
+  if (W_ENGINES_WITH_ART.has(id)) return id;
+  return W_ENGINE_BY_ID[id]?.upcoming ? 'placeholder' : null;
+}
+export const wEngineArt = (id) => (wEngineArtStem(id) ? `${BASE}w-engines/${wEngineArtStem(id)}.webp` : null);
 
 // The icon art, or the rank badge as a fallback when there's no art yet.
 // Callers that want the rank badge *alongside* the art (once it's shown)

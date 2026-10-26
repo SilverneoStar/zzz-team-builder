@@ -15,7 +15,7 @@ import { discBonuses } from './discs.js';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { factionLogo } from '../components/FactionLogo.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
-import { W_ENGINES_WITH_ART } from '../components/WEngineArt.jsx';
+import { wEngineArtStem } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 import { memberIndex, shownFaction } from './memberArt.js';
@@ -285,7 +285,7 @@ function gearOf(team, a) {
     mindscape: `M${lo.mindscape}${hasPotential(a.id) && lo.potential ? ` · Potential ${ROMAN[lo.potential]}` : ''}`,
     wEngine: w ? `${w.name} · P${lo.refinement}` : '—',
     wEngineRank: w?.rank ?? null,
-    wEngineId: w && W_ENGINES_WITH_ART.has(w.id) ? w.id : null,
+    wEngineId: w && wEngineArtStem(w.id) ? w.id : null,
     fourId: four?.id ?? null,
     twoIds: bonus.twos.filter((id) => id !== bonus.four),
     setIds: [four?.id, ...bonus.twos.filter((id) => id !== bonus.four)].filter(Boolean),
@@ -365,8 +365,8 @@ async function loadArt(team, base, artOpts = {}) {
     team.members.map(async (id) => {
       const lo = id && loadoutOf(team, id);
       const wid = lo?.wEngine;
-      if (wid && W_ENGINES_WITH_ART.has(wid) && !engines[wid])
-        engines[wid] = await loadImage(`${base}w-engines/${wid}.webp`);
+      if (wid && wEngineArtStem(wid) && !engines[wid])
+        engines[wid] = await loadImage(`${base}w-engines/${wEngineArtStem(wid)}.webp`);
     }),
   );
   const discs = {};
