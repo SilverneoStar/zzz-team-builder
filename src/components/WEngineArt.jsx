@@ -4,6 +4,9 @@ import RankBadge from './RankBadge.jsx';
 // W-Engine with a picture in public/w-engines/<id>.webp. Add an id here when
 // adding a new W-Engine's image; until then it falls back to the rank badge.
 export const W_ENGINES_WITH_ART = new Set([
+  // Placeholders for beta signature W-Engines: a recoloured B-rank Vortex Arrow with a "?" badge.
+  'sunbringer-signature',
+  'robin-hsr-signature',
   'deep-sea-visitor',
   'ode-of-resurrected-wings',
   'joyau-dore',
