@@ -71,6 +71,11 @@ export const DEADLY_ASSAULT = {
       art: 'enemies/da-3-3-1-1.webp',
       weak: ['fire'],
       resist: ['ice'],
+      gimmicks: [
+        'Attacking her raises Anomaly Buildup Rate by 10%.',
+        'Each Attribute Anomaly applied adds 1 Afterglow Mark. At 3 marks, or when she’s Stunned, she enters Wax Wings for 30s.',
+        'During Wax Wings she takes 30% more Attribute Anomaly DMG, and each Anomaly adds 5% Daze instead of a mark: save your Anomaly bursts for it.',
+      ],
       // In order of cleared runs this rotation (best first).
       ranked: true,
       picks: [
@@ -86,6 +91,11 @@ export const DEADLY_ASSAULT = {
       art: 'enemies/da-3-3-1-2.webp',
       weak: ['electric', 'ether'],
       resist: [],
+      gimmicks: [
+        'Deal enough DMG to its legs to break them: it becomes Impaired.',
+        'Each broken leg restores 1,000 Decibels and adds 1 Disintegration stack (up to 4, for 20s).',
+        'Each Disintegration stack gives +25% CRIT DMG against it (up to +100%), so break legs before big bursts.',
+      ],
       // Hand-picked teams, shown before the site's own suggestions.
       picks: [
         ['pyrois', 'dialyn', 'nicole-demara'],
@@ -100,6 +110,12 @@ export const DEADLY_ASSAULT = {
       art: 'enemies/da-3-3-1-3.webp',
       weak: ['wind', 'ether'],
       resist: ['ice', 'fire'],
+      gimmicks: [
+        'Anomaly Buildup Rate +15%, and she takes 30% more Anomaly DMG.',
+        'During an Ether Veil, her Stun DMG Multiplier rises by 30%.',
+        'Control Skill: she glows purple with no attack cues. Dodge the first hit, then Defensive Assist the next 4; wait for the leap on the last one before you Assist.',
+        'Off-screen attack: a charged slam, three quick slashes from off the stage, then another slam. Dodge these and save Assist Points for the Control Skill.',
+      ],
       // In order of cleared runs this rotation (best first): the full Angels of Delusion squad leads.
       ranked: true,
       // The Angels of Delusion squad does best with Buff 3.

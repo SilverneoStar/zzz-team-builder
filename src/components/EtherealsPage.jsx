@@ -113,6 +113,26 @@ function TeamRow({ team, onLoadTeam, label }) {
 // The extra boss / challenge unlocked by top results. Teams are suggested once
 // its weaknesses are added.
 // Extra team ideas, folded away so the page stays short.
+// What to watch for in a fight, folded away until the reader opens it.
+function Gimmicks({ items }) {
+  const list = (items ?? []).filter(Boolean);
+  if (!list.length) return null;
+  return (
+    <details className="eg-gimmicks">
+      <summary>
+        Gimmicks to know <span className="muted">({list.length})</span>
+      </summary>
+      <ul className="eg-mech">
+        {list.map((m) => (
+          <li key={m}>
+            <Keywords text={m} />
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
 function MoreTeams({ teams, onLoadTeam, label = 'More teams' }) {
   if (!teams.length) return null;
   return (
@@ -147,15 +167,7 @@ function BonusCard({ bonus, onLoadTeam }) {
         <>
           <Attrs ids={bonus.weak} label="Weak to" />
           <Attrs ids={bonus.resist} label="Resists" />
-          {bonus.mechanics && (
-            <ul className="eg-mech">
-              {bonus.mechanics.map((m) => (
-                <li key={m}>
-                  <Keywords text={m} />
-                </li>
-              ))}
-            </ul>
-          )}
+          <Gimmicks items={bonus.mechanics} />
           <div className="eg-boss__teams">
             {teams.slice(0, 1).map((t) => (
               <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
@@ -231,6 +243,7 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
                   Best buff here: <b>{buff.name}</b>
                 </p>
               )}
+              <Gimmicks items={boss.gimmicks} />
               <h5 className="micro-title">Rec. teams</h5>
               <div className="eg-boss__teams">
                 {teams.length ? <TeamRow team={teams[0]} onLoadTeam={onLoadTeam} /> : <TeamRow team={null} />}
@@ -357,11 +370,7 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
                       ))}
                     </ol>
                   )}
-                  {side.tip && (
-                    <p className="small eg-tip">
-                      <Keywords text={side.tip} />
-                    </p>
-                  )}
+                  <Gimmicks items={side.gimmicks ?? [side.tip]} />
                   {side.buffs?.map((b) => (
                     <BuffCard key={b.id} buff={b} />
                   ))}

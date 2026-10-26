@@ -8926,3 +8926,12 @@ details.disc-guide + details.disc-guide {
 .beta-note a { color: var(--fg); }
 .beta-note p { margin: 0; flex: 1 1 260px; }
 .beta-hidden { margin: 10px 0; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 12px; font-size: 0.88rem; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+/* Ethereals: folded boss gimmicks */
+.eg-gimmicks { border: 1px solid var(--band-line); border-radius: 10px; background: var(--band-fill); padding: 0 12px; margin: 6px 0; }
+.eg-gimmicks > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; min-height: 40px; font-size: 0.88rem; font-weight: 600; }
+.eg-gimmicks > summary::-webkit-details-marker { display: none; }
+.eg-gimmicks > summary::before { content: ''; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform 0.15s; margin-right: 4px; }
+.eg-gimmicks[open] > summary::before { transform: rotate(45deg); }
+.eg-gimmicks .eg-mech { margin: 0 0 10px; }
+@media (prefers-reduced-motion: reduce) { .eg-gimmicks > summary::before { transition: none; } }

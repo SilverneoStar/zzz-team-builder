@@ -27,7 +27,12 @@ import { useShowBeta } from '../lib/betaInfo.js';
 // and main stat. Set bonuses follow from how many discs of a set are equipped.
 export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const showBeta = useShowBeta();
-  const fits = wEnginesFor(agent);
+  // A beta W-Engine stays in the list while it's equipped, even with beta info hidden.
+  const equipped = loadout.wEngine && W_ENGINE_BY_ID[loadout.wEngine];
+  const fits = [
+    ...wEnginesFor(agent),
+    ...(equipped?.beta && !showBeta && equipped.specialty === agent.specialty ? [equipped] : []),
+  ];
   const others = W_ENGINES.filter((w) => w.specialty !== agent.specialty && (!w.beta || showBeta));
   const w = loadout.wEngine && W_ENGINE_BY_ID[loadout.wEngine];
   const attrName = ATTRIBUTE_BY_ID[agent.attribute]?.name;
