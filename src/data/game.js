@@ -1,3 +1,4 @@
+import { showBeta } from '../lib/betaInfo.js';
 // Lookups and labels built on the raw lists in agents.js, wEngines.js,
 // driveDiscs.js and bangboo.js. UI code imports from here.
 import { AGENTS } from './agents.js';
@@ -56,7 +57,7 @@ export const signatureOf = (agentId) => W_ENGINES.find((w) => w.signatureOf === 
 /** W-Engines an Agent can make full use of: same specialty, best rank first. */
 export function wEnginesFor(agent) {
   const order = { S: 0, A: 1, B: 2 };
-  return W_ENGINES.filter((w) => w.specialty === agent.specialty).sort(
+  return W_ENGINES.filter((w) => w.specialty === agent.specialty && (!w.beta || showBeta())).sort(
     (a, b) =>
       (b.signatureOf === agent.id) - (a.signatureOf === agent.id) ||
       order[a.rank] - order[b.rank] ||

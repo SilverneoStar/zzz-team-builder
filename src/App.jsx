@@ -1,3 +1,4 @@
+import { useShowBeta } from './lib/betaInfo.js';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { AGENT_BY_ID, DATA_VERSION } from './data/game.js';
 import { analyzeTeam, usageInOtherTeams } from './lib/analyze.js';
@@ -29,6 +30,8 @@ export default function App() {
   const [state, dispatch] = useReducer(teamsReducer, null, () => initialState(loadState()));
   const route = useHashRoute();
   const display = useDisplayScale();
+  // Re-render everything (synergy checks, W-Engine lists) when beta info is shown or hidden.
+  useShowBeta();
   const active = state.teams.find((t) => t.id === state.activeId);
 
   // Which squad slot's loadout is open. Closes when switching teams.

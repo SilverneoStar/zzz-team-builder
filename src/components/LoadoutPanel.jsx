@@ -26,8 +26,9 @@ import { useShowBeta } from '../lib/betaInfo.js';
 // the six Drive Disc slots on the equipment wheel, each with its own set, rank
 // and main stat. Set bonuses follow from how many discs of a set are equipped.
 export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
+  const showBeta = useShowBeta();
   const fits = wEnginesFor(agent);
-  const others = W_ENGINES.filter((w) => w.specialty !== agent.specialty);
+  const others = W_ENGINES.filter((w) => w.specialty !== agent.specialty && (!w.beta || showBeta));
   const w = loadout.wEngine && W_ENGINE_BY_ID[loadout.wEngine];
   const attrName = ATTRIBUTE_BY_ID[agent.attribute]?.name;
   const statLabel = (s) => (s === 'Attribute DMG' ? `${attrName} DMG` : s);
@@ -41,7 +42,6 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const cur = slot ? discs[slot - 1] : null;
 
   // The site's recommendation for this Agent, to tag options and fill in one tap.
-  const showBeta = useShowBeta();
   const recAll = recommendationFor(agent.id);
   const rec = recAll?.beta && !showBeta ? null : recAll;
   const recTag = rec?.beta ? 'Rec. (beta)' : rec?.estimate ? 'Rec. (est.)' : 'Rec.';

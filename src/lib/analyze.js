@@ -1,5 +1,9 @@
+import { showBeta } from './betaInfo.js';
 import { PASSIVES } from '../data/passives.js';
 import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
+
+// Additional Ability conditions from beta data count only when beta info is shown.
+const passiveOf = (id) => (PASSIVES[id]?.beta && !showBeta() ? undefined : PASSIVES[id]);
 import {
   AGENT_BY_ID,
   ATTRIBUTE_BY_ID,
@@ -99,7 +103,7 @@ const orList = (items) =>
 
 /** Plain-language condition, e.g. "Another Stun or Support Agent, or one with the same faction". */
 export function passiveCondition(agentId) {
-  const p = PASSIVES[agentId];
+  const p = passiveOf(agentId);
   if (!p) return null;
   if (p.note) return `${p.note}${p.faction ? ', or one with the same faction' : ''}`;
   const parts = [];
@@ -118,7 +122,7 @@ export function passiveStatus(memberIds) {
   const byId = {};
   let active = 0;
   squad.forEach((a) => {
-    const p = PASSIVES[a.id];
+    const p = passiveOf(a.id);
     if (!p) {
       byId[a.id] = { known: false, active: false, name: null, condition: 'Not published yet', via: [] };
       return;
@@ -184,7 +188,7 @@ const score = (x) => (x.kit.length ? 2 : 0) + (x.on && x.back ? 2 : 0) + (x.on ?
 
 /** Does `other` turn on `owner`'s Additional Ability? */
 function turnsOn(owner, other) {
-  const p = PASSIVES[owner.id];
+  const p = passiveOf(owner.id);
   if (!p || owner.id === other.id) return false;
   return (
     !!p.specialties?.includes(other.specialty) ||

@@ -1,3 +1,4 @@
+import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 import SpecialtyIcon, { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useMemo, useState } from 'react';
 import {
@@ -5,7 +6,7 @@ import {
   AGENT_BY_ID,
   SPECIALTIES,
   SPECIALTY_BY_ID,
-  W_ENGINES,
+  W_ENGINES as ALL_W_ENGINES,
   W_ENGINE_BY_ID,
   shortName,
 } from '../data/game.js';
@@ -20,8 +21,12 @@ import WEngineArt from './WEngineArt.jsx';
 const RANKS = ['S', 'A', 'B'];
 const RANK_ORDER = { S: 0, A: 1, B: 2 };
 
+// Beta W-Engines show only when the reader turns beta info on.
 export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
-  const selected = wEngineId ? W_ENGINE_BY_ID[wEngineId] : null;
+  const beta = useShowBeta();
+  const W_ENGINES = beta ? ALL_W_ENGINES : ALL_W_ENGINES.filter((w) => !w.beta);
+  const picked = wEngineId ? W_ENGINE_BY_ID[wEngineId] : null;
+  const selected = picked?.beta && !beta ? null : picked;
   const specialty = selected ? selected.specialty : SPECIALTY_BY_ID[routeSpecialty] ? routeSpecialty : 'all';
   const [rank, setRank] = useState('all');
   const [query, setQuery] = useState('');
@@ -45,7 +50,7 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
         (b.base?.max ?? 0) - (a.base?.max ?? 0) ||
         a.name.localeCompare(b.name),
     );
-  }, [specialty, rank, query]);
+  }, [specialty, rank, query, beta]);
 
   const users = specialty === 'all' ? [] : AGENTS.filter((a) => a.specialty === specialty && !a.upcoming);
 
@@ -56,6 +61,17 @@ export default function WEnginesPage({ specialty: routeSpecialty, wEngineId }) {
         <p className="muted">
           An Agent can equip any W-Engine, but its passive only works when the W-Engine matches their specialty.
         </p>
+        {ALL_W_ENGINES.some((w) => w.beta) && (
+          <p className="muted small">
+            <span className="card__tag card__tag--warn">Beta</span>{' '}
+            {beta
+              ? 'Showing W-Engines from beta information, which may change before release.'
+              : 'Upcoming W-Engines from beta information are hidden.'}{' '}
+            <button type="button" className="rec-btn" onClick={() => setShowBeta(!beta)}>
+              {beta ? 'Hide beta info' : 'Show beta info'}
+            </button>
+          </p>
+        )}
       </header>
 
       {selected && <WEngineDetail w={selected} onClose={() => navigate(`w-engines-${selected.specialty}`)} />}
