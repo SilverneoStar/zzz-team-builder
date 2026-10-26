@@ -20,6 +20,7 @@ import { MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
 import RankBadge from './RankBadge.jsx';
 import MemberPicker from './MemberPicker.jsx';
 import { recommendationFor } from '../lib/builds.js';
+import { useShowBeta } from '../lib/betaInfo.js';
 
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
 // the six Drive Disc slots on the equipment wheel, each with its own set, rank
@@ -40,7 +41,9 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const cur = slot ? discs[slot - 1] : null;
 
   // The site's recommendation for this Agent, to tag options and fill in one tap.
-  const rec = recommendationFor(agent.id);
+  const showBeta = useShowBeta();
+  const recAll = recommendationFor(agent.id);
+  const rec = recAll?.beta && !showBeta ? null : recAll;
   const recTag = rec?.beta ? 'Rec. (beta)' : rec?.estimate ? 'Rec. (est.)' : 'Rec.';
   const engineMark = (id) =>
     id === rec?.signature ? ' · Signature' : id === rec?.best ? ` · ${recTag} best` : rec?.wEngines.includes(id) ? ` · ${recTag}` : '';

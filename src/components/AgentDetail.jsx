@@ -16,6 +16,7 @@ import FactionLogo from './FactionLogo.jsx';
 import MemberPicker from './MemberPicker.jsx';
 import { shownFaction, useMemberIndex } from '../lib/memberArt.js';
 import MyBuild from './MyBuild.jsx';
+import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 import { myBuildOf } from '../lib/myBuilds.js';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -32,7 +33,10 @@ export default function AgentDetail({
 }) {
   const fac = shownFaction(a, useMemberIndex(a));
   const [card, setCard] = useState(null);
-  const attr = ATTRIBUTE_BY_ID[a.attribute];
+  const beta = useShowBeta();
+  const attrRaw = ATTRIBUTE_BY_ID[a.attribute];
+  // With beta info hidden, a beta element name falls back to its base attribute.
+  const attr = attrRaw?.beta && !beta ? { ...ATTRIBUTE_BY_ID[attrRaw.base], color: attrRaw.color } : attrRaw;
   const featured = PRESETS.filter((p) => p.members.includes(a.id));
 
   const overview = (
@@ -45,7 +49,7 @@ export default function AgentDetail({
             {attr?.name}
             {attr?.base && !attr.unnamed && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
             {attr?.beta && <span className="card__tag card__tag--warn"> Beta</span>}
-            {a.attributeNote && <span className="muted"> · {a.attributeNote}</span>}
+            {a.attributeNote && (!attrRaw?.beta || beta) && <span className="muted"> · {a.attributeNote}</span>}
           </dd>
         </div>
         {a.members && (
@@ -145,14 +149,22 @@ export default function AgentDetail({
         </div>
       </header>
       {a.beta && (
-        <p className="beta-note" role="note">
-          <span className="card__tag card__tag--warn">Beta</span> Parts of this page (kit and build{attr?.beta ? ', and element name' : ''}) come
-          from beta information and may change before release. Always check the{' '}
-          <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer">
-            official ZZZ pages
-          </a>
-          .
-        </p>
+        <div className="beta-note" role="note">
+          <p>
+            <span className="card__tag card__tag--warn">Beta</span>{' '}
+            {beta
+              ? `Parts of this page (kit and build${attrRaw?.beta ? ', and element name' : ''}) come from beta information and may change before release.`
+              : 'Beta information for this Agent is hidden.'}{' '}
+            Always check the{' '}
+            <a href="https://zenless.hoyoverse.com/" target="_blank" rel="noopener noreferrer">
+              official ZZZ pages
+            </a>
+            .
+          </p>
+          <button type="button" className="rec-btn" onClick={() => setShowBeta(!beta)} aria-pressed={!beta}>
+            {beta ? 'Hide beta info' : 'Show beta info'}
+          </button>
+        </div>
       )}
       {/* Full width under the header, so the buttons sit in one row on phones too. */}
       {a.members && <MemberPicker agent={a} />}

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useShowBeta } from '../lib/betaInfo.js';
+import BetaHidden from './BetaHidden.jsx';
 import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { UPCOMING } from '../data/upcoming.js';
@@ -185,6 +187,13 @@ function SetList({ ids }) {
 }
 
 function NoBuild({ agent }) {
+  const showBeta = useShowBeta();
+  if (UPCOMING[agent.id]?.beta && !showBeta)
+    return (
+      <section className="build">
+        <BetaHidden what={`${agent.name}’s build`} />
+      </section>
+    );
   const style = UPCOMING[agent.id]?.style;
   const trial = UPCOMING[agent.id]?.trial;
   const sig = signatureOf(agent.id);
@@ -337,6 +346,8 @@ function NoBuild({ agent }) {
 // Teams for an Agent who isn't out yet: ones HoYoverse has shown, and close
 // estimates. Loading one fills the squad; gear is left for you to choose.
 function UpcomingTeams({ agent: a, onLoadTeam }) {
+  const showBeta = useShowBeta();
+  const teams = UPCOMING[a.id].teams.filter((t) => showBeta || t.source !== 'Beta');
   return (
     <section className="build">
       <h3 className="mini-title">Teams so far</h3>
@@ -352,7 +363,7 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
               : `${a.name} isn’t released yet. These are the teams HoYoverse has shown so far.`}
       </p>
       <ul className="best-teams">
-        {UPCOMING[a.id].teams.map(({ members, source }, i) => {
+        {teams.map(({ members, source }, i) => {
           const passives = passiveStatus(members);
           const kit = kitLinks(members);
           return (

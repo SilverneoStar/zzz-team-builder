@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useShowBeta } from '../lib/betaInfo.js';
+import BetaHidden from './BetaHidden.jsx';
 import { passiveCondition, passiveStatus } from '../lib/analyze.js';
 
 // One small JSON file per Agent, loaded only when their Skills tab opens.
@@ -53,6 +55,7 @@ const paras = (text, values = []) => text.split('\n').map((line, i) => <p key={i
 export default function SkillsTab({ agent: a, team }) {
   const [kit, setKit] = useState(null);
   const [failed, setFailed] = useState(false);
+  const showBeta = useShowBeta();
 
   useEffect(() => {
     let live = true;
@@ -87,6 +90,14 @@ export default function SkillsTab({ agent: a, team }) {
       <p className="muted small" role="status">
         Loading skills…
       </p>
+    );
+
+  if (kit.beta && !showBeta)
+    return (
+      <section className="skills">
+        <h3 className="mini-title">Skills</h3>
+        <BetaHidden what={`${a.name}’s kit`} />
+      </section>
     );
 
   const inTeam = team?.members.includes(a.id);
