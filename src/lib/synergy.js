@@ -15,12 +15,17 @@
 //                             (see data/teamBuffs.js)
 //   Known team             7  the squad (or its core pair) is a recommended team
 //   Bangboo                8  its Additional Ability is on, or it's recommended
+//   Gear (bonus part)     12  squad-wide 4-piece sets and W-Engine passives, and
+//                             W-Engines whose passive works for their wearer.
+//                             Only counted once some gear is equipped; the
+//                             score is then out of 112 and scaled back to 100.
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
 import { kitLinks, passiveStatus } from './analyze.js';
-import { TEAM_BUFFS } from '../data/teamBuffs.js';
+import { GEAR_BUFFS, TEAM_BUFFS } from '../data/teamBuffs.js';
+import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { showBeta } from './betaInfo.js';
 
 /** Rank letters from best to worst, with the lowest score for each. */
@@ -67,7 +72,7 @@ function anomalyAttribute(memberIds, i) {
  * { id, label, points, max, detail }. Partial squads are scored too, but most
  * parts need all three Agents to reach full marks.
  */
-export function synergyScore(memberIds, bangbooId) {
+export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const ids = memberIds.filter(Boolean);
   const squad = ids.map((id) => AGENT_BY_ID[id]).filter(Boolean);
   const parts = [];
@@ -223,7 +228,58 @@ export function synergyScore(memberIds, bangbooId) {
   }
   parts.push({ id: 'bangboo', label: 'Bangboo', points: bbPts, max: 8, detail: bbDetail });
 
-  const score = Math.round(parts.reduce((n, p) => n + p.points, 0));
+  // Gear: only once something is equipped, so bare squads aren't marked down.
+  const geared = squad.filter((a) => loadouts[a.id]?.wEngine || loadouts[a.id]?.discs?.some((d) => d?.set));
+  if (geared.length) {
+    const gearBits = [];
+    let squadBuffs = 0;
+    const seen = new Set();
+    let fits = 0;
+    squad.forEach((a) => {
+      const lo = loadouts[a.id];
+      if (!lo) return;
+      const w = lo.wEngine && W_ENGINE_BY_ID[lo.wEngine];
+      if (w && w.specialty === a.specialty) {
+        fits += 1;
+        const g = GEAR_BUFFS.wEngines[w.id];
+        if (g && !seen.has(w.id) && (!g.beta || showBeta()) && g.when(a, baseAttribute)) {
+          seen.add(w.id);
+          squadBuffs += 1;
+          gearBits.push(`${w.name} on ${shortName(a)}: ${g.text}`);
+        }
+      }
+      const counts = {};
+      (lo.discs ?? []).forEach((d) => d?.set && (counts[d.set] = (counts[d.set] ?? 0) + 1));
+      Object.entries(counts).forEach(([set, n]) => {
+        const g = GEAR_BUFFS.discs[set];
+        if (n < 4 || !g || seen.has(set)) return;
+        if (!g.when(a, baseAttribute)) {
+          gearBits.push(`${DRIVE_DISC_BY_ID[set]?.name} on ${shortName(a)} needs a different specialty to buff the squad`);
+          return;
+        }
+        seen.add(set);
+        squadBuffs += 1;
+        gearBits.push(`4-piece ${DRIVE_DISC_BY_ID[set]?.name} on ${shortName(a)}: ${g.text}`);
+      });
+    });
+    const offSpec = squad.filter((a) => {
+      const w = loadouts[a.id]?.wEngine && W_ENGINE_BY_ID[loadouts[a.id].wEngine];
+      return w && w.specialty !== a.specialty;
+    }).length;
+    if (offSpec > 0) gearBits.push(`${offSpec} W-Engine${offSpec > 1 ? 's' : ''} from another specialty (passive off)`);
+    const gearPts = Math.min(8, squadBuffs * 4) + 4 * (fits / Math.max(1, squad.length));
+    parts.push({
+      id: 'gear',
+      label: 'Gear',
+      points: round(gearPts),
+      max: 12,
+      detail: gearBits.length ? gearBits.join('; ') : 'No squad-wide gear buffs equipped',
+    });
+  }
+
+  const total = parts.reduce((n, p) => n + p.points, 0);
+  const max = parts.reduce((n, p) => n + p.max, 0);
+  const score = Math.round((total / max) * 100);
   const rank = SYNERGY_RANKS.find((r) => score >= r.min).rank;
   return { score, rank, parts, filled: squad.length };
 }

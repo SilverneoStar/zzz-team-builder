@@ -94,12 +94,13 @@ function RankCortado({ rank }) {
   );
 }
 
-export default function SynergyScore({ members, bangboo }) {
+export default function SynergyScore({ members, bangboo, loadouts }) {
   const [open, setOpen] = useState(false);
-  const result = useMemo(() => synergyScore(members, bangboo), [members, bangboo]);
+  const result = useMemo(() => synergyScore(members, bangboo, loadouts), [members, bangboo, loadouts]);
   if (!result.filled) return null;
   const { score, rank, parts } = result;
   const mood = MOODS[rank].word;
+  const geared = parts.some((p) => p.id === 'gear');
   const next = [...SYNERGY_RANKS].reverse().find((r) => r.min > score);
   return (
     <section className="syn" aria-label={`Synergy score ${score} out of 100, rank ${rank}`}>
@@ -121,7 +122,8 @@ export default function SynergyScore({ members, bangboo }) {
             : next
               ? `${next.min - score} more for ${next.rank}.`
               : 'Top rank.'}{' '}
-          A guide to how well the squad fits together, not to its damage.
+          {geared ? 'Includes the equipped gear. ' : 'Equip W-Engines and Drive Discs to count gear too. '}A guide
+          to how well the squad fits together, not to its damage.
         </p>
         <button type="button" className="rec-btn" aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? 'Hide breakdown' : 'Show breakdown'}

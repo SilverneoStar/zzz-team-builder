@@ -83,3 +83,45 @@ export const TEAM_BUFFS = [
     ['remielle-dan', 'squad ATK with Anomaly Agents'],
   ].map(([agent, text]) => ({ agent, kind: 'general', text, to: { specialties: DEALERS.concat('rupture'), others: true } })),
 ];
+
+// Gear that buffs the whole squad: 4-piece Drive Disc sets and W-Engine
+// passives. `when` says who must wear it for the squad buff to work (a
+// W-Engine's passive also needs a matching specialty, checked in synergy.js).
+// Same-name effects don't stack, so each counts once per squad.
+const any = () => true;
+const isAttr = (...attrs) => (a, base) => attrs.includes(base(a.attribute));
+const isSpec = (spec) => (a) => a.specialty === spec;
+
+export const GEAR_BUFFS = {
+  discs: {
+    'king-of-the-summit': { text: 'squad CRIT DMG on EX and Chain Attacks', when: isSpec('stun') },
+    'moonlight-lullaby': { text: 'squad DMG +18% on EX and Ultimates', when: isSpec('support') },
+    'bunny-in-wonderland': { text: 'squad DMG on EX and Defensive or Evasive Assists', when: isSpec('defense') },
+    'astral-voice': { text: 'Astral: DMG for whoever comes in by Quick Assist', when: any },
+    'swing-jazz': { text: 'squad DMG +15% after Chain Attacks and Ultimates', when: any },
+    'proto-punk': { text: 'squad DMG +15% after Defensive or Evasive Assists', when: any },
+  },
+  wEngines: {
+    'reverb-mark-i': { text: 'squad Impact on EX', when: any },
+    'reverb-mark-ii': { text: 'squad Anomaly Mastery and Proficiency', when: any },
+    'reverb-mark-iii': { text: 'squad ATK after Chain Attacks and Ultimates', when: any },
+    'bashful-demon': { text: 'squad ATK on EX', when: any },
+    'kaboom-the-cannon': { text: 'squad ATK when anyone hits', when: any },
+    'tusks-of-fury': { text: 'squad DMG and Daze on Interrupts and Perfect Dodges', when: any },
+    'ice-jade-teapot': { text: 'squad DMG +20% at 15 Tea-riffic stacks', when: any },
+    'elegant-vanity': { text: 'squad DMG +10% when spending Energy', when: any },
+    'half-sugar-bunny': { text: 'squad ATK, Max HP and CRIT DMG with Ether Veils', when: any },
+    'roaring-fur-nace': { text: 'squad DMG on Fire Chain Attacks and Ultimates', when: isAttr('fire') },
+    'metanukimorphosis': { text: 'squad Anomaly Proficiency on Aftershocks', when: any },
+    'dreamlit-hearth': { text: 'squad DMG and Max HP with Ether Veils', when: any },
+    'yesterday-calls': { text: 'squad CRIT DMG +30% from Physical EX hits', when: isAttr('physical') },
+    'thoughtbop': { text: 'squad DMG and ATK from Physical EX', when: isAttr('physical') },
+    'neon-fantasies': { text: 'squad DMG from Ether EX and Basic Attacks', when: isAttr('ether') },
+    'joyau-dore': { text: 'squad Anomaly Proficiency from Wind EX', when: isAttr('wind') },
+    'chief-sidekick': { text: 'squad DMG from Fire EX', when: isAttr('fire') },
+    'ode-of-resurrected-wings': { text: 'squad DMG +30% on Refringe', when: any },
+    'crimson-moon-casket': { text: 'squad DMG +20% from Wind EX', when: isAttr('wind') },
+    'blazing-laurel': { text: 'CRIT DMG of the squad’s Ice and Fire hits', when: any },
+    'robin-hsr-signature': { text: 'squad DEF on shields, DMG on Aftershocks', when: any, beta: true },
+  },
+};

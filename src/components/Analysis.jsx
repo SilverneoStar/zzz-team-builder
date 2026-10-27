@@ -7,7 +7,7 @@ import SynergyScore from './SynergyScore.jsx';
 import { kitLinks, passiveStatus } from '../lib/analyze.js';
 import { SPECIALTIES, shortName } from '../data/game.js';
 
-export default function Analysis({ analysis, bangboo }) {
+export default function Analysis({ analysis, bangboo, loadouts }) {
   const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
   const passives = passiveStatus(agents.map((a) => a.id));
   const kit = kitLinks(agents.map((a) => a.id));
@@ -17,7 +17,7 @@ export default function Analysis({ analysis, bangboo }) {
       <h2 id="analysis-title" className="section-title">
         Synergy
       </h2>
-      <SynergyScore members={agents.map((x) => x.id)} bangboo={bangboo} />
+      <SynergyScore members={agents.map((x) => x.id)} bangboo={bangboo} loadouts={loadouts} />
       <div className="analysis__side">
         <div className="roles">
           {SPECIALTIES.map((s) => (

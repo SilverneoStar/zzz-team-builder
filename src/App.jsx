@@ -70,6 +70,11 @@ export default function App() {
   }, [route.view]);
   const selectedAgent = selectedSlot != null ? AGENT_BY_ID[active.members[selectedSlot]] : null;
 
+  // Each member's gear, for the synergy score's Gear part.
+  const loadouts = useMemo(
+    () => Object.fromEntries(active.members.filter(Boolean).map((id) => [id, loadoutOf(active, id)])),
+    [active],
+  );
   const analysis = useMemo(() => analyzeTeam(active.members, active.bangboo), [active.members, active.bangboo]);
   const usage = useMemo(() => usageInOtherTeams(state.teams, state.activeId), [state.teams, state.activeId]);
 
@@ -222,7 +227,7 @@ export default function App() {
               {state.notice}
             </p>
 
-            <Analysis analysis={analysis} bangboo={active.bangboo} />
+            <Analysis analysis={analysis} bangboo={active.bangboo} loadouts={loadouts} />
             <SharePanel team={active} dispatch={dispatch} />
           </div>
 
