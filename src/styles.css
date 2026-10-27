@@ -9651,3 +9651,35 @@ details.disc-guide + details.disc-guide {
 @media (prefers-reduced-motion: reduce) {
   .syn-cortado__rig, .syn-cortado__tail, .syn-cortado__star, .syn-cortado__sweat { animation: none !important; }
 }
+
+/* A quick fade when a page or Agent opens, so switches feel smooth rather than abrupt. */
+.page,
+.layout,
+.detail {
+  animation: page-in 0.16s ease-out both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page,
+  .layout,
+  .detail {
+    animation: none;
+  }
+}
+
+/* Long lists: the browser skips drawing entries that are off screen until
+   they're scrolled near, which makes opening a page much quicker. The sizes
+   are rough placeholders; the browser remembers the real ones once drawn. */
+.grid > li,
+.char-grid > li,
+.arc-grid > li,
+.vinyl-grid > li,
+.bangboo-grid > li {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
+}

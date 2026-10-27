@@ -6,6 +6,9 @@ import { passiveCondition, passiveStatus } from '../lib/analyze.js';
 // One small JSON file per Agent, loaded only when their Skills tab opens.
 const FILES = import.meta.glob('../data/skills/*.json', { import: 'default' });
 const fileFor = (id) => FILES[`../data/skills/${id}.json`];
+
+/** Starts loading an Agent's skill summaries early (AgentDetail calls this on open). */
+export const prefetchSkills = (id) => fileFor(id)?.().catch(() => {});
 export const hasSkills = (id) => Boolean(fileFor(id));
 
 const CATS = ['Basic Attack', 'Dodge', 'Assist', 'Special Attack', 'Chain Attack'];

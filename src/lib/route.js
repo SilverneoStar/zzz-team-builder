@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 
 // Tiny hash router: #builder, #agents, #agent-<id>, #w-engines,
 // #w-engines-<specialty>, #w-engine-<id>, #drive-discs, #drive-disc-<id>,
@@ -33,7 +33,9 @@ export function useHashRoute() {
   const [route, setRoute] = useState(() => parseHash(window.location.hash));
   useEffect(() => {
     const onChange = () => {
-      setRoute(parseHash(window.location.hash));
+      // A transition keeps the current page on screen while the next one's
+      // code downloads, instead of flashing a "Loading…" placeholder.
+      startTransition(() => setRoute(parseHash(window.location.hash)));
       window.scrollTo({ top: 0 });
     };
     window.addEventListener('hashchange', onChange);

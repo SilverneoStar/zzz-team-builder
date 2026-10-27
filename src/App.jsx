@@ -25,13 +25,34 @@ import TeamTabs from './components/TeamTabs.jsx';
 
 // The team builder loads first; every other page (and the export dialog) is
 // fetched only when it's opened, so the first visit downloads much less.
-const AgentsPage = lazy(() => import('./components/AgentsPage.jsx'));
-const BangbooPage = lazy(() => import('./components/BangbooPage.jsx'));
-const DriveDiscsPage = lazy(() => import('./components/DriveDiscsPage.jsx'));
-const EtherealsPage = lazy(() => import('./components/EtherealsPage.jsx'));
+// Each page's code, by view id, so it can also be fetched ahead of time.
+const PAGE_CODE = {
+  agents: () => import('./components/AgentsPage.jsx'),
+  bangboo: () => import('./components/BangbooPage.jsx'),
+  'drive-discs': () => import('./components/DriveDiscsPage.jsx'),
+  ethereals: () => import('./components/EtherealsPage.jsx'),
+  glossary: () => import('./components/GlossaryPage.jsx'),
+  'w-engines': () => import('./components/WEnginesPage.jsx'),
+};
+const AgentsPage = lazy(PAGE_CODE.agents);
+const BangbooPage = lazy(PAGE_CODE.bangboo);
+const DriveDiscsPage = lazy(PAGE_CODE['drive-discs']);
+const EtherealsPage = lazy(PAGE_CODE.ethereals);
 const ExportDialog = lazy(() => import('./components/ExportDialog.jsx'));
-const GlossaryPage = lazy(() => import('./components/GlossaryPage.jsx'));
-const WEnginesPage = lazy(() => import('./components/WEnginesPage.jsx'));
+const GlossaryPage = lazy(PAGE_CODE.glossary);
+const WEnginesPage = lazy(PAGE_CODE['w-engines']);
+
+/** Starts downloading a page's code (the browser caches it), e.g. on hover. */
+const prefetchPage = (view) => PAGE_CODE[view]?.().catch(() => {});
+
+// Once the first page has settled, quietly fetch the other pages so later
+// tab switches are instant. Skipped when the reader asked to save data.
+function prefetchAllPages() {
+  if (navigator.connection?.saveData) return;
+  const run = () => Object.keys(PAGE_CODE).forEach(prefetchPage);
+  if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 4000 });
+  else setTimeout(run, 2000);
+}
 
 /** Shown for a moment while a page's code downloads. */
 function PageLoading() {
@@ -46,6 +67,7 @@ export default function App() {
   const [state, dispatch] = useReducer(teamsReducer, null, () => initialState(loadState()));
   const route = useHashRoute();
   const display = useDisplayScale();
+  useEffect(prefetchAllPages, []);
   // Re-render everything (synergy checks, W-Engine lists) when beta info is shown or hidden.
   useShowBeta();
   const active = state.teams.find((t) => t.id === state.activeId);
@@ -123,6 +145,8 @@ export default function App() {
                 href={`#${v.id}`}
                 className="nav__link"
                 aria-current={route.view === v.id ? 'page' : undefined}
+                onPointerEnter={() => prefetchPage(v.id)}
+                onFocus={() => prefetchPage(v.id)}
               >
                 {v.label}
               </a>
