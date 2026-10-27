@@ -6,6 +6,7 @@
 // Points (100 in total):
 //   Additional Abilities  40  share of members whose ability is on
 //   Roles                 25  a damage dealer, plus Stun and Support/Defense
+//                             (a full Anomaly team needs neither)
 //   Kit links             15  Ether Veil, Aftershock, Anomaly Disorder pairs
 //   Known team            10  the squad (or its core pair) is a recommended team
 //   Bangboo                10  its Additional Ability is on, or it's recommended
@@ -38,6 +39,11 @@ const KNOWN_PAIRS = new Set(
 );
 
 const round = (n) => Math.round(n * 10) / 10;
+
+// Agents whose kit grows stronger with each Anomaly Agent in the squad, so a
+// full Anomaly team (for example Aria, Velina and Remielle) needs no Stun or
+// Support Agent to be among the strongest teams.
+const ANOMALY_SCALERS = ['remielle-dan'];
 
 /**
  * Scores a squad. Returns { score, rank, parts, filled } where each part is
@@ -74,12 +80,19 @@ export function synergyScore(memberIds, bangbooId) {
     rolePts += 10;
     roleBits.push('damage dealer');
   }
+  const fullAnomaly = anomalyCount === 3;
+  if (fullAnomaly) {
+    // Three Anomaly Agents build and trigger Anomalies on their own: Stun and
+    // Support aren't needed, so the squad gets full role marks.
+    rolePts = 25;
+    roleBits.push('full Anomaly team (no Stun or Support needed)');
+  }
   // Two Anomaly Agents can carry a team without a Stun Agent.
-  if (has(['stun']) || anomalyCount >= 2) {
+  else if (has(['stun']) || anomalyCount >= 2) {
     rolePts += 8;
     roleBits.push(has(['stun']) ? 'Stun' : 'Anomaly pair');
   }
-  if (has(['support', 'defense'])) {
+  if (!fullAnomaly && has(['support', 'defense'])) {
     rolePts += 7;
     roleBits.push('Support/Defense');
   }
@@ -104,6 +117,11 @@ export function synergyScore(memberIds, bangbooId) {
   if (anomalyAttrs.size >= 2) {
     kitPts += 7.5;
     kitBits.push('Disorder');
+  }
+  const scaler = squad.find((a) => ANOMALY_SCALERS.includes(a.id));
+  if (scaler && anomalyCount >= 2) {
+    kitPts += anomalyCount === 3 ? 7.5 : 4;
+    kitBits.push(`${scaler.name.split(' ')[0]} stacks with ${anomalyCount} Anomaly Agents`);
   }
   parts.push({
     id: 'kit',
