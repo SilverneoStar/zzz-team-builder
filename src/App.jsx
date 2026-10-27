@@ -222,7 +222,7 @@ export default function App() {
               {state.notice}
             </p>
 
-            <Analysis analysis={analysis} />
+            <Analysis analysis={analysis} bangboo={active.bangboo} />
             <SharePanel team={active} dispatch={dispatch} />
           </div>
 

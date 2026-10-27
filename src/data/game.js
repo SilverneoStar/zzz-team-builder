@@ -43,7 +43,8 @@ export const SPECIALTIES = [
   { id: 'armorer', name: 'Armorer' },
 ];
 export const SPECIALTY_BY_ID = Object.fromEntries(SPECIALTIES.map((s) => [s.id, s]));
-export const DAMAGE_SPECIALTIES = ['attack', 'anomaly', 'rupture'];
+// Specialties built to deal a team's main damage.
+export const DAMAGE_SPECIALTIES = ['attack', 'anomaly', 'rupture', 'armorer'];
 
 export const AGENT_BY_ID = Object.fromEntries(AGENTS.map((a) => [a.id, a]));
 export const W_ENGINE_BY_ID = Object.fromEntries(W_ENGINES.map((w) => [w.id, w]));

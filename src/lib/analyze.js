@@ -44,7 +44,7 @@ export function analyzeTeam(memberIds, bangbooId) {
   if (dps.length === 0) {
     notes.push({
       level: 'warn',
-      text: 'No Attack, Anomaly or Rupture Agent yet, so nobody is built to deal the main damage.',
+      text: 'No Attack, Anomaly, Rupture or Armorer Agent yet, so nobody is built to deal the main damage.',
     });
   }
   if (!specialtyCounts.stun && specialtyCounts.anomaly < 2 && n === 3) {

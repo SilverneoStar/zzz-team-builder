@@ -3,10 +3,11 @@
 import SpecialtyIcon from './SpecialtyIcon.jsx';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import PassiveFace from './PassiveFace.jsx';
+import SynergyScore from './SynergyScore.jsx';
 import { kitLinks, passiveStatus } from '../lib/analyze.js';
 import { SPECIALTIES, shortName } from '../data/game.js';
 
-export default function Analysis({ analysis }) {
+export default function Analysis({ analysis, bangboo }) {
   const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
   const passives = passiveStatus(agents.map((a) => a.id));
   const kit = kitLinks(agents.map((a) => a.id));
@@ -16,6 +17,7 @@ export default function Analysis({ analysis }) {
       <h2 id="analysis-title" className="section-title">
         Synergy
       </h2>
+      <SynergyScore members={agents.map((x) => x.id)} bangboo={bangboo} />
       <div className="analysis__side">
         <div className="roles">
           {SPECIALTIES.map((s) => (
