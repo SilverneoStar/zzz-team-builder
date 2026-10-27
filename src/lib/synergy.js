@@ -4,18 +4,24 @@
 // more in a real fight. Shown by Cortado in the team builder's Synergy panel.
 //
 // Points (100 in total):
-//   Additional Abilities  40  share of members whose ability is on
-//   Roles                 25  a damage dealer, plus Stun and Support/Defense
+//   Additional Abilities  35  share of members whose ability is on
+//   Roles                 20  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
-//   Kit links             15  Ether Veil, Aftershock, Disorder, Remielle's
-//                             stacking, Phoenix's Anomaly CRIT, Velina's Vortex
-//   Known team            10  the squad (or its core pair) is a recommended team
-//   Bangboo                10  its Additional Ability is on, or it's recommended
-import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute } from '../data/game.js';
+//   Kit links             15  Ether Veil, Aftershock, Disorder, Remielle's Refringe
+//   Team buffs            15  buffs that suit a squadmate's damage: PEN for
+//                             non-Rupture, Sheer for Rupture, Sharp for Armorer,
+//                             Chain Attack, Anomaly and Attribute DMG,
+//                             RES reduction and general squad buffs
+//                             (see data/teamBuffs.js)
+//   Known team             7  the squad (or its core pair) is a recommended team
+//   Bangboo                8  its Additional Ability is on, or it's recommended
+import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
 import { kitLinks, passiveStatus } from './analyze.js';
+import { TEAM_BUFFS } from '../data/teamBuffs.js';
+import { showBeta } from './betaInfo.js';
 
 /** Rank letters from best to worst, with the lowest score for each. */
 export const SYNERGY_RANKS = [
@@ -41,28 +47,6 @@ const KNOWN_PAIRS = new Set(
 
 const round = (n) => Math.round(n * 10) / 10;
 
-// Agents whose kit grows stronger with each Anomaly Agent in the squad, so a
-// full Anomaly team (for example Aria, Velina and Remielle) needs no Stun or
-// Support Agent to be among the strongest teams.
-const ANOMALY_SCALERS = ['remielle-dan'];
-
-// Anomaly Agents whose kits make the whole squad's Anomaly DMG stronger,
-// with the points they add when another Anomaly Agent is in the squad.
-export const ANOMALY_ENABLERS = {
-  // Searing Corrosion: Attribute Anomaly DMG (and Abloom) on Seared enemies
-  // can CRIT. Disorder isn't included, and it uses up the Anomaly.
-  'phoenix-reffaella': {
-    points: 7.5,
-    text: (n) => `${n} lets the squad's Anomaly and Abloom DMG crit (not Disorder)`,
-  },
-  // Windswept: her Cyclones set off Vortex and Abloom for extra Wind Anomaly
-  // DMG, tint enemies to a squadmate's attribute and lower their Anomaly
-  // Buildup RES.
-  'velina-airgid': {
-    points: 5,
-    text: (n) => `${n}'s Vortex and Abloom add Wind Anomaly DMG and lower Anomaly Buildup RES`,
-  },
-};
 
 // Remielle's Lumiflux adds the Anomaly of the Agent in the slot to her right
 // (wrapping round to the first slot), so for Disorder she counts as that
@@ -92,12 +76,12 @@ export function synergyScore(memberIds, bangbooId) {
   const ps = passiveStatus(ids);
   const known = Object.values(ps.byId).filter((v) => v.known);
   const on = known.filter((v) => v.active);
-  const abilityPts = squad.length ? (known.length ? (on.length / 3) * 40 : 20 * (squad.length / 3)) : 0;
+  const abilityPts = squad.length ? (known.length ? (on.length / 3) * 35 : 17.5 * (squad.length / 3)) : 0;
   parts.push({
     id: 'abilities',
     label: 'Additional Abilities',
     points: round(abilityPts),
-    max: 40,
+    max: 35,
     detail: known.length
       ? `${on.length} of ${known.length} on${known.length < squad.length ? ' (some not revealed yet)' : ''}`
       : 'Not revealed yet',
@@ -110,14 +94,14 @@ export function synergyScore(memberIds, bangbooId) {
   let rolePts = 0;
   const roleBits = [];
   if (dealers.length) {
-    rolePts += 10;
+    rolePts += 6;
     roleBits.push('damage dealer');
   }
   const fullAnomaly = anomalyCount === 3;
   if (fullAnomaly) {
     // Three Anomaly Agents build and trigger Anomalies on their own: Stun and
     // Support aren't needed, so the squad gets full role marks.
-    rolePts = 25;
+    rolePts = 20;
     roleBits.push('full Anomaly team (no Stun or Support needed)');
   }
   // Two Anomaly Agents can carry a team without a Stun Agent.
@@ -126,19 +110,19 @@ export function synergyScore(memberIds, bangbooId) {
     roleBits.push(has(['stun']) ? 'Stun' : 'Anomaly pair');
   }
   if (!fullAnomaly && has(['support', 'defense'])) {
-    rolePts += 7;
+    rolePts += 6;
     roleBits.push('Support/Defense');
   }
   // Three main damage dealers fight over field time.
   if (dealers.length === 3 && anomalyCount < 3) {
-    rolePts -= 5;
-    roleBits.push('three damage dealers (−5)');
+    rolePts -= 4;
+    roleBits.push('three damage dealers (−4)');
   }
   parts.push({
     id: 'roles',
     label: 'Roles',
     points: Math.max(0, rolePts),
-    max: 25,
+    max: 20,
     detail: roleBits.length ? roleBits.join(', ') : 'No clear roles yet',
   });
 
@@ -155,22 +139,12 @@ export function synergyScore(memberIds, bangbooId) {
     kitPts += 7.5;
     kitBits.push('Disorder');
   }
-  const scaler = squad.find((a) => ANOMALY_SCALERS.includes(a.id));
-  if (scaler && anomalyCount >= 2) {
-    kitPts += anomalyCount === 3 ? 7.5 : 4;
-    kitBits.push(`${scaler.name.split(' ')[0]} stacks with ${anomalyCount} Anomaly Agents`);
-  }
-  squad.forEach((a) => {
-    const e = ANOMALY_ENABLERS[a.id];
-    if (!e || anomalyCount < 2) return;
-    kitPts += e.points;
-    kitBits.push(e.text(a.name.split(' ')[0]));
-  });
-  // Say which Anomaly Remielle adds, from the Agent to her right.
+  // Remielle Refringes a squadmate's Anomaly, adding the one of the Agent to her right.
   memberIds.forEach((id, i) => {
     if (!id || !MIRRORS_RIGHT.includes(id) || squad.length < 2) return;
     const attr = anomalyAttribute(memberIds, i);
-    kitBits.push(`${AGENT_BY_ID[id].name.split(' ')[0]} adds ${ATTRIBUTE_BY_ID[attr]?.name ?? attr} Anomaly (from the slot to her right)`);
+    if (anomalyCount >= 2) kitPts += 7.5;
+    kitBits.push(`${shortName(AGENT_BY_ID[id])} adds ${ATTRIBUTE_BY_ID[attr]?.name ?? attr} Anomaly (from the slot to her right)`);
   });
   parts.push({
     id: 'kit',
@@ -180,18 +154,52 @@ export function synergyScore(memberIds, bangbooId) {
     detail: kitBits.length ? kitBits.join(', ') : 'None in this squad',
   });
 
+  // Team buffs: a squadmate's buff that suits another member's damage type.
+  const buffBits = [];
+  let buffPts = 0;
+  let generalCounted = false;
+  TEAM_BUFFS.forEach((b) => {
+    if (b.beta && !showBeta()) return;
+    if (b.kind === 'general' && generalCounted) return;
+    const giver = squad.find((a) => a.id === b.agent);
+    if (!giver) return;
+    const helped = squad.filter(
+      (a) =>
+        (!b.to.others || a.id !== giver.id) &&
+        (!b.to.specialties || b.to.specialties.includes(a.specialty)) &&
+        (!b.to.attributes || b.to.attributes.includes(baseAttribute(a.attribute))) &&
+        (!b.to.notRupture || a.specialty !== 'rupture'),
+    );
+    if (!helped.length) return;
+    if (b.kind === 'general') generalCounted = true;
+    buffPts += 5;
+    buffBits.push(`${shortName(giver)}: ${b.text} (${helped.map(shortName).join(', ')})`);
+  });
+  // PEN buffs wasted on a Rupture carry are worth pointing out.
+  const pensOnly = TEAM_BUFFS.filter((b) => b.kind === 'pen' && squad.some((a) => a.id === b.agent));
+  const ruptureCarry = squad.some((a) => a.specialty === 'rupture');
+  if (pensOnly.length && ruptureCarry && !buffBits.length)
+    buffBits.push('PEN and DEF-ignore buffs don’t help Rupture Agents: their Sheer DMG already ignores DEF');
+  parts.push({
+    id: 'buffs',
+    label: 'Team buffs',
+    points: Math.min(15, buffPts),
+    max: 15,
+    detail: buffBits.length ? buffBits.join('; ') : 'No buffs here that suit a squadmate’s damage type',
+  });
+
   // Known team: a full recommended trio, or at least a recommended pair.
   const key = [...ids].sort().join('|');
   const pairs = ids.flatMap((x, i) => ids.slice(i + 1).map((y) => [x, y].sort().join('|')));
   const knownPairs = pairs.filter((p) => KNOWN_PAIRS.has(p)).length;
-  const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? 10 : Math.min(6, knownPairs * 3);
+  const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? 7 : Math.min(4, knownPairs * 2);
   parts.push({
     id: 'known',
     label: 'Known team',
     points: knownPts,
-    max: 10,
+    max: 7,
     detail:
-      knownPts === 10
+      knownPts === 7
         ? 'A recommended team'
         : knownPairs
           ? `${knownPairs} recommended pair${knownPairs > 1 ? 's' : ''}`
@@ -206,14 +214,14 @@ export function synergyScore(memberIds, bangbooId) {
     const need = BANGBOO_SKILLS[bangboo.id]?.ability?.[1];
     const met = need && squad.length ? needMet(need, squad, baseAttribute) : null;
     const recommended = ids.some((id) => BUILDS[id]?.bangboo.includes(bangboo.id));
-    bbPts = (met ? 7 : 0) + (recommended ? 3 : 0);
-    if (met === null && recommended) bbPts = 10;
+    bbPts = (met ? 6 : 0) + (recommended ? 2 : 0);
+    if (met === null && recommended) bbPts = 8;
     bbDetail =
       [met ? 'ability on' : met === false ? 'ability off' : null, recommended ? 'recommended' : null]
         .filter(Boolean)
         .join(', ') || 'no bonus here';
   }
-  parts.push({ id: 'bangboo', label: 'Bangboo', points: bbPts, max: 10, detail: bbDetail });
+  parts.push({ id: 'bangboo', label: 'Bangboo', points: bbPts, max: 8, detail: bbDetail });
 
   const score = Math.round(parts.reduce((n, p) => n + p.points, 0));
   const rank = SYNERGY_RANKS.find((r) => score >= r.min).rank;
