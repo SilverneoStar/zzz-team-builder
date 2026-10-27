@@ -10,7 +10,7 @@
 //   Kit links             15  Ether Veil, Aftershock, Anomaly Disorder pairs
 //   Known team            10  the squad (or its core pair) is a recommended team
 //   Bangboo                10  its Additional Ability is on, or it's recommended
-import { AGENT_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute } from '../data/game.js';
+import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -44,6 +44,20 @@ const round = (n) => Math.round(n * 10) / 10;
 // full Anomaly team (for example Aria, Velina and Remielle) needs no Stun or
 // Support Agent to be among the strongest teams.
 const ANOMALY_SCALERS = ['remielle-dan'];
+
+// Remielle's Lumiflux adds the Anomaly of the Agent in the slot to her right
+// (wrapping round to the first slot), so for Disorder she counts as that
+// Agent's attribute.
+const MIRRORS_RIGHT = ['remielle-dan'];
+function anomalyAttribute(memberIds, i) {
+  const a = AGENT_BY_ID[memberIds[i]];
+  if (!MIRRORS_RIGHT.includes(a.id)) return baseAttribute(a.attribute);
+  for (let k = 1; k < memberIds.length; k += 1) {
+    const right = AGENT_BY_ID[memberIds[(i + k) % memberIds.length]];
+    if (right) return baseAttribute(right.attribute);
+  }
+  return baseAttribute(a.attribute);
+}
 
 /**
  * Scores a squad. Returns { score, rank, parts, filled } where each part is
@@ -111,7 +125,11 @@ export function synergyScore(memberIds, bangbooId) {
 
   // Kit links and Disorder.
   const links = kitLinks(ids);
-  const anomalyAttrs = new Set(squad.filter((a) => a.specialty === 'anomaly').map((a) => baseAttribute(a.attribute)));
+  const anomalyAttrs = new Set(
+    memberIds
+      .map((id, i) => (id && AGENT_BY_ID[id]?.specialty === 'anomaly' ? anomalyAttribute(memberIds, i) : null))
+      .filter(Boolean),
+  );
   const kitBits = links.map((l) => l.name);
   let kitPts = links.length * 7.5;
   if (anomalyAttrs.size >= 2) {
@@ -123,6 +141,12 @@ export function synergyScore(memberIds, bangbooId) {
     kitPts += anomalyCount === 3 ? 7.5 : 4;
     kitBits.push(`${scaler.name.split(' ')[0]} stacks with ${anomalyCount} Anomaly Agents`);
   }
+  // Say which Anomaly Remielle adds, from the Agent to her right.
+  memberIds.forEach((id, i) => {
+    if (!id || !MIRRORS_RIGHT.includes(id) || squad.length < 2) return;
+    const attr = anomalyAttribute(memberIds, i);
+    kitBits.push(`${AGENT_BY_ID[id].name.split(' ')[0]} adds ${ATTRIBUTE_BY_ID[attr]?.name ?? attr} Anomaly (from the slot to her right)`);
+  });
   parts.push({
     id: 'kit',
     label: 'Kit links',
