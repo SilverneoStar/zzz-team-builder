@@ -64,6 +64,19 @@ export function analyzeTeam(memberIds, bangbooId) {
       text: 'Anomaly Agents with different attributes can set off Disorder by stacking a second Attribute Anomaly on an enemy.',
     });
   }
+  const anomalyN = specialtyCounts.anomaly;
+  if (anomalyN >= 2 && agents.some((a) => a.id === 'phoenix-reffaella')) {
+    notes.push({
+      level: 'good',
+      text: 'Phoenix Sears enemies, so the squad’s Attribute Anomaly and Abloom DMG can crit (Disorder can’t, and it uses up the Anomaly).',
+    });
+  }
+  if (anomalyN >= 2 && agents.some((a) => a.id === 'velina-airgid')) {
+    notes.push({
+      level: 'good',
+      text: 'Velina’s Cyclones set off Vortex and Abloom for extra Wind Anomaly DMG, and lower enemies’ Anomaly Buildup RES for the squad.',
+    });
+  }
   if (specialtyCounts.stun && dps.length) {
     notes.push({ level: 'good', text: 'Stun plus a damage dealer: the classic shape for Stun-window burst.' });
   }

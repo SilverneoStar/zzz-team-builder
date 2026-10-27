@@ -7,7 +7,8 @@
 //   Additional Abilities  40  share of members whose ability is on
 //   Roles                 25  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
-//   Kit links             15  Ether Veil, Aftershock, Anomaly Disorder pairs
+//   Kit links             15  Ether Veil, Aftershock, Disorder, Remielle's
+//                             stacking, Phoenix's Anomaly CRIT, Velina's Vortex
 //   Known team            10  the squad (or its core pair) is a recommended team
 //   Bangboo                10  its Additional Ability is on, or it's recommended
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute } from '../data/game.js';
@@ -44,6 +45,24 @@ const round = (n) => Math.round(n * 10) / 10;
 // full Anomaly team (for example Aria, Velina and Remielle) needs no Stun or
 // Support Agent to be among the strongest teams.
 const ANOMALY_SCALERS = ['remielle-dan'];
+
+// Anomaly Agents whose kits make the whole squad's Anomaly DMG stronger,
+// with the points they add when another Anomaly Agent is in the squad.
+export const ANOMALY_ENABLERS = {
+  // Searing Corrosion: Attribute Anomaly DMG (and Abloom) on Seared enemies
+  // can CRIT. Disorder isn't included, and it uses up the Anomaly.
+  'phoenix-reffaella': {
+    points: 7.5,
+    text: (n) => `${n} lets the squad's Anomaly and Abloom DMG crit (not Disorder)`,
+  },
+  // Windswept: her Cyclones set off Vortex and Abloom for extra Wind Anomaly
+  // DMG, tint enemies to a squadmate's attribute and lower their Anomaly
+  // Buildup RES.
+  'velina-airgid': {
+    points: 5,
+    text: (n) => `${n}'s Vortex and Abloom add Wind Anomaly DMG and lower Anomaly Buildup RES`,
+  },
+};
 
 // Remielle's Lumiflux adds the Anomaly of the Agent in the slot to her right
 // (wrapping round to the first slot), so for Disorder she counts as that
@@ -141,6 +160,12 @@ export function synergyScore(memberIds, bangbooId) {
     kitPts += anomalyCount === 3 ? 7.5 : 4;
     kitBits.push(`${scaler.name.split(' ')[0]} stacks with ${anomalyCount} Anomaly Agents`);
   }
+  squad.forEach((a) => {
+    const e = ANOMALY_ENABLERS[a.id];
+    if (!e || anomalyCount < 2) return;
+    kitPts += e.points;
+    kitBits.push(e.text(a.name.split(' ')[0]));
+  });
   // Say which Anomaly Remielle adds, from the Agent to her right.
   memberIds.forEach((id, i) => {
     if (!id || !MIRRORS_RIGHT.includes(id) || squad.length < 2) return;
