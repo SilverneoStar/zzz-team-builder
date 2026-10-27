@@ -123,7 +123,8 @@ export function teamsReducer(state, action) {
         };
       }
       // A specific empty slot when one was tapped, else the first empty one.
-      const slot = action.slot != null && active.members[action.slot] == null ? action.slot : active.members.indexOf(null);
+      const slot =
+        action.slot != null && active.members[action.slot] == null ? action.slot : active.members.indexOf(null);
       if (slot === -1) return { ...state, notice: 'This squad is full. Remove someone first.' };
       return {
         ...updateActive(state, (t) => ({

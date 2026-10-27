@@ -164,24 +164,26 @@ function BonusCard({ bonus, onLoadTeam }) {
         <h4 className="eg-boss__name">{bonus.name ?? <span className="muted">Name to be added</span>}</h4>
       </div>
       <div className="eg-bonus__body">
-        {bonus.art && <img className="eg-bonus__art" src={`${BASE}${bonus.art}`} alt="" loading="lazy" decoding="async" />}
+        {bonus.art && (
+          <img className="eg-bonus__art" src={`${BASE}${bonus.art}`} alt="" loading="lazy" decoding="async" />
+        )}
         <div className="eg-bonus__info">
-      <p className="small">{bonus.unlock}</p>
-      {known ? (
-        <>
-          <Attrs ids={bonus.weak} label="Weak to" />
-          <Attrs ids={bonus.resist} label="Resists" />
-          <Gimmicks items={bonus.mechanics} />
-          <div className="eg-boss__teams">
-            {teams.slice(0, 1).map((t) => (
-              <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
-            ))}
-          </div>
-          <MoreTeams teams={teams.slice(1)} onLoadTeam={onLoadTeam} />
-        </>
-      ) : (
-        <p className="muted small">Weaknesses and suggested teams will be added once they’re confirmed.</p>
-      )}
+          <p className="small">{bonus.unlock}</p>
+          {known ? (
+            <>
+              <Attrs ids={bonus.weak} label="Weak to" />
+              <Attrs ids={bonus.resist} label="Resists" />
+              <Gimmicks items={bonus.mechanics} />
+              <div className="eg-boss__teams">
+                {teams.slice(0, 1).map((t) => (
+                  <TeamRow key={t.ids.join()} team={t} onLoadTeam={onLoadTeam} />
+                ))}
+              </div>
+              <MoreTeams teams={teams.slice(1)} onLoadTeam={onLoadTeam} />
+            </>
+          ) : (
+            <p className="muted small">Weaknesses and suggested teams will be added once they’re confirmed.</p>
+          )}
         </div>
       </div>
     </article>
@@ -218,8 +220,11 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
       <h4 className="mini-title">Buffs</h4>
       <p className="eg-buff-legend">
         <span>
-          Highlighted: <b className="kw kw--attr" style={{ color: '#f04a1a' }}>attributes</b>,{' '}
-          <b className="kw kw--spec">specialties</b>, <b className="kw kw--stat">key stats</b> and{' '}
+          Highlighted:{' '}
+          <b className="kw kw--attr" style={{ color: '#f04a1a' }}>
+            attributes
+          </b>
+          , <b className="kw kw--spec">specialties</b>, <b className="kw kw--stat">key stats</b> and{' '}
           <b className="kw kw--num">numbers</b>, so you can build your own team for each buff.
         </span>
       </p>
@@ -239,7 +244,9 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
             </div>
             <div className="eg-boss__body">
               <h4 className="eg-boss__name">{boss.name ?? <span className="muted">Name to be added</span>}</h4>
-              {(boss.type || boss.about) && <p className="muted small eg-boss__about">{[boss.type, boss.about].filter(Boolean).join(' · ')}</p>}
+              {(boss.type || boss.about) && (
+                <p className="muted small eg-boss__about">{[boss.type, boss.about].filter(Boolean).join(' · ')}</p>
+              )}
               <Attrs ids={boss.weak} label="Weak to" />
               <Attrs ids={boss.resist} label="Resists" />
               {buff && (
@@ -263,7 +270,12 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
       <h4 className="mini-title">Full run, no Agent used twice</h4>
       <div className="eg-run">
         {plan.run.map((t, i) => (
-          <TeamRow key={i} team={t} onLoadTeam={onLoadTeam} label={`Boss ${i + 1} · ${plan.bosses[i].buff?.name ?? ''}`} />
+          <TeamRow
+            key={i}
+            team={t}
+            onLoadTeam={onLoadTeam}
+            label={`Boss ${i + 1} · ${plan.bosses[i].buff?.name ?? ''}`}
+          />
         ))}
       </div>
 
@@ -329,13 +341,15 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
       </header>
       <p className="muted small">{sd.note}</p>
 
-      {sd.stages.length > 1 && <div className="eg-stages" role="tablist" aria-label="Stage">
-        {sd.stages.map((st) => (
-          <button key={st.n} role="tab" className="chip" aria-pressed={open === st.n} onClick={() => setOpen(st.n)}>
-            Stage {st.n}
-          </button>
-        ))}
-      </div>}
+      {sd.stages.length > 1 && (
+        <div className="eg-stages" role="tablist" aria-label="Stage">
+          {sd.stages.map((st) => (
+            <button key={st.n} role="tab" className="chip" aria-pressed={open === st.n} onClick={() => setOpen(st.n)}>
+              Stage {st.n}
+            </button>
+          ))}
+        </div>
+      )}
 
       {stages
         .filter(({ st }) => st.n === open)
@@ -356,7 +370,9 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
               {st.sides.map((side, i) => (
                 <div key={i} className="eg-side">
                   <div className="eg-side__head">
-                    {side.art && <img className="eg-side__art" src={`${BASE}${side.art}`} alt="" loading="lazy" decoding="async" />}
+                    {side.art && (
+                      <img className="eg-side__art" src={`${BASE}${side.art}`} alt="" loading="lazy" decoding="async" />
+                    )}
                     <div>
                       <h5 className="eg-side__name">{st.sides.length > 2 ? `Room ${i + 1}` : `Side ${i + 1}`}</h5>
                       {side.name && <p className="small eg-side__boss">{side.name}</p>}
@@ -460,7 +476,9 @@ export default function EtherealsPage({ onLoadTeam }) {
           suffix="zzz"
           kinds={[
             { id: 'rec', label: 'Recommended', hint: 'Rec. teams' },
-            ...(hasMine(mine) ? [{ id: 'mine', label: mine.kind === 'used' ? 'My run' : 'My picks', hint: 'Your teams' }] : []),
+            ...(hasMine(mine)
+              ? [{ id: 'mine', label: mine.kind === 'used' ? 'My run' : 'My picks', hint: 'Your teams' }]
+              : []),
           ]}
           kind={exporting}
           onKind={setExporting}

@@ -124,7 +124,8 @@ export default function MaterialsTab({ agent: a }) {
 // The item's icon where we have one, else a colour tile with a letter.
 export function MatIcon({ item }) {
   const src = materialIcon(item.name);
-  if (src) return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" decoding="async" />;
+  if (src)
+    return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" decoding="async" />;
   return (
     <span className="mats__dot" aria-hidden="true">
       {KIND_MARK[item.kind] ?? ''}

@@ -104,7 +104,11 @@ export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set())
       return { ids, options, i };
     })
     .filter(({ ids }) => ok(ids))
-    .map(({ ids, options, i }) => ({ ...(scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] }), options, i }))
+    .map(({ ids, options, i }) => ({
+      ...(scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] }),
+      options,
+      i,
+    }))
     // Picks normally rank alike, so the full run can choose whichever pick
     // leaves the best teams for the other targets. With `ranked`, the picks are
     // in order of proven results and the first ones are preferred.

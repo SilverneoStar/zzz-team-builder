@@ -9,10 +9,33 @@ const SPECIALTY_NAMES = ['Attack', 'Stun', 'Anomaly', 'Support', 'Defense', 'Rup
 // so "Special Attack" or "Stun recovery" aren't mistaken for one.
 const SPECIALTIES = SPECIALTY_NAMES.flatMap((n) => [`${n} Agents`, `${n} Agent`, `${n} specialty`]);
 const STATS = [
-  'Attribute Anomaly DMG', 'Anomaly Proficiency', 'Disorder', 'Sheer DMG', 'Sharp DMG', 'Daze', 'Stunned', 'Stun',
-  'CRIT', 'PEN Ratio', 'Energy', 'Decibels', 'Ultimate', 'EX Special Attack', 'Chain Attack', 'All-Attribute RES',
-  'Miasma', 'parried', 'Perfect Dodge', 'Perfect Assist', 'Basic Attack', 'Special Attack', 'Ether Veil',
-  'Control Skill', 'Defensive Assist', 'Anomaly Buildup', 'Anomaly DMG',
+  'Attribute Anomaly DMG',
+  'Anomaly Proficiency',
+  'Disorder',
+  'Sheer DMG',
+  'Sharp DMG',
+  'Daze',
+  'Stunned',
+  'Stun',
+  'CRIT',
+  'PEN Ratio',
+  'Energy',
+  'Decibels',
+  'Ultimate',
+  'EX Special Attack',
+  'Chain Attack',
+  'All-Attribute RES',
+  'Miasma',
+  'parried',
+  'Perfect Dodge',
+  'Perfect Assist',
+  'Basic Attack',
+  'Special Attack',
+  'Ether Veil',
+  'Control Skill',
+  'Defensive Assist',
+  'Anomaly Buildup',
+  'Anomaly DMG',
 ];
 const attrNames = ATTRIBUTES.map((a) => a.name);
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

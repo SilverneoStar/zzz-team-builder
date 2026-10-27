@@ -51,8 +51,15 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const rec = recAll?.beta && !showBeta ? null : recAll;
   const recTag = rec?.beta ? 'Rec. (beta)' : rec?.estimate ? 'Rec. (est.)' : 'Rec.';
   const engineMark = (id) =>
-    id === rec?.signature ? ' · Signature' : id === rec?.best ? ` · ${recTag} best` : rec?.wEngines.includes(id) ? ` · ${recTag}` : '';
-  const setMark = (id, list) => (rec && list.includes(id) ? (id === list[0] ? ` · ${recTag} best` : ` · ${recTag}`) : '');
+    id === rec?.signature
+      ? ' · Signature'
+      : id === rec?.best
+        ? ` · ${recTag} best`
+        : rec?.wEngines.includes(id)
+          ? ` · ${recTag}`
+          : '';
+  const setMark = (id, list) =>
+    rec && list.includes(id) ? (id === list[0] ? ` · ${recTag} best` : ` · ${recTag}`) : '';
   const mainMark = (n, st) => (rec?.main[n] === st ? ` · ${recTag}` : '');
   const useEngine = () => rec?.best && onChange({ wEngine: rec.best });
   const useSets = () =>
@@ -104,8 +111,8 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
             {rec.beta
               ? `Build from beta information for ${agent.name}. Subject to change: always check the official ZZZ pages.`
               : rec.estimate
-              ? `Estimated build for ${agent.name} until the kit is revealed.`
-              : `The recommended build from ${agent.name}’s page.`}
+                ? `Estimated build for ${agent.name} until the kit is revealed.`
+                : `The recommended build from ${agent.name}’s page.`}
           </span>
           <button className="btn btn--small btn--primary" onClick={useAll} disabled={allOn}>
             {allOn ? '✓ Recommended build on' : 'Use recommended build'}

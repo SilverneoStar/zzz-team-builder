@@ -74,7 +74,9 @@ export function recommendationFor(agentId) {
         }
       : null;
   if (!src && !sig) return null;
-  const wEngines = [...new Set([...(sig && !src?.wEngines?.includes(sig.id) ? [sig.id] : []), ...(src?.wEngines ?? [])])];
+  const wEngines = [
+    ...new Set([...(sig && !src?.wEngines?.includes(sig.id) ? [sig.id] : []), ...(src?.wEngines ?? [])]),
+  ];
   const four = src?.four?.[0] ?? null;
   const two = (src?.two ?? []).find((s) => s !== four) ?? null;
   const main = Object.fromEntries([4, 5, 6].map((n) => [n, mainStatFrom(src?.main?.[n], n)]));

@@ -26,7 +26,8 @@ const SkillIcon = ({ cat }) =>
       alt=""
       width="28"
       height="28"
-      loading="lazy" decoding="async"
+      loading="lazy"
+      decoding="async"
     />
   ) : null;
 

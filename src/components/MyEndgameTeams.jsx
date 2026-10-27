@@ -77,7 +77,15 @@ export default function MyEndgameTeams({ targets, buffs, bonus, mine, onChange, 
           ['used', 'Teams I used'],
           ['suggest', 'Teams I suggest'],
         ].map(([id, label]) => (
-          <button key={id} type="button" role="radio" className="chip" aria-checked={mine.kind === id} aria-pressed={mine.kind === id} onClick={() => set({ kind: id })}>
+          <button
+            key={id}
+            type="button"
+            role="radio"
+            className="chip"
+            aria-checked={mine.kind === id}
+            aria-pressed={mine.kind === id}
+            onClick={() => set({ kind: id })}
+          >
             {label}
           </button>
         ))}
@@ -125,7 +133,12 @@ export default function MyEndgameTeams({ targets, buffs, bonus, mine, onChange, 
             <div className="eg-mine__head">
               <b>{bonus.title}</b> <span className="muted">{bonus.name}</span>
             </div>
-            <TeamPick label={bonus.title} value={mine.bonus} taken={new Set()} onChange={(team) => set({ bonus: team })} />
+            <TeamPick
+              label={bonus.title}
+              value={mine.bonus}
+              taken={new Set()}
+              onChange={(team) => set({ bonus: team })}
+            />
             <div className="eg-mine__extra">
               <Score label={bonus.title} value={mine.bonusScore} onChange={(v) => set({ bonusScore: v })} />
             </div>
@@ -138,7 +151,11 @@ export default function MyEndgameTeams({ targets, buffs, bonus, mine, onChange, 
           <ExportIcon />
           Export my card
         </button>
-        <button className="btn btn--quiet" onClick={() => onChange(emptyMine(targets.length))} disabled={!hasMine(mine)}>
+        <button
+          className="btn btn--quiet"
+          onClick={() => onChange(emptyMine(targets.length))}
+          disabled={!hasMine(mine)}
+        >
           Clear
         </button>
       </div>

@@ -53,7 +53,9 @@ export default function AgentDetail({
           <dd className="cell-el">
             <AttributeGlyph attribute={a.attribute} size={15} />
             {attr?.name}
-            {attr?.base && !attr.unnamed && <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>}
+            {attr?.base && !attr.unnamed && (
+              <span className="muted"> · counts as {ATTRIBUTE_BY_ID[attr.base].name}</span>
+            )}
             {attr?.beta && <span className="card__tag card__tag--warn"> Beta</span>}
             {a.attributeNote && (!attrRaw?.beta || beta) && <span className="muted"> · {a.attributeNote}</span>}
           </dd>

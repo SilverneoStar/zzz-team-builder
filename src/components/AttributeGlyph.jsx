@@ -4,7 +4,19 @@ import { ATTRIBUTE_BY_ID } from '../data/game.js';
 // attributes (Frost, Honed Edge, Auric Ink and Sunbringer's Fire) have their own icons.
 // Anything without an icon falls back to a small hexagon with its initial.
 const BASE = import.meta.env.BASE_URL;
-const ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux', 'sunbringer-fire', 'frost', 'honed-edge', 'auric-ink']);
+const ICONS = new Set([
+  'physical',
+  'fire',
+  'ice',
+  'electric',
+  'ether',
+  'wind',
+  'lumiflux',
+  'sunbringer-fire',
+  'frost',
+  'honed-edge',
+  'auric-ink',
+]);
 
 export default function AttributeGlyph({ attribute, size = 14, title }) {
   const a = ATTRIBUTE_BY_ID[attribute];
@@ -20,7 +32,8 @@ export default function AttributeGlyph({ attribute, size = 14, title }) {
         alt={title ?? ''}
         title={title}
         aria-hidden={title ? undefined : true}
-        loading="lazy" decoding="async"
+        loading="lazy"
+        decoding="async"
       />
     );
   }

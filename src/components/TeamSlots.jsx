@@ -39,7 +39,11 @@ export default function TeamSlots({ team, selected, onSelect, dispatch, onPickEm
           if (!a) {
             return (
               <li key={index} className="slot slot--empty">
-                <button className="slot__btn slot__btn--empty" onClick={() => onPickEmpty?.(index)} aria-label={`Slot ${index + 1}: choose an Agent`}>
+                <button
+                  className="slot__btn slot__btn--empty"
+                  onClick={() => onPickEmpty?.(index)}
+                  aria-label={`Slot ${index + 1}: choose an Agent`}
+                >
                   <EmptyFrame />
                 </button>
                 <span className="slot__hint">Tap to choose an Agent</span>

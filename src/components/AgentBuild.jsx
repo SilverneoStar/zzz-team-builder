@@ -336,8 +336,8 @@ function NoBuild({ agent }) {
         {UPCOMING[agent.id]?.beta
           ? `${agent.name} isn’t released yet. This build comes from beta information and may change: always check the official ZZZ pages.`
           : agent.upcoming
-          ? `${agent.name} isn’t released yet${agent.phase ? ` (coming in Version ${agent.version}, phase ${agent.phase})` : ''}, so the full recommended build comes at launch.`
-          : `${agent.name}’s full recommended build (Drive Disc sets and best teams) is on the way.`}
+            ? `${agent.name} isn’t released yet${agent.phase ? ` (coming in Version ${agent.version}, phase ${agent.phase})` : ''}, so the full recommended build comes at launch.`
+            : `${agent.name}’s full recommended build (Drive Disc sets and best teams) is on the way.`}
       </p>
     </section>
   );
@@ -357,10 +357,10 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
           : UPCOMING[a.id].beta
             ? `${a.name} isn’t released yet. These teams come from HoYoverse’s gameplay, beta information and close estimates, so they may change.`
             : UPCOMING[a.id].teams.every((t) => t.source.startsWith('Estimate'))
-            ? `${a.name} isn’t released yet. These teams are estimates from Agents who play alike, until her kit is revealed.`
-            : UPCOMING[a.id].teams.some((t) => t.source.startsWith('Estimate'))
-              ? `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`
-              : `${a.name} isn’t released yet. These are the teams HoYoverse has shown so far.`}
+              ? `${a.name} isn’t released yet. These teams are estimates from Agents who play alike, until her kit is revealed.`
+              : UPCOMING[a.id].teams.some((t) => t.source.startsWith('Estimate'))
+                ? `${a.name} isn’t released yet. These are the teams HoYoverse has shown, plus close estimates, until the full guide is out.`
+                : `${a.name} isn’t released yet. These are the teams HoYoverse has shown so far.`}
       </p>
       <ul className="best-teams">
         {teams.map(({ members, source }, i) => {

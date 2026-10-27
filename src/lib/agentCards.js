@@ -280,7 +280,14 @@ function drawQuote(ctx, quote, x, y, w, maxH) {
 
 // ---------- skill priority ----------
 
-const SKILL_SHORT = { core: 'Core', basic: 'Basic', dodge: 'Dodge', assist: 'Assist', special: 'Special', chain: 'Chain' };
+const SKILL_SHORT = {
+  core: 'Core',
+  basic: 'Basic',
+  dodge: 'Dodge',
+  assist: 'Assist',
+  special: 'Special',
+  chain: 'Chain',
+};
 
 async function loadSkillIcons(ids, base) {
   const out = {};

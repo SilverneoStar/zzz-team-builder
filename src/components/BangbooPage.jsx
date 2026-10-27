@@ -130,7 +130,14 @@ function ToyBox({ bangboo: b }) {
       <span className="toybox__case">
         <span className="toybox__back" />
         {src && (
-          <img className="toybox__art" src={src} alt="" loading="lazy" decoding="async" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />
+          <img
+            className="toybox__art"
+            src={src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }}
+          />
         )}
         <span className="toybox__glass" />
       </span>

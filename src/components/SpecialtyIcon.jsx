@@ -15,7 +15,8 @@ export default function SpecialtyIcon({ specialty, size = 16, title }) {
       alt={title ?? ''}
       title={title}
       aria-hidden={title ? undefined : true}
-      loading="lazy" decoding="async"
+      loading="lazy"
+      decoding="async"
     />
   );
 }

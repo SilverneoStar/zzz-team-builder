@@ -142,42 +142,42 @@ export default function App() {
       </header>
 
       <Suspense fallback={<PageLoading />}>
-      {route.view === 'agents' && (
-        <AgentsPage
-          agentId={route.agentId}
-          activeTeam={active}
-          onAdd={addFromIndex}
-          onApplyBuild={(agentId, loadout) => {
-            dispatch({ type: 'setLoadout', agentId, patch: loadout });
-            dispatch({
-              type: 'notice',
-              text: `Equipped the recommended build on ${AGENT_BY_ID[agentId].name} in “${active.name}”.`,
-            });
-          }}
-          onLoadTeam={(team) => {
-            dispatch({ type: 'import', ...team });
-            navigate('builder');
-          }}
-        />
-      )}
-      {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
-      {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
-      {route.view === 'bangboo' && (
-        <BangbooPage
-          bangbooId={route.bangbooId}
-          activeTeam={active}
-          onPick={(id) => dispatch({ type: 'setBangboo', id })}
-        />
-      )}
-      {route.view === 'ethereals' && (
-        <EtherealsPage
-          onLoadTeam={(team) => {
-            dispatch({ type: 'import', ...team });
-            navigate('builder');
-          }}
-        />
-      )}
-      {route.view === 'glossary' && <GlossaryPage />}
+        {route.view === 'agents' && (
+          <AgentsPage
+            agentId={route.agentId}
+            activeTeam={active}
+            onAdd={addFromIndex}
+            onApplyBuild={(agentId, loadout) => {
+              dispatch({ type: 'setLoadout', agentId, patch: loadout });
+              dispatch({
+                type: 'notice',
+                text: `Equipped the recommended build on ${AGENT_BY_ID[agentId].name} in “${active.name}”.`,
+              });
+            }}
+            onLoadTeam={(team) => {
+              dispatch({ type: 'import', ...team });
+              navigate('builder');
+            }}
+          />
+        )}
+        {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
+        {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
+        {route.view === 'bangboo' && (
+          <BangbooPage
+            bangbooId={route.bangbooId}
+            activeTeam={active}
+            onPick={(id) => dispatch({ type: 'setBangboo', id })}
+          />
+        )}
+        {route.view === 'ethereals' && (
+          <EtherealsPage
+            onLoadTeam={(team) => {
+              dispatch({ type: 'import', ...team });
+              navigate('builder');
+            }}
+          />
+        )}
+        {route.view === 'glossary' && <GlossaryPage />}
       </Suspense>
 
       {route.view === 'builder' && (

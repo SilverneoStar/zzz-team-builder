@@ -4,12 +4,37 @@
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, shortName } from '../data/game.js';
 import { DEADLY_ASSAULT, SHIYU_DEFENSE } from '../data/endgame.js';
 import { bestBuff, disjointTeams, suggestTeams } from './endgame.js';
-import { BADGE, DISPLAY, EXPORT_SCALE, FONT, MONO, background, fit, loadAgentArt, loadImage, roundRect } from './teamCard.js';
+import {
+  BADGE,
+  DISPLAY,
+  EXPORT_SCALE,
+  FONT,
+  MONO,
+  background,
+  fit,
+  loadAgentArt,
+  loadImage,
+  roundRect,
+} from './teamCard.js';
 
 const W = 1080;
 const H = 1350;
-const K = { panel: 'rgba(22,22,22,0.94)', line: '#333', fg: '#f2f2f2', text: '#e2e2e2', muted: '#a3a3a3', dim: '#7a7a7a' };
-const ICON_FILE = { physical: 'physical', fire: 'fire', ice: 'ice', electric: 'electric', ether: 'ether', wind: 'wind' };
+const K = {
+  panel: 'rgba(22,22,22,0.94)',
+  line: '#333',
+  fg: '#f2f2f2',
+  text: '#e2e2e2',
+  muted: '#a3a3a3',
+  dim: '#7a7a7a',
+};
+const ICON_FILE = {
+  physical: 'physical',
+  fire: 'fire',
+  ice: 'ice',
+  electric: 'electric',
+  ether: 'ether',
+  wind: 'wind',
+};
 
 const ROLE = { stun: 'Stunner', support: 'Support', defense: 'Defense', anomaly: 'Anomaly' };
 const ROLE_ORDER = ['Stunner', 'Support', 'Sub-DPS', '2nd Anomaly', 'Anomaly', 'Defense'];
@@ -32,7 +57,14 @@ function teamComp(ids, target, own = false) {
   const roles = rest
     .map((a) => (a.specialty === 'anomaly' && isAnomaly ? '2nd Anomaly' : (ROLE[a.specialty] ?? 'Sub-DPS')))
     .sort((a, b) => ROLE_ORDER.indexOf(a) - ROLE_ORDER.indexOf(b));
-  const PLURAL = { Stunner: '2 Stunners', Support: '2 Supports', 'Sub-DPS': '2 Sub-DPS', Defense: '2 Defense', '2nd Anomaly': '2 more Anomaly', Anomaly: '2 Anomaly' };
+  const PLURAL = {
+    Stunner: '2 Stunners',
+    Support: '2 Supports',
+    'Sub-DPS': '2 Sub-DPS',
+    Defense: '2 Defense',
+    '2nd Anomaly': '2 more Anomaly',
+    Anomaly: '2 Anomaly',
+  };
   const words = roles.length === 2 && roles[0] === roles[1] ? [PLURAL[roles[0]] ?? `2 ${roles[0]}`] : roles;
   return `${head}, ${words.length > 1 ? `${words.slice(0, -1).join(', ')} and ${words.at(-1)}` : words[0]}`;
 }
@@ -134,7 +166,9 @@ function cover(ctx, img, x, y, w, h, r = 12, focusY = 0.3) {
 
 async function loadIcons(base) {
   const out = {};
-  await Promise.all(Object.entries(ICON_FILE).map(async ([id, f]) => (out[id] = await loadImage(`${base}attributes/${f}.png`))));
+  await Promise.all(
+    Object.entries(ICON_FILE).map(async ([id, f]) => (out[id] = await loadImage(`${base}attributes/${f}.png`))),
+  );
   return out;
 }
 
@@ -191,7 +225,9 @@ async function teamPortraits(ctx, ids, base, x, y, size, gap = 8, names = true) 
 
 async function header(ctx, base, logoSrc, title, dates) {
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
-  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, arr) => grad.addColorStop(i / (arr.length - 1), c));
+  ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, arr) =>
+    grad.addColorStop(i / (arr.length - 1), c),
+  );
   ctx.fillStyle = grad;
   roundRect(ctx, 40, 32, W - 80, 6, 3);
   ctx.fill();
@@ -227,7 +263,11 @@ function foot(ctx, custom) {
   );
   ctx.fillStyle = K.muted;
   ctx.font = `500 14px ${FONT}`;
-  ctx.fillText('silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse', 40, H - 30);
+  ctx.fillText(
+    'silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse',
+    40,
+    H - 30,
+  );
   ctx.textAlign = 'right';
   ctx.fillText('salman-SilverStarneo', W - 40, H - 30);
   ctx.textAlign = 'left';
@@ -248,7 +288,13 @@ function star(ctx, cx, cy, r, color) {
 async function drawDeadlyAssault(ctx, base, custom) {
   const da = DEADLY_ASSAULT;
   const tag = custom ? (custom.kind === 'used' ? ' · My run' : ' · My picks') : '';
-  await header(ctx, base, 'modes/deadly-assault.webp', 'Deadly Assault', `${fmtDate(da.start)} – ${fmtDate(da.end)}${tag}`);
+  await header(
+    ctx,
+    base,
+    'modes/deadly-assault.webp',
+    'Deadly Assault',
+    `${fmtDate(da.start)} – ${fmtDate(da.end)}${tag}`,
+  );
   const icons = await loadIcons(base);
   const bosses = da.bosses.map((b, i) => ({
     boss: b,
@@ -381,7 +427,9 @@ async function drawDeadlyAssault(ctx, base, custom) {
       ctx.textAlign = 'right';
       ctx.fillStyle = K.dim;
       ctx.font = `600 13px ${MONO}`;
-      const head = custom?.bonusScore ? `${teamLabel(custom)} · ${Number(custom.bonusScore).toLocaleString('en-US')}` : teamLabel(custom);
+      const head = custom?.bonusScore
+        ? `${teamLabel(custom)} · ${Number(custom.bonusScore).toLocaleString('en-US')}`
+        : teamLabel(custom);
       ctx.fillText(head, rx, y + 38);
       ctx.fillStyle = K.muted;
       ctx.font = `500 14px ${FONT}`;
@@ -396,7 +444,13 @@ async function drawDeadlyAssault(ctx, base, custom) {
 async function drawShiyu(ctx, base, custom) {
   const sd = SHIYU_DEFENSE;
   const tag = custom ? (custom.kind === 'used' ? ' · My run' : ' · My picks') : '';
-  await header(ctx, base, 'modes/shiyu-defense.webp', 'Shiyu Defense', `${fmtDate(sd.start)} – ${fmtDate(sd.end)} · Critical Node${tag}`);
+  await header(
+    ctx,
+    base,
+    'modes/shiyu-defense.webp',
+    'Shiyu Defense',
+    `${fmtDate(sd.start)} – ${fmtDate(sd.end)} · Critical Node${tag}`,
+  );
   const icons = await loadIcons(base);
   const st = sd.stages[sd.stages.length - 1];
   const plan = disjointTeams(st.sides.map((side) => ({ target: side, buffs: [...st.buffs, ...(side.buffs ?? [])] })));
@@ -438,7 +492,16 @@ async function drawShiyu(ctx, base, custom) {
     // Team on the right
     const ids = custom ? picked(custom.teams?.[i]) : plan[i]?.ids;
     const score = custom?.scores?.[i];
-    teamHead(ctx, teamLabel(custom), W - 40 - 340, y + 40, 316, score, score && rankFor(score, st.ranks), RANK_COLOR[rankFor(score, st.ranks)]);
+    teamHead(
+      ctx,
+      teamLabel(custom),
+      W - 40 - 340,
+      y + 40,
+      316,
+      score,
+      score && rankFor(score, st.ranks),
+      RANK_COLOR[rankFor(score, st.ranks)],
+    );
     const comp = ids ? teamComp(ids, side, Boolean(custom)) : custom ? 'Not filled in' : '';
     if (comp) {
       ctx.fillStyle = K.muted;

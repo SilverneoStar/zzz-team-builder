@@ -141,7 +141,8 @@ export default function WEngineArt({ w, size = 30 }) {
       alt=""
       width={size}
       height={size}
-      loading="lazy" decoding="async"
+      loading="lazy"
+      decoding="async"
       onError={() => setFailedSrc(src)}
     />
   );

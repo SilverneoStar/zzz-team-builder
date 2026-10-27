@@ -22,7 +22,12 @@ const FACTION_ENTRIES = (() => {
   const people = {};
   const add = (f, label, href, img, bangboo = false) => f && (people[f] ??= []).push({ label, href, img, bangboo });
   AGENTS.forEach((a) => {
-    add(a.faction, a.name, `#agent-${a.id}`, a.members ? `${BASE}agents/${a.id}-${a.members[0].key}.webp` : agentArt(a.id));
+    add(
+      a.faction,
+      a.name,
+      `#agent-${a.id}`,
+      a.members ? `${BASE}agents/${a.id}-${a.members[0].key}.webp` : agentArt(a.id),
+    );
     a.members?.forEach((m) => add(m.faction, m.name, `#agent-${a.id}`, `${BASE}agents/${a.id}-${m.key}.webp`));
   });
   BANGBOO.forEach((b) => add(b.faction, `${b.name} (Bangboo)`, `#bangboo-${b.id}`, bangbooArt(b.id), true));
@@ -58,7 +63,10 @@ export default function GlossaryPage() {
     const matches = ALL.filter(
       (e) =>
         (category === 'all' || e.category === category) &&
-        (!q || [e.term, e.also, e.text, ...(e.more ?? []), ...(e.members ?? []).map((m) => m.label)].some((s) => s?.toLowerCase().includes(q))),
+        (!q ||
+          [e.term, e.also, e.text, ...(e.more ?? []), ...(e.members ?? []).map((m) => m.label)].some((s) =>
+            s?.toLowerCase().includes(q),
+          )),
     );
     return GLOSSARY_CATEGORIES.map((cat) => ({
       cat,
@@ -145,43 +153,43 @@ export default function GlossaryPage() {
               ))}
             </ul>
           ) : (
-          <dl className="gloss">
-            {g.entries.map((e) => (
-              <div key={e.term} className="gloss__item">
-                <dt>
-                  {e.faction && <FactionLogo faction={e.faction} size={56} />}
-                  <span className="gloss__term">{e.term}</span>
-                  {e.also && <span className="gloss__also">{e.also}</span>}
-                </dt>
-                <dd>
-                  {e.text}
-                  {e.related && <span className="gloss__related"> See also: {e.related.join(', ')}.</span>}
-                  {e.members && (
-                    <span className="gloss__members">
-                      {e.text && ' '}Members:{' '}
-                      {e.members.map((m, i) => (
-                        <span key={m.label}>
-                          {i > 0 && ', '}
-                          <a href={m.href}>{m.label}</a>
-                        </span>
-                      ))}
-                      .
-                    </span>
-                  )}
-                  {e.more && (
-                    <details className="gloss__more">
-                      <summary>More about {e.term}</summary>
-                      <ul>
-                        {e.more.map((t) => (
-                          <li key={t}>{t}</li>
+            <dl className="gloss">
+              {g.entries.map((e) => (
+                <div key={e.term} className="gloss__item">
+                  <dt>
+                    {e.faction && <FactionLogo faction={e.faction} size={56} />}
+                    <span className="gloss__term">{e.term}</span>
+                    {e.also && <span className="gloss__also">{e.also}</span>}
+                  </dt>
+                  <dd>
+                    {e.text}
+                    {e.related && <span className="gloss__related"> See also: {e.related.join(', ')}.</span>}
+                    {e.members && (
+                      <span className="gloss__members">
+                        {e.text && ' '}Members:{' '}
+                        {e.members.map((m, i) => (
+                          <span key={m.label}>
+                            {i > 0 && ', '}
+                            <a href={m.href}>{m.label}</a>
+                          </span>
                         ))}
-                      </ul>
-                    </details>
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
+                        .
+                      </span>
+                    )}
+                    {e.more && (
+                      <details className="gloss__more">
+                        <summary>More about {e.term}</summary>
+                        <ul>
+                          {e.more.map((t) => (
+                            <li key={t}>{t}</li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           )}
         </section>
       ))}

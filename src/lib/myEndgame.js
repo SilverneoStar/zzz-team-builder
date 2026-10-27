@@ -49,4 +49,5 @@ export function saveMine(key, mine) {
   }
 }
 
-export const hasMine = (mine) => Boolean(mine && (mine.teams.some((t) => t.some(Boolean)) || mine.bonus?.some(Boolean)));
+export const hasMine = (mine) =>
+  Boolean(mine && (mine.teams.some((t) => t.some(Boolean)) || mine.bonus?.some(Boolean)));

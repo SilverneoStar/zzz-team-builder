@@ -48,7 +48,8 @@ export default function DiscArt({ id, size = 22 }) {
       alt=""
       width={size}
       height={size}
-      loading="lazy" decoding="async"
+      loading="lazy"
+      decoding="async"
       onError={() => setFailedSrc(src)}
     />
   );

@@ -38,7 +38,6 @@ export const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif';
 export const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 export const BADGE = '"Inter", "Arial Black", sans-serif';
 
-
 export function loadImage(src) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -306,7 +305,19 @@ const SHORT_STAT = {
 
 // Attribute and specialty icons (public/attributes, public/specialties).
 // Variant attributes (Frost, Honed Edge, Auric Ink) use their base icon.
-const ATTR_ICONS = new Set(['physical', 'fire', 'ice', 'electric', 'ether', 'wind', 'lumiflux', 'sunbringer-fire', 'frost', 'honed-edge', 'auric-ink']);
+const ATTR_ICONS = new Set([
+  'physical',
+  'fire',
+  'ice',
+  'electric',
+  'ether',
+  'wind',
+  'lumiflux',
+  'sunbringer-fire',
+  'frost',
+  'honed-edge',
+  'auric-ink',
+]);
 const attrIconId = (id) =>
   ATTR_ICONS.has(id) ? id : ATTR_ICONS.has(ATTRIBUTE_BY_ID[id]?.base) ? ATTRIBUTE_BY_ID[id].base : null;
 
@@ -475,7 +486,14 @@ async function drawColumns(ctx, W, H, team, base) {
       return;
     }
     const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
-    factionWatermark(ctx, factions[shownFaction(a).logo], { x, y: top, w: colW, h: 360, r: 14 }, x + colW - 210, top + 140, 240);
+    factionWatermark(
+      ctx,
+      factions[shownFaction(a).logo],
+      { x, y: top, w: colW, h: 360, r: 14 },
+      x + colW - 210,
+      top + 140,
+      240,
+    );
     ctx.fillStyle = color;
     roundRect(ctx, x, top, colW, 5, 2);
     ctx.fill();
@@ -732,5 +750,3 @@ export async function renderTeamCard(team, { base = '/', layout = 'columns', sca
   await DRAW[id](ctx, W, H, team, base);
   return canvas;
 }
-
-

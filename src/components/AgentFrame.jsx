@@ -27,7 +27,10 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
   const ranked = agent.rank === 'S' || agent.rank === 'A';
   // A picked member shows their own department's logo.
   const factionName = shownFaction(agent, member).logo;
-  const factionBg = faction && factionLogo(factionName) ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(factionName)}.webp` : null;
+  const factionBg =
+    faction && factionLogo(factionName)
+      ? `${import.meta.env.BASE_URL}factions/bg/${factionSlug(factionName)}.webp`
+      : null;
   return (
     <span
       className={`frame${tall ? ' frame--tall' : ''}${faction ? ' frame--no-badge' : ''}`}
@@ -35,19 +38,38 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
       title={agent.members && member >= 0 ? `${agent.name} · ${agent.members[member].name}` : agent.name}
     >
       <span className="frame__art-box">
-        {factionBg && <span className="frame__faction-bg" style={{ backgroundImage: `url(${factionBg})` }} aria-hidden="true" />}
+        {factionBg && (
+          <span className="frame__faction-bg" style={{ backgroundImage: `url(${factionBg})` }} aria-hidden="true" />
+        )}
         {collage ? (
           <span className="frame__collage">
             {agent.members.map((m, i) => (
               <span key={m.key} className="frame__collage-cell">
-                <img src={memberArt(agent, i)} alt="" loading="lazy" decoding="async" style={{ objectPosition: m.stackFocus ?? m.focus, '--focus': m.stackFocus ?? m.focus, '--zoom': m.stackZoom ?? 1.1 }} />
+                <img
+                  src={memberArt(agent, i)}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    objectPosition: m.stackFocus ?? m.focus,
+                    '--focus': m.stackFocus ?? m.focus,
+                    '--zoom': m.stackZoom ?? 1.1,
+                  }}
+                />
               </span>
             ))}
           </span>
         ) : failedSrc === src ? (
           <span className="frame__initials">{initials(agent.name)}</span>
         ) : (
-          <img className="frame__art" src={src} alt="" loading="lazy" decoding="async" onError={() => setFailedSrc(src)} />
+          <img
+            className="frame__art"
+            src={src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            onError={() => setFailedSrc(src)}
+          />
         )}
         {tag && <span className="frame__tag">{tag}</span>}
         {faction && ranked && (
@@ -63,16 +85,16 @@ export default function AgentFrame({ agent, sub, tag, tall = false, passive, fac
       </span>
       <span className="frame__foot">
         {!faction && (
-        <span className="frame__badge">
-          {passive ? (
-            <PassiveFace state={passive.state} size={30} title={passive.title} />
-          ) : (
-            <span className="frame__badge-icons">
-              <AttributeGlyph attribute={agent.attribute} size={14} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
-              <SpecialtyIcon specialty={agent.specialty} size={14} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
-            </span>
-          )}
-        </span>
+          <span className="frame__badge">
+            {passive ? (
+              <PassiveFace state={passive.state} size={30} title={passive.title} />
+            ) : (
+              <span className="frame__badge-icons">
+                <AttributeGlyph attribute={agent.attribute} size={14} title={ATTRIBUTE_BY_ID[agent.attribute]?.name} />
+                <SpecialtyIcon specialty={agent.specialty} size={14} title={SPECIALTY_BY_ID[agent.specialty]?.name} />
+              </span>
+            )}
+          </span>
         )}
         <span className="frame__text">
           <span className="frame__name-line">
