@@ -9674,10 +9674,11 @@ details.disc-guide + details.disc-guide {
 
 /* Long lists: the browser skips drawing entries that are off screen until
    they're scrolled near, which makes opening a page much quicker. The sizes
-   are rough placeholders; the browser remembers the real ones once drawn. */
+   are rough placeholders; the browser remembers the real ones once drawn.
+   Not used on the W-Engine grid (.arc-grid): its cards size their art from
+   the card width, which this broke on phones. */
 .grid > li,
 .char-grid > li,
-.arc-grid > li,
 .vinyl-grid > li,
 .bangboo-grid > li {
   content-visibility: auto;
