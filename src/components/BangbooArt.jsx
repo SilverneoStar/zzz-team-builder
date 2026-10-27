@@ -88,7 +88,7 @@ export default function BangbooArt({ id, size = 30 }) {
       alt=""
       width={size}
       height={size}
-      loading="lazy"
+      loading="lazy" decoding="async"
       onError={() => setFailedSrc(src)}
     />
   );

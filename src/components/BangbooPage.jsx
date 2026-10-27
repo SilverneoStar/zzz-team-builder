@@ -1,3 +1,5 @@
+// The Bangboo tab: every Bangboo as a collectible toy box, with filters and
+// the selected Bangboo's details.
 import { useMemo, useState } from 'react';
 import { navigate } from '../lib/route.js';
 import { ATTRIBUTE_BY_ID, BANGBOO } from '../data/game.js';
@@ -128,7 +130,7 @@ function ToyBox({ bangboo: b }) {
       <span className="toybox__case">
         <span className="toybox__back" />
         {src && (
-          <img className="toybox__art" src={src} alt="" loading="lazy" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />
+          <img className="toybox__art" src={src} alt="" loading="lazy" decoding="async" style={{ '--s': BANGBOO_SCALE[b.id] ?? 1 }} />
         )}
         <span className="toybox__glass" />
       </span>

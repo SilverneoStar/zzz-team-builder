@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { materialIcon } from '../lib/materialIcons.js';
-import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, shortName } from '../data/game.js';
+import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID, shortName, signatureOf } from '../data/game.js';
 import { AGENT_MATS_KNOWN, ESTIMATED_MATS, SKILL_COUNT, materialsFor, sharedWith } from '../data/materials.js';
 import MiniAgents from './MiniAgents.jsx';
 import WEngineArt from './WEngineArt.jsx';
-import { signatureOf } from '../data/game.js';
 import { mergeItems, wEngineMaterials } from '../data/levelMats.js';
 
 const fmt = (n) => n.toLocaleString('en');
@@ -125,7 +124,7 @@ export default function MaterialsTab({ agent: a }) {
 // The item's icon where we have one, else a colour tile with a letter.
 export function MatIcon({ item }) {
   const src = materialIcon(item.name);
-  if (src) return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" />;
+  if (src) return <img className="mats__icon" src={src} alt="" width="34" height="34" loading="lazy" decoding="async" />;
   return (
     <span className="mats__dot" aria-hidden="true">
       {KIND_MARK[item.kind] ?? ''}

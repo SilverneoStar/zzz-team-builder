@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob, renderTeamCard } from '../lib/teamCard.js';
+import { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from '../lib/exportSettings.js';
+
+// The team image drawing code loads only when a team image is made.
+const renderTeamCard = (team, opts) => import('../lib/teamCard.js').then((m) => m.renderTeamCard(team, opts));
 
 // The export size (1×, 2×, 3×) is remembered on this device.
 const SIZE_KEY = 'zzz-team-builder:cardScale';

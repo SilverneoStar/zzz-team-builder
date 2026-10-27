@@ -38,5 +38,5 @@ export const factionLogo = (name, base = BASE) =>
 export default function FactionLogo({ faction, size = 20 }) {
   const src = factionLogo(faction);
   if (!src) return null;
-  return <img className="faction-logo" src={src} alt="" width={size} height={size} loading="lazy" />;
+  return <img className="faction-logo" src={src} alt="" width={size} height={size} loading="lazy" decoding="async" />;
 }

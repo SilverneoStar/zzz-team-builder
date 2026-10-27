@@ -10,7 +10,7 @@ export default function MemberPicker({ agent: a }) {
       <button className="member-pick__btn member-pick__btn--all" aria-pressed={cur < 0} onClick={() => setMemberIndex(a.id, -1)}>
         <span className="member-pick__trio" aria-hidden="true">
           {a.members.map((m, i) => (
-            <img key={m.key} src={memberArt(a, i)} alt="" width={16} height={16} loading="lazy" />
+            <img key={m.key} src={memberArt(a, i)} alt="" width={16} height={16} loading="lazy" decoding="async" />
           ))}
         </span>
         <span>
@@ -20,7 +20,7 @@ export default function MemberPicker({ agent: a }) {
       </button>
       {a.members.map((m, i) => (
         <button key={m.key} className="member-pick__btn" aria-pressed={i === cur} onClick={() => setMemberIndex(a.id, i)}>
-          <img src={memberArt(a, i)} alt="" width={28} height={28} loading="lazy" />
+          <img src={memberArt(a, i)} alt="" width={28} height={28} loading="lazy" decoding="async" />
           <span>
             <b>{m.name.split(' ')[0]}</b>
             <small className="member-pick__dept" title={m.deptName}>

@@ -1,3 +1,6 @@
+// The Ethereals tab: the current Deadly Assault and Shiyu Defense rotations,
+// with weaknesses, buffs, gimmicks and recommended teams (picked by
+// lib/endgame.js), the reader's own teams, and export cards for both modes.
 import { useEffect, useMemo, useState } from 'react';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, shortName } from '../data/game.js';
 import { DEADLY_ASSAULT, SHIYU_DEFENSE } from '../data/endgame.js';
@@ -8,7 +11,8 @@ import Portrait from './Portrait.jsx';
 import Keywords from './Keywords.jsx';
 import ExportDialog from './ExportDialog.jsx';
 import ExportIcon from './ExportIcon.jsx';
-import { renderEndgameCard } from '../lib/endgameCards.js';
+// The endgame card drawing code loads only when a card is exported.
+const renderEndgameCard = (mode, opts) => import('../lib/endgameCards.js').then((m) => m.renderEndgameCard(mode, opts));
 import MyEndgameTeams from './MyEndgameTeams.jsx';
 import { hasMine, loadMine, saveMine } from '../lib/myEndgame.js';
 
@@ -160,7 +164,7 @@ function BonusCard({ bonus, onLoadTeam }) {
         <h4 className="eg-boss__name">{bonus.name ?? <span className="muted">Name to be added</span>}</h4>
       </div>
       <div className="eg-bonus__body">
-        {bonus.art && <img className="eg-bonus__art" src={`${BASE}${bonus.art}`} alt="" loading="lazy" />}
+        {bonus.art && <img className="eg-bonus__art" src={`${BASE}${bonus.art}`} alt="" loading="lazy" decoding="async" />}
         <div className="eg-bonus__info">
       <p className="small">{bonus.unlock}</p>
       {known ? (
@@ -229,7 +233,7 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
         {plan.bosses.map(({ boss, buff, teams }, i) => (
           <article key={boss.id} className="eg-boss">
             <div className="eg-boss__art">
-              <img src={`${BASE}${boss.art}`} alt="" loading="lazy" />
+              <img src={`${BASE}${boss.art}`} alt="" loading="lazy" decoding="async" />
               <span className="eg-boss__stage">Boss {i + 1}</span>
               {boss.isNew && <span className="eg-boss__new">New</span>}
             </div>
@@ -352,7 +356,7 @@ function Shiyu({ onLoadTeam, mine, onMine, onExportMine }) {
               {st.sides.map((side, i) => (
                 <div key={i} className="eg-side">
                   <div className="eg-side__head">
-                    {side.art && <img className="eg-side__art" src={`${BASE}${side.art}`} alt="" loading="lazy" />}
+                    {side.art && <img className="eg-side__art" src={`${BASE}${side.art}`} alt="" loading="lazy" decoding="async" />}
                     <div>
                       <h5 className="eg-side__name">{st.sides.length > 2 ? `Room ${i + 1}` : `Side ${i + 1}`}</h5>
                       {side.name && <p className="small eg-side__boss">{side.name}</p>}

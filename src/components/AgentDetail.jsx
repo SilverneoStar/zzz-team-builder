@@ -1,3 +1,6 @@
+// One Agent's page: header, beta note, member picker (Sunbringer), and the
+// Overview / Skills / Materials / Build / My build / Best teams / Teammates
+// tabs, plus the Export card button.
 import { useState } from 'react';
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { ATTRIBUTE_BY_ID } from '../data/game.js';
@@ -9,7 +12,10 @@ import { AgentBuild, AgentTeams } from './AgentBuild.jsx';
 import Teammates from './Teammates.jsx';
 import ExportDialog from './ExportDialog.jsx';
 import ExportIcon from './ExportIcon.jsx';
-import { AGENT_CARDS, MY_BUILD_CARD, renderAgentCard } from '../lib/agentCards.js';
+import { AGENT_CARDS, MY_BUILD_CARD } from '../lib/exportSettings.js';
+
+// The card drawing code loads only when a card is exported.
+const renderAgentCard = (agent, opts) => import('../lib/agentCards.js').then((m) => m.renderAgentCard(agent, opts));
 import SkillsTab from './SkillsTab.jsx';
 import MaterialsTab from './MaterialsTab.jsx';
 import FactionLogo from './FactionLogo.jsx';

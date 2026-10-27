@@ -1,3 +1,6 @@
+// Draws team images on a canvas, and the shared drawing helpers (fonts,
+// backgrounds, Agent art, rank badges) that agentCards.js and
+// endgameCards.js reuse. Loaded only when an image is exported.
 import { FILM_STRIPS } from './filmStrips.js';
 import {
   AGENT_BY_ID,
@@ -19,16 +22,15 @@ import { wEngineArtStem } from '../components/WEngineArt.jsx';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 import { memberIndex, shownFaction } from './memberArt.js';
+import { EXPORT_SCALE } from './exportSettings.js';
 
-// Team images, in three layouts:
+// Re-exported so older imports keep working.
+export { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from './exportSettings.js';
+
+// Team images, in three layouts (see TEAM_LAYOUTS in exportSettings.js):
 //   columns  1200×675  three gear columns (the original card)
 //   squad    1200×675  big slanted Agent cards like the in-game squad screen
 //   square   1080×1080 one row per Agent, for square posts
-export const TEAM_LAYOUTS = [
-  { id: 'columns', label: 'Columns', hint: '16:9' },
-  { id: 'squad', label: 'Squad', hint: '16:9 · big art' },
-  { id: 'square', label: 'Square', hint: '1:1' },
-];
 const SIZES = { columns: [1200, 675], squad: [1200, 675], square: [1080, 1080] };
 
 export const FONT = '"IBM Plex Sans", system-ui, sans-serif';
@@ -36,13 +38,6 @@ export const DISPLAY = '"Big Shoulders Display", "Arial Narrow", sans-serif';
 export const MONO = '"IBM Plex Mono", ui-monospace, monospace';
 export const BADGE = '"Inter", "Arial Black", sans-serif';
 
-export const EXPORT_SCALE = 2;
-// Export sizes: the same layout at 1×, 2× or 3× the pixels.
-export const EXPORT_SIZES = [
-  { id: 1, label: 'Standard', hint: 'Small file, quick to send' },
-  { id: 2, label: 'HD', hint: 'Sharp on phones and when zoomed' },
-  { id: 3, label: 'Max', hint: 'For printing or big screens' },
-];
 
 export function loadImage(src) {
   return new Promise((resolve) => {
@@ -738,6 +733,4 @@ export async function renderTeamCard(team, { base = '/', layout = 'columns', sca
   return canvas;
 }
 
-export function canvasToBlob(canvas) {
-  return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-}
+

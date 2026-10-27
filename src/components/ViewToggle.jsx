@@ -1,3 +1,4 @@
+// Grid / List switch used on pages that can show their entries either way.
 export default function ViewToggle({ view, onChange }) {
   return (
     <div className="view-toggle" role="group" aria-label="Layout">

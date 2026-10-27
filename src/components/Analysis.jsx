@@ -1,9 +1,10 @@
+// The team builder's Synergy panel: specialty counts, shared attributes and
+// factions, which Additional Abilities are on, kit links and short tips.
 import SpecialtyIcon from './SpecialtyIcon.jsx';
-import { SPECIALTIES } from '../data/game.js';
 import AttributeGlyph from './AttributeGlyph.jsx';
 import PassiveFace from './PassiveFace.jsx';
 import { kitLinks, passiveStatus } from '../lib/analyze.js';
-import { shortName } from '../data/game.js';
+import { SPECIALTIES, shortName } from '../data/game.js';
 
 export default function Analysis({ analysis }) {
   const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;

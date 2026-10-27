@@ -22,14 +22,14 @@ export default function Portrait({ agent, size = 'md' }) {
         <span className="portrait__collage">
           {agent.members.map((m, i) => (
             <span key={m.key} className="portrait__collage-cell">
-              <img src={memberArt(agent, i)} alt="" loading="lazy" style={{ objectPosition: m.stackFocus ?? m.focus, '--focus': m.stackFocus ?? m.focus, '--zoom': m.stackZoom ?? 1.1 }} />
+              <img src={memberArt(agent, i)} alt="" loading="lazy" decoding="async" style={{ objectPosition: m.stackFocus ?? m.focus, '--focus': m.stackFocus ?? m.focus, '--zoom': m.stackZoom ?? 1.1 }} />
             </span>
           ))}
         </span>
       ) : failed ? (
         <span className="portrait__initials">{initials(agent.name)}</span>
       ) : (
-        <img className="portrait__img" src={src} alt="" loading="lazy" onError={() => setFailedSrc(src)} />
+        <img className="portrait__img" src={src} alt="" loading="lazy" decoding="async" onError={() => setFailedSrc(src)} />
       )}
       <span className="portrait__glyph">
         <AttributeGlyph attribute={agent.attribute} size={size === 'lg' || size === 'xl' ? 16 : 12} />

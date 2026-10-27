@@ -126,7 +126,7 @@ export default function GlossaryPage() {
                     {e.members.map((m) => (
                       <li key={m.label}>
                         <a href={m.href} title={m.label} className={m.bangboo ? 'is-bangboo' : undefined}>
-                          <img src={m.img} alt={m.label} loading="lazy" />
+                          <img src={m.img} alt={m.label} loading="lazy" decoding="async" />
                         </a>
                       </li>
                     ))}

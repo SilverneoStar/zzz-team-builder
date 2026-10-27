@@ -1,3 +1,5 @@
+// The Agents tab: every Agent with filters (attribute, specialty, rank,
+// faction), grid or list view, and the selected Agent's details on top.
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import {

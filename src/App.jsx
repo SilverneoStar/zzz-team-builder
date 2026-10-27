@@ -1,5 +1,9 @@
+// The whole site: the masthead and page tabs, the team builder (squad slots,
+// gear panel, synergy and sharing), and the other pages, chosen by the address
+// after # (see lib/route.js). Teams live in a reducer (lib/teamsReducer.js) and
+// are saved in this browser (lib/storage.js).
 import { useShowBeta } from './lib/betaInfo.js';
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useReducer, useState } from 'react';
 import { AGENT_BY_ID, DATA_VERSION } from './data/game.js';
 import { analyzeTeam, usageInOtherTeams } from './lib/analyze.js';
 import { navigate, useHashRoute, VIEWS } from './lib/route.js';
@@ -8,13 +12,7 @@ import { decodeTeam } from './lib/share.js';
 import { FILM_STRIPS } from './lib/filmStrips.js';
 import { loadState, saveState } from './lib/storage.js';
 import { initialState, loadoutOf, teamsReducer } from './lib/teamsReducer.js';
-import AgentsPage from './components/AgentsPage.jsx';
 import Analysis from './components/Analysis.jsx';
-import BangbooPage from './components/BangbooPage.jsx';
-import DriveDiscsPage from './components/DriveDiscsPage.jsx';
-import ExportDialog from './components/ExportDialog.jsx';
-import GlossaryPage from './components/GlossaryPage.jsx';
-import EtherealsPage from './components/EtherealsPage.jsx';
 import LoadoutPanel from './components/LoadoutPanel.jsx';
 import Mascot from './components/Mascot.jsx';
 import Portrait from './components/Portrait.jsx';
@@ -24,7 +22,25 @@ import SharePanel from './components/SharePanel.jsx';
 import SocialLinks from './components/SocialLinks.jsx';
 import TeamSlots from './components/TeamSlots.jsx';
 import TeamTabs from './components/TeamTabs.jsx';
-import WEnginesPage from './components/WEnginesPage.jsx';
+
+// The team builder loads first; every other page (and the export dialog) is
+// fetched only when it's opened, so the first visit downloads much less.
+const AgentsPage = lazy(() => import('./components/AgentsPage.jsx'));
+const BangbooPage = lazy(() => import('./components/BangbooPage.jsx'));
+const DriveDiscsPage = lazy(() => import('./components/DriveDiscsPage.jsx'));
+const EtherealsPage = lazy(() => import('./components/EtherealsPage.jsx'));
+const ExportDialog = lazy(() => import('./components/ExportDialog.jsx'));
+const GlossaryPage = lazy(() => import('./components/GlossaryPage.jsx'));
+const WEnginesPage = lazy(() => import('./components/WEnginesPage.jsx'));
+
+/** Shown for a moment while a page's code downloads. */
+function PageLoading() {
+  return (
+    <p className="page-loading muted" role="status">
+      Loading…
+    </p>
+  );
+}
 
 export default function App() {
   const [state, dispatch] = useReducer(teamsReducer, null, () => initialState(loadState()));
@@ -48,6 +64,10 @@ export default function App() {
   };
   useEffect(() => setSelectedSlot(null), [state.activeId]);
   const [exporting, setExporting] = useState(false);
+  // Leaving the team builder closes its export dialog.
+  useEffect(() => {
+    if (route.view !== 'builder') setExporting(false);
+  }, [route.view]);
   const selectedAgent = selectedSlot != null ? AGENT_BY_ID[active.members[selectedSlot]] : null;
 
   const analysis = useMemo(() => analyzeTeam(active.members, active.bangboo), [active.members, active.bangboo]);
@@ -121,6 +141,7 @@ export default function App() {
         </div>
       </header>
 
+      <Suspense fallback={<PageLoading />}>
       {route.view === 'agents' && (
         <AgentsPage
           agentId={route.agentId}
@@ -157,6 +178,7 @@ export default function App() {
         />
       )}
       {route.view === 'glossary' && <GlossaryPage />}
+      </Suspense>
 
       {route.view === 'builder' && (
         <main className="layout">
@@ -223,7 +245,11 @@ export default function App() {
         </main>
       )}
 
-      {exporting && <ExportDialog team={active} onClose={() => setExporting(false)} />}
+      {exporting && (
+        <Suspense fallback={null}>
+          <ExportDialog team={active} onClose={() => setExporting(false)} />
+        </Suspense>
+      )}
       {pickSlot != null && (
         <PickerSheet onClose={() => setPickSlot(null)}>
           <Roster

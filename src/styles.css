@@ -8935,3 +8935,6 @@ details.disc-guide + details.disc-guide {
 .eg-gimmicks[open] > summary::before { transform: rotate(45deg); }
 .eg-gimmicks .eg-mech { margin: 0 0 10px; }
 @media (prefers-reduced-motion: reduce) { .eg-gimmicks > summary::before { transition: none; } }
+
+/* Brief placeholder while a page's code downloads (see App.jsx). */
+.page-loading { padding: 32px 0; text-align: center; }

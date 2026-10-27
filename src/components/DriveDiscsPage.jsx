@@ -1,3 +1,5 @@
+// The Drive Discs tab: every set on a record player (Classic, Wood or Urban
+// finish), with bonuses, who uses it and main stats by slot.
 import { useEffect, useMemo, useState } from 'react';
 import DiscArt, { discArt } from './DiscArt.jsx';
 import ViewToggle from './ViewToggle.jsx';
@@ -237,9 +239,9 @@ function Turntable({ id, playing = false, theme = 'classic' }) {
   const art = discArt(id);
   return (
     <span className={`deck${playing ? ' is-playing' : ''}`} aria-hidden="true">
-      <img className="deck__sticker" src={stickerFor(theme)} alt="" loading="lazy" />
+      <img className="deck__sticker" src={stickerFor(theme)} alt="" loading="lazy" decoding="async" />
       <span className="deck__platter">
-        <span className="deck__record">{art && <img src={art} alt="" loading="lazy" />}</span>
+        <span className="deck__record">{art && <img src={art} alt="" loading="lazy" decoding="async" />}</span>
         <span className="deck__spindle" />
       </span>
       <span className="deck__arm">

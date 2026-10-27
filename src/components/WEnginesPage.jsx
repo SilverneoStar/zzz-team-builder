@@ -1,3 +1,5 @@
+// The W-Engines tab: every W-Engine by specialty and rank, with search, and
+// the selected W-Engine's stats, passive, materials and who can use it.
 import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 import SpecialtyIcon, { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useMemo, useState } from 'react';

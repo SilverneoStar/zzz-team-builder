@@ -20,7 +20,7 @@ export default function AttributeGlyph({ attribute, size = 14, title }) {
         alt={title ?? ''}
         title={title}
         aria-hidden={title ? undefined : true}
-        loading="lazy"
+        loading="lazy" decoding="async"
       />
     );
   }

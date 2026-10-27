@@ -47,13 +47,8 @@ import {
   slantedArt,
 } from './teamCard.js';
 
-export const AGENT_CARDS = [
-  { id: 'build', label: 'Build', hint: '16:9' },
-  { id: 'farm', label: 'Farming', hint: '16:9' },
-  { id: 'guide', label: 'Guide', hint: '4:5' },
-];
-// Only offered once the reader has saved their own build for the Agent.
-export const MY_BUILD_CARD = { id: 'mine', label: 'My build', hint: '16:9' };
+// Card types live in exportSettings.js; re-exported so older imports keep working.
+export { AGENT_CARDS, MY_BUILD_CARD } from './exportSettings.js';
 const SIZES = { build: [1200, 675], farm: [1200, 675], guide: [1080, 1350], mine: [1200, 675] };
 
 const K = {

@@ -1,3 +1,4 @@
+// Share a team as a link or a short code, paste one back in, or load a preset team.
 import { useState } from 'react';
 import { PRESETS } from '../data/presets.js';
 import { decodeTeam, encodeTeam } from '../lib/share.js';
