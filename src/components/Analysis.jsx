@@ -9,7 +9,10 @@ import { SPECIALTIES, shortName } from '../data/game.js';
 
 export default function Analysis({ analysis, bangboo, loadouts }) {
   const { agents, specialtyCounts, sharedAttributes, sharedFactions, notes } = analysis;
-  const passives = passiveStatus(agents.map((a) => a.id));
+  const passives = passiveStatus(
+    agents.map((a) => a.id),
+    loadouts,
+  );
   const kit = kitLinks(agents.map((a) => a.id));
 
   return (

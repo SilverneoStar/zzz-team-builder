@@ -130,7 +130,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const parts = [];
 
   // Additional Abilities: the biggest single factor in ZZZ team building.
-  const ps = passiveStatus(ids);
+  const ps = passiveStatus(ids, loadouts);
   const known = Object.values(ps.byId).filter((v) => v.known);
   const on = known.filter((v) => v.active);
   const abilityPts = squad.length ? (known.length ? (on.length / 3) * 35 : 17.5 * (squad.length / 3)) : 0;

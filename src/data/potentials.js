@@ -14,5 +14,13 @@ export const POTENTIAL_AGENTS = new Set([
   'von-lycaon',
 ]);
 export const MAX_POTENTIAL = 6;
+
+// Potential I widens some Additional Abilities: they also turn on with these
+// specialties in the squad (from each Agent's Potential skills in data/skills/).
+export const POTENTIAL_PASSIVE = {
+  'ellen-joe': { specialties: ['stun'] },
+  'grace-howard': { specialties: ['anomaly'] },
+  'von-lycaon': { specialties: ['anomaly'] },
+};
 export const hasPotential = (id) => POTENTIAL_AGENTS.has(id);
 export const ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI'];

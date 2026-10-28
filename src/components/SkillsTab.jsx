@@ -220,7 +220,7 @@ function Core({ core }) {
 }
 
 function Ability({ agent: a, ability, team }) {
-  const s = team ? passiveStatus(team.members).byId[a.id] : null;
+  const s = team ? passiveStatus(team.members, team.loadouts ?? {}).byId[a.id] : null;
   return (
     <details className="skills__group">
       <summary>

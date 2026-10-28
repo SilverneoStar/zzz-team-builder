@@ -1,5 +1,6 @@
 import { showBeta } from './betaInfo.js';
 import { PASSIVES } from '../data/passives.js';
+import { POTENTIAL_PASSIVE } from '../data/potentials.js';
 import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
 
 // Additional Ability conditions from beta data count only when beta info is shown.
@@ -123,14 +124,21 @@ export function passiveCondition(agentId) {
   if (p.specialties) parts.push(`Another ${orList(p.specialties.map(SPEC_NAME))} Agent`);
   const shared = [p.attribute && 'attribute', p.faction && 'faction'].filter(Boolean);
   if (shared.length) parts.push(`${parts.length ? 'one' : 'Another Agent'} with the same ${shared.join(' or ')}`);
+  const pot = POTENTIAL_PASSIVE[agentId];
+  if (pot) {
+    const names = orList(pot.specialties.map(SPEC_NAME));
+    parts.push(`with Potential I, ${/^[AEIOU]/.test(names) ? 'an' : 'a'} ${names} Agent`);
+  }
   return parts.join(', or ');
 }
 
 /**
  * Whether each squad member's Additional Ability is on.
  * Returns { byId: { [id]: { known, active, name, condition, via: [names] } }, active, total }.
+ * With `loadouts` ({ [id]: loadout }), Potential I's wider conditions count too
+ * (POTENTIAL_PASSIVE); those squadmates are listed with "(Potential I)".
  */
-export function passiveStatus(memberIds) {
+export function passiveStatus(memberIds, loadouts = {}) {
   const squad = memberIds.map((id) => id && AGENT_BY_ID[id]).filter(Boolean);
   const byId = {};
   let active = 0;
@@ -149,6 +157,12 @@ export function passiveStatus(memberIds) {
           (p.faction && o.faction === a.faction),
       )
       .map((o) => o.name);
+    const pot = (loadouts[a.id]?.potential ?? 0) >= 1 && POTENTIAL_PASSIVE[a.id];
+    if (pot) {
+      squad
+        .filter((o) => o.id !== a.id && !via.includes(o.name) && pot.specialties.includes(o.specialty))
+        .forEach((o) => via.push(`${o.name} (Potential I)`));
+    }
     const on = via.length > 0;
     if (on) active += 1;
     byId[a.id] = {

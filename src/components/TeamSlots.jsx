@@ -22,7 +22,10 @@ import { passiveStatus } from '../lib/analyze.js';
 // Tapping an empty slot calls `onPickEmpty(index)` to choose an Agent for it.
 export default function TeamSlots({ team, selected, onSelect, dispatch, onPickEmpty }) {
   const bangboo = team.bangboo && BANGBOO_BY_ID[team.bangboo];
-  const passives = passiveStatus(team.members);
+  const passives = passiveStatus(
+    team.members,
+    Object.fromEntries(team.members.filter(Boolean).map((id) => [id, loadoutOf(team, id)])),
+  );
   const allOn = passives.total > 0 && passives.active === passives.total;
   return (
     <>
