@@ -4,16 +4,13 @@ import {
   AGENTS,
   AGENT_BY_ID,
   ATTRIBUTE_BY_ID,
-  BASE_ATTRIBUTES,
-  FACTIONS,
-  SPECIALTIES,
   SPECIALTY_BY_ID,
   baseAttribute,
 } from '../data/game.js';
-import AttributeGlyph from './AttributeGlyph.jsx';
 import { kitLinksBetween } from '../lib/analyze.js';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
+import AgentFilters, { matchesAgentFilters, useAgentFilters } from './AgentFilters.jsx';
 
 // What an Agent would share with the current squad if added.
 function links(agent, members) {
@@ -33,19 +30,13 @@ function links(agent, members) {
 export default function Roster({ members, usage, dispatch, sheet = false, slot = null, onPick }) {
   const pre = sheet ? 'sheet-' : '';
   const [query, setQuery] = useState('');
-  const [attribute, setAttribute] = useState('all');
-  const [specialty, setSpecialty] = useState('all');
-  const [rank, setRank] = useState('all');
-  const [faction, setFaction] = useState('all');
+  const [filters, setFilters] = useAgentFilters();
   const [showUpcoming, setShowUpcoming] = useState(false);
 
   const teamFull = members.every(Boolean);
   const list = AGENTS.filter((a) => {
     if (a.upcoming && !showUpcoming) return false;
-    if (attribute !== 'all' && baseAttribute(a.attribute) !== attribute) return false;
-    if (specialty !== 'all' && a.specialty !== specialty) return false;
-    if (rank !== 'all' && a.rank !== rank) return false;
-    if (faction !== 'all' && a.faction !== faction) return false;
+    if (!matchesAgentFilters(a, filters)) return false;
     if (query && !a.name.toLowerCase().includes(query.trim().toLowerCase())) return false;
     return true;
   });
@@ -70,53 +61,8 @@ export default function Roster({ members, usage, dispatch, sheet = false, slot =
       </div>
 
       <div className="filters">
-        <div className="chips" role="group" aria-label="Filter by attribute">
-          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>
-            All
-          </button>
-          {BASE_ATTRIBUTES.map((a) => (
-            <button
-              key={a.id}
-              className="chip"
-              aria-pressed={attribute === a.id}
-              onClick={() => setAttribute(attribute === a.id ? 'all' : a.id)}
-            >
-              <AttributeGlyph attribute={a.id} size={13} />
-              {a.name}
-            </button>
-          ))}
-        </div>
+        <AgentFilters filters={filters} setFilters={setFilters} idPrefix={pre} />
         <div className="filters__row">
-          <label className="select">
-            <span>Specialty</span>
-            <select id={`${pre}filter-specialty`} value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
-              <option value="all">Any</option>
-              {SPECIALTIES.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="select">
-            <span>Rank</span>
-            <select id={`${pre}filter-rank`} value={rank} onChange={(e) => setRank(e.target.value)}>
-              <option value="all">Any</option>
-              <option value="S">S</option>
-              <option value="A">A</option>
-            </select>
-          </label>
-          <label className="select">
-            <span>Faction</span>
-            <select id={`${pre}filter-faction`} value={faction} onChange={(e) => setFaction(e.target.value)}>
-              <option value="all">Any</option>
-              {FACTIONS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className="check">
             <input type="checkbox" checked={showUpcoming} onChange={(e) => setShowUpcoming(e.target.checked)} />
             Show upcoming

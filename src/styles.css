@@ -9691,3 +9691,29 @@ details.disc-guide + details.disc-guide {
   content-visibility: auto;
   contain-intrinsic-size: auto 220px;
 }
+
+/* Agent filters (AgentFilters.jsx), in the style of HoYoLAB's Agent
+   Collection: a label, then round icon toggles. Picks in one row widen the
+   search; rows narrow it. */
+.afilter { display: grid; gap: 8px; }
+.afilter__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.afilter__label { width: 72px; flex: none; font-size: 0.8rem; color: var(--muted); }
+.afilter__icons { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0; }
+.afilter__btn {
+  display: inline-grid; place-items: center; width: 38px; height: 38px; padding: 0;
+  border-radius: 50%; border: 1px solid #2c2c2c; background: #151515;
+  transition: border-color 0.12s, box-shadow 0.12s, background 0.12s;
+}
+/* Dark discs in both themes, like the game's icons; unpicked icons are dimmed. */
+.afilter__btn > * { opacity: 0.55; transition: opacity 0.12s; }
+.afilter__btn:hover > * { opacity: 0.85; }
+.afilter__btn[aria-pressed='true'] { background: #262626; border-color: #ffffff; box-shadow: 0 0 0 2px var(--fg); }
+.afilter__btn[aria-pressed='true'] > * { opacity: 1; }
+.afilter__btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.afilter__btn img, .afilter__btn svg { display: block; }
+.afilter__select { padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--fg); font: inherit; font-size: 0.82rem; max-width: 220px; min-width: 0; flex: 0 1 220px; }
+.afilter__clear { font-size: 0.8rem; }
+@media (max-width: 560px) {
+  .afilter__label { width: 100%; }
+  .afilter__btn { width: 36px; height: 36px; }
+}

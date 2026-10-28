@@ -1,5 +1,5 @@
 // The Agents tab: every Agent with filters (attribute, specialty, rank,
-// faction), grid or list view, and the selected Agent's details on top.
+// faction; see AgentFilters.jsx), grid or list view, and the selected Agent's details on top.
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -7,20 +7,18 @@ import {
   AGENT_BY_ID,
   ATTRIBUTES,
   ATTRIBUTE_BY_ID,
-  BASE_ATTRIBUTES,
-  FACTIONS,
   SPECIALTIES,
   SPECIALTY_BY_ID,
-  baseAttribute,
 } from '../data/game.js';
 import { navigate } from '../lib/route.js';
 import AgentDetail from './AgentDetail.jsx';
-import AttributeGlyph, { AttributeTag } from './AttributeGlyph.jsx';
+import { AttributeTag } from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import ViewToggle from './ViewToggle.jsx';
 import AgentFrame from './AgentFrame.jsx';
 import FactionLogo from './FactionLogo.jsx';
+import AgentFilters, { matchesAgentFilters, useAgentFilters } from './AgentFilters.jsx';
 
 const VIEW_KEY = 'zzz-team-builder:agentView';
 const loadView = () => {
@@ -56,10 +54,7 @@ const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, onLoadTeam }) {
   const [query, setQuery] = useState('');
-  const [attribute, setAttribute] = useState('all');
-  const [specialty, setSpecialty] = useState('all');
-  const [rank, setRank] = useState('all');
-  const [faction, setFaction] = useState('all');
+  const [filters, setFilters] = useAgentFilters();
   const [showUpcoming, setShowUpcoming] = useState(true);
   const [sort, setSort] = useState({ id: 'name', dir: 1 });
   const [view, setView] = useState(loadView);
@@ -77,14 +72,11 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
     const col = COLUMNS.find((c) => c.id === sort.id);
     return AGENTS.filter((a) => {
       if (a.upcoming && !showUpcoming) return false;
-      if (attribute !== 'all' && baseAttribute(a.attribute) !== attribute) return false;
-      if (specialty !== 'all' && a.specialty !== specialty) return false;
-      if (rank !== 'all' && a.rank !== rank) return false;
-      if (faction !== 'all' && a.faction !== faction) return false;
+      if (!matchesAgentFilters(a, filters)) return false;
       if (query && !a.name.toLowerCase().includes(query.trim().toLowerCase())) return false;
       return true;
     }).sort((a, b) => compare(a, b, col, sort.dir));
-  }, [query, attribute, specialty, rank, faction, showUpcoming, sort]);
+  }, [query, filters, showUpcoming, sort]);
 
   function toggleSort(id) {
     const col = COLUMNS.find((c) => c.id === id);
@@ -114,22 +106,7 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
       )}
 
       <div className="filters filters--page">
-        <div className="chips" role="group" aria-label="Filter by attribute">
-          <button className="chip" aria-pressed={attribute === 'all'} onClick={() => setAttribute('all')}>
-            All
-          </button>
-          {BASE_ATTRIBUTES.map((a) => (
-            <button
-              key={a.id}
-              className="chip"
-              aria-pressed={attribute === a.id}
-              onClick={() => setAttribute(attribute === a.id ? 'all' : a.id)}
-            >
-              <AttributeGlyph attribute={a.id} size={13} />
-              {a.name}
-            </button>
-          ))}
-        </div>
+        <AgentFilters filters={filters} setFilters={setFilters} />
         <div className="filters__row">
           <label className="sr-only" htmlFor="index-search">
             Search Agents
@@ -142,36 +119,6 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <label className="select">
-            <span>Specialty</span>
-            <select value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
-              <option value="all">Any</option>
-              {SPECIALTIES.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="select">
-            <span>Rank</span>
-            <select value={rank} onChange={(e) => setRank(e.target.value)}>
-              <option value="all">Any</option>
-              <option value="S">S</option>
-              <option value="A">A</option>
-            </select>
-          </label>
-          <label className="select">
-            <span>Faction</span>
-            <select value={faction} onChange={(e) => setFaction(e.target.value)}>
-              <option value="all">Any</option>
-              {FACTIONS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className={`select${view === 'list' ? ' select--phone-only' : ''}`}>
             <span>Sort</span>
             <select
