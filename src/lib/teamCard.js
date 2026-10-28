@@ -23,6 +23,7 @@ import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 import { memberIndex, shownFaction } from './memberArt.js';
 import { EXPORT_SCALE } from './exportSettings.js';
+import { SYNERGY_MOODS, SYNERGY_RANK_STOPS, synergyScore } from './synergy.js';
 
 // Re-exported so older imports keep working.
 export { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from './exportSettings.js';
@@ -142,6 +143,14 @@ export function background(ctx, W, H) {
 }
 
 async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
+  // The synergy score, for full squads only.
+  const ids = team.members.filter(Boolean);
+  const syn =
+    ids.length === 3
+      ? synergyScore(team.members, team.bangboo, Object.fromEntries(ids.map((id) => [id, loadoutOf(team, id)])))
+      : null;
+  // Leave room for Cortado, and for the score beside it.
+  const room = W - (syn ? 330 : 260);
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
   ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, a) =>
     grad.addColorStop(i / (a.length - 1), c),
@@ -158,14 +167,72 @@ async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
   const title = (team.name || 'Team').toUpperCase();
   let size = titleSize;
   ctx.font = `800 ${size}px ${DISPLAY}`;
-  while (size > 34 && ctx.measureText(title).width > W - 260) {
+  while (size > 34 && ctx.measureText(title).width > room) {
     size -= 2;
     ctx.font = `800 ${size}px ${DISPLAY}`;
   }
-  ctx.fillText(fit(ctx, title, W - 260), 40, 74 + titleSize);
+  ctx.fillText(fit(ctx, title, room), 40, 74 + titleSize);
 
   const mascot = await loadImage(`${base}mascot.svg`);
-  if (mascot) ctx.drawImage(mascot, W - 150, 50, 110, 110);
+  if (!mascot) return;
+  ctx.drawImage(mascot, W - 150, 50, 110, 110);
+  if (!syn) return;
+  // Cortado shows the synergy rank on its face screen, with the score beside it.
+  rankFace(ctx, syn.rank, W - 150, 50, 110);
+  const right = W - 162;
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#a3a3a3';
+  ctx.font = `500 13px ${MONO}`;
+  ctx.fillText('SYNERGY', right, 86);
+  ctx.font = `600 16px ${FONT}`;
+  const outOf = '/100';
+  ctx.fillText(outOf, right, 132);
+  const outW = ctx.measureText(outOf).width;
+  ctx.fillStyle = '#f2f2f2';
+  ctx.font = `800 46px ${DISPLAY}`;
+  ctx.fillText(String(syn.score), right - outW - 4, 132);
+  ctx.textAlign = 'left';
+}
+
+/** Cortado's face screen (mascot drawn at x, y, size) with a synergy rank letter. */
+function rankFace(ctx, rank, x, y, size) {
+  const k = size / 64;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(k, k);
+  ctx.fillStyle = '#2E1F17';
+  roundRect(ctx, 20.2, 27.2, 23.6, 13.1, 6.5);
+  ctx.fill();
+  ctx.strokeStyle = '#9A8F88';
+  ctx.lineWidth = 1.1;
+  ctx.lineCap = 'round';
+  ctx.stroke(new Path2D(SYNERGY_MOODS[rank].brow));
+  if (rank !== 'C') {
+    ctx.fillStyle = '#F4A7A0';
+    [22.6, 41.4].forEach((cx) => {
+      ctx.beginPath();
+      ctx.ellipse(cx, 38, 1.6, 0.9, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+  const g = ctx.createLinearGradient(0, 30, 0, 38.4);
+  SYNERGY_RANK_STOPS[rank].forEach((c, i, a) => g.addColorStop(i / (a.length - 1), c));
+  ctx.font = `italic 900 ${rank === 'S+' ? 9.4 : 10.4}px ${BADGE}`;
+  ctx.textAlign = 'center';
+  ctx.shadowColor = 'rgba(255,226,176,0.7)';
+  ctx.shadowBlur = 0.8 * k;
+  ctx.fillStyle = g;
+  ctx.fillText(rank, 32, 38.4);
+  if (rank === 'C') {
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#9fd4f0';
+    const drop = new Path2D('M47 24 Q49.4 27.4 47 29 Q44.6 27.4 47 24 Z');
+    ctx.fill(drop);
+    ctx.strokeStyle = '#2B1D16';
+    ctx.lineWidth = 0.5;
+    ctx.stroke(drop);
+  }
+  ctx.restore();
 }
 
 function footer(ctx, W, H, team) {

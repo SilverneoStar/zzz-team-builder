@@ -44,6 +44,26 @@ export const SYNERGY_RANKS = [
   { rank: 'C', min: 0 },
 ];
 
+// Rank letter colours (top to bottom of the letter), matching the Shiyu rank
+// boxes. Shared by the Synergy panel and the exported team images.
+export const SYNERGY_RANK_STOPS = {
+  'S+': ['#ffffff', '#c9d6e6', '#6fb8ff'],
+  S: ['#fff27a', '#ffc21c', '#ff8a00'],
+  A: ['#f6a8ff', '#c55cff', '#8b3dff'],
+  B: ['#a8ecff', '#3fa5ff', '#2a62ff'],
+  C: ['#ffffff', '#d4d4d4', '#a8a8a8'],
+};
+
+// Cortado's mood per rank: the brow on its face screen (in the mascot's
+// 64-unit drawing) and a short word.
+export const SYNERGY_MOODS = {
+  'S+': { brow: 'M23.4 28.6 Q27.6 26.6 32 27.8 Q36.4 26.6 40.6 28.6', word: 'Thrilled' },
+  S: { brow: 'M24.2 28.3 Q28 27 32 27.9 Q36 27 39.8 28.3', word: 'Happy' },
+  A: { brow: 'M24.2 28.3 Q28 27.4 32 28.1 Q36 27.4 39.8 28.3', word: 'Pleased' },
+  B: { brow: 'M24.2 28.4 Q28 28.4 32 28.4 Q36 28.4 39.8 28.4', word: 'Unsure' },
+  C: { brow: 'M24 28.8 Q28 27.6 32 28.4 Q36 27.6 40 28.8', word: 'Worried' },
+};
+
 // Every recommended trio, as sorted keys, for the "known team" check.
 const KNOWN_TEAMS = new Set(
   [...Object.values(BUILDS).flatMap((b) => b.teams), ...PRESETS.map((p) => p.members)]

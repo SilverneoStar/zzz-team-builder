@@ -9640,8 +9640,15 @@ details.disc-guide + details.disc-guide {
 .syn__score b { font: 800 2rem var(--font-display); line-height: 1; }
 .syn__mood { font-size: 0.82rem; color: var(--muted); margin-left: 6px; }
 .syn__bar, .syn__part-bar { display: block; width: 100%; height: 6px; border-radius: 999px; background: var(--band-fill); overflow: hidden; border: 1px solid var(--band-line); }
-.syn__bar { position: relative; height: 8px; background: linear-gradient(90deg, #7a7a7a 0%, #3fa5ff 40%, #c55cff 60%, #ffc21c 75%, #ffffff 92%); }
-.syn__bar-rest { position: absolute; top: 0; right: 0; bottom: 0; background: var(--surface); opacity: 0.85; }
+/* Score bar: a framed track with a rounded fill inside it. The fill's colour
+   scale is sized to the whole track (--fill), so each score shows the colour
+   it reaches on the full scale. */
+.syn__bar { box-sizing: border-box; height: 12px; padding: 2px; overflow: hidden; }
+.syn__bar-fill {
+  display: block; height: 100%; min-width: 6px; border-radius: 999px;
+  background: linear-gradient(90deg, #7a7a7a 0%, #3fa5ff 40%, #c55cff 60%, #ffc21c 75%, #ffffff 92%);
+  background-size: calc(100% * 100 / var(--fill, 100)) 100%;
+}
 .syn__part-bar span { display: block; height: 100%; border-radius: inherit; }
 .syn__hint { margin: 0; }
 .syn__parts { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; width: 100%; }

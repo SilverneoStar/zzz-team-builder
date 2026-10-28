@@ -4,27 +4,10 @@
 // below says where the points came from (see lib/synergy.js).
 import { useMemo, useState } from 'react';
 import { MASCOT_HATS, Star, Tail } from './Mascot.jsx';
-import { SYNERGY_RANKS, synergyScore } from '../lib/synergy.js';
+import { SYNERGY_MOODS as MOODS, SYNERGY_RANKS, SYNERGY_RANK_STOPS as RANK_STOPS, synergyScore } from '../lib/synergy.js';
 
 const BASE = import.meta.env.BASE_URL;
 
-// Rank letter colours, matching the Shiyu rank boxes.
-const RANK_STOPS = {
-  'S+': ['#ffffff', '#c9d6e6', '#6fb8ff'],
-  S: ['#fff27a', '#ffc21c', '#ff8a00'],
-  A: ['#f6a8ff', '#c55cff', '#8b3dff'],
-  B: ['#a8ecff', '#3fa5ff', '#2a62ff'],
-  C: ['#ffffff', '#d4d4d4', '#a8a8a8'],
-};
-
-// Mood per rank: the brow shape on the face screen, and a short word.
-const MOODS = {
-  'S+': { brow: 'M23.4 28.6 Q27.6 26.6 32 27.8 Q36.4 26.6 40.6 28.6', word: 'Thrilled' },
-  S: { brow: 'M24.2 28.3 Q28 27 32 27.9 Q36 27 39.8 28.3', word: 'Happy' },
-  A: { brow: 'M24.2 28.3 Q28 27.4 32 28.1 Q36 27.4 39.8 28.3', word: 'Pleased' },
-  B: { brow: 'M24.2 28.4 Q28 28.4 32 28.4 Q36 28.4 39.8 28.4', word: 'Unsure' },
-  C: { brow: 'M24 28.8 Q28 27.6 32 28.4 Q36 27.6 40 28.8', word: 'Worried' },
-};
 
 /** Cortado with the rank letter on its face screen. */
 function RankCortado({ rank }) {
@@ -112,9 +95,9 @@ export default function SynergyScore({ members, bangboo, loadouts }) {
           <span className="muted">/100</span>
           <span className="syn__mood">Cortado is {mood.toLowerCase()}</span>
         </span>
-        {/* Full colour scale, with the part above the score dimmed */}
+        {/* Rounded fill inside the frame, coloured by the full scale */}
         <div className="syn__bar" role="presentation">
-          <span className="syn__bar-rest" style={{ width: `${100 - score}%` }} />
+          <span className="syn__bar-fill" style={{ width: `${score}%`, '--fill': Math.max(1, score) }} />
         </div>
         <p className="muted small syn__hint">
           {result.filled < 3
