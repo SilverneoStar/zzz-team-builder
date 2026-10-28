@@ -24,6 +24,8 @@
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
 //                             score is then out of 125 and scaled back to 100.
+//   Mindscapes & Potential  up to 8 bonus points on top (not added to the
+//                             total to aim for), with the score capped at 100.
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
@@ -34,6 +36,7 @@ import { KIT_LINKS } from '../data/kitLinks.js';
 import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { showBeta } from './betaInfo.js';
 import { EVASIVE_ASSIST, OFF_FIELD } from '../data/fieldTime.js';
+import { ROMAN, hasPotential } from '../data/potentials.js';
 
 /** Rank letters from best to worst, with the lowest score for each. */
 export const SYNERGY_RANKS = [
@@ -89,6 +92,17 @@ const TOP_TEAMS = new Set(
 const dealsAftershock = (a) => (KIT_LINKS[a.id] ?? []).some((l) => l.mechanic === 'aftershock' && l.side === 'provider');
 
 const round = (n) => Math.round(n * 10) / 10;
+
+// Bonus points per Mindscape (M0–M6) and Potential level (0–VI). The first
+// levels count most: M1–M2 are where most players stop, and Potential II
+// unlocks the Awakened Potential.
+const MINDSCAPE_PTS = [0, 1, 1.6, 2, 2.3, 2.5, 2.7];
+const POTENTIAL_PTS = [0, 0.8, 1.8, 2.1, 2.4, 2.7, 3];
+// Awakened Potentials that buff the whole squad (from Potential II).
+const AWAKENED_SQUAD_BUFFS = {
+  'alexandrina-sebastiane': 'Perfect Service gives the squad ATK and DEF',
+  'koleda-belobog': 'Demolition Ops gives Armorer Agents Laceration DMG and the rest CRIT DMG',
+};
 
 
 // Remielle's Lumiflux adds the Anomaly of the Agent in the slot to her right
@@ -362,9 +376,42 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     });
   }
 
+  // Mindscapes and Potential: a bonus on top, so a squad without them loses
+  // nothing. Early levels count most (most players stop at M1–M2, few go to
+  // M6), and an Awakened Potential that buffs the squad counts extra.
+  const invested = squad
+    .map((a) => ({
+      a,
+      m: loadouts[a.id]?.mindscape ?? 0,
+      p: hasPotential(a.id) ? (loadouts[a.id]?.potential ?? 0) : 0,
+    }))
+    .filter((x) => x.m || x.p);
+  if (invested.length) {
+    const bits = [];
+    let pts = 0;
+    invested.forEach(({ a, m, p }) => {
+      pts += MINDSCAPE_PTS[m] + POTENTIAL_PTS[p];
+      bits.push(`${shortName(a)} ${[m && `M${m}`, p && `Potential ${ROMAN[p]}`].filter(Boolean).join(', ')}`);
+      const squadBuff = AWAKENED_SQUAD_BUFFS[a.id];
+      if (squadBuff && p >= 2 && squad.length > 1) {
+        pts += 1.5;
+        bits.push(`${shortName(a)}’s Awakened Potential ${squadBuff}`);
+      }
+    });
+    parts.push({
+      id: 'invest',
+      label: 'Mindscapes & Potential (bonus)',
+      points: round(Math.min(8, pts)),
+      max: 8,
+      bonus: true,
+      detail: bits.join('; '),
+    });
+  }
+
+  // Bonus parts add points but don't raise the total to aim for.
   const total = parts.reduce((n, p) => n + p.points, 0);
-  const max = parts.reduce((n, p) => n + p.max, 0);
-  const score = Math.round((total / max) * 100);
+  const max = parts.reduce((n, p) => n + (p.bonus ? 0 : p.max), 0);
+  const score = Math.min(100, Math.round((total / max) * 100));
   const rank = SYNERGY_RANKS.find((r) => score >= r.min).rank;
   return { score, rank, parts, filled: squad.length };
 }
