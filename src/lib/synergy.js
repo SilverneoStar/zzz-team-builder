@@ -26,7 +26,15 @@
 //                             score is then out of 125 and scaled back to 100.
 //   Mindscapes & Potential  up to 8 bonus points on top (not added to the
 //                             total to aim for), with the score capped at 100.
-import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
+import {
+  AGENT_BY_ID,
+  ATTRIBUTE_BY_ID,
+  BANGBOO_BY_ID,
+  DAMAGE_SPECIALTIES,
+  acquisition,
+  baseAttribute,
+  shortName,
+} from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -95,9 +103,14 @@ const round = (n) => Math.round(n * 10) / 10;
 
 // Bonus points per Mindscape (M0–M6) and Potential level (0–VI). The first
 // levels count most: M1–M2 are where most players stop, and Potential II
-// unlocks the Awakened Potential.
-const MINDSCAPE_PTS = [0, 1, 1.6, 2, 2.3, 2.5, 2.7];
-const POTENTIAL_PTS = [0, 0.8, 1.8, 2.1, 2.4, 2.7, 3];
+// unlocks the Awakened Potential. Potential is easier to get than extra
+// copies, so it counts a little less than Mindscapes. Mindscapes count by how
+// hard the copies are: limited S-Rank in full, standard S-Rank a bit less, and
+// A-Rank Agents and Pyrois (free copies) least, since many players have them high.
+const MINDSCAPE_PTS = [0, 1.2, 2, 2.5, 2.9, 3.2, 3.5];
+const POTENTIAL_PTS = [0, 0.6, 1.4, 1.6, 1.8, 2, 2.2];
+const MINDSCAPE_WEIGHT = { limited: 1, standard: 0.8, 'a-rank': 0.5, free: 0.5 };
+const ACQUISITION_NAME = { limited: 'limited S-Rank', standard: 'standard S-Rank', 'a-rank': 'A-Rank', free: 'free copies' };
 // Awakened Potentials that buff the whole squad (from Potential II).
 const AWAKENED_SQUAD_BUFFS = {
   'alexandrina-sebastiane': 'Perfect Service gives the squad ATK and DEF',
@@ -390,8 +403,11 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     const bits = [];
     let pts = 0;
     invested.forEach(({ a, m, p }) => {
-      pts += MINDSCAPE_PTS[m] + POTENTIAL_PTS[p];
-      bits.push(`${shortName(a)} ${[m && `M${m}`, p && `Potential ${ROMAN[p]}`].filter(Boolean).join(', ')}`);
+      const how = acquisition(a);
+      pts += MINDSCAPE_PTS[m] * MINDSCAPE_WEIGHT[how] + POTENTIAL_PTS[p];
+      bits.push(
+        `${shortName(a)} ${[m && `M${m} (${ACQUISITION_NAME[how]})`, p && `Potential ${ROMAN[p]}`].filter(Boolean).join(', ')}`,
+      );
       const squadBuff = AWAKENED_SQUAD_BUFFS[a.id];
       if (squadBuff && p >= 2 && squad.length > 1) {
         pts += 1.5;

@@ -33,6 +33,26 @@ export const baseAttribute = (id) => ATTRIBUTE_BY_ID[id]?.base ?? id;
 // Filter chips show base attributes only; variants are matched to their base.
 export const BASE_ATTRIBUTES = ATTRIBUTES.filter((a) => !a.base);
 
+// How Agents are obtained, for weighing Mindscapes: S-Rank Agents from the
+// standard (permanent) channel, and Agents whose copies are free (Pyrois's
+// Mindscapes come from events and progression). Every other S-Rank is limited.
+export const STANDARD_S_RANKS = new Set([
+  'alexandrina-sebastiane',
+  'grace-howard',
+  'koleda-belobog',
+  'nekomiya-mana',
+  'soldier-11',
+  'von-lycaon',
+]);
+export const FREE_AGENTS = new Set(['pyrois']);
+
+/** 'free', 'a-rank', 'standard' or 'limited': how hard extra copies are to get. */
+export function acquisition(agent) {
+  if (FREE_AGENTS.has(agent.id)) return 'free';
+  if (agent.rank === 'A') return 'a-rank';
+  return STANDARD_S_RANKS.has(agent.id) ? 'standard' : 'limited';
+}
+
 export const SPECIALTIES = [
   { id: 'attack', name: 'Attack' },
   { id: 'stun', name: 'Stun' },
