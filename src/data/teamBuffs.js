@@ -24,6 +24,7 @@ export const BUFF_KINDS = {
   aftershock: 'Aftershock DMG',
   crit: 'CRIT DMG',
   duo: 'Duo buffs',
+  stun: 'Stun windows',
   anomaly: 'Anomaly DMG',
   element: 'Attribute DMG',
   res: 'RES reduction',
@@ -62,6 +63,12 @@ export const TEAM_BUFFS = [
 
   // Buffs shared between two Agents.
   { agent: 'seed', kind: 'duo', text: 'Vanguard: she and an Attack squadmate trade ATK, CRIT DMG and DMG buffs', to: { specialties: ['attack'], others: true } },
+
+  // Bigger or longer Stun windows: help damage dealers who burst during Stun
+  // (Soldier 11 deals more DMG to Stunned enemies, for one).
+  { agent: 'norma-hollowell', kind: 'stun', text: 'Tech Divide: higher Stun DMG Multiplier and longer Stuns', to: { specialties: DEALERS.concat('rupture'), others: true } },
+  { agent: 'trigger', kind: 'stun', text: 'her Aftershocks raise the Stun DMG Multiplier', to: { specialties: DEALERS.concat('rupture'), others: true } },
+  { agent: 'sunna', kind: 'stun', text: 'Delusion Reprise raises the Stun DMG Multiplier by 30%', to: { specialties: DEALERS.concat('rupture'), others: true } },
 
   // Anomaly teams.
   { agent: 'phoenix-reffaella', kind: 'anomaly', text: 'lets the squad’s Anomaly and Abloom DMG crit (not Disorder)', to: { specialties: ['anomaly'], others: true } },

@@ -3,7 +3,7 @@
 // building, not a damage calculator: investment, rotations and skill matter
 // more in a real fight. Shown by Cortado in the team builder's Synergy panel.
 //
-// Points (108 in total, scaled back to 100):
+// Points (113 in total, scaled back to 100):
 //   Additional Abilities  35  share of members whose ability is on
 //   Roles                 20  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
@@ -11,9 +11,10 @@
 //                             field time that splits cleanly; and at least
 //                             one parry (see data/fieldTime.js)
 //   Kit links             15  Ether Veil, Aftershock, Disorder, Remielle's Refringe
-//   Team buffs            15  buffs that suit a squadmate's damage: PEN for
+//   Team buffs            20  buffs that suit a squadmate's damage: PEN for
 //                             non-Rupture, Sheer for Rupture, Sharp for Armorer,
-//                             Chain Attack, Anomaly and Attribute DMG,
+//                             Chain Attack, Aftershock, CRIT DMG, Stun windows,
+//                             duo buffs, Anomaly and Attribute DMG,
 //                             RES reduction and general squad buffs
 //                             (see data/teamBuffs.js)
 //   Known team             7  the squad (or its core pair) is a recommended team;
@@ -22,7 +23,7 @@
 //   Gear (bonus part)     12  squad-wide 4-piece sets and W-Engine passives, and
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
-//                             score is then out of 120 and scaled back to 100.
+//                             score is then out of 125 and scaled back to 100.
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
@@ -243,8 +244,8 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   parts.push({
     id: 'buffs',
     label: 'Team buffs',
-    points: Math.min(15, buffPts),
-    max: 15,
+    points: Math.min(20, buffPts),
+    max: 20,
     detail: buffBits.length ? buffBits.join('; ') : 'No buffs here that suit a squadmate’s damage type',
   });
 
@@ -277,10 +278,16 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     const need = BANGBOO_SKILLS[bangboo.id]?.ability?.[1];
     const met = need && squad.length ? needMet(need, squad, baseAttribute) : null;
     const recommended = ids.some((id) => BUILDS[id]?.bangboo.includes(bangboo.id));
-    bbPts = (met ? 6 : 0) + (recommended ? 2 : 0);
+    // A recommended Bangboo is mostly picked for its active skill, so it
+    // scores well even when its Additional Ability stays off.
+    bbPts = Math.min(8, (met ? 6 : 0) + (recommended ? 4 : 0));
     if (met === null && recommended) bbPts = 8;
+    // Snap's Superstar triggers on Quick Assists, which swap helpers (Astra Yao…) set off often.
+    const swapper = bangboo.id === 'snap' && squad.find((a) => offField(a) && OFF_FIELD[a.id].swaps);
+    if (swapper) bbPts = Math.min(8, bbPts + 2);
     bbDetail =
       [met ? 'ability on' : met === false ? 'ability off' : null, recommended ? 'recommended' : null]
+        .concat(swapper ? [`${shortName(swapper)}’s Quick Assists set off Superstar`] : [])
         .filter(Boolean)
         .join(', ') || 'no bonus here';
   }
