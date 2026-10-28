@@ -3,30 +3,36 @@
 // building, not a damage calculator: investment, rotations and skill matter
 // more in a real fight. Shown by Cortado in the team builder's Synergy panel.
 //
-// Points (100 in total):
+// Points (108 in total, scaled back to 100):
 //   Additional Abilities  35  share of members whose ability is on
 //   Roles                 20  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
+//   Field time & Assists   8  an Agent who works off-field (Astra Yao…), or
+//                             field time that splits cleanly; and at least
+//                             one parry (see data/fieldTime.js)
 //   Kit links             15  Ether Veil, Aftershock, Disorder, Remielle's Refringe
 //   Team buffs            15  buffs that suit a squadmate's damage: PEN for
 //                             non-Rupture, Sheer for Rupture, Sharp for Armorer,
 //                             Chain Attack, Anomaly and Attribute DMG,
 //                             RES reduction and general squad buffs
 //                             (see data/teamBuffs.js)
-//   Known team             7  the squad (or its core pair) is a recommended team
+//   Known team             7  the squad (or its core pair) is a recommended team;
+//                             a top pick gets 7, other recommended teams 6
 //   Bangboo                8  its Additional Ability is on, or it's recommended
 //   Gear (bonus part)     12  squad-wide 4-piece sets and W-Engine passives, and
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
-//                             score is then out of 112 and scaled back to 100.
+//                             score is then out of 120 and scaled back to 100.
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID, BANGBOO_BY_ID, DAMAGE_SPECIALTIES, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
 import { kitLinks, passiveStatus } from './analyze.js';
 import { GEAR_BUFFS, TEAM_BUFFS } from '../data/teamBuffs.js';
+import { KIT_LINKS } from '../data/kitLinks.js';
 import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { showBeta } from './betaInfo.js';
+import { EVASIVE_ASSIST, OFF_FIELD } from '../data/fieldTime.js';
 
 /** Rank letters from best to worst, with the lowest score for each. */
 export const SYNERGY_RANKS = [
@@ -49,6 +55,17 @@ const KNOWN_PAIRS = new Set(
     b.teams.flatMap((t) => t.flatMap((x, i) => t.slice(i + 1).map((y) => [x, y].sort().join('|')))),
   ),
 );
+
+// Top picks: the first team in each Agent's list, and the preset teams. Other
+// recommended teams still work, just less well (e.g. Seed is best with Cissia,
+// good with Soldier 0 – Anby), so they score a point less.
+const TOP_TEAMS = new Set(
+  [...Object.values(BUILDS).map((b) => b.teams[0]).filter(Boolean), ...PRESETS.map((p) => p.members)]
+    .filter((t) => t.filter(Boolean).length === 3)
+    .map((t) => [...t].sort().join('|')),
+);
+
+const dealsAftershock = (a) => (KIT_LINKS[a.id] ?? []).some((l) => l.mechanic === 'aftershock' && l.side === 'provider');
 
 const round = (n) => Math.round(n * 10) / 10;
 
@@ -118,8 +135,10 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     rolePts += 6;
     roleBits.push('Support/Defense');
   }
-  // Three main damage dealers fight over field time.
-  if (dealers.length === 3 && anomalyCount < 3) {
+  // Three main damage dealers fight over field time, unless one of them does
+  // their damage off-field (Orphie, Vivian).
+  const offField = (a) => OFF_FIELD[a.id] && (!OFF_FIELD[a.id].beta || showBeta());
+  if (dealers.length === 3 && anomalyCount < 3 && !dealers.some(offField)) {
     rolePts -= 4;
     roleBits.push('three damage dealers (−4)');
   }
@@ -129,6 +148,41 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     points: Math.max(0, rolePts),
     max: 20,
     detail: roleBits.length ? roleBits.join(', ') : 'No clear roles yet',
+  });
+
+  // Field time and Assists: an Agent who keeps working off-field (Astra Yao in
+  // Idyllic Cadenza, Yuzuha's Kama, Orphie's lasers…) leaves the field to the
+  // damage dealer, and a squad wants at least one parry (Defensive Assist),
+  // which deals massive Daze; Evasive Assists dodge and give Vital View instead.
+  const fieldBits = [];
+  let fieldPts = 0;
+  const helpers = squad.filter(offField);
+  const onField = squad.filter((a) => !offField(a));
+  if (helpers.length && onField.length && squad.length >= 2) {
+    fieldPts += 5;
+    helpers.forEach((a) => fieldBits.push(`${shortName(a)} ${OFF_FIELD[a.id].text}`));
+  } else if (squad.length >= 2) {
+    const carries = onField.filter((a) => DAMAGE_SPECIALTIES.includes(a.specialty)).length;
+    if (carries <= 2 || fullAnomaly) {
+      fieldPts += 3;
+      fieldBits.push('field time splits cleanly');
+    } else fieldBits.push('everyone needs field time');
+  }
+  const evasive = squad.filter((a) => EVASIVE_ASSIST.has(a.id));
+  if (squad.length && evasive.length < squad.length) fieldPts += 3;
+  if (evasive.length) {
+    fieldBits.push(
+      evasive.length === squad.length && squad.length
+        ? 'no parry: every Assist here is Evasive (dodge and Vital View), so no Defensive Assist Daze'
+        : `${evasive.map(shortName).join(', ')}: Evasive Assist (dodge and Vital View, no parry); the others parry for Daze`,
+    );
+  }
+  parts.push({
+    id: 'field',
+    label: 'Field time & Assists',
+    points: fieldPts,
+    max: 8,
+    detail: fieldBits.length ? fieldBits.join('; ') : 'Add more Agents',
   });
 
   // Kit links and Disorder.
@@ -173,7 +227,8 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
         (!b.to.others || a.id !== giver.id) &&
         (!b.to.specialties || b.to.specialties.includes(a.specialty)) &&
         (!b.to.attributes || b.to.attributes.includes(baseAttribute(a.attribute))) &&
-        (!b.to.notRupture || a.specialty !== 'rupture'),
+        (!b.to.notRupture || a.specialty !== 'rupture') &&
+        (!b.to.aftershock || dealsAftershock(a)),
     );
     if (!helped.length) return;
     if (b.kind === 'general') generalCounted = true;
@@ -197,15 +252,18 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const key = [...ids].sort().join('|');
   const pairs = ids.flatMap((x, i) => ids.slice(i + 1).map((y) => [x, y].sort().join('|')));
   const knownPairs = pairs.filter((p) => KNOWN_PAIRS.has(p)).length;
-  const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? 7 : Math.min(4, knownPairs * 2);
+  const top = ids.length === 3 && TOP_TEAMS.has(key);
+  const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? (top ? 7 : 6) : Math.min(4, knownPairs * 2);
   parts.push({
     id: 'known',
     label: 'Known team',
     points: knownPts,
     max: 7,
     detail:
-      knownPts === 7
-        ? 'A recommended team'
+      knownPts >= 6
+        ? top
+          ? 'A top recommended team'
+          : 'A recommended team (another pairing is a little stronger)'
         : knownPairs
           ? `${knownPairs} recommended pair${knownPairs > 1 ? 's' : ''}`
           : 'Not a recommended pairing',

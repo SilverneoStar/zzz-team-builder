@@ -9,6 +9,7 @@
 //   notRupture   Rupture Agents excluded: their Sheer DMG already ignores DEF,
 //                so PEN and DEF-ignore buffs do nothing for them
 //   others       the giver doesn't count as their own beneficiary
+//   aftershock   only squadmates who deal Aftershock DMG (data/kitLinks.js)
 // `beta` marks buffs from beta kits (hidden with beta info).
 //
 // Compiled from the Agents' skill summaries in data/skills/; see NOTICE.md.
@@ -20,6 +21,9 @@ export const BUFF_KINDS = {
   sheer: 'Sheer DMG',
   sharp: 'Sharp DMG',
   chain: 'Chain Attack',
+  aftershock: 'Aftershock DMG',
+  crit: 'CRIT DMG',
+  duo: 'Duo buffs',
   anomaly: 'Anomaly DMG',
   element: 'Attribute DMG',
   res: 'RES reduction',
@@ -48,6 +52,16 @@ export const TEAM_BUFFS = [
 
   // Chain Attacks and Ultimates.
   { agent: 'ju-fufu', kind: 'chain', text: 'Tiger’s Roar: Chain and Ultimate DMG, more Decibels', to: { specialties: ['attack', 'rupture'] } },
+
+  // Aftershock teams. Soldier 0 – Anby's own Aftershock buff is the Aftershock
+  // kit link, so it isn't counted again here.
+  { agent: 'orphie-magnusson-and-magus', kind: 'aftershock', text: 'Forged in Flames: Aftershocks ignore 25% DEF', to: { specialties: DEALERS, aftershock: true, others: true } },
+
+  // CRIT DMG for the squad.
+  { agent: 'cissia', kind: 'crit', text: 'Festering Venom: squad CRIT DMG +40%', to: { specialties: DEALERS.concat('rupture'), others: true } },
+
+  // Buffs shared between two Agents.
+  { agent: 'seed', kind: 'duo', text: 'Vanguard: she and an Attack squadmate trade ATK, CRIT DMG and DMG buffs', to: { specialties: ['attack'], others: true } },
 
   // Anomaly teams.
   { agent: 'phoenix-reffaella', kind: 'anomaly', text: 'lets the squad’s Anomaly and Abloom DMG crit (not Disorder)', to: { specialties: ['anomaly'], others: true } },
