@@ -3,7 +3,7 @@
 // building, not a damage calculator: investment, rotations and skill matter
 // more in a real fight. Shown by Cortado in the team builder's Synergy panel.
 //
-// Points (113 in total, scaled back to 100):
+// Points (106 in total, scaled back to 100):
 //   Additional Abilities  35  share of members whose ability is on
 //   Roles                 20  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
@@ -17,13 +17,15 @@
 //                             duo buffs, Anomaly and Attribute DMG,
 //                             RES reduction and general squad buffs
 //                             (see data/teamBuffs.js)
-//   Known team             7  the squad (or its core pair) is a recommended team;
-//                             a top pick gets 7, other recommended teams 6
+//   Known team         up to 7 bonus points: the squad (or its core pair) is a
+//                             recommended team; a top pick gets 7, other
+//                             recommended teams 6. A bonus, so a team the
+//                             guides don't list isn't marked down.
 //   Bangboo                8  its Additional Ability is on, or it's recommended
 //   Gear (bonus part)     12  squad-wide 4-piece sets and W-Engine passives, and
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
-//                             score is then out of 125 and scaled back to 100.
+//                             score is then out of 118 and scaled back to 100.
 //   Mindscapes & Potential  up to 8 bonus points on top (not added to the
 //                             total to aim for), with the score capped at 100.
 import {
@@ -264,10 +266,12 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   // Team buffs: a squadmate's buff that suits another member's damage type.
   const buffBits = [];
   let buffPts = 0;
-  let generalCounted = false;
+  // General buffs of the same kind (two squad ATK buffs, say) overlap, so each
+  // kind counts once; different kinds (ATK and DMG%) multiply, so both count.
+  const generalCounted = new Set();
   TEAM_BUFFS.forEach((b) => {
     if (b.beta && !showBeta()) return;
-    if (b.kind === 'general' && generalCounted) return;
+    if (b.kind === 'general' && generalCounted.has(b.bucket)) return;
     const giver = squad.find((a) => a.id === b.agent);
     if (!giver) return;
     const helped = squad.filter(
@@ -279,7 +283,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
         (!b.to.aftershock || dealsAftershock(a)),
     );
     if (!helped.length) return;
-    if (b.kind === 'general') generalCounted = true;
+    if (b.kind === 'general') generalCounted.add(b.bucket);
     buffPts += 5;
     buffBits.push(`${shortName(giver)}: ${b.text} (${helped.map(shortName).join(', ')})`);
   });
@@ -304,9 +308,10 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? (top ? 7 : 6) : Math.min(4, knownPairs * 2);
   parts.push({
     id: 'known',
-    label: 'Known team',
+    label: 'Known team (bonus)',
     points: knownPts,
     max: 7,
+    bonus: true,
     detail:
       knownPts >= 6
         ? top

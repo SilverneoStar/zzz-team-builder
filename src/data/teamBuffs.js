@@ -84,25 +84,26 @@ export const TEAM_BUFFS = [
   { agent: 'lighter', kind: 'element', text: 'Elation raises Fire and Ice DMG (refreshed by Chain Attacks)', to: { specialties: DEALERS.concat('rupture'), attributes: ['fire', 'ice'] } },
   { agent: 'soukaku', kind: 'element', text: 'Fly the Flag raises the squad’s Ice DMG', to: { specialties: DEALERS.concat('rupture'), attributes: ['ice'], others: true } },
 
-  // General squad ATK / DMG buffs: help any damage dealer. Only one of these
-  // counts towards the score, since they overlap.
+  // General squad buffs: help any damage dealer. The last field is the kind of
+  // boost (atk: ATK, dmg: DMG%, def: enemy DEF down, taken: enemy takes more
+  // DMG). Buffs of the same kind overlap, so the score counts one per kind.
   ...[
-    ['astra-yao', 'raises squad DMG, CRIT DMG and ATK on swaps'],
-    ['ukinami-yuzuha', 'Tanuki Wish: squad ATK and DMG'],
-    ['nicole-demara', 'lowers enemy DEF and raises Ether DMG'],
-    ['dialyn', 'Overwhelmingly Positive: squad DMG +40%'],
-    ['norma-hollowell', 'En-Nah Barrage: squad DMG +20%'],
-    ['nangong-yu', 'squad DMG and an Ether Veil with ATK'],
-    ['piper-wheel', 'squad DMG +18% at 20 Power'],
-    ['zhao', 'squad DMG inside an Ether Veil'],
-    ['lucia-elowen', 'Dreamer’s Nursery Rhyme: squad DMG'],
-    ['caesar-king', 'enemies take more DMG from the squad'],
-    ['sunna', 'Ether Veil with squad ATK'],
-    ['aria', 'Ether Veil with squad ATK'],
-    ['luciana-de-montefio', 'Cheer On!: squad ATK'],
-    ['orphie-magnusson-and-magus', 'Zeroed In: squad ATK'],
-    ['remielle-dan', 'squad ATK with Anomaly Agents'],
-  ].map(([agent, text]) => ({ agent, kind: 'general', text, to: { specialties: DEALERS.concat('rupture'), others: true } })),
+    ['astra-yao', 'raises squad DMG, CRIT DMG and ATK on swaps', 'dmg'],
+    ['ukinami-yuzuha', 'Tanuki Wish: squad ATK and DMG', 'atk'],
+    ['nicole-demara', 'lowers enemy DEF and raises Ether DMG', 'def'],
+    ['dialyn', 'Overwhelmingly Positive: squad DMG +40%', 'dmg'],
+    ['norma-hollowell', 'En-Nah Barrage: squad DMG +20%', 'dmg'],
+    ['nangong-yu', 'squad DMG and an Ether Veil with ATK', 'dmg'],
+    ['piper-wheel', 'squad DMG +18% at 20 Power', 'dmg'],
+    ['zhao', 'squad DMG inside an Ether Veil', 'dmg'],
+    ['lucia-elowen', 'Dreamer’s Nursery Rhyme: squad DMG', 'dmg'],
+    ['caesar-king', 'enemies take more DMG from the squad', 'taken'],
+    ['sunna', 'Ether Veil with squad ATK', 'atk'],
+    ['aria', 'Ether Veil with squad ATK', 'atk'],
+    ['luciana-de-montefio', 'Cheer On!: squad ATK', 'atk'],
+    ['orphie-magnusson-and-magus', 'Zeroed In: squad ATK', 'atk'],
+    ['remielle-dan', 'squad ATK with Anomaly Agents', 'atk'],
+  ].map(([agent, text, bucket]) => ({ agent, kind: 'general', bucket, text, to: { specialties: DEALERS.concat('rupture'), others: true } })),
 ];
 
 // Gear that buffs the whole squad: 4-piece Drive Disc sets and W-Engine

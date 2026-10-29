@@ -22,6 +22,7 @@ export const OFF_FIELD = {
   sunna: { text: 'Bubblegum attacks for her while she’s off-field' },
   'ju-fufu': { text: 'keeps spinning after you switch out and follows Chain Attacks with Suppressing Tiger Cauldron' },
   'orphie-magnusson-and-magus': { text: 'fires Crimson Vortex lasers off-field during squadmates’ attacks' },
+  'luciana-de-montefio': { text: 'keeps her guard boars attacking with her stats while she’s off-field' },
   'vivian-banshee': { text: 'her Featherbloom strikes land even off-field' },
   'robin-hsr': { text: 'her Off-Field Guard keeps shielding the squad', beta: true },
 };
