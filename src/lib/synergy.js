@@ -5,8 +5,9 @@
 //
 // Points (124 in total, scaled back to 100):
 //   Additional Abilities  35  share of members whose ability is on
-//   Roles                 20  a damage dealer, plus Stun and Support/Defense
-//                             (a full Anomaly team needs neither)
+//   Roles                 20  a damage dealer, plus Stun and a Support (a full
+//                             Anomaly team needs neither); a Defense Agent
+//                             only half fills the Support slot, except Zhao
 //   Kit conditions         8  Core Passive buffs that need a certain squadmate
 //                             (data/kitConditions.js); −5 for each unmet
 //   Agent rank            10  S-Rank 3.33 each, A-Rank 40% (half at M6)
@@ -128,6 +129,8 @@ const AWAKENED_SQUAD_BUFFS = {
 // (wrapping round to the first slot), so for Disorder she counts as that
 // Agent's attribute.
 const MIRRORS_RIGHT = ['remielle-dan'];
+// Defense Agents who play as a support (buffs, Ether Veil), so Roles counts them as one.
+const DEFENSE_AS_SUPPORT = ['zhao'];
 function anomalyAttribute(memberIds, i) {
   const a = AGENT_BY_ID[memberIds[i]];
   if (!MIRRORS_RIGHT.includes(a.id)) return baseAttribute(a.attribute);
@@ -185,6 +188,14 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     rolePts += 8;
     roleBits.push(has(['stun']) ? 'Stun' : 'Anomaly pair');
   }
+  // Two Supports (Zhao counts) can stack enough buffs to skip a Stun Agent,
+  // as in Ye Shunguang's teams with Zhao and Sunna.
+  else if (
+    squad.filter((a) => a.specialty === 'support' || ['zhao'].includes(a.id)).length >= 2
+  ) {
+    rolePts += 6;
+    roleBits.push('two Supports in place of a Stun Agent');
+  }
   // Three main damage dealers fight over field time, unless one of them does
   // their damage off-field (Orphie, Vivian).
   const offField = (a) => OFF_FIELD[a.id] && (!OFF_FIELD[a.id].beta || showBeta());
@@ -196,12 +207,20 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
       TEAM_BUFFS.some(
         (b) => b.kind === 'duo' && dealers.some((d) => d.id === b.agent) && dealers.some((d) => d.id !== b.agent && b.to.specialties.includes(d.specialty)),
       ));
-  if (!fullAnomaly && has(['support', 'defense'])) {
+  // Combat runs on dodging and parrying, so Defense Agents add little next to
+  // a Support's buffs. Zhao is the exception: she plays as a support (squad
+  // buffs and Ether Veil), so she counts as one.
+  const supports = squad.filter((a) => a.specialty === 'support' || DEFENSE_AS_SUPPORT.includes(a.id));
+  const defenders = squad.filter((a) => a.specialty === 'defense' && !DEFENSE_AS_SUPPORT.includes(a.id));
+  if (!fullAnomaly && supports.length) {
     rolePts += 6;
-    roleBits.push('Support/Defense');
+    roleBits.push(`Support (${supports.map(shortName).join(', ')})`);
   } else if (!fullAnomaly && duo) {
     rolePts += 6;
     roleBits.push('two damage dealers that work together');
+  } else if (!fullAnomaly && defenders.length) {
+    rolePts += 2;
+    roleBits.push('Defense in place of a Support (a Support’s buffs usually do more)');
   }
   if (dealers.length === 3 && anomalyCount < 3 && !dealers.some(offField)) {
     rolePts -= 4;
