@@ -3,10 +3,13 @@
 // building, not a damage calculator: investment, rotations and skill matter
 // more in a real fight. Shown by Cortado in the team builder's Synergy panel.
 //
-// Points (106 in total, scaled back to 100):
+// Points (124 in total, scaled back to 100):
 //   Additional Abilities  35  share of members whose ability is on
 //   Roles                 20  a damage dealer, plus Stun and Support/Defense
 //                             (a full Anomaly team needs neither)
+//   Kit conditions         8  Core Passive buffs that need a certain squadmate
+//                             (data/kitConditions.js); −5 for each unmet
+//   Agent rank            10  S-Rank 3.33 each, A-Rank 40% (half at M6)
 //   Field time & Assists   8  an Agent who works off-field (Astra Yao…), or
 //                             field time that splits cleanly; and at least
 //                             one parry (see data/fieldTime.js)
@@ -25,7 +28,7 @@
 //   Gear (bonus part)     12  squad-wide 4-piece sets and W-Engine passives, and
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
-//                             score is then out of 118 and scaled back to 100.
+//                             score is then out of 136 and scaled back to 100.
 //   Mindscapes & Potential  up to 8 bonus points on top (not added to the
 //                             total to aim for), with the score capped at 100.
 import {
@@ -43,6 +46,7 @@ import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
 import { kitLinks, passiveStatus } from './analyze.js';
 import { GEAR_BUFFS, TEAM_BUFFS } from '../data/teamBuffs.js';
 import { KIT_LINKS } from '../data/kitLinks.js';
+import { KIT_CONDITIONS } from '../data/kitConditions.js';
 import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { showBeta } from './betaInfo.js';
 import { EVASIVE_ASSIST, OFF_FIELD } from '../data/fieldTime.js';
@@ -181,13 +185,24 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     rolePts += 8;
     roleBits.push(has(['stun']) ? 'Stun' : 'Anomaly pair');
   }
-  if (!fullAnomaly && has(['support', 'defense'])) {
-    rolePts += 6;
-    roleBits.push('Support/Defense');
-  }
   // Three main damage dealers fight over field time, unless one of them does
   // their damage off-field (Orphie, Vivian).
   const offField = (a) => OFF_FIELD[a.id] && (!OFF_FIELD[a.id].beta || showBeta());
+  // Two damage dealers can fill the third slot instead of a Support: a duo
+  // whose kits buff each other (Seed's Vanguard) or one who works off-field.
+  const duo =
+    dealers.length >= 2 &&
+    (dealers.some(offField) ||
+      TEAM_BUFFS.some(
+        (b) => b.kind === 'duo' && dealers.some((d) => d.id === b.agent) && dealers.some((d) => d.id !== b.agent && b.to.specialties.includes(d.specialty)),
+      ));
+  if (!fullAnomaly && has(['support', 'defense'])) {
+    rolePts += 6;
+    roleBits.push('Support/Defense');
+  } else if (!fullAnomaly && duo) {
+    rolePts += 6;
+    roleBits.push('two damage dealers that work together');
+  }
   if (dealers.length === 3 && anomalyCount < 3 && !dealers.some(offField)) {
     rolePts -= 4;
     roleBits.push('three damage dealers (−4)');
@@ -233,6 +248,40 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     points: fieldPts,
     max: 8,
     detail: fieldBits.length ? fieldBits.join('; ') : 'Add more Agents',
+  });
+
+  // Kit conditions: buffs in a Core Passive or kit that need a certain kind of
+  // squadmate (Severian with another Wind Agent). Each one left unmet costs 5.
+  const condBits = [];
+  let condPts = 8;
+  squad.forEach((a) => {
+    const c = KIT_CONDITIONS[a.id];
+    if (!c || squad.length < 2) return;
+    const met = c.need(squad, a, baseAttribute);
+    if (!met) condPts -= 5;
+    condBits.push(`${shortName(a)}: ${c.text} (${met ? 'met' : 'not met'})`);
+  });
+  parts.push({
+    id: 'conditions',
+    label: 'Kit conditions',
+    points: Math.max(0, condPts),
+    max: 8,
+    detail: condBits.length ? condBits.join('; ') : 'No squad conditions in these kits',
+  });
+
+  // Agent rank: A-Rank Agents have smaller kits and stats than S-Ranks, so they
+  // count 40% (half at M6). Investment and skill still matter more.
+  const rankPts = squad.reduce(
+    (n, a) => n + (a.rank === 'A' ? ((loadouts[a.id]?.mindscape ?? 0) >= 6 ? 1.67 : 1.33) : 3.33),
+    0,
+  );
+  const aRanks = squad.filter((a) => a.rank === 'A');
+  parts.push({
+    id: 'rank',
+    label: 'Agent rank',
+    points: round(Math.min(10, rankPts)),
+    max: 10,
+    detail: aRanks.length ? `${aRanks.map(shortName).join(', ')}: A-Rank (counts 40%, half at M6)` : 'All S-Rank',
   });
 
   // Kit links and Disorder.
