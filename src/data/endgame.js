@@ -207,7 +207,7 @@ export const SHIYU_DEFENSE = {
           picks: [
             ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
             ['nekomiya-mana', 'dialyn', 'astra-yao'],
-            ['nekomiya-mana', 'trigger', 'nicole-demara'],
+            ['ye-shunguang', 'dialyn', 'sunna'],
             ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
           ],
         },
@@ -240,7 +240,8 @@ export const SHIYU_DEFENSE = {
             ['hugo-vlad', 'von-lycaon', 'lighter'],
             ['sigrid-de-lazur', 'norma-hollowell', 'sunna'],
             ['pyrois', 'dialyn', 'sunna'],
-            ['pyrois', 'dialyn', 'nicole-demara'],
+            // A budget option: Norma and Nicole.
+            ['pyrois', 'norma-hollowell', 'nicole-demara'],
           ],
         },
       ],
