@@ -535,7 +535,8 @@ async function drawShiyu(ctx, base, custom) {
   }
   ctx.fillStyle = K.muted;
   ctx.font = `500 14px ${FONT}`;
-  if (st.score) ctx.fillText(fit(ctx, st.score, W - 80 - 260), 40, y + 6);
+  // The score rules, on up to two lines.
+  if (st.score) wrap(ctx, st.score, W - 80 - 260, 2).forEach((line, k) => ctx.fillText(line, 40, y + 6 + k * 19));
   if (custom && custom.scores?.some(Boolean)) {
     const total = custom.scores.reduce((a, b) => a + (Number(b) || 0), 0);
     ctx.fillStyle = '#f5c542';
