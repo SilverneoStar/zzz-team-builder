@@ -170,11 +170,13 @@ export const SHIYU_DEFENSE = {
               favors: { specialty: { anomaly: 3 }, attribute: { fire: 1.5, ether: 1 }, anomalyPair: true },
             },
           ],
+          // Picks in order of preference: full Anomaly teams first.
+          ranked: true,
           picks: [
             ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
             ['burnice-white', 'velina-airgid', 'remielle-dan'],
-            ['vivian-banshee', 'phoenix-reffaella', 'astra-yao'],
-            ['aria', 'nangong-yu', 'sunna'],
+            ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'],
+            ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
           ],
         },
         {
@@ -200,11 +202,13 @@ export const SHIYU_DEFENSE = {
               favors: { specialty: { armorer: 3, stun: 1 }, attribute: { electric: 1, physical: 1 } },
             },
           ],
+          // Claret's Armorer team first; Nekomata deals great damage since her Potential update.
+          ranked: true,
           picks: [
             ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
+            ['nekomiya-mana', 'dialyn', 'astra-yao'],
+            ['nekomiya-mana', 'trigger', 'nicole-demara'],
             ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
-            ['seed', 'trigger', 'cissia'],
-            ['ye-shunguang', 'dialyn', 'sunna'],
           ],
         },
         {
@@ -230,11 +234,13 @@ export const SHIYU_DEFENSE = {
               favors: { specialty: { attack: 3, stun: 1 }, attribute: { ice: 2, ether: 1 } },
             },
           ],
+          // Made for Hugo, Sigrid or Pyrois.
+          ranked: true,
           picks: [
-            ['ellen-joe', 'lighter', 'astra-yao'],
-            ['sigrid-de-lazur', 'norma-hollowell', 'sunna'],
             ['hugo-vlad', 'von-lycaon', 'lighter'],
-            ['hoshimi-miyabi', 'von-lycaon', 'soukaku'],
+            ['sigrid-de-lazur', 'norma-hollowell', 'sunna'],
+            ['pyrois', 'dialyn', 'sunna'],
+            ['pyrois', 'dialyn', 'nicole-demara'],
           ],
         },
       ],
