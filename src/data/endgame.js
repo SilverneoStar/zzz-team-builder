@@ -130,89 +130,111 @@ export const DEADLY_ASSAULT = {
   ],
 };
 
-const ROOM_1 = {
-  id: 'sd-5-1',
-  name: 'Room 1',
-  text: [
-    'Agent Sharp DMG +20% (for Armorer Agents). After defeating normal enemies, Stun Agents restore 15 Energy.',
-    'Basic Attack, Special Attack and Ultimate hits raise PEN Ratio by 10%. Hitting a Stunned enemy ignores 15% of its Electric RES.',
-  ],
-  // Sharp DMG is the Armorer part (Claret for now).
-  favors: { specialty: { stun: 1, armorer: 3 }, attribute: { electric: 1 } },
-};
-
 export const SHIYU_DEFENSE = {
-  id: '2026-10-16',
+  id: '2026-10-30',
   label: 'Shiyu Defense: Critical Node',
-  start: '2026-10-16',
-  end: '2026-10-29',
+  start: '2026-10-30',
+  end: '2026-11-12',
   note: 'The score check is Stage 5: three rooms, each needing its own squad, so no Agent can be in two rooms.',
   stages: [
     {
       n: 5,
       name: 'Fifth Frontier',
       // Rank per room by score, best first.
-      ranks: [['S', 25000], ['A', 18000], ['B', 8000]],
+      ranks: [['S', 25000], ['A', 16000], ['B', 8000]],
       // The top grade for the whole node.
       topRank: { rank: 'S+', total: 100000, need: 'S in all three rooms' },
-      score: 'Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
+      score:
+        'Dealing DMG earns DMG Score and defeating a normal or elite enemy earns Elimination Score. Each room caps at 50,000, and points scored earlier in the fight get a bigger multiplier.',
       buffs: [],
       sides: [
         {
-          name: 'Metamorphosed Scorpse',
-          waves: ['City Guardboo ×3', 'Special Anti-Riotboo ×1, Airspace Patrolboo ×2', 'Metamorphosed Scorpse'],
-          tip: 'The Scorpse throws out Miasma pools; standing in them deals extra damage.',
+          name: 'Miasma Ravager – Avarus',
+          waves: ['Frenzied Maniac, Wicked Wraith', 'Miasma Ravager – Avarus'],
+          tip: 'Parry its rolling attack with Defensive Assists 3 times in a row to interrupt it and expose its weakness.',
+          gimmicks: [
+            'Rolls its massive body at you: parry it with Defensive Assists 3 times in a row to interrupt the roll and expose its weakness.',
+            'After taking enough DMG it activates a Miasmic Field.',
+          ],
           art: 'enemies/sd-5-1.webp',
-          weak: ['wind', 'electric'],
+          weak: ['fire', 'ether'],
           resist: ['ice'],
-          buffs: [ROOM_1],
+          buffs: [
+            {
+              id: 'sd-5-1',
+              name: 'Room 1',
+              text: [
+                'Anomaly Agents’ Fire DMG +20%.',
+                'When an Agent’s Attribute Anomaly DMG crits, the squad recovers 20 Energy and Attribute Anomaly DMG rises by 30% for 20s (once every 20s).',
+              ],
+              favors: { specialty: { anomaly: 3 }, attribute: { fire: 1.5, ether: 1 }, anomalyPair: true },
+            },
+          ],
           picks: [
-            ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
-            ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
-            ['seed', 'trigger', 'cissia'],
+            ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
+            ['burnice-white', 'velina-airgid', 'remielle-dan'],
+            ['vivian-banshee', 'phoenix-reffaella', 'astra-yao'],
+            ['aria', 'nangong-yu', 'sunna'],
           ],
         },
         {
-          name: 'Miasmic Thracian',
-          waves: ['Ionized – Farbauti, Ionized – Dullahan', 'Miasmic Thracian'],
-          tip: 'When fully charged, the Thracian vanishes and rains spears (it can’t be hit then), then teleports back with an attack that tracks your active Agent.',
+          name: 'Lockspring',
+          waves: ['Assault Gunner, Guardian MK II', 'Lockspring'],
+          tip: 'Some of its blows hit so hard that even a successful Defensive Assist gets no Assist Follow-Up, and it may taunt you.',
+          gimmicks: [
+            'Certain blows hit so hard that even after a successful Defensive Assist, no Assist Follow-Up can activate.',
+            'After those blows, Lockspring may respond with a taunt.',
+          ],
           art: 'enemies/sd-5-2.webp',
-          weak: ['ether', 'wind'],
-          resist: ['electric'],
+          weak: ['physical', 'electric'],
+          resist: ['ether'],
           buffs: [
             {
               id: 'sd-5-2',
               name: 'Room 2',
-              text: ['With 2 or 3 Anomaly Agents, Attribute Anomaly DMG rises by 10% or 60%, and the squad starts with 500 or 1,500 Decibels.'],
-              favors: { specialty: { anomaly: 2 }, anomalyPair: true },
+              text: [
+                'Agent Sharp DMG +20% (for Armorer Agents) and DEF +20%.',
+                'When an Agent defeats an Elite enemy, Stun Agents restore 30 Energy and the squad restores 500 Decibels.',
+              ],
+              // Sharp DMG is the Armorer part (Claret for now).
+              favors: { specialty: { armorer: 3, stun: 1 }, attribute: { electric: 1, physical: 1 } },
             },
           ],
           picks: [
-            ['aria', 'velina-airgid', 'remielle-dan'],
-            ['velina-airgid', 'phoenix-reffaella', 'jane-doe'],
-            ['aria', 'nangong-yu', 'sunna'],
-            ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
+            ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
+            ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
+            ['seed', 'trigger', 'cissia'],
+            ['ye-shunguang', 'dialyn', 'sunna'],
           ],
         },
         {
-          name: 'Covenant Guardian',
-          waves: ['Bulky Intimidator, Bulky Enforcer', 'Covenant Guardian'],
-          tip: 'Its multi-hit attacks can each be parried.',
+          name: 'Miasmic Komano Manato',
+          waves: ['Miasmic – Huskron, Miasma Spawn, Huskron', 'Miasmic Komano Manato'],
+          tip: 'Parry his skills: Defensive Assists interrupt some of them, and parrying his powerful skills forces him into a Weakened state.',
+          gimmicks: [
+            'A Defensive Assist against some of his skills interrupts his attacks.',
+            'Parrying his powerful skills forces him into a Weakened state.',
+            'After taking enough DMG he activates a Miasmic Field and unleashes powerful attacks.',
+          ],
           art: 'enemies/sd-5-3.webp',
-          weak: ['fire', 'physical'],
-          resist: ['ice', 'wind'],
+          weak: ['ice'],
+          resist: ['physical'],
           buffs: [
             {
               id: 'sd-5-3',
               name: 'Room 3',
-              text: ['Agent Fire and Ether DMG +15%, Sheer DMG +15% (for Rupture Agents), Ultimate DMG +30%. Ultimates ignore 10% of the target’s All-Attribute RES.'],
-              // Sheer DMG +15% is the Rupture part: this room mainly rewards Rupture Agents.
-              favors: { attribute: { fire: 1.5, ether: 1.5 }, specialty: { rupture: 4 } },
+              text: [
+                'Attack Agents’ Ether and Ice DMG +20%, and their CRIT DMG +40%.',
+                'When an Agent Stuns an enemy, its Stun recovery rate drops by 15% for 15s (repeat triggers reset the duration).',
+              ],
+              favors: { specialty: { attack: 3, stun: 1 }, attribute: { ice: 2, ether: 1 } },
             },
           ],
           picks: [
-            ['banyue', 'dialyn', 'lucia-elowen'],
-            ['starlight-billy-kid', 'dialyn', 'lucia-elowen'],
+            ['ellen-joe', 'lighter', 'astra-yao'],
+            ['sigrid-de-lazur', 'norma-hollowell', 'sunna'],
+            ['hugo-vlad', 'von-lycaon', 'lighter'],
+            ['hoshimi-miyabi', 'von-lycaon', 'soukaku'],
           ],
         },
       ],
