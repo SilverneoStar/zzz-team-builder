@@ -42,7 +42,7 @@ export const AGENT_MATS = {
   // Armorer seals and Fire (Burn) chips follow from her specialty and attribute;
   // Core Skill drops aren't announced yet.
   'sunbringer': ["Armorer", "Burn", null, null],
-  'kafka': ["Anomaly", "Shock", null, null],
+  'kafka': ["Anomaly", "Shock", "Toxic Edge", "Marrow-Draining Thorn"],
   'robin-hsr': ["Defense", "Ether", null, null],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
@@ -126,7 +126,9 @@ export const HUNT = {
 };
 
 // Agents whose Core Skill drops are estimates until release.
-export const ESTIMATED_MATS = new Set([]);
+// Upcoming Agents whose Core Skill drops come from beta screenshots (Kafka's
+// Core Skill material cost shows Marrow-Draining Thorn and Toxic Edge).
+export const ESTIMATED_MATS = new Set(['kafka']);
 
 /** True when the Core Skill drops (Expert Challenge and Notorious Hunt) are known. */
 export const AGENT_MATS_KNOWN = (id) => Boolean(AGENT_MATS[id]?.[2] && AGENT_MATS[id]?.[3]);
