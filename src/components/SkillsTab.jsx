@@ -141,6 +141,12 @@ export default function SkillsTab({ agent: a, team }) {
       {kit.potential && (
         <Potential potential={kit.potential} current={inTeam ? (team.loadouts?.[a.id]?.potential ?? 0) : null} />
       )}
+      {kit.potentialBeta &&
+        (showBeta ? (
+          <PotentialBeta p={kit.potentialBeta} />
+        ) : (
+          <BetaHidden what={`${a.name}’s upcoming Potential`} />
+        ))}
 
       {kit.source ? (
         <p className="muted small skills__src">
@@ -257,6 +263,34 @@ function Mindscapes({ list, current }) {
           </li>
         ))}
       </ol>
+    </details>
+  );
+}
+
+/** A Potential or buff announced for an Agent, from beta information. */
+function PotentialBeta({ p }) {
+  return (
+    <details className="skills__group">
+      <summary>
+        <span className="skills__cat">Potential</span>
+        <span className="skills__peek">
+          <span className="card__tag card__tag--warn">Beta</span> {p.name}
+        </span>
+      </summary>
+      <div className="skills__body">
+        {p.changes.length > 0 && (
+          <ul className="skills__list">
+            {p.changes.map(([kind, text]) => (
+              <li key={kind + text}>
+                <span className="skills__kind">{kind}</span>
+                <p>{text}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {p.note && <p className="muted small">{p.note}</p>}
+        <p className="muted small">{p.source}</p>
+      </div>
     </details>
   );
 }
