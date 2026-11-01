@@ -74,6 +74,7 @@ export const TEAM_BUFFS = [
   { agent: 'phoenix-reffaella', kind: 'anomaly', text: 'lets the squad’s Anomaly and Abloom DMG crit (not Disorder)', to: { specialties: ['anomaly'], others: true } },
   { agent: 'velina-airgid', kind: 'anomaly', text: 'Vortex and Abloom add Wind Anomaly DMG and lower Anomaly Buildup RES', to: { specialties: ['anomaly'], others: true } },
   { agent: 'remielle-dan', kind: 'anomaly', text: 'stronger with every Anomaly Agent in the squad', to: { specialties: ['anomaly'], others: true } },
+  { agent: 'kafka', kind: 'anomaly', text: 'squad Disorder DMG +35% (and it can CRIT at M1)', to: { specialties: ['anomaly'], others: true }, beta: true },
 
   // Lower enemy RES to an attribute (or its Anomaly Buildup RES).
   { agent: 'von-lycaon', kind: 'res', text: 'lowers enemy Ice RES by 25%', to: { specialties: DEALERS.concat('rupture'), attributes: ['ice'], others: true } },

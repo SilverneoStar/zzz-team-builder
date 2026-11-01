@@ -1,0 +1,89 @@
+{
+ "beta": true,
+ "source": "Subject to change: summarised from beta information shared by fan sites. Always check the official ZZZ pages.",
+ "skills": [
+  [
+   "Basic Attack",
+   "Basic Attack",
+   "Basic Attack",
+   "Up to 4 Electric hits; the 4th is invulnerable. Its final hit on an enemy with any Attribute Anomaly triggers Electric Arc (3% of the Disorder DMG plus DMG from her Anomaly Proficiency)."
+  ],
+  [
+   "Basic Attack",
+   "Basic Attack",
+   "Basic Attack: Hold",
+   "With 80+ Personal Resources, hold to spend 80 on a massive Electric hit. On Shock it refreshes the Shock instead of applying a new Anomaly; on any other Anomaly it triggers Polarity Disorder (90% Disorder DMG, and the Anomaly stays)."
+  ],
+  [
+   "Assist",
+   "Quick Assist",
+   "Assist",
+   "A swift Electric slash. Invulnerable."
+  ],
+  [
+   "Assist",
+   "Defensive Assist",
+   "Defensive Assist",
+   "Parries the attack for massive Daze. Invulnerable."
+  ],
+  [
+   "Assist",
+   "Assist Follow-Up",
+   "Assault",
+   "After a Defensive Assist: a swift Electric slash. Invulnerable."
+  ],
+  [
+   "Special Attack",
+   "Special Attack",
+   "Upward Slash",
+   "An Electric slash ahead."
+  ],
+  [
+   "Special Attack",
+   "EX Special Attack",
+   "Enter Domain",
+   "With enough Energy: an Electric slash that enters Kafka's Domain and triggers Vital View. In the Domain she can use up to 3 EX Slash or EX Shot in a row; dodge or wait to leave. Leaving without using an EX Special costs 20 Energy. Invulnerable."
+  ],
+  [
+   "Special Attack",
+   "EX Special Attack",
+   "EX Special Attack: Slash",
+   "In the Domain, spends Energy on an Electric slash. The final hit on an enemy with an Attribute Anomaly triggers Electric Arc (7% of the Disorder DMG plus DMG from her Anomaly Proficiency); on Shock it applies no new Anomaly and the Arc ignores 20% Electric RES. Hold to fire the last slash early. Invulnerable."
+  ],
+  [
+   "Special Attack",
+   "EX Special Attack",
+   "EX Special Attack: Shot",
+   "In the Domain, spends Energy on shots at surrounding enemies for Electric DMG, with +50% Anomaly Buildup Rate on enemies without Shock. Hold to fire the final round early. Invulnerable."
+  ],
+  [
+   "Chain Attack",
+   "Chain Attack",
+   "QTE",
+   "Consecutive attacks for massive Electric DMG. Invulnerable."
+  ],
+  [
+   "Chain Attack",
+   "Ultimate",
+   "Ultimate",
+   "At max Decibels: a rapid flurry of slashes for massive Electric DMG. Invulnerable."
+  ]
+ ],
+ "core": {
+  "name": "Electric Arc",
+  "values": {},
+  "text": "Anomaly Proficiency +120. EX Special Attacks restore 10 Personal Resources.\nWhen an enemy with an Attribute Anomaly attacks, it triggers 1 Electric Arc: 3% of the original Disorder DMG plus 500% of her Anomaly Proficiency, bouncing to up to 3 nearby enemies with 50% less DMG per bounce (once per enemy every 10s; she recovers 3 Personal Resources). All her Electric Arc DMG counts as Disorder DMG.\nThe whole squad's Disorder DMG +35%."
+ },
+ "ability": {
+  "name": "Additional Ability",
+  "text": "With a Support or Anomaly squadmate: Shock lasts 3s longer. On entering combat or when a squadmate applies an Attribute Anomaly, each 12% of initial Energy Regen above 120% gives +7 Anomaly Mastery (max +140) for 30s."
+ },
+ "mindscapes": [
+  "The whole squad's Disorder DMG can CRIT, with a base 100% CRIT Rate and 25% CRIT DMG. Her Electric Arc ignores 12% Electric RES.",
+  "Anomaly Buildup Rate +15%. Her DMG +25% in Kafka's Domain, lasting 8s after she leaves it.",
+  "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+  "When any squad member triggers Disorder, she recovers 150 Decibels (once per 10s).",
+  "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+  "Up to 6 EX Special Attacks per Domain; each one makes later EX Slashes and their Arcs ignore 15% DEF (max 60%). Basic Attack: Hold gives +200 ATK for 30s. After her Ultimate, the next 6 EX Special Attacks cost 50% Energy."
+ ]
+}

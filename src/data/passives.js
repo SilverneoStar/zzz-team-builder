@@ -54,6 +54,7 @@ export const PASSIVES = {
   // other Attack Agents, plus his faction). Replace once his reveal is out.
   'sunbringer': {"name": "Laceration Enhance", "specialties": ["stun", "defense", "armorer"], "beta": true},
   'robin-hsr': {"specialties": ["armorer", "stun"], "beta": true},
+  'kafka': {"specialties": ["support", "anomaly"], "beta": true},
   'severian-lowell': {"specialties": ["stun", "support"], "faction": true},
   'sigrid-de-lazur': {"name": "Legion of the Skies", "specialties": ["stun", "support"]},
   'soldier-0-anby': {"name": "Voltage Surge", "specialties": ["stun", "support"]},
