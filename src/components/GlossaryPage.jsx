@@ -7,7 +7,9 @@ import { agentArt } from './Portrait.jsx';
 import { bangbooArt } from './BangbooArt.jsx';
 import { ITEMS, ITEM_GROUPS } from '../data/items.js';
 import { MatIcon } from './MaterialsTab.jsx';
-import { AGENT_BY_ID } from '../data/game.js';
+import { AGENT_BY_ID, ATTRIBUTE_BY_ID, SPECIALTY_BY_ID } from '../data/game.js';
+import SpecialtyIcon from './SpecialtyIcon.jsx';
+import AttributeGlyph from './AttributeGlyph.jsx';
 import Portrait from './Portrait.jsx';
 
 const BASE = import.meta.env.BASE_URL;
@@ -84,7 +86,7 @@ export default function GlossaryPage() {
     const q = query.trim().toLowerCase();
     // Under All, items only appear for a search; under Items, one group at a time.
     if (category === 'all' ? !q : category !== 'Items') return [];
-    const hit = (it) => !q || [it.name, it.text, ...it.get, it.group].some((s) => s.toLowerCase().includes(q));
+    const hit = (it) => !q || [it.name, ...it.names, it.text, ...it.get, it.group].some((s) => s.toLowerCase().includes(q));
     return ITEM_GROUPS.filter((g) => q || g === itemGroup)
       .map((g) => ({ g, items: ITEMS.filter((it) => it.group === g && hit(it)) }))
       .filter((x) => x.items.length);
@@ -251,20 +253,32 @@ export default function GlossaryPage() {
 }
 
 const USED_SHOWN = 8;
+const TIER_LABEL = ['T1', 'T2', 'T3'];
 
 function ItemCard({ item: it }) {
   const [open, setOpen] = useState(false);
-  const used = open ? it.usedBy : it.usedBy.slice(0, USED_SHOWN);
+  const used = open ? it.agents : it.agents.slice(0, USED_SHOWN);
+  const tiered = it.names.length > 1;
   return (
-    <li className={`item${it.tier ? ` item--t${it.tier}` : ''}`} id={`item-${slug(it.name)}`}>
-      <span className="item__icon">
-        <MatIcon item={{ name: it.name, kind: 'seal' }} />
+    <li className={`item${tiered ? ' item--family' : ''}`} id={`item-${slug(it.name)}`}>
+      <span className="item__icons">
+        {it.names.map((n, i) => (
+          <span key={n} className={`item__icon${tiered ? ` item--t${i + 1}` : ''}`} title={n}>
+            <MatIcon item={{ name: n, kind: 'seal' }} />
+          </span>
+        ))}
       </span>
       <div className="item__body">
-        <b className="item__name">
-          {it.name}
-          {it.tier && <span className="item__tier">T{it.tier}</span>}
-        </b>
+        <b className="item__name">{it.name}</b>
+        {tiered && (
+          <ol className="item__tiers">
+            {it.names.map((n, i) => (
+              <li key={n} className={`item--t${i + 1}`}>
+                <span className="item__tier">{TIER_LABEL[i]}</span> {n}
+              </li>
+            ))}
+          </ol>
+        )}
         <p className="item__text">{it.text}</p>
         <p className="item__label">How to get</p>
         <ul className="item__get">
@@ -272,24 +286,36 @@ function ItemCard({ item: it }) {
             <li key={g}>{g}</li>
           ))}
         </ul>
-        {it.usedBy.length > 0 && (
+        {it.for && (
+          <>
+            <p className="item__label">Used by</p>
+            <p className="item__for">
+              {it.for.specialty ? (
+                <>
+                  <SpecialtyIcon specialty={it.for.specialty} size={20} />
+                  {SPECIALTY_BY_ID[it.for.specialty]?.name} {it.for.wEngines ? 'W-Engines' : 'Agents'}
+                </>
+              ) : (
+                <>
+                  <AttributeGlyph attribute={it.for.attribute} size={20} />
+                  {ATTRIBUTE_BY_ID[it.for.attribute]?.name} Agents
+                </>
+              )}
+            </p>
+          </>
+        )}
+        {it.agents.length > 0 && (
           <>
             <p className="item__label">Used by</p>
             <div className="item__used">
-              {used.map((u) =>
-                u.kind === 'agent' ? (
-                  <a key={u.id} href={`#agent-${u.id}`} title={AGENT_BY_ID[u.id]?.name}>
-                    <Portrait agent={AGENT_BY_ID[u.id]} size="sm" />
-                  </a>
-                ) : (
-                  <a key={u.id} href={`#w-engine-${u.id}`} className="item__arc">
-                    {u.name}
-                  </a>
-                ),
-              )}
-              {it.usedBy.length > USED_SHOWN && (
+              {used.map((id) => (
+                <a key={id} href={`#agent-${id}`} title={AGENT_BY_ID[id]?.name}>
+                  <Portrait agent={AGENT_BY_ID[id]} size="sm" />
+                </a>
+              ))}
+              {it.agents.length > USED_SHOWN && (
                 <button type="button" className="item__more" onClick={() => setOpen(!open)} aria-expanded={open}>
-                  {open ? 'Show fewer' : `+${it.usedBy.length - USED_SHOWN}`}
+                  {open ? 'Show fewer' : `+${it.agents.length - USED_SHOWN}`}
                 </button>
               )}
             </div>

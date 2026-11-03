@@ -9824,3 +9824,11 @@ details.disc-guide + details.disc-guide {
   font: 600 0.7rem var(--font-mono);
   opacity: 0.6;
 }
+/* Item families (three tiers of one item) share a card: a row of tier icons
+   and the tier names, each in its tier colour. */
+.item__icons { display: flex; flex-direction: column; gap: 6px; }
+.item--family .item__icon { width: 52px; height: 52px; }
+.item__tiers { list-style: none; margin: 4px 0 6px; padding: 0; display: grid; gap: 3px; font-size: 0.86rem; }
+.item__tiers li { display: flex; align-items: center; gap: 8px; }
+.item__tiers .item__tier { background: var(--tier); color: #111; }
+.item__for { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; font-weight: 600; }
