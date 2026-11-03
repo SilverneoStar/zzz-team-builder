@@ -1,5 +1,5 @@
 // Glossary of ZZZ terms, written for this site. Each entry: { term, also?, category, text, related? }
-export const GLOSSARY_CATEGORIES = ['Specialties', 'Attributes', 'Combat', 'Squad', 'Gear', 'Stats', 'Factions'];
+export const GLOSSARY_CATEGORIES = ['Specialties', 'Attributes', 'Combat', 'Squad', 'Gear', 'Stats', 'Modes', 'Currency', 'Factions'];
 
 // Short notes for the Factions tag. Every faction an Agent or Bangboo belongs to
 // gets an entry (with its logo and members, filled in by the Glossary page);
@@ -145,6 +145,12 @@ export const GLOSSARY = [
   { term: 'Attribute', category: 'Attributes', text: 'The damage type an Agent deals: Physical, Fire, Ice, Electric, Ether or Wind, plus a few variants. Many Agents get extra effects when a teammate shares their attribute.' },
   { term: 'Variant attribute', also: 'Frost, Honed Edge, Auric Ink', category: 'Attributes', text: 'Special versions of a base attribute used by some Agents. This site counts Frost as Ice, Honed Edge as Physical and Auric Ink as Ether when matching teammates.' },
   { term: 'Attribute Anomaly', category: 'Attributes', text: 'A status that triggers when enough Anomaly Buildup of one attribute lands on an enemy, such as Burn from Fire or Shock from Electric. Each attribute has its own effect.', related: ['Disorder'] },
+  { term: 'Shock', category: 'Attributes', text: 'The Electric Attribute Anomaly: hitting the enemy sets off extra Electric DMG for a while.' },
+  { term: 'Burn', category: 'Attributes', text: 'The Fire Attribute Anomaly: Fire DMG over time.' },
+  { term: 'Freeze', also: 'Shatter', category: 'Attributes', text: 'The Ice Attribute Anomaly: the enemy is frozen in place, then Shatter deals Ice DMG when it breaks free.' },
+  { term: 'Assault', category: 'Attributes', text: 'The Physical Attribute Anomaly: a big burst of Physical DMG.' },
+  { term: 'Corruption', category: 'Attributes', text: 'The Ether Attribute Anomaly: Ether DMG on the enemy for a while.' },
+  { term: 'Abloom', category: 'Attributes', text: 'An extra round of an Attribute Anomaly’s DMG that some Agents (Vivian, Aria) set off with their skills.' },
   { term: 'Disorder', category: 'Attributes', text: 'Bonus damage when an enemy already under one Attribute Anomaly gets a different one. Teams with two Anomaly Agents of different attributes often aim for it.' },
 
   // Combat
@@ -154,6 +160,17 @@ export const GLOSSARY = [
   { term: 'Assist', also: 'Quick, Defensive and Evasive Assist', category: 'Combat', text: 'Switching in another Agent at the right moment: Quick Assist when the on-field Agent is knocked back, Defensive or Evasive Assist to block or dodge an attack.' },
   { term: 'EX Special Attack', category: 'Combat', text: 'A stronger version of an Agent’s Special Attack that costs Energy.', related: ['Energy'] },
   { term: 'Ultimate', category: 'Combat', text: 'An Agent’s strongest attack, used when the squad’s Decibel meter is full.' },
+  { term: 'Decibels', also: 'Decibel Rating', category: 'Combat', text: 'The squad meter that fills as you fight. At maximum, the on-field Agent can use their Ultimate.', related: ['Ultimate'] },
+  { term: 'Perfect Dodge', category: 'Combat', text: 'Dodging just as an attack lands (the enemy flashes). It makes you briefly invulnerable and opens a Dodge Counter.', related: ['Dodge Counter'] },
+  { term: 'Dodge Counter', category: 'Combat', text: 'The attack an Agent can use right after a Perfect Dodge.' },
+  { term: 'Defensive Assist', also: 'Parry', category: 'Combat', text: 'Switching in an Agent to block an incoming attack. A parry deals a lot of Daze, which is why combat leans on dodging and parrying.', related: ['Daze', 'Assist Follow-Up'] },
+  { term: 'Evasive Assist', category: 'Combat', text: 'Switching in an Agent who dodges the attack instead of blocking it, then triggers Vital View. A few Agents, like Astra Yao, have this in place of a parry.' },
+  { term: 'Assist Follow-Up', category: 'Combat', text: 'The attack you can use right after a Defensive or Evasive Assist.' },
+  { term: 'Quick Assist', category: 'Combat', text: 'Switching in the next Agent when the on-field one is knocked back or a skill calls for it. Some sets and kits buff the Agent who comes in this way.' },
+  { term: 'Ether Veil', category: 'Combat', text: 'A field some Agents open with their skills (Wellspring, Delusion Reprise and others). Several Agents gain buffs or resources inside one.' },
+  { term: 'Aftershock', category: 'Combat', text: 'Follow-up hits from certain Agents’ skills, often off-field. Some sets and kits raise Aftershock DMG.' },
+  { term: 'Potential', also: 'Potential Vision', category: 'Squad', text: 'An upgrade path for some Agents, unlocked with Potential items rather than extra copies. Level II unlocks an Awakened Potential.' },
+  { term: 'Core Skill', also: 'Core Passive', category: 'Squad', text: 'An Agent’s main passive, raised from Base to F with Higher Dimensional Data and Notorious Hunt drops.' },
 
   // Squad
   { term: 'Squad', category: 'Squad', text: 'Up to three Agents plus one Bangboo.' },
@@ -175,4 +192,21 @@ export const GLOSSARY = [
   { term: 'PEN Ratio', category: 'Stats', text: 'Ignores a share of the enemy’s DEF.' },
   { term: 'Energy', also: 'Energy Regen', category: 'Stats', text: 'A per-Agent resource spent on EX Special Attacks. Energy Regen raises how fast it refills.' },
   { term: 'Sheer Force', category: 'Stats', text: 'The stat Rupture Agents scale on for Sheer DMG.' },
+  { term: 'Sharp DMG', also: 'Laceration, Maim', category: 'Stats', text: 'Armorer Agents’ damage, which scales with DEF. Their CRITs use a Laceration DMG bonus, and Maim sets off stacked damage.' },
+
+  // Modes
+  { term: 'Shiyu Defense', category: 'Modes', text: 'Endgame mode that rotates every two weeks. The score check is Stage 5: three rooms, each needing its own squad.', related: ['Deadly Assault'] },
+  { term: 'Deadly Assault', category: 'Modes', text: 'Endgame boss mode with three bosses and a choice of buffs, scored on damage. Each boss needs its own squad.' },
+  { term: 'Combat Simulation', category: 'Modes', text: 'Farming stages for EXP, promotion seals, skill chips and W-Engine components. Costs Battery Charge.', related: ['Battery Charge'] },
+  { term: 'Expert Challenge', category: 'Modes', text: 'Boss stages that drop Higher Dimensional Data for Core Skills. Costs Battery Charge.' },
+  { term: 'Notorious Hunt', category: 'Modes', text: 'Weekly boss fights that drop the second Core Skill material, plus a few other rewards.' },
+  { term: 'Routine Cleanup', category: 'Modes', text: 'Stages that drop Drive Discs and Plating Agents for levelling them.' },
+  { term: 'Hollow Zero', category: 'Modes', text: 'A roguelike Hollow mode with weekly rewards, Bangboo materials and more.' },
+
+  // Currency
+  { term: 'Battery Charge', category: 'Currency', text: 'Stamina spent on farming stages. It refills over time.' },
+  { term: 'Denny', category: 'Currency', text: 'New Eridu’s money, spent on every upgrade.' },
+  { term: 'Polychrome', category: 'Currency', text: 'The premium currency, traded for Master Tapes and Encrypted Master Tapes.' },
+  { term: 'Master Tape', also: 'Encrypted Master Tape', category: 'Currency', text: 'Pulls on Signal Search: Master Tapes for the permanent channel, Encrypted Master Tapes for limited Agent and W-Engine channels.' },
+  { term: 'Boopon', category: 'Currency', text: 'Pulls on the Bangboo channel.' },
 ];

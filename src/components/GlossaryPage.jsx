@@ -5,6 +5,10 @@ import FactionLogo from './FactionLogo.jsx';
 import ViewToggle from './ViewToggle.jsx';
 import { agentArt } from './Portrait.jsx';
 import { bangbooArt } from './BangbooArt.jsx';
+import { ITEMS, ITEM_GROUPS } from '../data/items.js';
+import { MatIcon } from './MaterialsTab.jsx';
+import { AGENT_BY_ID } from '../data/game.js';
+import Portrait from './Portrait.jsx';
 
 const BASE = import.meta.env.BASE_URL;
 const VIEW_KEY = 'zzz-team-builder:factionView';
@@ -50,6 +54,8 @@ export default function GlossaryPage() {
   const [category, setCategory] = useState('all');
   // Factions can be shown as a list (like the other terms) or as cards.
   const [view, setView] = useState(loadView);
+  // Items show one group at a time (searching looks through all of them).
+  const [itemGroup, setItemGroup] = useState(ITEM_GROUPS[0]);
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_KEY, view);
@@ -74,6 +80,16 @@ export default function GlossaryPage() {
     })).filter((g) => g.entries.length > 0);
   }, [query, category]);
 
+  const itemGroups = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    // Under All, items only appear for a search; under Items, one group at a time.
+    if (category === 'all' ? !q : category !== 'Items') return [];
+    const hit = (it) => !q || [it.name, it.text, ...it.get, it.group].some((s) => s.toLowerCase().includes(q));
+    return ITEM_GROUPS.filter((g) => q || g === itemGroup)
+      .map((g) => ({ g, items: ITEMS.filter((it) => it.group === g && hit(it)) }))
+      .filter((x) => x.items.length);
+  }, [query, category, itemGroup]);
+
   return (
     <div className="page">
       <header className="page__head">
@@ -97,7 +113,7 @@ export default function GlossaryPage() {
           <button className="chip" aria-pressed={category === 'all'} onClick={() => setCategory('all')}>
             All
           </button>
-          {GLOSSARY_CATEGORIES.map((c) => (
+          {[...GLOSSARY_CATEGORIES, 'Items'].map((c) => (
             <button
               key={c}
               className="chip"
@@ -110,7 +126,25 @@ export default function GlossaryPage() {
         </div>
       </div>
 
-      {groups.length === 0 && <p className="empty">No terms match “{query}”.</p>}
+      {category === 'Items' && (
+        <div className="chips items-chips" role="group" aria-label="Item groups">
+          {ITEM_GROUPS.map((g) => (
+            <button
+              key={g}
+              className="chip"
+              aria-pressed={!query.trim() && itemGroup === g}
+              onClick={() => {
+                setItemGroup(g);
+                setQuery('');
+              }}
+            >
+              {g} <span className="chip__n">{ITEMS.filter((it) => it.group === g).length}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {groups.length === 0 && itemGroups.length === 0 && <p className="empty">No terms match “{query}”.</p>}
 
       {groups.map((g) => (
         <section key={g.cat} className="gloss-group" aria-labelledby={`g-${slug(g.cat)}`}>
@@ -193,6 +227,75 @@ export default function GlossaryPage() {
           )}
         </section>
       ))}
+
+      {itemGroups.length > 0 && (
+        <section className="gloss-group" aria-labelledby="g-items">
+          <h3 id="g-items" className="gloss-group__title">
+            Items
+          </h3>
+          <p className="muted small">What each material is for, where to get it, and which Agents or W-Engines use it.</p>
+          {itemGroups.map(({ g, items }) => (
+            <div key={g} className="items-group">
+              <h4 className="micro-title">{g}</h4>
+              <ul className="items">
+                {items.map((it) => (
+                  <ItemCard key={it.name} item={it} />
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
+  );
+}
+
+const USED_SHOWN = 8;
+
+function ItemCard({ item: it }) {
+  const [open, setOpen] = useState(false);
+  const used = open ? it.usedBy : it.usedBy.slice(0, USED_SHOWN);
+  return (
+    <li className={`item${it.tier ? ` item--t${it.tier}` : ''}`} id={`item-${slug(it.name)}`}>
+      <span className="item__icon">
+        <MatIcon item={{ name: it.name, kind: 'seal' }} />
+      </span>
+      <div className="item__body">
+        <b className="item__name">
+          {it.name}
+          {it.tier && <span className="item__tier">T{it.tier}</span>}
+        </b>
+        <p className="item__text">{it.text}</p>
+        <p className="item__label">How to get</p>
+        <ul className="item__get">
+          {it.get.map((g) => (
+            <li key={g}>{g}</li>
+          ))}
+        </ul>
+        {it.usedBy.length > 0 && (
+          <>
+            <p className="item__label">Used by</p>
+            <div className="item__used">
+              {used.map((u) =>
+                u.kind === 'agent' ? (
+                  <a key={u.id} href={`#agent-${u.id}`} title={AGENT_BY_ID[u.id]?.name}>
+                    <Portrait agent={AGENT_BY_ID[u.id]} size="sm" />
+                  </a>
+                ) : (
+                  <a key={u.id} href={`#w-engine-${u.id}`} className="item__arc">
+                    {u.name}
+                  </a>
+                ),
+              )}
+              {it.usedBy.length > USED_SHOWN && (
+                <button type="button" className="item__more" onClick={() => setOpen(!open)} aria-expanded={open}>
+                  {open ? 'Show fewer' : `+${it.usedBy.length - USED_SHOWN}`}
+                </button>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </li>
   );
 }
