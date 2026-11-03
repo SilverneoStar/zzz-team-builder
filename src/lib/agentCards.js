@@ -178,7 +178,7 @@ async function loadDiscs(ids, base) {
 }
 
 /** Agent name block with portrait, used at the top of every card. */
-function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52, nameW = 760, roles = null } = {}) {
+function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize = 52, nameW = 760, roles = null, minSize = 32 } = {}) {
   const color = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
   slantedArt(ctx, { x, y, w, h, lean, art, agent: a, color, radius: 10 });
   rankBadge(ctx, a.rank, x + 20, y + h - 20, 14);
@@ -187,7 +187,7 @@ function agentBlock(ctx, a, art, x, y, { w = 150, h = 190, lean = 28, nameSize =
   // Shrink a long name to fit before cutting it short.
   let size = nameSize;
   ctx.font = `800 ${size}px ${DISPLAY}`;
-  while (size > 32 && ctx.measureText(a.name.toUpperCase()).width > nameW) {
+  while (size > minSize && ctx.measureText(a.name.toUpperCase()).width > nameW) {
     size -= 2;
     ctx.font = `800 ${size}px ${DISPLAY}`;
   }
@@ -749,6 +749,9 @@ async function drawGuide(ctx, W, H, a, base) {
 
 // ---------- my build ----------
 
+/** Left edge of the W-Engine panel on a tall My build card. */
+const EW_X = 680;
+
 /** Sets a font that fits `text` in `w`, shrinking from `max` to `min` px. */
 function shrink(ctx, text, w, weight, max, min) {
   let size = max;
@@ -765,7 +768,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     h: 170,
     lean: 24,
     nameSize: 46,
-    nameW: W - 214 - 160,
+    nameW: tall ? EW_X - 214 - 24 : W - 214 - 160,
+    minSize: tall ? 26 : 32,
     roles: await loadRoleIcons(base, [a]),
   });
   if (!lo) {
@@ -793,43 +797,50 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.drawImage(logo, px, 190, 36, 36);
     px += 40;
   }
+  // On a tall image the W-Engine sits to the right, so chips that don't fit wrap to a second row.
+  let py = 194;
   [shownFaction(a).name, ...chips].forEach((t, i) => {
-    px += pill(ctx, t, px, 194, i > 0 ? { fg: K.fg, bg: 'rgba(255,255,255,0.12)', line: '#5a5a5a' } : {}) + 8;
+    ctx.font = `600 14px ${FONT}`;
+    if (tall && i > 0 && px + ctx.measureText(t).width + 24 > EW_X - 16) {
+      px = 214;
+      py += 38;
+    }
+    px += pill(ctx, t, px, py, i > 0 ? { fg: K.fg, bg: 'rgba(255,255,255,0.12)', line: '#5a5a5a' } : {}) + 8;
   });
 
   const top = 262;
   const ph = 300;
-  const eh = 184;
+  const eh = 170;
 
-  // W-Engine: a panel on the left, or a full-width strip on a tall image.
+  // W-Engine: a panel on the left, or beside the Agent's name on a tall image.
   if (tall) {
-    panel(ctx, 40, top, W - 80, eh, 'W-Engine');
+    const ex = EW_X;
+    const ew = W - 40 - ex;
+    const ey = 146;
+    panel(ctx, ex, ey, ew, eh, 'W-Engine', e ? `Phase ${lo.refinement ?? 1}` : null);
     if (e) {
-      engineIcon(ctx, engines[e.id], 60, top + 44, 124);
-      rankBadge(ctx, e.rank, 196, top + 62, 16);
+      engineIcon(ctx, engines[e.id], ex + 14, ey + 46, 100);
+      rankBadge(ctx, e.rank, ex + 100, ey + 136, 14);
+      const tx = ex + 128;
+      const tw2 = ew - 128 - 18;
       ctx.fillStyle = K.fg;
-      ctx.font = `800 30px ${DISPLAY}`;
-      ctx.fillText(`P${lo.refinement ?? 1}`, 220, top + 72);
-      ctx.fillStyle = K.dim;
-      ctx.font = `500 13px ${MONO}`;
-      ctx.fillText('PHASE', 220, top + 94);
-      ctx.fillStyle = K.fg;
-      ctx.font = `700 26px ${FONT}`;
-      ctx.fillText(fit(ctx, e.name, W - 80 - 340), 320, top + 76);
+      ctx.font = `700 20px ${FONT}`;
+      const lines = wrap(ctx, e.name, tw2, 2);
+      lines.forEach((l, i) => ctx.fillText(l, tx, ey + 70 + i * 24));
       ctx.fillStyle = K.muted;
-      ctx.font = `500 17px ${FONT}`;
+      ctx.font = `500 15px ${FONT}`;
       [e.base && `Base ${e.base.stat} ${e.base.max}`, e.advanced && `${e.advanced.stat} ${e.advanced.max}`]
         .filter(Boolean)
-        .forEach((t, i) => ctx.fillText(t, 320, top + 110 + i * 24));
+        .forEach((t, i) => ctx.fillText(fit(ctx, t, tw2), tx, ey + 76 + lines.length * 24 + i * 20));
       if (e.specialty !== a.specialty) {
         ctx.fillStyle = '#d9a35a';
-        ctx.font = `500 14px ${FONT}`;
-        ctx.fillText('Other specialty: passive won’t apply', 320, top + eh - 14);
+        ctx.font = `500 13px ${FONT}`;
+        ctx.fillText(fit(ctx, 'Other specialty: passive won’t apply', ew - 36), ex + 18, ey + eh - 12);
       }
     } else {
       ctx.fillStyle = K.muted;
       ctx.font = `500 18px ${FONT}`;
-      ctx.fillText('None equipped', 60, top + 90);
+      ctx.fillText('None equipped', ex + 20, ey + 80);
     }
   } else panel(ctx, 40, top, 300, ph, 'W-Engine');
   if (tall) {
@@ -868,8 +879,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   // Drive Discs: six tiles in wheel order, 3 × 2.
   const dx = tall ? 40 : 356;
   const dw = tall ? W - 80 : 530;
-  const dtop = tall ? top + eh + 16 : top;
-  const th = tall ? 150 : 118;
+  const dtop = tall ? 332 : top;
+  const th = tall ? 165 : 118;
   const dh = tall ? 46 + 2 * th + 10 + 20 : ph;
   panel(ctx, dx, dtop, dw, dh, 'Drive Discs');
   const tw = (dw - 40 - 16) / 3;
@@ -907,13 +918,13 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     // Shrink a long set name before cutting it short.
     const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
     shrink(ctx, name, tw - 20, 600, tall ? 18 : 15, 12);
-    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 104 : 80));
+    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 114 : 80));
     const st = mainStatOf(slot, d);
     const max = d.set ? mainMax(slot, d) : null;
     ctx.fillStyle = K.text;
     const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
     shrink(ctx, mainText, tw - 20, 500, tall ? 16 : 14, 11.5);
-    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 130 : 102));
+    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 142 : 102));
   });
 
   // Set bonuses: beside the discs, or under them on a tall image.
