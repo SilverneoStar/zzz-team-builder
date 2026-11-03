@@ -2,6 +2,8 @@
 //   build  1200×675  W-Engines, Drive Disc sets, main stats and Bangboo
 //   farm   1200×675  everything to farm, grouped by what it's for
 //   guide  1080×1350 one-page guide: build, best teams and what to farm
+// Build, farm and my-build cards also come in a tall 1080×1250 shape for
+// Instagram and phones (same content, stacked).
 // Same black / gray / white look as the team images.
 import {
   AGENT_BY_ID,
@@ -50,6 +52,7 @@ import {
 // Card types live in exportSettings.js; re-exported so older imports keep working.
 export { AGENT_CARDS, MY_BUILD_CARD } from './exportSettings.js';
 const SIZES = { build: [1200, 675], farm: [1200, 675], guide: [1080, 1350], mine: [1200, 675] };
+const TALL = [1080, 1250];
 
 const K = {
   panel: 'rgba(24,24,24,0.94)',
@@ -399,7 +402,7 @@ function drawMains(ctx, b, x, y, w) {
   );
 }
 
-async function drawBuild(ctx, W, H, a, base) {
+async function drawBuild(ctx, W, H, a, base, _lo, tall) {
   const b = BUILDS[a.id];
   await head(ctx, W, a, base, 'Build card');
   const art = await loadAgentArt(a, base);
@@ -423,7 +426,8 @@ async function drawBuild(ctx, W, H, a, base) {
   }
   const icons = await loadEngines(b.wEngines.slice(0, 5), base);
   const discs = await loadDiscs([...b.fourPiece.slice(0, 3), ...b.twoPiece.slice(0, 3)], base);
-  infoBlock(ctx, a, 214, 194, 860, 1, await loadFactionLogo(a, base));
+  infoBlock(ctx, a, 214, 194, tall ? W - 254 : 860, 1, await loadFactionLogo(a, base));
+  if (tall) return drawBuildTall(ctx, W, H, a, base, b, icons, discs);
   const top = 282;
   const ph = 296;
   panel(ctx, 40, top, 420, ph, 'W-Engines', 'best first');
@@ -462,6 +466,57 @@ async function drawBuild(ctx, W, H, a, base) {
     ctx.textAlign = 'left';
     drawPriority(ctx, order, await loadSkillIcons(order, base), 612, 596, W - 40 - 612, 24, false);
   }
+  foot(ctx, W, H);
+}
+
+/** Bangboo and skill levelling order in one row of panels; returns the row height. */
+async function bangbooAndPriority(ctx, a, b, base, x, y, w, h = 104) {
+  const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
+  const order = SKILL_PRIORITY[a.id];
+  if (!bg && !order) return 0;
+  const bw = bg && order ? Math.round(w * 0.4) : w;
+  if (bg) {
+    const bArt = await loadImage(`${base}bangboo/${BANGBOO_WITH_ART.has(bg.id) ? bg.id : 'placeholder'}.webp`);
+    panel(ctx, x, y, bw, h, 'Bangboo');
+    if (bArt) ctx.drawImage(bArt, x + 20, y + 42, (bArt.width / bArt.height) * 50, 50);
+    ctx.fillStyle = K.fg;
+    ctx.font = `700 22px ${FONT}`;
+    const tx = x + 20 + (bArt ? (bArt.width / bArt.height) * 50 + 16 : 0);
+    ctx.fillText(fit(ctx, bg.name, x + bw - 20 - tx), tx, y + 76);
+  }
+  if (order) {
+    const px = bg ? x + bw + 16 : x;
+    const pw = x + w - px;
+    panel(ctx, px, y, pw, h, 'Skill priority', a.upcoming ? 'subject to change' : 'level first →');
+    drawPriority(ctx, order, await loadSkillIcons(order, base), px + 12, y + 44, pw - 24, bg ? 28 : 32);
+  }
+  return h;
+}
+
+/** The build card stacked for a tall image: W-Engines, then sets and main stats, then Bangboo. */
+async function drawBuildTall(ctx, W, H, a, base, b, icons, discs) {
+  const iw = W - 80;
+  let y = 286;
+  panel(ctx, 40, y, iw, 362, 'W-Engines', 'best first');
+  drawEngineRows(ctx, b.wEngines, icons, 60, y + 48, iw - 40, 60, 5);
+  y += 362 + 16;
+  const sw = 500;
+  const ph = 330;
+  panel(ctx, 40, y, sw, ph, 'Drive Disc sets', 'community picks');
+  ctx.fillStyle = K.dim;
+  ctx.font = `500 13px ${MONO}`;
+  ctx.fillText('4-PIECE', 60, y + 60);
+  const n4 = Math.min(3, b.fourPiece.length);
+  drawSets(ctx, b.fourPiece, 60, y + 98, sw - 40, 3, 36, discs);
+  const y2 = y + 98 + n4 * 36 + 10;
+  ctx.fillStyle = K.dim;
+  ctx.font = `500 13px ${MONO}`;
+  ctx.fillText('2-PIECE', 60, y2);
+  drawSets(ctx, b.twoPiece, 60, y2 + 36, sw - 40, 3, 34, discs);
+  panel(ctx, 40 + sw + 16, y, iw - sw - 16, ph, 'Main stats');
+  drawMains(ctx, b, 40 + sw + 36, y + 66, iw - sw - 56);
+  y += ph + 16;
+  await bangbooAndPriority(ctx, a, b, base, 40, y, iw, 116);
   foot(ctx, W, H);
 }
 
@@ -510,7 +565,7 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
   });
 }
 
-async function drawFarm(ctx, W, H, a, base) {
+async function drawFarm(ctx, W, H, a, base, _lo, tall) {
   const m = materialsFor(a.id);
   await head(ctx, W, a, base, 'Farming card');
   const art = await loadAgentArt(a, base);
@@ -526,6 +581,31 @@ async function drawFarm(ctx, W, H, a, base) {
   const ph = 300;
   const w = 354;
   const icons = await loadMatIcons([...m.promotion, ...m.skill, ...m.core], base);
+  if (tall) {
+    // Stacked full width, one row per item.
+    const rh = 56;
+    let y = top;
+    const skills = m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT }));
+    [
+      ['Level up', 'level 1 → 60', m.promotion],
+      ['Skills', `all ${SKILL_COUNT}, level 1 → 12`, skills],
+      ['Core Skill', 'base → F', m.core],
+    ].forEach(([title, note, items]) => {
+      const h = 56 + items.length * rh;
+      drawMatGroup(ctx, 40, y, W - 80, h, title, note, items, icons);
+      y += h + 14;
+    });
+    ctx.fillStyle = K.dim;
+    ctx.font = `400 13px ${FONT}`;
+    wrap(
+      ctx,
+      `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`,
+      W - 80,
+      2,
+    ).forEach((l, i) => ctx.fillText(l, 40, y + 8 + i * 18));
+    foot(ctx, W, H);
+    return;
+  }
   drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
   drawMatGroup(
     ctx,
@@ -677,7 +757,7 @@ function shrink(ctx, text, w, weight, max, min) {
 }
 
 /** The reader's own build: their W-Engine, each Drive Disc and the set bonuses. */
-async function drawMine(ctx, W, H, a, base, lo) {
+async function drawMine(ctx, W, H, a, base, lo, tall) {
   await head(ctx, W, a, base, 'My build');
   const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
@@ -719,10 +799,42 @@ async function drawMine(ctx, W, H, a, base, lo) {
 
   const top = 262;
   const ph = 300;
+  const eh = 184;
 
-  // W-Engine
-  panel(ctx, 40, top, 300, ph, 'W-Engine');
-  if (e) {
+  // W-Engine: a panel on the left, or a full-width strip on a tall image.
+  if (tall) {
+    panel(ctx, 40, top, W - 80, eh, 'W-Engine');
+    if (e) {
+      engineIcon(ctx, engines[e.id], 60, top + 44, 124);
+      rankBadge(ctx, e.rank, 196, top + 62, 16);
+      ctx.fillStyle = K.fg;
+      ctx.font = `800 30px ${DISPLAY}`;
+      ctx.fillText(`P${lo.refinement ?? 1}`, 220, top + 72);
+      ctx.fillStyle = K.dim;
+      ctx.font = `500 13px ${MONO}`;
+      ctx.fillText('PHASE', 220, top + 94);
+      ctx.fillStyle = K.fg;
+      ctx.font = `700 26px ${FONT}`;
+      ctx.fillText(fit(ctx, e.name, W - 80 - 340), 320, top + 76);
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 17px ${FONT}`;
+      [e.base && `Base ${e.base.stat} ${e.base.max}`, e.advanced && `${e.advanced.stat} ${e.advanced.max}`]
+        .filter(Boolean)
+        .forEach((t, i) => ctx.fillText(t, 320, top + 110 + i * 24));
+      if (e.specialty !== a.specialty) {
+        ctx.fillStyle = '#d9a35a';
+        ctx.font = `500 14px ${FONT}`;
+        ctx.fillText('Other specialty: passive won’t apply', 320, top + eh - 14);
+      }
+    } else {
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 18px ${FONT}`;
+      ctx.fillText('None equipped', 60, top + 90);
+    }
+  } else panel(ctx, 40, top, 300, ph, 'W-Engine');
+  if (tall) {
+    /* drawn above */
+  } else if (e) {
     engineIcon(ctx, engines[e.id], 60, top + 48, 128);
     rankBadge(ctx, e.rank, 192, top + 66, 16);
     ctx.fillStyle = K.fg;
@@ -754,15 +866,18 @@ async function drawMine(ctx, W, H, a, base, lo) {
   }
 
   // Drive Discs: six tiles in wheel order, 3 × 2.
-  const dx = 356;
-  const dw = 530;
-  panel(ctx, dx, top, dw, ph, 'Drive Discs');
+  const dx = tall ? 40 : 356;
+  const dw = tall ? W - 80 : 530;
+  const dtop = tall ? top + eh + 16 : top;
+  const th = tall ? 150 : 118;
+  const dh = tall ? 46 + 2 * th + 10 + 20 : ph;
+  panel(ctx, dx, dtop, dw, dh, 'Drive Discs');
   const tw = (dw - 40 - 16) / 3;
-  const th = 118;
+  const ic = tall ? 64 : 46;
   lo.discs.forEach((d, i) => {
     const slot = i + 1;
     const tx = dx + 20 + (i % 3) * (tw + 8);
-    const ty = top + 46 + Math.floor(i / 3) * (th + 10);
+    const ty = dtop + 46 + Math.floor(i / 3) * (th + 10);
     ctx.fillStyle = 'rgba(255,255,255,0.04)';
     roundRect(ctx, tx, ty, tw, th, 10);
     ctx.fill();
@@ -772,10 +887,10 @@ async function drawMine(ctx, W, H, a, base, lo) {
     ctx.stroke();
     ctx.globalAlpha = 1;
     const img = d.set && discArt[d.set];
-    if (img) ctx.drawImage(img, tx + 10, ty + 10, 46, 46);
+    if (img) ctx.drawImage(img, tx + 10, ty + 10, ic, ic);
     else {
       ctx.beginPath();
-      ctx.arc(tx + 33, ty + 33, 21, 0, Math.PI * 2);
+      ctx.arc(tx + 10 + ic / 2, ty + 10 + ic / 2, ic / 2 - 2, 0, Math.PI * 2);
       ctx.strokeStyle = '#4a4a4a';
       ctx.setLineDash([4, 4]);
       ctx.stroke();
@@ -783,30 +898,31 @@ async function drawMine(ctx, W, H, a, base, lo) {
     }
     ctx.fillStyle = K.dim;
     ctx.font = `600 13px ${MONO}`;
-    ctx.fillText(`SLOT ${slot}`, tx + 64, ty + 28);
+    ctx.fillText(`SLOT ${slot}`, tx + ic + 18, ty + 28);
     if (d.set) {
       ctx.fillStyle = K.muted;
-      ctx.fillText(`${d.rank}-RANK`, tx + 64, ty + 47);
+      ctx.fillText(`${d.rank}-RANK`, tx + ic + 18, ty + 47);
     }
     ctx.fillStyle = K.fg;
     // Shrink a long set name before cutting it short.
     const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
-    shrink(ctx, name, tw - 20, 600, 15, 12);
-    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + 80);
+    shrink(ctx, name, tw - 20, 600, tall ? 18 : 15, 12);
+    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 104 : 80));
     const st = mainStatOf(slot, d);
     const max = d.set ? mainMax(slot, d) : null;
     ctx.fillStyle = K.text;
     const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
-    shrink(ctx, mainText, tw - 20, 500, 14, 11.5);
-    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + 102);
+    shrink(ctx, mainText, tw - 20, 500, tall ? 16 : 14, 11.5);
+    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 130 : 102));
   });
 
-  // Set bonuses
-  const bx = 902;
+  // Set bonuses: beside the discs, or under them on a tall image.
+  const bx = tall ? 40 : 902;
   const bw = W - 40 - bx;
-  panel(ctx, bx, top, bw, ph, 'Set bonuses');
+  const btop = tall ? dtop + dh + 16 : top;
+  panel(ctx, bx, btop, bw, tall ? H - 110 - btop : ph, 'Set bonuses');
   const { twos, counts } = discBonuses(lo.discs);
-  let by = top + 58;
+  let by = btop + 58;
   if (!twos.length) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 16px ${FONT}`;
@@ -827,13 +943,13 @@ async function drawMine(ctx, W, H, a, base, lo) {
     ctx.fillText(`×${n}`, bx + bw - 20, by - 2);
     ctx.textAlign = 'left';
     ctx.fillStyle = K.text;
-    ctx.font = `500 14px ${FONT}`;
+    ctx.font = `500 ${tall ? 16 : 14}px ${FONT}`;
     const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${set.fourPiece}`] : [`2: ${set.twoPiece}`];
     by += 10;
     parts.forEach((t) => {
-      const lines = wrap(ctx, t, bw - 40, twos.length > 1 ? (n >= 4 ? 5 : 2) : n >= 4 ? 7 : 3);
+      const lines = wrap(ctx, t, bw - 40, tall ? 7 : twos.length > 1 ? (n >= 4 ? 5 : 2) : n >= 4 ? 7 : 3);
       lines.forEach((l) => {
-        by += 19;
+        by += tall ? 23 : 19;
         ctx.fillText(l, bx + 20, by);
       });
     });
@@ -856,11 +972,12 @@ const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMin
 /** Renders one of the Agent cards onto a canvas. */
 export async function renderAgentCard(
   agent,
-  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null } = {},
+  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null, shape = 'wide' } = {},
 ) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
-  const [W, H] = SIZES[id];
+  const tall = shape === 'tall' && id !== 'guide';
+  const [W, H] = tall ? TALL : SIZES[id];
   // Drawn at `scale`× (same layout, more pixels; 2× by default) so text and icons stay sharp
   // when the image is zoomed, shared at full size or shown on high-DPI screens.
   const canvas = document.createElement('canvas');
@@ -871,6 +988,6 @@ export async function renderAgentCard(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
-  await DRAW[id](ctx, W, H, agent, base, loadout);
+  await DRAW[id](ctx, W, H, agent, base, loadout, tall);
   return canvas;
 }

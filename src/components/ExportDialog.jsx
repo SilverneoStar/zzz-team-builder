@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from '../lib/exportSettings.js';
+import { CARD_SHAPES, EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from '../lib/exportSettings.js';
 
 // The team image drawing code loads only when a team image is made.
 const renderTeamCard = (team, opts) => import('../lib/teamCard.js').then((m) => m.renderTeamCard(team, opts));
@@ -26,6 +26,16 @@ const savedLayout = () => {
   }
 };
 
+// The Agent card shape (wide or tall) is remembered on this device.
+const SHAPE_KEY = 'zzz-team-builder:cardShape';
+const savedShape = () => {
+  try {
+    return localStorage.getItem(SHAPE_KEY) === 'tall' ? 'tall' : 'wide';
+  } catch {
+    return 'wide';
+  }
+};
+
 // Small pictures of each layout for the picker.
 const LAYOUT_ICONS = {
   columns: (
@@ -41,6 +51,16 @@ const LAYOUT_ICONS = {
       <path d="M18 4h8l-3 19h-8Z" />
       <path d="M30 4h8l-3 19h-8Z" />
       <circle cx="42" cy="14" r="4" />
+    </svg>
+  ),
+  wide: (
+    <svg viewBox="0 0 48 27" aria-hidden="true">
+      <rect x="6" y="5" width="36" height="20" rx="2" />
+    </svg>
+  ),
+  tall: (
+    <svg viewBox="0 0 48 27" aria-hidden="true">
+      <rect x="15" y="1" width="18" height="25" rx="2" />
     </svg>
   ),
   square: (
@@ -75,8 +95,20 @@ export default function ExportDialog({
 }) {
   const label = name ?? team?.name;
   const [layout, setLayout] = useState(() => (render ? null : savedLayout()));
+  const [shape, setShape] = useState(savedShape);
+  const pickShape = (id) => {
+    setShape(id);
+    try {
+      localStorage.setItem(SHAPE_KEY, id);
+    } catch {
+      /* storage unavailable */
+    }
+  };
+  // Only some Agent cards come in both shapes.
+  const shaped = !!kinds?.find((k) => k.id === kind)?.tall;
+  const cardShape = shaped ? shape : 'wide';
   const fileName = () =>
-    `${slug(label)}-${kind ? `${suffix}-${kind}` : `${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}`}.png`;
+    `${slug(label)}-${kind ? `${suffix}-${kind}${cardShape === 'tall' ? '-tall' : ''}` : `${suffix}${layout && layout !== 'columns' ? `-${layout}` : ''}`}.png`;
   const pickLayout = (id) => {
     setLayout(id);
     try {
@@ -104,7 +136,7 @@ export default function ExportDialog({
     let cancelled = false;
     let objectUrl;
     setUrl(null);
-    (render ? render({ base: BASE, kind, scale }) : renderTeamCard(team, { base: BASE, layout, scale }))
+    (render ? render({ base: BASE, kind, scale, shape: cardShape }) : renderTeamCard(team, { base: BASE, layout, scale }))
       .then((canvas) => {
         if (!cancelled) setDims([canvas.width, canvas.height]);
         return canvasToBlob(canvas);
@@ -124,7 +156,7 @@ export default function ExportDialog({
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [team, layout, kind, scale]);
+  }, [team, layout, kind, scale, cardShape]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -179,6 +211,25 @@ export default function ExportDialog({
               >
                 <b>{k.label}</b>
                 <span className="muted">{k.hint}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {shaped && (
+          <div className="layout-pick" role="radiogroup" aria-label="Card shape">
+            {CARD_SHAPES.map((l) => (
+              <button
+                key={l.id}
+                type="button"
+                role="radio"
+                aria-checked={cardShape === l.id}
+                className={`layout-pick__opt${cardShape === l.id ? ' is-on' : ''}`}
+                onClick={() => pickShape(l.id)}
+              >
+                <span className="layout-pick__svg">{LAYOUT_ICONS[l.id]}</span>
+                <b>{l.label}</b>
+                <span className="muted">{l.hint}</span>
               </button>
             ))}
           </div>

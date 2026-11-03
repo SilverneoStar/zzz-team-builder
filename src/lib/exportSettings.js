@@ -13,12 +13,17 @@ export const TEAM_LAYOUTS = [
 
 /** Agent card types on an Agent's page. */
 export const AGENT_CARDS = [
-  { id: 'build', label: 'Build', hint: '16:9' },
-  { id: 'farm', label: 'Farming', hint: '16:9' },
+  { id: 'build', label: 'Build', hint: 'Wide or tall', tall: true },
+  { id: 'farm', label: 'Farming', hint: 'Wide or tall', tall: true },
   { id: 'guide', label: 'Guide', hint: '4:5' },
 ];
 /** Only offered once the reader has saved their own build for the Agent. */
-export const MY_BUILD_CARD = { id: 'mine', label: 'My build', hint: '16:9' };
+export const MY_BUILD_CARD = { id: 'mine', label: 'My build', hint: 'Wide or tall', tall: true };
+/** Shapes for Agent cards that come in both (see `tall` above). */
+export const CARD_SHAPES = [
+  { id: 'wide', label: 'Wide', hint: '16:9 · X, Discord' },
+  { id: 'tall', label: 'Tall', hint: 'Instagram, phones' },
+];
 
 /** Default pixel scale for exports (HD). */
 export const EXPORT_SCALE = 2;
