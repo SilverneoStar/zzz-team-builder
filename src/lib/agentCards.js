@@ -28,6 +28,7 @@ import { buildCode } from './myBuilds.js';
 import { shownFaction } from './memberArt.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { SKILL_PRIORITY } from '../data/skillPriority.js';
+import { ENGINE_TAG, discOptions, engineOptions } from './alternatives.js';
 
 const loadFactionLogo = async (a, base) => {
   const src = factionLogo(shownFaction(a).logo, base);
@@ -338,7 +339,16 @@ function drawPriority(ctx, ids, icons, x, y, w, size = 30, stacked = true) {
 
 // ---------- build ----------
 
-function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
+/** The build card's W-Engine list: signature, similar, standard, A-Rank, then the rest. */
+function engineList(a, b) {
+  const opts = engineOptions(a.id);
+  const ids = [...new Set([...opts.map((o) => o.id), ...b.wEngines])];
+  const tags = Object.fromEntries(opts.map((o) => [o.id, ENGINE_TAG[o.kind]]));
+  ids.forEach((id) => (tags[id] ??= 'Also good'));
+  return { ids, tags };
+}
+
+function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count, tags = {}) {
   ids.slice(0, count).forEach((id, i) => {
     const e = W_ENGINE_BY_ID[id];
     if (!e) return;
@@ -351,7 +361,7 @@ function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count) {
     ctx.font = `500 13px ${MONO}`;
     const stat = e.advanced ? `${e.advanced.stat} ${e.advanced.max}` : '';
     ctx.fillText(
-      fit(ctx, `${i === 0 ? 'BEST' : `#${i + 1}`}${stat ? ` · ${stat}` : ''}`, w - rowH - 60),
+      fit(ctx, `${(tags[id] ?? (i === 0 ? 'BEST' : `#${i + 1}`)).toUpperCase()}${stat ? ` · ${stat}` : ''}`, w - rowH - 60),
       x + rowH + 4,
       ry + rowH / 2 + 18,
     );
@@ -424,15 +434,16 @@ async function drawBuild(ctx, W, H, a, base, _lo, tall) {
     foot(ctx, W, H);
     return;
   }
-  const icons = await loadEngines(b.wEngines.slice(0, 5), base);
+  const eng = engineList(a, b);
+  const icons = await loadEngines(eng.ids.slice(0, 5), base);
   const discs = await loadDiscs([...b.fourPiece.slice(0, 3), ...b.twoPiece.slice(0, 3)], base);
   infoBlock(ctx, a, 214, 194, tall ? W - 254 : 860, 1, await loadFactionLogo(a, base));
-  if (tall) return drawBuildTall(ctx, W, H, a, base, b, icons, discs);
+  if (tall) return drawBuildTall(ctx, W, H, a, base, b, icons, discs, eng);
   const top = 282;
   const ph = 296;
-  panel(ctx, 40, top, 420, ph, 'W-Engines', 'best first');
-  drawEngineRows(ctx, b.wEngines, icons, 58, top + 44, 384, 49, 5);
-  panel(ctx, 476, top, 330, ph, 'Drive Disc sets', 'community picks');
+  panel(ctx, 40, top, 420, ph, 'W-Engines', 'best to budget');
+  drawEngineRows(ctx, eng.ids, icons, 58, top + 44, 384, 49, 5, eng.tags);
+  panel(ctx, 476, top, 330, ph, 'Drive Disc sets', 'best, then alternatives');
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 494, top + 56);
@@ -494,15 +505,15 @@ async function bangbooAndPriority(ctx, a, b, base, x, y, w, h = 104) {
 }
 
 /** The build card stacked for a tall image: W-Engines, then sets and main stats, then Bangboo. */
-async function drawBuildTall(ctx, W, H, a, base, b, icons, discs) {
+async function drawBuildTall(ctx, W, H, a, base, b, icons, discs, eng) {
   const iw = W - 80;
   let y = 286;
-  panel(ctx, 40, y, iw, 362, 'W-Engines', 'best first');
-  drawEngineRows(ctx, b.wEngines, icons, 60, y + 48, iw - 40, 60, 5);
+  panel(ctx, 40, y, iw, 362, 'W-Engines', 'best to budget');
+  drawEngineRows(ctx, eng.ids, icons, 60, y + 48, iw - 40, 60, 5, eng.tags);
   y += 362 + 16;
   const sw = 500;
   const ph = 330;
-  panel(ctx, 40, y, sw, ph, 'Drive Disc sets', 'community picks');
+  panel(ctx, 40, y, sw, ph, 'Drive Disc sets', 'best, then alternatives');
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 60, y + 60);
@@ -809,7 +820,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   });
 
   const top = 262;
-  const ph = 300;
+  const ph = 274;
   const eh = 170;
 
   // W-Engine: a panel on the left, or beside the Agent's name on a tall image.
@@ -846,7 +857,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   if (tall) {
     /* drawn above */
   } else if (e) {
-    engineIcon(ctx, engines[e.id], 60, top + 48, 128);
+    engineIcon(ctx, engines[e.id], 60, top + 44, 112);
     rankBadge(ctx, e.rank, 192, top + 66, 16);
     ctx.fillStyle = K.fg;
     ctx.font = `800 30px ${DISPLAY}`;
@@ -857,18 +868,18 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.fillStyle = K.fg;
     ctx.font = `700 21px ${FONT}`;
     const lines = wrap(ctx, e.name, 260, 2);
-    lines.forEach((l, i) => ctx.fillText(l, 60, top + 210 + i * 26));
+    lines.forEach((l, i) => ctx.fillText(l, 60, top + 184 + i * 26));
     const stats = [
       e.base && `Base ${e.base.stat} ${e.base.max}`,
       e.advanced && `${e.advanced.stat} ${e.advanced.max}`,
     ].filter(Boolean);
     ctx.fillStyle = K.muted;
     ctx.font = `500 15px ${FONT}`;
-    stats.forEach((t, i) => ctx.fillText(fit(ctx, t, 260), 60, top + 214 + lines.length * 26 + i * 20));
+    stats.forEach((t, i) => ctx.fillText(fit(ctx, t, 260), 60, top + 186 + lines.length * 26 + i * 20));
     if (e.specialty !== a.specialty) {
       ctx.fillStyle = '#d9a35a';
       ctx.font = `500 13px ${FONT}`;
-      ctx.fillText(fit(ctx, 'Other specialty: passive won’t apply', 260), 60, top + ph - 14);
+      ctx.fillText(fit(ctx, 'Other specialty: passive won’t apply', 260), 60, top + ph - 10);
     }
   } else {
     ctx.fillStyle = K.muted;
@@ -880,7 +891,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   const dx = tall ? 40 : 356;
   const dw = tall ? W - 80 : 530;
   const dtop = tall ? 332 : top;
-  const th = tall ? 165 : 118;
+  const th = tall ? 142 : 101;
   const dh = tall ? 46 + 2 * th + 10 + 20 : ph;
   panel(ctx, dx, dtop, dw, dh, 'Drive Discs');
   const tw = (dw - 40 - 16) / 3;
@@ -918,21 +929,34 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     // Shrink a long set name before cutting it short.
     const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
     shrink(ctx, name, tw - 20, 600, tall ? 18 : 15, 12);
-    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 114 : 80));
+    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 100 : 78));
     const st = mainStatOf(slot, d);
     const max = d.set ? mainMax(slot, d) : null;
     ctx.fillStyle = K.text;
     const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
     shrink(ctx, mainText, tw - 20, 500, tall ? 16 : 14, 11.5);
-    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 142 : 102));
+    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 124 : 95));
   });
 
   // Set bonuses: beside the discs, or under them on a tall image.
   const bx = tall ? 40 : 902;
   const bw = W - 40 - bx;
   const btop = tall ? dtop + dh + 16 : top;
-  panel(ctx, bx, btop, bw, tall ? H - 110 - btop : ph, 'Set bonuses');
   const { twos, counts } = discBonuses(lo.discs);
+  // On a tall image the panel fits its text, leaving the rest for alternatives.
+  let bh = ph;
+  if (tall) {
+    ctx.font = `500 16px ${FONT}`;
+    bh = 58 + (twos.length ? 0 : 66);
+    twos.slice(0, 3).forEach((id) => {
+      const set = DRIVE_DISC_BY_ID[id];
+      const n = counts.find((c) => c.id === id).count;
+      const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${set.fourPiece}`] : [`2: ${set.twoPiece}`];
+      bh += 10 + parts.reduce((k, t) => k + wrap(ctx, t, bw - 40, 7).length * 23, 0) + 34;
+    });
+    bh = Math.max(150, bh - 14);
+  }
+  panel(ctx, bx, btop, bw, bh, 'Set bonuses');
   let by = btop + 58;
   if (!twos.length) {
     ctx.fillStyle = K.muted;
@@ -967,15 +991,112 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     by += 34;
   });
 
-  // Build code: paste into My build (or the team builder) to load this build.
-  ctx.fillStyle = '#b5b5b5';
-  ctx.font = `600 13px ${MONO}`;
-  ctx.fillText('BUILD CODE', 40, H - 66);
-  const labelW = ctx.measureText('BUILD CODE').width;
-  ctx.fillStyle = '#e6e6e6';
-  ctx.font = `600 20px ${MONO}`;
-  ctx.fillText(fit(ctx, buildCode(a.id, lo), W - 120 - labelW), 40 + labelW + 16, H - 63);
+  // Alternatives: other W-Engines (signature → A-Rank) and disc sets to try.
+  const engs = engineOptions(a.id).filter((o) => o.id !== lo.wEngine);
+  const worn = counts.filter((c) => c.count >= 2).map((c) => c.id);
+  const alt = discOptions(a.id, worn);
+  const [altIcons, altDiscs] = await Promise.all([
+    loadEngines(engs.map((o) => o.id), base),
+    loadDiscs([...alt.four.slice(0, 2), ...alt.two.slice(0, 2)], base),
+  ]);
+  const code = buildCode(a.id, lo);
+  if (tall) {
+    const ay = btop + bh + 16;
+    const ah = H - 110 - ay;
+    if (ah >= 110) {
+      panel(ctx, 40, ay, W - 80, ah, 'Alternatives', 'signature → budget');
+      const rows = Math.max(1, Math.min(4, Math.floor((ah - 52) / 42)));
+      drawAltEngines(ctx, engs, altIcons, 60, ay + 44, 560, Math.min(50, (ah - 52) / Math.min(rows, Math.max(1, engs.length))), rows);
+      drawAltDiscs(ctx, alt, altDiscs, 660, ay + 46, W - 60 - 660, ah - 56);
+    }
+    // Build code: paste into My build (or the team builder) to load this build.
+    ctx.fillStyle = '#b5b5b5';
+    ctx.font = `600 13px ${MONO}`;
+    ctx.fillText('BUILD CODE', 40, H - 66);
+    const labelW = ctx.measureText('BUILD CODE').width;
+    ctx.fillStyle = '#e6e6e6';
+    ctx.font = `600 20px ${MONO}`;
+    ctx.fillText(fit(ctx, code, W - 120 - labelW), 40 + labelW + 16, H - 63);
+  } else {
+    // One strip: alternatives on the left, the build code on the right.
+    const ay = top + ph + 12;
+    const ah = H - 46 - ay;
+    panel(ctx, 40, ay, W - 80, ah, 'Alternatives');
+    const cw = 290;
+    const cx = W - 40 - cw;
+    ctx.strokeStyle = K.line;
+    ctx.beginPath();
+    ctx.moveTo(cx, ay + 12);
+    ctx.lineTo(cx, ay + ah - 12);
+    ctx.stroke();
+    let ix = 190;
+    const iy = ay + 14;
+    const item = (img, name, tag, w) => {
+      if (img) engineIcon(ctx, img, ix, iy + 4, 38);
+      ctx.fillStyle = K.fg;
+      ctx.font = `600 14px ${FONT}`;
+      ctx.fillText(fit(ctx, name, w - 50), ix + 44, iy + 20);
+      ctx.fillStyle = K.dim;
+      ctx.font = `500 11px ${MONO}`;
+      ctx.fillText(fit(ctx, tag.toUpperCase(), w - 50), ix + 44, iy + 38);
+      ix += w;
+    };
+    engs.slice(0, 3).forEach((o) => item(altIcons[o.id], W_ENGINE_BY_ID[o.id].name, ENGINE_TAG[o.kind], 168));
+    const d4 = alt.four[0];
+    const d2 = alt.two[0];
+    if (d4) item(altDiscs[d4], DRIVE_DISC_BY_ID[d4].name, '4-piece', 148);
+    if (d2 && ix + 120 < cx) item(altDiscs[d2], DRIVE_DISC_BY_ID[d2].name, '2-piece', Math.min(148, cx - ix - 6));
+    if (!engs.length && !d4 && !d2) {
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 15px ${FONT}`;
+      ctx.fillText('None listed yet.', 190, iy + 28);
+    }
+    ctx.fillStyle = '#b5b5b5';
+    ctx.font = `600 13px ${MONO}`;
+    ctx.fillText('BUILD CODE', cx + 20, ay + 30);
+    ctx.fillStyle = '#e6e6e6';
+    ctx.font = `600 20px ${MONO}`;
+    ctx.fillText(fit(ctx, code, cw - 40), cx + 20, ay + 58);
+  }
   foot(ctx, W, H);
+}
+
+/** Alternative W-Engines, one per row with what kind of pick each is. */
+function drawAltEngines(ctx, opts, icons, x, y, w, rowH, count) {
+  if (!opts.length) {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 15px ${FONT}`;
+    ctx.fillText('No other W-Engines listed yet.', x, y + 20);
+    return;
+  }
+  opts.slice(0, count).forEach((o, i) => {
+    const e = W_ENGINE_BY_ID[o.id];
+    const ry = y + i * rowH;
+    engineIcon(ctx, icons[o.id], x, ry, rowH - 6);
+    ctx.fillStyle = K.fg;
+    ctx.font = `600 17px ${FONT}`;
+    ctx.fillText(fit(ctx, e.name, w - rowH - 40), x + rowH + 4, ry + rowH / 2 - 2);
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 12px ${MONO}`;
+    ctx.fillText(fit(ctx, ENGINE_TAG[o.kind].toUpperCase(), w - rowH - 40), x + rowH + 4, ry + rowH / 2 + 15);
+    rankBadge(ctx, e.rank, x + w - 16, ry + rowH / 2 - 4, 13);
+  });
+}
+
+/** Alternative Drive Disc sets: up to two 4-piece and two 2-piece. */
+function drawAltDiscs(ctx, alt, discs, x, y, w, h) {
+  let ry = y + 6;
+  [
+    ['4-PIECE', alt.four.slice(0, 2)],
+    ['2-PIECE', alt.two.slice(0, 2)],
+  ].forEach(([title, ids]) => {
+    if (!ids.length) return;
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 13px ${MONO}`;
+    ctx.fillText(title, x, ry);
+    drawSets(ctx, ids, x, ry + 32, w, 2, 30, discs);
+    ry += 32 + ids.length * 30 + 6;
+  });
 }
 
 const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMine };
