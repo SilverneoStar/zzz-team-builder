@@ -30,6 +30,11 @@
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
 //                             score is then out of 136 and scaled back to 100.
+//   Build fit (penalty)   −10  equipped 4-piece sets and slot 4–6 main stats
+//                             against each Agent's recommended build: −3 for a
+//                             4-piece off the list, −2 for a main stat that
+//                             doesn't suit the Agent; following the builds
+//                             costs nothing. Only counted once discs are equipped.
 //   Mindscapes & Potential  up to 8 bonus points on top (not added to the
 //                             total to aim for), with the score capped at 100.
 import {
@@ -139,6 +144,65 @@ function anomalyAttribute(memberIds, i) {
     if (right) return baseAttribute(right.attribute);
   }
   return baseAttribute(a.attribute);
+}
+
+// A slot 4–6 main stat as the build text names it ("Fire DMG", "ATK %", "PEN").
+const MAIN_PATTERNS = {
+  'HP%': /\bHP\b/,
+  'ATK%': /\bATK\b/,
+  'DEF%': /\bDEF\b/,
+  'CRIT Rate': /CRIT Rate/,
+  'CRIT DMG': /CRIT DMG/,
+  'Anomaly Proficiency': /Anomaly Proficiency/,
+  'Anomaly Mastery': /Anomaly Mastery/,
+  'PEN Ratio': /\bPEN\b/,
+  'Attribute DMG': /\b(Physical|Fire|Ice|Electric|Ether|Wind|Attribute) DMG/,
+  Impact: /Impact/,
+  'Energy Regen': /Energy Regen/,
+};
+
+/** How well each member's equipped 4-piece and main stats follow their recommended build. */
+function buildFit(squad, loadouts) {
+  const bits = [];
+  let sets = 0;
+  let setsOk = 0;
+  let mains = 0;
+  let mainsOk = 0;
+  squad.forEach((a) => {
+    const b = BUILDS[a.id];
+    const discs = loadouts[a.id]?.discs ?? [];
+    if (!b) return;
+    const counts = {};
+    discs.forEach((d) => d?.set && (counts[d.set] = (counts[d.set] ?? 0) + 1));
+    const four = Object.keys(counts).find((k) => counts[k] >= 4);
+    if (four) {
+      sets += 1;
+      if (b.fourPiece.includes(four)) setsOk += 1;
+      else bits.push(`${shortName(a)}: ${DRIVE_DISC_BY_ID[four]?.name ?? four} isn’t one of their recommended 4-pieces`);
+    }
+    [4, 5, 6].forEach((slot) => {
+      const m = discs[slot - 1]?.main;
+      const rec = b.main[slot];
+      if (!m || !rec || !MAIN_PATTERNS[m]) return;
+      mains += 1;
+      if (MAIN_PATTERNS[m].test(rec)) mainsOk += 1;
+      else bits.push(`${shortName(a)}: ${m} on slot ${slot} doesn’t suit them (recommended: ${rec})`);
+    });
+  });
+  if (!sets && !mains) return null;
+  // A penalty only: following the builds costs nothing; each 4-piece off the
+  // list takes 3 points and each main stat that doesn't suit the Agent 2 (at
+  // most 10 in all).
+  const pts = -Math.min(10, 3 * (sets - setsOk) + 2 * (mains - mainsOk));
+  return {
+    id: 'fit',
+    label: 'Build fit',
+    points: round(pts),
+    max: 10,
+    bonus: true,
+    penalty: true,
+    detail: bits.length ? bits.join('; ') : 'Equipped sets and main stats follow each Agent’s recommended build',
+  };
 }
 
 /**
@@ -461,6 +525,12 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
       detail: gearBits.length ? gearBits.join('; ') : 'No squad-wide gear buffs equipped',
     });
   }
+
+  // Build fit: each member's 4-piece set and slot 4–6 main stats against their
+  // recommended build. A set or main stat the build doesn't list (Anomaly
+  // Proficiency on a non-Anomaly Agent, say) lowers this part.
+  const fit = buildFit(squad, loadouts);
+  if (fit) parts.push(fit);
 
   // Mindscapes and Potential: a bonus on top, so a squad without them loses
   // nothing. Early levels count most (most players stop at M1–M2, few go to

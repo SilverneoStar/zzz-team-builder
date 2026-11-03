@@ -117,10 +117,10 @@ export default function SynergyScore({ members, bangboo, loadouts }) {
               <li key={p.id}>
                 <span className="syn__part-head">
                   <b>{p.label}</b>
-                  <span>{p.bonus ? `+${p.points}` : `${p.points}/${p.max}`}</span>
+                  <span>{p.penalty ? (p.points < 0 ? `−${-p.points}` : '0') : p.bonus ? `+${p.points}` : `${p.points}/${p.max}`}</span>
                 </span>
                 <span className="syn__part-bar">
-                  <span style={{ width: `${(p.points / p.max) * 100}%` }} />
+                  <span style={{ width: `${(Math.abs(p.points) / p.max) * 100}%`, ...(p.penalty ? { background: '#e0623a' } : {}) }} />
                 </span>
                 <span className="muted small">{p.detail}</span>
               </li>
