@@ -412,15 +412,20 @@ function Targets({ agent }) {
         <span className="micro-title">Role</span>
         <b>{t.role}</b>
       </div>
+      {/* Fixed stat goals can mislead newer players (balanced stats and the
+          team matter more than any one number), so they stay tucked away. */}
       {t.targets?.length > 0 && (
-        <>
-          <h4 className="micro-title">Stat targets · in combat</h4>
+        <details className="targets__more">
+          <summary className="micro-title">Rough stat ranges · optional</summary>
+          <p className="muted small">
+            A loose guide, not a goal: a balanced build that fits your team beats chasing one number.
+          </p>
           <ul className="targets__list">
             {t.targets.map((x) => (
               <li key={x}>{x}</li>
             ))}
           </ul>
-        </>
+        </details>
       )}
       {t.note && <p className="muted small">{t.note}</p>}
       <p className="muted small targets__src">
