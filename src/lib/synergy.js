@@ -30,11 +30,11 @@
 //                             W-Engines whose passive works for their wearer.
 //                             Only counted once some gear is equipped; the
 //                             score is then out of 136 and scaled back to 100.
-//   Build fit (penalty)   −10  equipped 4-piece sets and slot 4–6 main stats
-//                             against each Agent's recommended build: −3 for a
-//                             4-piece off the list, −2 for a main stat that
-//                             doesn't suit the Agent; following the builds
-//                             costs nothing. Only counted once discs are equipped.
+//   Build fit (penalty)   −10  what the equipped discs give, not their names:
+//                             −3 for a 4-piece whose effect needs another kind
+//                             of Agent or boosts stats they don't use, −1 for a
+//                             2-piece stat they don't use, −2 for a slot 4–6
+//                             main stat their build doesn't list (data/discFit.js).
 //   Mindscapes & Potential  up to 8 bonus points on top (not added to the
 //                             total to aim for), with the score capped at 100.
 import {
@@ -53,7 +53,8 @@ import { kitLinks, passiveStatus } from './analyze.js';
 import { GEAR_BUFFS, TEAM_BUFFS } from '../data/teamBuffs.js';
 import { KIT_LINKS } from '../data/kitLinks.js';
 import { KIT_CONDITIONS } from '../data/kitConditions.js';
-import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
+import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID, SPECIALTY_BY_ID } from '../data/game.js';
+import { SET_FIT, STAT_NAME } from '../data/discFit.js';
 import { showBeta } from './betaInfo.js';
 import { EVASIVE_ASSIST, OFF_FIELD } from '../data/fieldTime.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
@@ -161,47 +162,110 @@ const MAIN_PATTERNS = {
   'Energy Regen': /Energy Regen/,
 };
 
-/** How well each member's equipped 4-piece and main stats follow their recommended build. */
+// Stats an Agent's recommended build values, read from its main stats and
+// substats, plus what their specialty always uses.
+const PROFILE_PATTERNS = {
+  atk: /\bATK\b/,
+  hp: /\bHP\b/,
+  def: /\bDEF\b/,
+  critRate: /CRIT Rate/,
+  critDmg: /CRIT DMG/,
+  ap: /Anomaly Proficiency/,
+  am: /Anomaly Mastery/,
+  pen: /\bPEN\b/,
+  er: /Energy Regen/,
+  impact: /Impact/,
+};
+const SPECIALTY_STATS = {
+  attack: ['pen'],
+  armorer: ['pen'],
+  stun: ['impact', 'daze', 'er'],
+  support: ['er', 'shield'],
+  defense: ['er', 'shield', 'def', 'hp'],
+  anomaly: ['ap', 'am', 'pen'],
+};
+// General effects that help anyone (a squad buff, more DMG, staying alive), or
+// any damage dealer or Stun Agent (Basic Attack, Ultimate and Aftershock DMG).
+const ANYONE = new Set(['dmg', 'team', 'survive']);
+const HITTERS = new Set(['basic', 'ultimate', 'aftershock']);
+
+function profileOf(a) {
+  const b = BUILDS[a.id];
+  const text = b ? [b.main[4], b.main[5], b.main[6], b.substats].join(' ') : '';
+  const set = new Set(Object.keys(PROFILE_PATTERNS).filter((k) => PROFILE_PATTERNS[k].test(text)));
+  (SPECIALTY_STATS[a.specialty] ?? []).forEach((k) => set.add(k));
+  return set;
+}
+
+/** Does one stat key from SET_FIT help this Agent? */
+function suits(stat, a, profile) {
+  if (ANYONE.has(stat)) return true;
+  if (HITTERS.has(stat)) return a.specialty !== 'support' && a.specialty !== 'defense';
+  if (stat.startsWith('el:')) return stat.slice(3) === baseAttribute(a.attribute);
+  return profile.has(stat);
+}
+
+const statText = (stat) => (stat.startsWith('el:') ? `${ATTRIBUTE_BY_ID[stat.slice(3)]?.name ?? stat.slice(3)} DMG` : (STAT_NAME[stat] ?? stat));
+
+/**
+ * How well each member's equipped discs suit them, by what the sets and main
+ * stats actually give rather than by set name: a 4-piece whose effect needs
+ * another kind of Agent or boosts stats they don't use, a 2-piece bonus they
+ * don't use, or a slot 4–6 main stat their build doesn't list.
+ */
 function buildFit(squad, loadouts) {
   const bits = [];
-  let sets = 0;
-  let setsOk = 0;
-  let mains = 0;
-  let mainsOk = 0;
+  let penalty = 0;
+  let checked = 0;
   squad.forEach((a) => {
-    const b = BUILDS[a.id];
     const discs = loadouts[a.id]?.discs ?? [];
-    if (!b) return;
+    const profile = profileOf(a);
     const counts = {};
     discs.forEach((d) => d?.set && (counts[d.set] = (counts[d.set] ?? 0) + 1));
-    const four = Object.keys(counts).find((k) => counts[k] >= 4);
-    if (four) {
-      sets += 1;
-      if (b.fourPiece.includes(four)) setsOk += 1;
-      else bits.push(`${shortName(a)}: ${DRIVE_DISC_BY_ID[four]?.name ?? four} isn’t one of their recommended 4-pieces`);
-    }
+    Object.entries(counts).forEach(([set, n]) => {
+      const f = SET_FIT[set];
+      const name = DRIVE_DISC_BY_ID[set]?.name ?? set;
+      if (!f || n < 2) return;
+      checked += 1;
+      if (n >= 4) {
+        const needOk =
+          !f.needs || f.needs === a.specialty || f.needs === baseAttribute(a.attribute) || f.needs === a.attribute;
+        const useful = f.four.filter((st) => suits(st, a, profile));
+        if (!needOk) {
+          penalty += 3;
+          bits.push(`${shortName(a)}: ${name}’s 4-piece only works on a ${f.needs === 'ether' ? 'Ether' : SPECIALTY_BY_ID[f.needs]?.name ?? f.needs} Agent`);
+        } else if (!useful.length) {
+          penalty += 3;
+          bits.push(`${shortName(a)}: ${name}’s 4-piece boosts ${f.four.map(statText).join(' and ')}, which they don’t use`);
+        }
+      }
+      if (!suits(f.two, a, profile)) {
+        penalty += 1;
+        bits.push(`${shortName(a)}: ${name}’s 2-piece gives ${statText(f.two)}, which they don’t use`);
+      }
+    });
+    const b = BUILDS[a.id];
     [4, 5, 6].forEach((slot) => {
       const m = discs[slot - 1]?.main;
-      const rec = b.main[slot];
+      const rec = b?.main[slot];
       if (!m || !rec || !MAIN_PATTERNS[m]) return;
-      mains += 1;
-      if (MAIN_PATTERNS[m].test(rec)) mainsOk += 1;
-      else bits.push(`${shortName(a)}: ${m} on slot ${slot} doesn’t suit them (recommended: ${rec})`);
+      checked += 1;
+      if (!MAIN_PATTERNS[m].test(rec)) {
+        penalty += 2;
+        bits.push(`${shortName(a)}: ${m} on slot ${slot} doesn’t suit them (recommended: ${rec})`);
+      }
     });
   });
-  if (!sets && !mains) return null;
-  // A penalty only: following the builds costs nothing; each 4-piece off the
-  // list takes 3 points and each main stat that doesn't suit the Agent 2 (at
-  // most 10 in all).
-  const pts = -Math.min(10, 3 * (sets - setsOk) + 2 * (mains - mainsOk));
+  if (!checked) return null;
+  // A penalty only: discs that suit the Agent cost nothing (at most −10 in all).
   return {
     id: 'fit',
     label: 'Build fit',
-    points: round(pts),
+    points: -Math.min(10, penalty),
     max: 10,
     bonus: true,
     penalty: true,
-    detail: bits.length ? bits.join('; ') : 'Equipped sets and main stats follow each Agent’s recommended build',
+    detail: bits.length ? bits.join('; ') : 'Every equipped set and main stat gives stats its Agent uses',
   };
 }
 
