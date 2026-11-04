@@ -10,6 +10,7 @@ const WITH_ICON = new Set([
   'specialized-physical-chip',
   'w-engine-energy-module',
   'w-engine-power-supply',
+  'w-engine-battery',
   'crystallized-plating-agent',
   'molded-plating-agent',
   'anomaly-component',
