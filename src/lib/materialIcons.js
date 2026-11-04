@@ -102,6 +102,7 @@ const WITH_ICON = new Set([
   'basic-attack-certification-seal',
   'advanced-attack-certification-seal',
   'bangboo-algorithm-module',
+  'bangboo-software-patch',
   'ether-plating-agent',
   'bangboo-system-widget',
   'ether-electrolyte',
