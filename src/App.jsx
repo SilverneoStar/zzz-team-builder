@@ -3,7 +3,7 @@
 // after # (see lib/route.js). Teams live in a reducer (lib/teamsReducer.js) and
 // are saved in this browser (lib/storage.js).
 import { useShowBeta } from './lib/betaInfo.js';
-import { Suspense, lazy, useEffect, useMemo, useReducer, useState } from 'react';
+import { Suspense, useEffect, useMemo, useReducer, useState } from 'react';
 import { AGENT_BY_ID, DATA_VERSION } from './data/game.js';
 import { analyzeTeam, usageInOtherTeams } from './lib/analyze.js';
 import { navigate, useHashRoute, VIEWS } from './lib/route.js';
@@ -15,6 +15,8 @@ import { initialState, loadoutOf, teamsReducer } from './lib/teamsReducer.js';
 import Analysis from './components/Analysis.jsx';
 import LoadoutPanel from './components/LoadoutPanel.jsx';
 import Mascot from './components/Mascot.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
+import { lazyPage } from './lib/lazyPage.js';
 import Portrait from './components/Portrait.jsx';
 import Roster from './components/Roster.jsx';
 import PickerSheet from './components/PickerSheet.jsx';
@@ -34,13 +36,13 @@ const PAGE_CODE = {
   glossary: () => import('./components/GlossaryPage.jsx'),
   'w-engines': () => import('./components/WEnginesPage.jsx'),
 };
-const AgentsPage = lazy(PAGE_CODE.agents);
-const BangbooPage = lazy(PAGE_CODE.bangboo);
-const DriveDiscsPage = lazy(PAGE_CODE['drive-discs']);
-const EtherealsPage = lazy(PAGE_CODE.ethereals);
-const ExportDialog = lazy(() => import('./components/ExportDialog.jsx'));
-const GlossaryPage = lazy(PAGE_CODE.glossary);
-const WEnginesPage = lazy(PAGE_CODE['w-engines']);
+const AgentsPage = lazyPage(PAGE_CODE.agents);
+const BangbooPage = lazyPage(PAGE_CODE.bangboo);
+const DriveDiscsPage = lazyPage(PAGE_CODE['drive-discs']);
+const EtherealsPage = lazyPage(PAGE_CODE.ethereals);
+const ExportDialog = lazyPage(() => import('./components/ExportDialog.jsx'));
+const GlossaryPage = lazyPage(PAGE_CODE.glossary);
+const WEnginesPage = lazyPage(PAGE_CODE['w-engines']);
 
 /** Starts downloading a page's code (the browser caches it), e.g. on hover. */
 const prefetchPage = (view) => PAGE_CODE[view]?.().catch(() => {});
@@ -170,6 +172,7 @@ export default function App() {
         </div>
       </header>
 
+      <ErrorBoundary resetKey={route.view}>
       <Suspense fallback={<PageLoading />}>
         {route.view === 'agents' && (
           <AgentsPage
@@ -208,6 +211,7 @@ export default function App() {
         )}
         {route.view === 'glossary' && <GlossaryPage />}
       </Suspense>
+      </ErrorBoundary>
 
       {route.view === 'builder' && (
         <main className="layout">
@@ -275,9 +279,11 @@ export default function App() {
       )}
 
       {exporting && (
-        <Suspense fallback={null}>
-          <ExportDialog team={active} onClose={() => setExporting(false)} />
-        </Suspense>
+        <ErrorBoundary resetKey="export">
+          <Suspense fallback={null}>
+            <ExportDialog team={active} onClose={() => setExporting(false)} />
+          </Suspense>
+        </ErrorBoundary>
       )}
       {pickSlot != null && (
         <PickerSheet onClose={() => setPickSlot(null)}>

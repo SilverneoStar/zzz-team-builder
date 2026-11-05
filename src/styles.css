@@ -9832,3 +9832,8 @@ details.disc-guide + details.disc-guide {
 .item__tiers li { display: flex; align-items: center; gap: 8px; }
 .item__tiers .item__tier { background: var(--tier); color: #111; }
 .item__for { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; font-weight: 600; }
+
+/* Page error fallback (ErrorBoundary) */
+.page-error a.btn {
+  text-decoration: none;
+}
