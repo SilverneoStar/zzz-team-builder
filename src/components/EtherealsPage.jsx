@@ -60,7 +60,10 @@ function Attrs({ ids, label, empty = 'None' }) {
 function BuffCard({ buff, highlight }) {
   return (
     <div className={`eg-buff${highlight ? ' is-best' : ''}`}>
-      <b>{buff.name}</b>
+      <b className={buff.icon ? 'eg-buff__name' : undefined}>
+        {buff.icon && <img className="eg-buff__icon" src={`${BASE}${buff.icon}`} alt="" loading="lazy" decoding="async" />}
+        {buff.name}
+      </b>
       {buff.text.map((t) => (
         <p key={t}>
           <Keywords text={t} />
@@ -251,7 +254,9 @@ function DeadlyAssault({ onLoadTeam, mine, onMine, onExportMine }) {
               <Attrs ids={boss.resist} label="Resists" />
               {buff && (
                 <p className="eg-boss__buff">
-                  Best buff here: <b>{buff.name}</b>
+                  Best buff here:{' '}
+                  {buff.icon && <img className="eg-buff__icon eg-buff__icon--sm" src={`${BASE}${buff.icon}`} alt="" />}
+                  <b>{buff.name}</b>
                 </p>
               )}
               <Gimmicks items={boss.gimmicks} />

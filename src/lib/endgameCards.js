@@ -302,6 +302,9 @@ async function drawDeadlyAssault(ctx, base, custom) {
   }));
   const run = disjointTeams(bosses.map((x) => ({ target: x.boss, buffs: x.buff ? [x.buff] : [] })));
   const arts = await Promise.all(da.bosses.map((b) => loadImage(`${base}${b.art}`)));
+  const buffIcons = Object.fromEntries(
+    await Promise.all(da.buffs.map(async (b) => [b.id, b.icon ? await loadImage(`${base}${b.icon}`) : null])),
+  );
 
   const colW = (W - 80 - 32) / 3;
   const top = 182;
@@ -330,9 +333,11 @@ async function drawDeadlyAssault(ctx, base, custom) {
       ctx.fillStyle = K.dim;
       ctx.font = `600 13px ${MONO}`;
       ctx.fillText(custom ? 'BUFF' : 'BEST BUFF', x + 16, y);
+      const bi = buffIcons[buff.id];
+      if (bi) ctx.drawImage(bi, x + 104, y - 17, 24, 24);
       ctx.fillStyle = K.fg;
       ctx.font = `700 17px ${FONT}`;
-      ctx.fillText(buff.name, x + 106, y + 1);
+      ctx.fillText(fit(ctx, buff.name, colW - 32 - 90 - (bi ? 30 : 0)), x + 106 + (bi ? 30 : 0), y + 1);
       y += 26;
     }
     const ids = custom ? picked(custom.teams?.[i]) : run[i]?.ids;
@@ -355,9 +360,11 @@ async function drawDeadlyAssault(ctx, base, custom) {
   da.buffs.forEach((b, i) => {
     const x = 40 + i * (bw + 16);
     panel(ctx, x, y, bw, bh);
+    const bi = buffIcons[b.id];
+    if (bi) ctx.drawImage(bi, x + 14, y + 10, 30, 30);
     ctx.fillStyle = K.fg;
     ctx.font = `800 18px ${FONT}`;
-    ctx.fillText(b.name, x + 16, y + 30);
+    ctx.fillText(b.name, x + 16 + (bi ? 38 : 0), y + 31);
     ctx.fillStyle = K.text;
     ctx.font = `500 14px ${FONT}`;
     let ly = y + 54;

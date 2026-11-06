@@ -9865,3 +9865,8 @@ details.disc-guide + details.disc-guide {
 .page-error a.btn {
   text-decoration: none;
 }
+
+/* Deadly Assault buff icons, as in the game's buff picker. */
+.eg-buff > b.eg-buff__name { display: flex; align-items: center; gap: 8px; }
+.eg-buff__icon { width: 30px; height: 30px; border-radius: 50%; flex: none; }
+.eg-buff__icon--sm { width: 20px; height: 20px; vertical-align: -5px; margin-right: 4px; }
