@@ -159,6 +159,16 @@ export default function AgentDetail({
           )}
         </div>
         <div className="detail__head-actions">
+          <button
+            type="button"
+            className="btn btn--quiet detail__export"
+            onClick={() => setCard('build')}
+            title="Export a card image"
+            aria-label={`Export a ${a.name} card image`}
+          >
+            <ExportIcon size={18} />
+            <span className="detail__export-label">Export card</span>
+          </button>
           <button className="btn btn--quiet detail__close" onClick={onClose} aria-label="Close details">
             ×
           </button>
@@ -222,10 +232,6 @@ export default function AgentDetail({
       <div className="detail__actions">
         <button className="btn btn--primary" onClick={onAdd} disabled={inActiveTeam || teamFull}>
           {inActiveTeam ? 'Already in current team' : teamFull ? 'Current team is full' : 'Add to current team'}
-        </button>
-        <button className="btn" onClick={() => setCard('build')}>
-          <ExportIcon />
-          Export card
         </button>
       </div>
       {card && (

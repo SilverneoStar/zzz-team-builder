@@ -16,6 +16,7 @@ import {
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { SKILL_COUNT, materialsFor } from '../data/materials.js';
+import { wEngineMaterials } from '../data/levelMats.js';
 import { wEngineArtStem } from '../components/WEngineArt.jsx';
 import { DISCS_WITH_ART } from '../components/DiscArt.jsx';
 import { BANGBOO_WITH_ART } from '../components/BangbooArt.jsx';
@@ -97,10 +98,11 @@ function panel(ctx, x, y, w, h, title, note) {
   ctx.font = `600 14px ${MONO}`;
   ctx.fillText(title.toUpperCase(), x + 20, y + 30);
   if (note) {
+    const tw = ctx.measureText(title.toUpperCase()).width;
     ctx.textAlign = 'right';
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${FONT}`;
-    ctx.fillText(note, x + w - 20, y + 30);
+    ctx.fillText(fit(ctx, note, w - 52 - tw), x + w - 20, y + 30);
     ctx.textAlign = 'left';
   }
 }
@@ -571,13 +573,46 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
     );
     ctx.fillStyle = K.dim;
     ctx.font = `500 12.5px ${FONT}`;
-    const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 72, 2);
+    // Two source lines when the row has room (and always for the last row), else one.
+    const maxLines = i === items.length - 1 || rowH >= 58 ? 2 : 1;
+    const src = wrap(ctx, hdd ? `Higher Dimensional Data · ${it.source}` : it.source, w - 72, maxLines);
     src.forEach((l, k) => ctx.fillText(l, x + 52, ry + 42 + k * 16));
+  });
+}
+
+// The best W-Engine from the Agent's build and what it takes to reach level 60.
+function bestEngineMats(a) {
+  const id = BUILDS[a.id]?.wEngines?.[0];
+  const w = id && W_ENGINE_BY_ID[id];
+  const items = w && wEngineMaterials(w);
+  if (!items) return null;
+  // One-line sources for the card (the full ones are on the W-Engine page).
+  const short = (it) => (it.kind === 'denny' ? it.source : 'Combat Simulation');
+  return { w, items: items.map((it) => ({ ...it, source: short(it) })) };
+}
+
+// One compact row under the guide's W-Engines: what the best one needs for level 60.
+async function drawEngineMats(ctx, a, base, x, y, w) {
+  const eng = bestEngineMats(a);
+  if (!eng) return;
+  const items = eng.items.filter((it) => it.kind !== 'denny');
+  const icons = await loadMatIcons(items, base);
+  ctx.fillStyle = K.dim;
+  ctx.font = `500 12px ${MONO}`;
+  ctx.fillText(`${fit(ctx, eng.w.name.toUpperCase(), w - 110)} · LV 60`, x, y);
+  const cw = w / items.length;
+  items.forEach((it, i) => {
+    const ix = x + i * cw;
+    if (icons[it.name]) ctx.drawImage(icons[it.name], ix, y + 10, 28, 28);
+    ctx.fillStyle = K.text;
+    ctx.font = `600 15px ${FONT}`;
+    ctx.fillText(`×${fmt(it.qty)}`, ix + 32, y + 30);
   });
 }
 
 async function drawFarm(ctx, W, H, a, base, _lo, tall) {
   const m = materialsFor(a.id);
+  const eng = bestEngineMats(a);
   await head(ctx, W, a, base, 'Farming card');
   const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, roles: await loadRoleIcons(base, [a]) });
@@ -591,49 +626,64 @@ async function drawFarm(ctx, W, H, a, base, _lo, tall) {
   const top = 290;
   const ph = 300;
   const w = 354;
-  const icons = await loadMatIcons([...m.promotion, ...m.skill, ...m.core], base);
+  const icons = await loadMatIcons([...m.promotion, ...m.skill, ...m.core, ...(eng?.items ?? [])], base);
   if (tall) {
-    // Stacked full width, one row per item.
-    const rh = 56;
+    // Stacked full width, one row per item; with a W-Engine, Core Skill and
+    // W-Engine share the last row so everything fits the tall card.
+    const rh = eng ? 48 : 56;
     let y = top;
     const skills = m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT }));
     [
       ['Level up', 'level 1 → 60', m.promotion],
       ['Skills', `all ${SKILL_COUNT}, level 1 → 12`, skills],
-      ['Core Skill', 'base → F', m.core],
     ].forEach(([title, note, items]) => {
       const h = 56 + items.length * rh;
       drawMatGroup(ctx, 40, y, W - 80, h, title, note, items, icons);
       y += h + 14;
     });
+    if (eng) {
+      const h = 56 + Math.max(m.core.length, eng.items.length) * rh;
+      const half = (W - 80 - 16) / 2;
+      drawMatGroup(ctx, 40, y, half, h, 'Core Skill', 'base → F', m.core, icons);
+      drawMatGroup(ctx, 40 + half + 16, y, half, h, 'W-Engine', eng.w.name, eng.items, icons);
+      y += h + 14;
+    } else {
+      const h = 56 + m.core.length * rh;
+      drawMatGroup(ctx, 40, y, W - 80, h, 'Core Skill', 'base → F', m.core, icons);
+      y += h + 14;
+    }
     ctx.fillStyle = K.dim;
     ctx.font = `400 13px ${FONT}`;
     wrap(
       ctx,
-      `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`,
+      `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.${eng ? ' W-Engine: best pick, level 1 → 60.' : ''}`,
       W - 80,
       2,
     ).forEach((l, i) => ctx.fillText(l, 40, y + 8 + i * 18));
     foot(ctx, W, H);
     return;
   }
-  drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
+  // Three panels, or four with the best W-Engine.
+  const gw = eng ? (W - 80 - 3 * 18) / 4 : w;
+  const gx = (i) => 40 + i * (gw + (eng ? 18 : 29));
+  drawMatGroup(ctx, gx(0), top, gw, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
   drawMatGroup(
     ctx,
-    40 + w + 29,
+    gx(1),
     top,
-    w,
+    gw,
     ph,
     'Skills',
     `all ${SKILL_COUNT}, level 1 → 12`,
     m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })),
     icons,
   );
-  drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core, icons);
+  drawMatGroup(ctx, gx(2), top, gw, ph, 'Core Skill', 'base → F', m.core, icons);
+  if (eng) drawMatGroup(ctx, gx(3), top, gw, ph, 'W-Engine', eng.w.name, eng.items, icons);
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
   ctx.fillText(
-    `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.`,
+    `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.${eng ? ' W-Engine: best pick, level 1 → 60.' : ''}`,
     40,
     616,
   );
@@ -680,6 +730,7 @@ async function drawGuide(ctx, W, H, a, base) {
   if (b) {
     panel(ctx, 40, y, 1000, 282, 'Build');
     drawEngineRows(ctx, b.wEngines, icons, 58, y + 46, 360, 56, 3);
+    await drawEngineMats(ctx, a, base, 58, y + 236, 380);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText('4-PIECE', 452, y + 62);
