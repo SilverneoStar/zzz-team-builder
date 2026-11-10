@@ -100,7 +100,7 @@ export const DEADLY_ASSAULT = {
       name: 'Autonomous Assault Unit – Typhon Destroyer',
       type: 'Machine',
       isNew: true,
-      about: 'Best with a Stun Agent. No Electric team? Ye Shunguang, Zhao and Sunna with Storm Tribulation can brute-force it.',
+      about: 'Best with a Stun Agent. No Electric team? Ye Shunguang, Dialyn and Sunna with Storm Tribulation can brute-force it.',
       tip: 'Dodge until its missile barrage, then parry the three heavy attacks that follow to Impair it.',
       gimmicks: [
         'Dodge its attacks until it fires a missile barrage. Three heavy attacks follow: parry all three with Defensive Assists.',
@@ -119,7 +119,7 @@ export const DEADLY_ASSAULT = {
         ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
         ['soldier-0-anby', 'trigger', 'sunna'],
         ['seed', 'cissia', 'astra-yao'],
-        ['ye-shunguang', 'zhao', 'sunna'],
+        ['ye-shunguang', 'dialyn', 'sunna'],
       ],
     },
   ],
