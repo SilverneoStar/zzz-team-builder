@@ -546,6 +546,9 @@ async function loadMatIcons(items, base) {
   return out;
 }
 
+// Card label for a material: "Chip" dropped so long names fit.
+const cardName = (name) => name.replace(/ Chip$/, '');
+
 function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
   panel(ctx, x, y, w, h, title, note);
   const rowH = Math.min(78, (h - 56) / items.length);
@@ -566,11 +569,10 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
     const qw = ctx.measureText(qty).width;
     ctx.textAlign = 'left';
     const hdd = it.kind === 'hdd';
-    ctx.fillText(
-      fit(ctx, hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name, w - 76 - qw),
-      x + 52,
-      ry + 22,
-    );
+    // Shrink a long name a little before cutting it short.
+    const nm = cardName(hdd ? it.name.replace('Higher Dimensional Data: ', '') : it.name);
+    for (let s = 14.5; s > 12.5 && ctx.measureText(nm).width > w - 76 - qw; s -= 0.5) ctx.font = `600 ${s}px ${FONT}`;
+    ctx.fillText(fit(ctx, nm, w - 76 - qw), x + 52, ry + 22);
     ctx.fillStyle = K.dim;
     ctx.font = `500 12.5px ${FONT}`;
     // Two source lines when the row has room (and always for the last row), else one.
@@ -610,12 +612,40 @@ async function drawEngineMats(ctx, a, base, x, y, w) {
   });
 }
 
+// A short panel of tiles side by side: icon, amount, then the name (wide farm card).
+function drawMatTiles(ctx, x, y, w, h, title, note, items, icons = {}) {
+  panel(ctx, x, y, w, h, title, note);
+  const cw = (w - 24) / items.length;
+  items.forEach((it, i) => {
+    const cx = x + 12 + i * cw + cw / 2;
+    if (icons[it.name]) ctx.drawImage(icons[it.name], cx - 17, y + 44, 34, 34);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = K.text;
+    ctx.font = `700 15px ${FONT}`;
+    ctx.fillText(`×${fmt(it.qty)}`, cx, y + 96);
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 12px ${FONT}`;
+    wrap(ctx, cardName(it.name), cw - 8, 3).forEach((l, k) => ctx.fillText(l, cx, y + 114 + k * 14));
+    ctx.textAlign = 'left';
+  });
+}
+
 async function drawFarm(ctx, W, H, a, base, _lo, tall) {
   const m = materialsFor(a.id);
   const eng = bestEngineMats(a);
   await head(ctx, W, a, base, 'Farming card');
   const art = await loadAgentArt(a, base);
-  agentBlock(ctx, a, art, 56, 100, { w: 130, h: 170, lean: 24, nameSize: 46, roles: await loadRoleIcons(base, [a]) });
+  // Wide card with a W-Engine: its panel sits top right, so the name gets less room.
+  const engTop = eng && !tall;
+  agentBlock(ctx, a, art, 56, 100, {
+    w: 130,
+    h: 170,
+    lean: 24,
+    nameSize: 46,
+    nameW: engTop ? 400 : 760,
+    minSize: engTop ? 24 : 32,
+    roles: await loadRoleIcons(base, [a]),
+  });
   if (!m) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 22px ${FONT}`;
@@ -663,27 +693,25 @@ async function drawFarm(ctx, W, H, a, base, _lo, tall) {
     foot(ctx, W, H);
     return;
   }
-  // Three panels, or four with the best W-Engine.
-  const gw = eng ? (W - 80 - 3 * 18) / 4 : w;
-  const gx = (i) => 40 + i * (gw + (eng ? 18 : 29));
-  drawMatGroup(ctx, gx(0), top, gw, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
+  drawMatGroup(ctx, 40, top, w, ph, 'Level up', 'level 1 → 60', m.promotion, icons);
   drawMatGroup(
     ctx,
-    gx(1),
+    40 + w + 29,
     top,
-    gw,
+    w,
     ph,
     'Skills',
     `all ${SKILL_COUNT}, level 1 → 12`,
     m.skill.map((x) => ({ ...x, qty: x.qty * SKILL_COUNT })),
     icons,
   );
-  drawMatGroup(ctx, gx(2), top, gw, ph, 'Core Skill', 'base → F', m.core, icons);
-  if (eng) drawMatGroup(ctx, gx(3), top, gw, ph, 'W-Engine', eng.w.name, eng.items, icons);
+  drawMatGroup(ctx, 40 + 2 * (w + 29), top, w, ph, 'Core Skill', 'base → F', m.core, icons);
+  // The best W-Engine fills the space beside the name (under the mascot).
+  if (eng) drawMatTiles(ctx, 640, 124, W - 40 - 640, 156, 'W-Engine', `${eng.w.name} · level 1 → 60`, eng.items, icons);
   ctx.fillStyle = K.dim;
   ctx.font = `400 13px ${FONT}`;
   ctx.fillText(
-    `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.${eng ? ' W-Engine: best pick, level 1 → 60.' : ''}`,
+    `${m.chipAttr} skill chips. The Hamster Cage Pass is only for level 11 → 12. Agent EXP: Investigator Logs from Combat Simulation.${eng ? ' W-Engine materials from Combat Simulation.' : ''}`,
     40,
     616,
   );
@@ -795,7 +823,7 @@ async function drawGuide(ctx, W, H, a, base) {
       const tx = micons[it.name] ? 102 : 80;
       ctx.fillStyle = K.text;
       ctx.font = `600 17px ${FONT}`;
-      ctx.fillText(fit(ctx, it.name, 520), tx, ry + 20);
+      ctx.fillText(fit(ctx, cardName(it.name), 520), tx, ry + 20);
       ctx.fillStyle = K.dim;
       ctx.font = `500 13px ${FONT}`;
       ctx.fillText(fit(ctx, it.source, 620), tx, ry + 40);
