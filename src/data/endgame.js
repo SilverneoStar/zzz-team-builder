@@ -93,6 +93,7 @@ export const DEADLY_ASSAULT = {
       picks: [
         ['sigrid-de-lazur', 'dialyn', 'astra-yao'],
         ['sigrid-de-lazur', 'dialyn', 'sunna'],
+        ['severian-lowell', 'norma-hollowell', 'astra-yao'],
       ],
     },
     {
