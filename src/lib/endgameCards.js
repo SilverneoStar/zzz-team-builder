@@ -264,7 +264,7 @@ function foot(ctx, custom) {
   ctx.fillStyle = K.muted;
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText(
-    'silverneostar.github.io/zzz-team-builder · Unofficial fan project, not affiliated with HoYoverse',
+    'silverneostar.github.io/zzz-team-builder · Socials & updates in the site’s footer · Fan project, not affiliated with HoYoverse',
     40,
     H - 30,
   );
