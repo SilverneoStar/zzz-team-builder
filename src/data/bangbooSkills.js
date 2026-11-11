@@ -1,3 +1,4 @@
+import { inFaction } from './factions.js';
 // Bangboo skills in short: Active Skill (with cooldown), Additional Ability
 // (its team condition, and its numbers at Ability levels 1–5) and Bangboo
 // Chain Attack. Shortened rewordings of the Zenless Zone Zero Wiki's skill
@@ -275,7 +276,7 @@ export function needMet(need, squad, base = (a) => a) {
   if (need.attr) return count((a) => base(a.attribute) === need.attr) >= need.n;
   if (need.faction) {
     const names = [need.faction].flat();
-    return count((a) => names.includes(a.faction)) >= need.n;
+    return count((a) => inFaction(a.faction, names)) >= need.n;
   }
   if (need.specialty) return count((a) => need.specialty.includes(a.specialty)) >= need.n;
   if (need.agent) return squad.some((a) => a.id === need.agent);

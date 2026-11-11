@@ -11,6 +11,7 @@ import { kitLinksBetween } from '../lib/analyze.js';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
 import AgentFilters, { matchesAgentFilters, useAgentFilters } from './AgentFilters.jsx';
+import { sameFaction as isSameFaction } from '../data/factions.js';
 
 // What an Agent would share with the current squad if added.
 function links(agent, members) {
@@ -19,7 +20,7 @@ function links(agent, members) {
   if (team.some((m) => baseAttribute(m.attribute) === baseAttribute(agent.attribute))) {
     out.push(ATTRIBUTE_BY_ID[baseAttribute(agent.attribute)].name);
   }
-  if (team.some((m) => m.faction === agent.faction)) out.push('Faction');
+  if (team.some((m) => isSameFaction(m.faction, agent.faction))) out.push('Faction');
   const kit = new Set(team.filter((m) => m.id !== agent.id).flatMap((m) => kitLinksBetween(agent, m)));
   kit.forEach((k) => out.push(k));
   return out;

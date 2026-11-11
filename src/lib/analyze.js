@@ -1,5 +1,6 @@
 import { showBeta } from './betaInfo.js';
 import { PASSIVES } from '../data/passives.js';
+import { sameFaction } from '../data/factions.js';
 import { POTENTIAL_PASSIVE } from '../data/potentials.js';
 import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
 
@@ -154,7 +155,7 @@ export function passiveStatus(memberIds, loadouts = {}) {
         (o) =>
           p.specialties?.includes(o.specialty) ||
           (p.attribute && baseAttribute(o.attribute) === baseAttribute(a.attribute)) ||
-          (p.faction && o.faction === a.faction),
+          (p.faction && sameFaction(o.faction, a.faction)),
       )
       .map((o) => o.name);
     const potEntry = POTENTIAL_PASSIVE[a.id];
@@ -222,7 +223,7 @@ function turnsOn(owner, other) {
   return (
     !!p.specialties?.includes(other.specialty) ||
     (!!p.attribute && baseAttribute(other.attribute) === baseAttribute(owner.attribute)) ||
-    (!!p.faction && other.faction === owner.faction)
+    (!!p.faction && sameFaction(other.faction, owner.faction))
   );
 }
 

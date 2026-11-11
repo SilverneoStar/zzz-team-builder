@@ -5,6 +5,7 @@ import { KIT_LINKS, MECHANICS } from '../data/kitLinks.js';
 import { PASSIVES } from '../data/passives.js';
 import { passiveCondition, teammatesFor } from '../lib/analyze.js';
 import Portrait from './Portrait.jsx';
+import { sameFaction as isSameFaction } from '../data/factions.js';
 
 const SHOW = 3;
 
@@ -47,7 +48,7 @@ export default function Teammates({ agent: a }) {
     id: s,
     list: byScore(others.filter((x) => x.specialty === s)),
   }));
-  const sameFaction = byScore(others.filter((x) => x.faction === a.faction));
+  const sameFaction = byScore(others.filter((x) => isSameFaction(x.faction, a.faction)));
   const sameAttr = byScore(others.filter((x) => baseAttribute(x.attribute) === baseAttribute(a.attribute)));
   const turnsOn = ' · turns on the Additional Ability';
 
