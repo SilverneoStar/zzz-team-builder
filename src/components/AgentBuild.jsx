@@ -14,6 +14,8 @@ import WEngineArt from './WEngineArt.jsx';
 import BangbooArt from './BangbooArt.jsx';
 import DiscArt from './DiscArt.jsx';
 
+const BASE = import.meta.env.BASE_URL;
+
 // The Agent page's "Build & teams" tab: the recommended W-Engines, Drive Disc
 // sets and stats, and the best teams, each loadable into the team builder with
 // every member's recommended gear.
@@ -245,7 +247,12 @@ function NoBuild({ agent }) {
                 <div>
                   <h4 className="micro-title">4-piece set</h4>
                   <SetList ids={trial.fourPiece} />
-                  {trial.newFourPiece && <p className="small">{trial.newFourPiece}</p>}
+                  {trial.newFourPiece && (
+                    <p className="small new-set">
+                      {trial.newFourPieceArt && <img className="new-set__art" src={`${BASE}${trial.newFourPieceArt}`} alt="" loading="lazy" />}
+                      <span>{trial.newFourPiece}</span>
+                    </p>
+                  )}
                 </div>
                 <div>
                   <h4 className="micro-title">2-piece set</h4>
@@ -363,11 +370,11 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
                 : `${a.name} isn’t released yet. These are the teams HoYoverse has shown so far.`}
       </p>
       <ul className="best-teams">
-        {teams.map(({ members, source }, i) => {
+        {teams.map(({ members, source, setup, setupArt }, i) => {
           const passives = passiveStatus(members);
           const kit = kitLinks(members);
           return (
-            <li key={members.join()} className="best-team">
+            <li key={`${members.join()}-${i}`} className="best-team">
               <span className="best-team__n">{i + 1}</span>
               <span className="best-team__members">
                 {members.map((id) => {
@@ -391,6 +398,12 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
                 ))}
                 <span className={`fit-tag${source.startsWith('Estimate') ? '' : ' fit-tag--kit'}`}>{source}</span>
               </span>
+              {setup && (
+                <span className="best-team__setup">
+                  {setupArt && <img className="best-team__setup-art" src={`${BASE}${setupArt}`} alt="" loading="lazy" />}
+                  {setup}
+                </span>
+              )}
               <button className="btn btn--small" onClick={() => onLoadTeam(recommendedTeam(a.id, members))}>
                 Load team
               </button>
