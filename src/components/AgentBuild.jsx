@@ -370,8 +370,8 @@ function UpcomingTeams({ agent: a, onLoadTeam }) {
                 : `${a.name} isn’t released yet. These are the teams HoYoverse has shown so far.`}
       </p>
       <ul className="best-teams">
-        {teams.map(({ members, source, setup, setupArt }, i) => {
-          const passives = passiveStatus(members);
+        {teams.map(({ members, source, setup, setupArt, potential = [] }, i) => {
+          const passives = passiveStatus(members, Object.fromEntries(potential.map((id) => [id, { potential: 1 }])));
           const kit = kitLinks(members);
           return (
             <li key={`${members.join()}-${i}`} className="best-team">

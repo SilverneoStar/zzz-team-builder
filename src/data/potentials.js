@@ -20,7 +20,10 @@ export const MAX_POTENTIAL = 6;
 export const POTENTIAL_PASSIVE = {
   'ellen-joe': { specialties: ['stun'] },
   'grace-howard': { specialties: ['anomaly'] },
+  'koleda-belobog': { specialties: ['armorer'] },
   'von-lycaon': { specialties: ['anomaly'] },
+  // Expected, not confirmed: her upcoming Potential should widen it to Armorer like Koleda's.
+  'ju-fufu': { specialties: ['armorer'], expected: true },
 };
 export const hasPotential = (id) => POTENTIAL_AGENTS.has(id);
 export const ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI'];

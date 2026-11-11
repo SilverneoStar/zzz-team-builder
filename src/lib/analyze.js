@@ -127,7 +127,7 @@ export function passiveCondition(agentId) {
   const pot = POTENTIAL_PASSIVE[agentId];
   if (pot) {
     const names = orList(pot.specialties.map(SPEC_NAME));
-    parts.push(`with Potential I, ${/^[AEIOU]/.test(names) ? 'an' : 'a'} ${names} Agent`);
+    parts.push(`with Potential I, ${/^[AEIOU]/.test(names) ? 'an' : 'a'} ${names} Agent${pot.expected ? ' (expected)' : ''}`);
   }
   return parts.join(', or ');
 }
@@ -161,7 +161,7 @@ export function passiveStatus(memberIds, loadouts = {}) {
     if (pot) {
       squad
         .filter((o) => o.id !== a.id && !via.includes(o.name) && pot.specialties.includes(o.specialty))
-        .forEach((o) => via.push(`${o.name} (Potential I)`));
+        .forEach((o) => via.push(`${o.name} (Potential I${pot.expected ? ', expected' : ''})`));
     }
     const on = via.length > 0;
     if (on) active += 1;
