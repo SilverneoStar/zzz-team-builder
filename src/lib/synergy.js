@@ -48,6 +48,7 @@ import {
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { PRESETS } from '../data/presets.js';
+import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
 import { kitLinks, passiveStatus } from './analyze.js';
 import { GEAR_BUFFS, TEAM_BUFFS } from '../data/teamBuffs.js';
@@ -100,6 +101,24 @@ const KNOWN_PAIRS = new Set(
     b.teams.flatMap((t) => t.flatMap((x, i) => t.slice(i + 1).map((y) => [x, y].sort().join('|')))),
   ),
 );
+
+// Teams shown for upcoming Agents (official gameplay, beta tests, estimates).
+// Beta teams count only while beta info is shown; the first one shown for each
+// Agent is its top pick.
+function upcomingTeamKeys() {
+  const all = new Set();
+  const top = new Set();
+  Object.values(UPCOMING).forEach((u) => {
+    if (u.beta && !showBeta()) return;
+    const teams = (u.teams ?? []).filter((t) => t.members.length === 3 && (t.source !== 'Beta' || showBeta()));
+    teams.forEach((t, i) => {
+      const k = [...t.members].sort().join('|');
+      all.add(k);
+      if (i === 0) top.add(k);
+    });
+  });
+  return { all, top };
+}
 
 // Top picks: the first team in each Agent's list, and the preset teams. Other
 // recommended teams still work, just less well (e.g. Seed is best with Cissia,
@@ -283,7 +302,10 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const ps = passiveStatus(ids, loadouts);
   const known = Object.values(ps.byId).filter((v) => v.known);
   const on = known.filter((v) => v.active);
-  const abilityPts = squad.length ? (known.length ? (on.length / 3) * 35 : 17.5 * (squad.length / 3)) : 0;
+  // An ability that isn't revealed (or is hidden beta info) counts as half on,
+  // so a squad isn't marked down for what can't be checked yet.
+  const unknown = squad.length - known.length;
+  const abilityPts = squad.length ? ((on.length + unknown * 0.5) / 3) * 35 : 0;
   parts.push({
     id: 'abilities',
     label: 'Additional Abilities',
@@ -500,8 +522,10 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const key = [...ids].sort().join('|');
   const pairs = ids.flatMap((x, i) => ids.slice(i + 1).map((y) => [x, y].sort().join('|')));
   const knownPairs = pairs.filter((p) => KNOWN_PAIRS.has(p)).length;
-  const top = ids.length === 3 && TOP_TEAMS.has(key);
-  const knownPts = ids.length === 3 && KNOWN_TEAMS.has(key) ? (top ? 7 : 6) : Math.min(4, knownPairs * 2);
+  const up = upcomingTeamKeys();
+  const top = ids.length === 3 && (TOP_TEAMS.has(key) || up.top.has(key));
+  const knownPts =
+    ids.length === 3 && (KNOWN_TEAMS.has(key) || up.all.has(key)) ? (top ? 7 : 6) : Math.min(4, knownPairs * 2);
   parts.push({
     id: 'known',
     label: 'Known team (bonus)',
