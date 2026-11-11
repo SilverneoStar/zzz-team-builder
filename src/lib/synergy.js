@@ -58,7 +58,7 @@ import { W_ENGINE_BY_ID, DRIVE_DISC_BY_ID, SPECIALTY_BY_ID } from '../data/game.
 import { SET_FIT, STAT_NAME } from '../data/discFit.js';
 import { showBeta } from './betaInfo.js';
 import { EVASIVE_ASSIST, OFF_FIELD } from '../data/fieldTime.js';
-import { ROMAN, hasPotential } from '../data/potentials.js';
+import { BETA_POTENTIAL, POTENTIAL_PASSIVE, ROMAN, hasPotential } from '../data/potentials.js';
 
 /** Rank letters from best to worst, with the lowest score for each. */
 export const SYNERGY_RANKS = [
@@ -102,22 +102,27 @@ const KNOWN_PAIRS = new Set(
   ),
 );
 
-// Teams shown for upcoming Agents (official gameplay, beta tests, estimates).
-// Beta teams count only while beta info is shown; the first one shown for each
-// Agent is its top pick.
-function upcomingTeamKeys() {
-  const all = new Set();
-  const top = new Set();
+// Teams shown for upcoming Agents (official gameplay, beta tests, estimates),
+// best first. Beta teams count only while beta info is shown. A team that lists
+// its gear (`gear`: W-Engine per member) or Potential matches only with that
+// setup, so the same trio can rank differently by setup. Returns the best place
+// (0 = top) this squad takes in any list, or -1.
+function upcomingTeamPlace(ids, loadouts) {
+  const key = [...ids].sort().join('|');
+  let best = -1;
+  let loose = -1;
   Object.values(UPCOMING).forEach((u) => {
     if (u.beta && !showBeta()) return;
     const teams = (u.teams ?? []).filter((t) => t.members.length === 3 && (t.source !== 'Beta' || showBeta()));
     teams.forEach((t, i) => {
-      const k = [...t.members].sort().join('|');
-      all.add(k);
-      if (i === 0) top.add(k);
+      if ([...t.members].sort().join('|') !== key) return;
+      const gearOk = Object.entries(t.gear ?? {}).every(([id, w]) => loadouts[id]?.wEngine === w);
+      const potOk = (t.potential ?? []).every((id) => (loadouts[id]?.potential ?? 0) >= 1);
+      if (gearOk && potOk) best = best < 0 ? i : Math.min(best, i);
+      else loose = Math.max(loose, i);
     });
   });
-  return { all, top };
+  return best >= 0 ? best : loose;
 }
 
 // Top picks: the first team in each Agent's list, and the preset teams. Other
@@ -492,10 +497,15 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     if (b.kind === 'general' && generalCounted.has(b.bucket)) return;
     const giver = squad.find((a) => a.id === b.agent);
     if (!giver) return;
+    // A Potential that widens the giver's Additional Ability widens its buff too
+    // (expected widenings only while beta info is shown).
+    const potEntry = POTENTIAL_PASSIVE[giver.id];
+    const potSpecs =
+      potEntry && (loadouts[giver.id]?.potential ?? 0) >= 1 && (!potEntry.expected || showBeta()) ? potEntry.specialties : [];
     const helped = squad.filter(
       (a) =>
         (!b.to.others || a.id !== giver.id) &&
-        (!b.to.specialties || b.to.specialties.includes(a.specialty)) &&
+        (!b.to.specialties || b.to.specialties.includes(a.specialty) || (b.potential && potSpecs.includes(a.specialty))) &&
         (!b.to.attributes || b.to.attributes.includes(baseAttribute(a.attribute))) &&
         (!b.to.notRupture || a.specialty !== 'rupture') &&
         (!b.to.aftershock || dealsAftershock(a)),
@@ -522,10 +532,17 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const key = [...ids].sort().join('|');
   const pairs = ids.flatMap((x, i) => ids.slice(i + 1).map((y) => [x, y].sort().join('|')));
   const knownPairs = pairs.filter((p) => KNOWN_PAIRS.has(p)).length;
-  const up = upcomingTeamKeys();
-  const top = ids.length === 3 && (TOP_TEAMS.has(key) || up.top.has(key));
+  // Upcoming Agents' teams: 7 for the top one, half a point less for each place down (to 5).
+  const upPlace = ids.length === 3 ? upcomingTeamPlace(ids, loadouts) : -1;
+  const top = ids.length === 3 && (TOP_TEAMS.has(key) || upPlace === 0);
   const knownPts =
-    ids.length === 3 && (KNOWN_TEAMS.has(key) || up.all.has(key)) ? (top ? 7 : 6) : Math.min(4, knownPairs * 2);
+    ids.length === 3 && KNOWN_TEAMS.has(key)
+      ? top
+        ? 7
+        : 6
+      : upPlace >= 0
+        ? Math.max(5, 7 - upPlace * 0.5)
+        : Math.min(4, knownPairs * 2);
   parts.push({
     id: 'known',
     label: 'Known team (bonus)',
@@ -533,7 +550,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     max: 7,
     bonus: true,
     detail:
-      knownPts >= 6
+      knownPts >= 5
         ? top
           ? 'A top recommended team'
           : 'A recommended team (another pairing is a little stronger)'
@@ -627,7 +644,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     .map((a) => ({
       a,
       m: loadouts[a.id]?.mindscape ?? 0,
-      p: hasPotential(a.id) ? (loadouts[a.id]?.potential ?? 0) : 0,
+      p: hasPotential(a.id) || (BETA_POTENTIAL.has(a.id) && showBeta()) ? (loadouts[a.id]?.potential ?? 0) : 0,
     }))
     .filter((x) => x.m || x.p);
   if (invested.length) {

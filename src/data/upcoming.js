@@ -56,10 +56,10 @@ export const UPCOMING = {
     teams: [
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
-      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'] },
-      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp' },
-      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)' },
-      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'] },
+      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
+      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
+      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)', gear: { 'norma-hollowell': 'chief-sidekick' } },
+      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'], gear: { 'ju-fufu': 'roaring-fur-nace' } },
       { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
     ],
   },
@@ -87,10 +87,10 @@ export const UPCOMING = {
     teams: [
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
-      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'] },
-      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp' },
-      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)' },
-      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'] },
+      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
+      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
+      { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)', gear: { 'norma-hollowell': 'chief-sidekick' } },
+      { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'], gear: { 'ju-fufu': 'roaring-fur-nace' } },
       { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
       { members: ['kafka', 'nangong-yu', 'robin-hsr'], source: 'Estimate · collab pair' },
       { members: ['claret-flint', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Estimate · Armorer team' },

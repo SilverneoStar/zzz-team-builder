@@ -52,7 +52,8 @@ export const TEAM_BUFFS = [
   { agent: 'robin-hsr', kind: 'sharp', text: 'raises the squad’s Laceration DMG (M1)', to: { specialties: ['armorer'] }, beta: true },
 
   // Chain Attacks and Ultimates.
-  { agent: 'ju-fufu', kind: 'chain', text: 'Tiger’s Roar: Chain and Ultimate DMG, more Decibels', to: { specialties: ['attack', 'rupture'] } },
+  // `potential`: her Potential widens who it reaches, like her Additional Ability (data/potentials.js).
+  { agent: 'ju-fufu', kind: 'chain', text: 'Tiger’s Roar: Chain and Ultimate DMG, more Decibels', to: { specialties: ['attack', 'rupture'] }, potential: true },
 
   // Aftershock teams. Soldier 0 – Anby's own Aftershock buff is the Aftershock
   // kit link, so it isn't counted again here.
