@@ -157,7 +157,9 @@ export function passiveStatus(memberIds, loadouts = {}) {
           (p.faction && o.faction === a.faction),
       )
       .map((o) => o.name);
-    const pot = (loadouts[a.id]?.potential ?? 0) >= 1 && POTENTIAL_PASSIVE[a.id];
+    const potEntry = POTENTIAL_PASSIVE[a.id];
+    // An expected (beta) widening only counts while beta info is shown.
+    const pot = (loadouts[a.id]?.potential ?? 0) >= 1 && potEntry && (!potEntry.expected || showBeta()) && potEntry;
     if (pot) {
       squad
         .filter((o) => o.id !== a.id && !via.includes(o.name) && pot.specialties.includes(o.specialty))

@@ -26,4 +26,7 @@ export const POTENTIAL_PASSIVE = {
   'ju-fufu': { specialties: ['armorer'], expected: true },
 };
 export const hasPotential = (id) => POTENTIAL_AGENTS.has(id);
+// Agents with an announced Potential that isn't out yet (beta): it can be set in
+// the team builder only while beta info is shown.
+export const BETA_POTENTIAL = new Set(['ju-fufu', 'vivian-banshee']);
 export const ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI'];

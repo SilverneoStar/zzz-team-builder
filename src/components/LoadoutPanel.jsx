@@ -16,11 +16,12 @@ import { useRef, useState } from 'react';
 import { RANKS, discBonuses, mainMax, mainStatOf } from '../lib/discs.js';
 import DiscWheel, { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
-import { MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
+import { BETA_POTENTIAL, MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
+import { ENGINE_PICKS } from '../data/enginePicks.js';
 import RankBadge from './RankBadge.jsx';
 import MemberPicker from './MemberPicker.jsx';
 import { recommendationFor } from '../lib/builds.js';
-import { useShowBeta } from '../lib/betaInfo.js';
+import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
 // the six Drive Disc slots on the equipment wheel, each with its own set, rank
@@ -61,6 +62,16 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const setMark = (id, list) =>
     rec && list.includes(id) ? (id === list[0] ? ` · ${recTag} best` : ` · ${recTag}`) : '';
   const mainMark = (n, st) => (rec?.main[n] === st ? ` · ${recTag}` : '');
+  // Recommended alternatives players pick over the signature (beta ones only with beta info on).
+  const picks = (ENGINE_PICKS[agent.id] ?? []).filter((p) => W_ENGINE_BY_ID[p.id] && (!p.beta || showBeta));
+  const pickOf = (id) => picks.find((p) => p.id === id);
+  // Whether this Agent has anything beta to show, for the beta switch.
+  const betaPotential = BETA_POTENTIAL.has(agent.id);
+  const hasBeta =
+    recAll?.beta ||
+    betaPotential ||
+    (ENGINE_PICKS[agent.id] ?? []).some((p) => p.beta) ||
+    W_ENGINES.some((x) => x.beta && x.specialty === agent.specialty);
   const useEngine = () => rec?.best && onChange({ wEngine: rec.best });
   const useSets = () =>
     onChange({
@@ -104,6 +115,17 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
         </button>
       </div>
       {agent.members && <MemberPicker agent={agent} />}
+      {hasBeta && (
+        <p className="beta-switch muted small">
+          <span className="card__tag card__tag--warn">Beta</span>
+          {showBeta
+            ? 'Showing beta info: W-Engines, Potentials and picks from beta tests. Subject to change.'
+            : 'Beta W-Engines, Potentials and picks are hidden.'}
+          <button type="button" className="rec-btn" onClick={() => setShowBeta(!showBeta)} aria-pressed={showBeta}>
+            {showBeta ? 'Hide beta info' : 'Show beta info'}
+          </button>
+        </p>
+      )}
       {rec && (
         <div className="rec-bar">
           <span className="rec-tag">{recTag}</span>
@@ -142,6 +164,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                   <option key={x.id} value={x.id}>
                     {x.rank} · {x.name}
                     {engineMark(x.id)}
+                    {pickOf(x.id) ? ` · Rec. alt${pickOf(x.id).beta ? ' (beta)' : ''}` : ''}
                     {x.upcoming ? ' (upcoming)' : ''}
                   </option>
                 ))}
@@ -155,6 +178,19 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               </optgroup>
             </select>
           </label>
+          {picks.map((p) => (
+            <p key={p.id} className="pick-note small">
+              <span className="rec-tag">Rec. alt{p.beta ? ' (beta)' : ''}</span>
+              <span>
+                <b>{W_ENGINE_BY_ID[p.id].name}</b>: {p.note}
+              </span>
+              {loadout.wEngine !== p.id && (
+                <button type="button" className="rec-btn" onClick={() => onChange({ wEngine: p.id })}>
+                  Use
+                </button>
+              )}
+            </p>
+          ))}
           {w && (
             <p className="loadout__note">
               <RankBadge rank={w.rank} size={16} />{' '}
@@ -186,9 +222,9 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               format={(v) => `M${v}`}
               onChange={(v) => onChange({ mindscape: v })}
             />
-            {hasPotential(agent.id) && (
+            {(hasPotential(agent.id) || (betaPotential && showBeta)) && (
               <Stepper
-                label="Potential"
+                label={hasPotential(agent.id) ? 'Potential' : 'Potential (beta)'}
                 value={loadout.potential ?? 0}
                 min={0}
                 max={MAX_POTENTIAL}

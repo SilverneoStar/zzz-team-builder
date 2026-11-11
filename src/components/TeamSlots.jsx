@@ -14,13 +14,15 @@ import AgentFrame, { EmptyFrame } from './AgentFrame.jsx';
 import WEngineArt from './WEngineArt.jsx';
 import PassiveFace from './PassiveFace.jsx';
 import { discSummary } from '../lib/discs.js';
-import { ROMAN, hasPotential } from '../data/potentials.js';
+import { BETA_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
+import { useShowBeta } from '../lib/betaInfo.js';
 import { passiveStatus } from '../lib/analyze.js';
 
 // Three Agent slots and a Bangboo slot. Selecting a filled Agent slot opens
 // its loadout below.
 // Tapping an empty slot calls `onPickEmpty(index)` to choose an Agent for it.
 export default function TeamSlots({ team, selected, onSelect, dispatch, onPickEmpty }) {
+  const showBeta = useShowBeta();
   const bangboo = team.bangboo && BANGBOO_BY_ID[team.bangboo];
   const passives = passiveStatus(
     team.members,
@@ -86,7 +88,7 @@ export default function TeamSlots({ team, selected, onSelect, dispatch, onPickEm
                     <span className={gear.mindscape ? 'gear-chip gear-chip--on' : 'gear-chip'} title="Mindscape Cinema">
                       M{gear.mindscape}
                     </span>
-                    {hasPotential(a.id) && gear.potential > 0 && (
+                    {(hasPotential(a.id) || (BETA_POTENTIAL.has(a.id) && showBeta)) && gear.potential > 0 && (
                       <span className="gear-chip gear-chip--on" title={`Potential ${ROMAN[gear.potential]}`}>
                         Pot {ROMAN[gear.potential]}
                       </span>

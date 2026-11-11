@@ -9877,3 +9877,9 @@ details.disc-guide + details.disc-guide {
 .best-team__setup-art { width: 22px; height: 22px; flex: none; }
 .new-set { display: flex; align-items: center; gap: 10px; }
 .new-set__art { width: 44px; height: 44px; flex: none; }
+
+/* Gear panel: beta switch and recommended alternative W-Engines. */
+.beta-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 6px 0; }
+.beta-switch .rec-btn { margin-left: auto; }
+.pick-note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 6px 0 2px; }
+.pick-note > span:nth-child(2) { flex: 1 1 180px; }
