@@ -111,6 +111,7 @@ function upcomingTeamPlace(ids, loadouts) {
   const key = [...ids].sort().join('|');
   let best = -1;
   let loose = -1;
+  let beta = false;
   Object.values(UPCOMING).forEach((u) => {
     if (u.beta && !showBeta()) return;
     const teams = (u.teams ?? []).filter((t) => t.members.length === 3 && (t.source !== 'Beta' || showBeta()));
@@ -118,12 +119,21 @@ function upcomingTeamPlace(ids, loadouts) {
       if ([...t.members].sort().join('|') !== key) return;
       const gearOk = Object.entries(t.gear ?? {}).every(([id, w]) => loadouts[id]?.wEngine === w);
       const potOk = (t.potential ?? []).every((id) => (loadouts[id]?.potential ?? 0) >= 1);
-      if (gearOk && potOk) best = best < 0 ? i : Math.min(best, i);
-      else loose = Math.max(loose, i);
+      if (gearOk && potOk) {
+        if (best < 0 || i < best) beta = t.source === 'Beta';
+        best = best < 0 ? i : Math.min(best, i);
+      } else loose = Math.max(loose, i);
     });
   });
-  return best >= 0 ? best : loose;
+  return best >= 0 ? { place: best, beta } : { place: loose, beta: false };
 }
+
+// With beta info shown, a squad that matches a beta-test team (gear and
+// Potential included) has its score pulled towards that team's place in the
+// beta ranking: BETA_TARGETS[place], weighted BETA_WEIGHT. A stand-in until the
+// kits are out and the parts above can rank these teams by themselves.
+const BETA_TARGETS = [86, 82, 78, 74, 70];
+const BETA_WEIGHT = 0.7;
 
 // Top picks: the first team in each Agent's list, and the preset teams. Other
 // recommended teams still work, just less well (e.g. Seed is best with Cissia,
@@ -533,7 +543,8 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   const pairs = ids.flatMap((x, i) => ids.slice(i + 1).map((y) => [x, y].sort().join('|')));
   const knownPairs = pairs.filter((p) => KNOWN_PAIRS.has(p)).length;
   // Upcoming Agents' teams: 7 for the top one, half a point less for each place down (to 5).
-  const upPlace = ids.length === 3 ? upcomingTeamPlace(ids, loadouts) : -1;
+  const upMatch = ids.length === 3 ? upcomingTeamPlace(ids, loadouts) : { place: -1, beta: false };
+  const upPlace = upMatch.place;
   const top = ids.length === 3 && (TOP_TEAMS.has(key) || upPlace === 0);
   const knownPts =
     ids.length === 3 && KNOWN_TEAMS.has(key)
@@ -673,8 +684,25 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   }
 
   // Bonus parts add points but don't raise the total to aim for.
-  const total = parts.reduce((n, p) => n + p.points, 0);
+  let total = parts.reduce((n, p) => n + p.points, 0);
   const max = parts.reduce((n, p) => n + (p.bonus ? 0 : p.max), 0);
+  if (upMatch.beta && showBeta() && upMatch.place >= 0 && max) {
+    const raw = Math.min(100, (total / max) * 100);
+    const target = BETA_TARGETS[Math.min(upMatch.place, BETA_TARGETS.length - 1)];
+    const adj = Math.round(((target - raw) * BETA_WEIGHT * max) / 100 * 10) / 10;
+    if (adj) {
+      parts.push({
+        id: 'beta-rank',
+        label: 'Beta test ranking',
+        points: adj,
+        max: Math.abs(adj),
+        bonus: adj > 0,
+        penalty: adj < 0,
+        detail: `#${upMatch.place + 1} in the beta tests: the score leans towards that order until the kits are out`,
+      });
+      total += adj;
+    }
+  }
   const score = Math.min(100, Math.round((total / max) * 100));
   const rank = SYNERGY_RANKS.find((r) => score >= r.min).rank;
   return { score, rank, parts, filled: squad.length };
