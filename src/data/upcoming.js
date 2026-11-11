@@ -11,8 +11,8 @@ export const UPCOMING = {
     // plus the Electric ones, Yanagi and Grace) until her kit is revealed.
     style:
       'Electric Anomaly Agent. Until her kit is shown, build her like other Anomaly carries: Anomaly Proficiency first, Electric DMG on slot 5 and Anomaly Mastery on slot 6.',
-    // No signature W-Engine shown yet: the best Anomaly W-Engines in general, then free options.
-    engines: ['fusion-compiler', 'timeweaver', 'angel-in-the-shell', 'flight-of-fancy', 'weeping-gemini', 'electro-lip-gloss'],
+    // Her signature (beta), then the best Anomaly W-Engines in general, then free options.
+    engines: ['kafka-signature', 'fusion-compiler', 'timeweaver', 'angel-in-the-shell', 'flight-of-fancy', 'weeping-gemini', 'electro-lip-gloss'],
     trial: {
       source: 'Estimated from similar Anomaly Agents',
       fourPiece: ['phaethons-melody', 'thunder-metal', 'chaos-jazz'],

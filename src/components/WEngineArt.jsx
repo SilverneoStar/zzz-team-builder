@@ -5,9 +5,10 @@ import { W_ENGINE_BY_ID } from '../data/game.js';
 // W-Engine with a picture in public/w-engines/<id>.webp. Add an id here when
 // adding a new W-Engine's image; until then it falls back to the rank badge.
 export const W_ENGINES_WITH_ART = new Set([
-  // Placeholders for beta signature W-Engines: a recoloured B-rank Vortex Arrow with a "?" badge.
+  // Beta signature W-Engines (art from 3.4 previews).
   'sunbringer-signature',
   'robin-hsr-signature',
+  'kafka-signature',
   'deep-sea-visitor',
   'ode-of-resurrected-wings',
   'joyau-dore',

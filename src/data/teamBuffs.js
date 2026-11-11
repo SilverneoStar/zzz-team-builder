@@ -145,6 +145,6 @@ export const GEAR_BUFFS = {
     'ode-of-resurrected-wings': { text: 'squad DMG +30% on Refringe', when: any },
     'crimson-moon-casket': { text: 'squad DMG +20% from Wind EX', when: isAttr('wind') },
     'blazing-laurel': { text: 'CRIT DMG of the squad’s Ice and Fire hits', when: any },
-    'robin-hsr-signature': { text: 'squad DEF on shields, DMG on Aftershocks', when: any, beta: true },
+    'robin-hsr-signature': { text: 'squad Laceration DMG on shields, DMG on Aftershocks', when: any, beta: true },
   },
 };
