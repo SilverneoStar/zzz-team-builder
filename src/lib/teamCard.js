@@ -23,6 +23,7 @@ import { ROMAN, hasPotential } from '../data/potentials.js';
 import { BANGBOO_FOCUS, DEFAULT_FOCUS } from '../data/bangbooFocus.js';
 import { memberIndex, shownFaction } from './memberArt.js';
 import { EXPORT_SCALE } from './exportSettings.js';
+import QRCode, { QRErrorCorrectLevel } from './vendor/qrcode.js';
 import { SYNERGY_MOODS, SYNERGY_RANK_STOPS, synergyScore } from './synergy.js';
 
 // Re-exported so older imports keep working.
@@ -269,23 +270,52 @@ export function drawCode(ctx, code, x, y, w, h, { max = 20, min = 9 } = {}) {
   return size;
 }
 
+// QR codes on images carry the team or build code ("ZZZ:" + the code), so
+// "Read a code from an image" on the site reads it exactly, even from a
+// re-shared or cropped picture. Letters, digits and ":" only, so the QR code
+// uses its compact alphanumeric mode and stays small and easy to scan.
+export const qrText = (code) => `ZZZ:${code.replace(/-/g, '')}`;
+
+/** A QR code for `text` in a white box of `size` (quiet zone included), top-left at x, y. */
+export function drawQR(ctx, text, x, y, size) {
+  const q = new QRCode(-1, QRErrorCorrectLevel.L);
+  q.addData(text);
+  q.make();
+  const n = q.getModuleCount();
+  // Whole device pixels per module, so the squares stay crisp.
+  const k = ctx.getTransform().a || 1;
+  const m = Math.max(1, Math.floor((size * k) / (n + 4))) / k;
+  const side = m * (n + 4);
+  const ox = x + (size - side) / 2;
+  const oy = y + (size - side) / 2;
+  ctx.fillStyle = '#ffffff';
+  roundRect(ctx, x, y, size, size, 6);
+  ctx.fill();
+  ctx.fillStyle = '#111111';
+  for (let r = 0; r < n; r += 1)
+    for (let c = 0; c < n; c += 1) if (q.isDark(r, c)) ctx.fillRect(ox + (c + 2) * m, oy + (r + 2) * m, m, m);
+}
+
 function footer(ctx, W, H, team) {
   // The card code: paste it into "Paste a friend's code" to load the team,
   // substats included when they're set (the code is longer then).
   const code = encodeCardCode(team, loadoutOf);
   if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
   const full = code.length > encodeCardCode(team, loadoutOf, { subs: false }).length;
+  // QR code in the bottom-right corner, above the watermark.
+  const Q = 116;
+  drawQR(ctx, qrText(code), W - 40 - Q, H - 54 - Q, Q);
+  const cw = W - 80 - Q - 20;
   ctx.fillStyle = '#b5b5b5';
   ctx.font = `600 13px ${MONO}`;
   if (full) {
-    // Label above, code across the full width below it: easier to read back
-    // from a screenshot.
+    // Label above, code below it: easier to read back from a screenshot.
     ctx.fillText('TEAM CODE · WITH SUBSTATS', 40, H - 88);
-    drawCode(ctx, code, 40, H - 80, W - 80, 36, { max: 16 });
+    drawCode(ctx, code, 40, H - 80, cw, 36, { max: 16 });
   } else {
     ctx.fillText('TEAM CODE', 40, H - 66);
     const labelW = ctx.measureText('TEAM CODE').width;
-    drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 32);
+    drawCode(ctx, code, 40 + labelW + 16, H - 82, cw - labelW - 16, 32);
   }
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;

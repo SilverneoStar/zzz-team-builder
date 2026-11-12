@@ -41,3 +41,5 @@ W-Engine passive effects are short summaries, written in our own words, of each 
 ## Reading screenshots
 
 "Upload screenshots" reads pictures in the browser with Tesseract.js (Apache License 2.0), loaded from cdn.jsdelivr.net the first time it's used, along with its English language data. Pictures are read on the device and aren't uploaded or saved. Team and build images saved from the site also carry their code inside the PNG file, so the saved image gives the exact code back.
+
+Team and build images also carry a QR code with their code. The QR codes are drawn with the QR Code encoder by Kazuhiko Arase (MIT License), from qrcode-terminal (Apache License 2.0), bundled in `src/lib/vendor/qrcode.js`. Reading a QR code from an uploaded picture uses the browser's own BarcodeDetector when there is one, and otherwise jsQR (Apache License 2.0), loaded from cdn.jsdelivr.net when it's needed. Scanning one with a phone camera gives `ZZZ:` followed by the code, which can be pasted into the site.

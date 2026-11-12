@@ -9,6 +9,7 @@ import { analyzeTeam, usageInOtherTeams } from './lib/analyze.js';
 import { navigate, useHashRoute, VIEWS } from './lib/route.js';
 import { SCALE_OPTIONS, useDisplayScale } from './lib/displayScale.js';
 import { decodeTeam } from './lib/share.js';
+import { decodeCardCode } from './lib/cardCode.js';
 import { FILM_STRIPS } from './lib/filmStrips.js';
 import { loadState, saveState } from './lib/storage.js';
 import { initialState, loadoutOf, teamsReducer } from './lib/teamsReducer.js';
@@ -114,9 +115,11 @@ export default function App() {
     saveState({ teams: state.teams, activeId: state.activeId });
   }, [state.teams, state.activeId]);
 
-  // Opening a link ending in #zzz1~... adds that team.
+  // Opening a link ending in #zzz2~… (or #code=… from an image's QR code) adds that team.
   useEffect(() => {
-    const team = decodeTeam(decodeURIComponent(window.location.hash));
+    const hash = decodeURIComponent(window.location.hash);
+    const card = hash.match(/^#code=([0-9A-Za-z-]+)$/);
+    const team = card ? decodeCardCode(card[1]) : decodeTeam(hash);
     if (!team) return;
     dispatch({ type: 'import', ...team });
     try {

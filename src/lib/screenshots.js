@@ -32,6 +32,56 @@ function loadTesseract() {
   return loading;
 }
 
+// QR codes: the browser's own reader where there is one, else jsQR (Apache 2.0) from the CDN.
+const JSQR = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+let jsqrLoading = null;
+const loadJsQR = () =>
+  window.jsQR
+    ? Promise.resolve(window.jsQR)
+    : (jsqrLoading ??= new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = JSQR;
+        s.onload = () => resolve(window.jsQR);
+        s.onerror = () => {
+          jsqrLoading = null;
+          reject(new Error('qr'));
+        };
+        document.head.appendChild(s);
+      }));
+
+/** The text of a QR code in the picture, or null. Looks at the whole picture, then its bottom-right corner. */
+async function readQR(bitmap) {
+  if ('BarcodeDetector' in window) {
+    try {
+      const found = await new window.BarcodeDetector({ formats: ['qr_code'] }).detect(bitmap);
+      if (found[0]?.rawValue) return found[0].rawValue;
+    } catch {
+      /* fall back to jsQR */
+    }
+  }
+  const jsQR = await loadJsQR().catch(() => null);
+  if (!jsQR) return null;
+  const tries = [
+    [0.55, 0.55, 1, 1],
+    [0.6, 0, 1, 0.45],
+    [0, 0, 1, 1],
+  ];
+  for (const [x0, y0, x1, y1] of tries) {
+    const c = await crop(bitmap, x0, y0, x1, y1);
+    // Large pictures are scaled down (quicker, just as good); small re-shared
+    // ones scaled up so each square of the code is a few pixels.
+    const k = Math.min(2, 1600 / Math.max(c.width, c.height));
+    const s = document.createElement('canvas');
+    s.width = Math.round(c.width * k);
+    s.height = Math.round(c.height * k);
+    s.getContext('2d').drawImage(c, 0, 0, s.width, s.height);
+    const img = s.getContext('2d').getImageData(0, 0, s.width, s.height);
+    const r = jsQR(img.data, img.width, img.height);
+    if (r?.data) return r.data;
+  }
+  return null;
+}
+
 let worker = null;
 let progress = null;
 async function getWorker() {
@@ -279,6 +329,11 @@ export async function readScreenshot(file, onProgress) {
   }
   const bitmap = await createImageBitmap(file);
   try {
+    // A QR code from one of the site's images: exact, and no text reading needed.
+    const qr = await readQR(bitmap);
+    const qc = qr?.match(/(?:^ZZZ:|#code=)([0-9A-Za-z-]+)/)?.[1];
+    const qt = qc && decodeCardCode(qc);
+    if (qt) return { kind: 'code', code: qc, team: qt, exact: true };
     const text = await readText(bitmap, onProgress);
     const code = findCode(text);
     if (code) return { kind: 'code', ...code, exact: false };

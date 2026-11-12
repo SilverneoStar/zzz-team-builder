@@ -50,6 +50,8 @@ import {
   roundRect,
   slantedArt,
   drawCode,
+  drawQR,
+  qrText,
 } from './teamCard.js';
 
 // Card types live in exportSettings.js; re-exported so older imports keep working.
@@ -1085,7 +1087,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   const full = code.length > buildCode(a.id, lo, { subs: false }).length;
   if (tall) {
     const ay = btop + bh + 16;
-    const ah = H - 110 - ay;
+    const ah = H - 178 - ay;
     if (ah >= 110) {
       panel(ctx, 40, ay, W - 80, ah, 'Alternatives', 'signature → budget');
       const rows = Math.max(1, Math.min(4, Math.floor((ah - 52) / 42)));
@@ -1095,13 +1097,18 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     // Build code: paste into My build (or the team builder) to load this build.
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
+    // QR code bottom right: opens the site with this build.
+    const Q = 116;
+    drawQR(ctx, qrText(code), W - 40 - Q, H - 46 - Q, Q);
+    ctx.fillStyle = '#b5b5b5';
+    ctx.font = `600 13px ${MONO}`;
     if (full) {
       ctx.fillText('BUILD CODE · WITH SUBSTATS', 40, H - 88);
-      drawCode(ctx, code, 40, H - 80, W - 80, 36, { max: 18 });
+      drawCode(ctx, code, 40, H - 80, W - 100 - Q, 36, { max: 18 });
     } else {
       ctx.fillText('BUILD CODE', 40, H - 66);
       const labelW = ctx.measureText('BUILD CODE').width;
-      drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 34);
+      drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 116 - labelW - Q, 34);
     }
   } else {
     // One strip: alternatives on the left, the build code on the right.
@@ -1141,6 +1148,9 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.font = `600 13px ${MONO}`;
     ctx.fillText(full ? 'BUILD CODE · WITH SUBSTATS' : 'BUILD CODE', cx + 20, ay + 30);
     drawCode(ctx, code, cx + 20, ay + 40, cw - 40, ah - 48);
+    // QR code in the empty space under the mascot (the strip is too short for one).
+    const Q = 124;
+    drawQR(ctx, qrText(code), W - 40 - Q, top - 8 - Q, Q);
   }
   foot(ctx, W, H);
 }
