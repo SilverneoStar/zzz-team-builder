@@ -33,7 +33,7 @@ import { BETA_POTENTIAL, MAX_POTENTIAL, ROMAN, hasPotential } from '../data/pote
 import { ENGINE_PICKS } from '../data/enginePicks.js';
 import RankBadge from './RankBadge.jsx';
 import MemberPicker from './MemberPicker.jsx';
-import { recommendationFor, subPriority } from '../lib/builds.js';
+import { activeStats, recommendationFor, subPriority } from '../lib/builds.js';
 import { BUILDS } from '../data/builds.js';
 import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 
@@ -443,7 +443,7 @@ function SubStats({ agentId, disc, slot, onChange }) {
           Upgrades {used}/{cap}
           {fav.size > 0 && subs.length > 0 && (
             <>
-              {' · '}Active {activeRolls(disc, fav)}/{totalRolls(disc)}
+              {' · '}Active {activeRolls(disc, activeStats(agentId))}/{totalRolls(disc)}
             </>
           )}
         </span>
@@ -506,12 +506,12 @@ function SubStats({ agentId, disc, slot, onChange }) {
 /** Every stat the six discs give: main stats at level 15 plus substats. */
 // About where the Active Modifier Count reaches a top build, by specialty
 // (matches ACTIVE_FULL in lib/synergy.js).
-const ACTIVE_TOP = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
+const ACTIVE_TOP = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 30, armorer: 30 };
 
 function DiscTotals({ discs, label, agentId, specialty, specialtyName }) {
   const totals = discStatTotals(discs);
   if (!totals.length) return null;
-  const fav = subPriority(agentId);
+  const fav = activeStats(agentId);
   const rolls = discs.reduce((n, d) => n + totalRolls(d), 0);
   const active = discs.reduce((n, d) => n + activeRolls(d, fav), 0);
   return (

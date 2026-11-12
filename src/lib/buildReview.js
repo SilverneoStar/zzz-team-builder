@@ -4,7 +4,7 @@
 // Agent favours) against the count a top build reaches for their specialty.
 import { AGENT_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
-import { subPriority } from './builds.js';
+import { activeStats, subPriority } from './builds.js';
 import { activeRolls, discBonuses, totalRolls } from './discs.js';
 import { ACTIVE_FULL, MAIN_PATTERNS, SYNERGY_RANKS } from './synergy.js';
 
@@ -38,14 +38,14 @@ export function reviewBuild(agentId, loadout) {
     notes.push({ tone: 'warn', text: `${DRIVE_DISC_BY_ID[four]?.name} isn’t one of their recommended 4-piece sets.` });
 
   // Substats.
-  const fav = subPriority(agentId);
+  const fav = activeStats(agentId);
   const rolls = discs.reduce((n, d) => n + totalRolls(d), 0);
   const active = discs.reduce((n, d) => n + activeRolls(d, fav), 0);
   const target = ACTIVE_FULL[a.specialty];
   const hasSubs = rolls > 0;
   let subScore = null;
   if (hasSubs) {
-    const best = [...fav.entries()].filter(([, t]) => t === 0).map(([s]) => s);
+    const best = [...subPriority(agentId).entries()].filter(([, t]) => t === 0).map(([s]) => s);
     // Judge only the discs with substats entered, so a half-filled build isn't
     // marked down for discs not entered yet.
     const entered = discs.filter((d) => (d.subs ?? []).length).length;

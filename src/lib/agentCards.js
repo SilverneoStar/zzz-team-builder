@@ -1081,6 +1081,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   ]);
   // The build code, substats included when they're set (longer then).
   const code = buildCode(a.id, lo);
+  if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
   const full = code.length > buildCode(a.id, lo, { subs: false }).length;
   if (tall) {
     const ay = btop + bh + 16;
@@ -1094,13 +1095,14 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     // Build code: paste into My build (or the team builder) to load this build.
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
-    ctx.fillText('BUILD CODE', 40, H - 66);
-    const labelW = Math.max(ctx.measureText('BUILD CODE').width, 96);
     if (full) {
-      ctx.font = `500 11px ${MONO}`;
-      ctx.fillText('WITH SUBSTATS', 40, H - 52);
+      ctx.fillText('BUILD CODE · WITH SUBSTATS', 40, H - 88);
+      drawCode(ctx, code, 40, H - 80, W - 80, 36, { max: 18 });
+    } else {
+      ctx.fillText('BUILD CODE', 40, H - 66);
+      const labelW = ctx.measureText('BUILD CODE').width;
+      drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 34);
     }
-    drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 34);
   } else {
     // One strip: alternatives on the left, the build code on the right.
     const ay = top + ph + 12;

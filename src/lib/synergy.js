@@ -47,15 +47,15 @@ import {
   shortName,
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
-import { subPriority } from './builds.js';
+import { activeStats, subPriority } from './builds.js';
 import { activeRolls, totalRolls } from './discs.js';
 
 // Active Modifier Count at which an Agent's substats count as fully built, by
 // specialty. Anomaly Agents reach a top build at about 20 (they want fewer
 // stats: ATK% and Anomaly Proficiency); CRIT-based ones need more (a Severian at
-// 30 still shows B in game). Supports are left out: their value is in buffs
+// 23 already reaches S in game). Supports are left out: their value is in buffs
 // and non-damage stats, so the count says little about them.
-export const ACTIVE_FULL = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
+export const ACTIVE_FULL = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 30, armorer: 30 };
 import { PRESETS } from '../data/presets.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -688,7 +688,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     .filter((a) => ACTIVE_FULL[a.specialty])
     .map((a) => {
       const discs = loadouts[a.id]?.discs ?? [];
-      const fav = subPriority(a.id);
+      const fav = activeStats(a.id);
       const rolls = discs.reduce((n, d) => n + totalRolls(d), 0);
       return rolls && fav.size ? { a, active: discs.reduce((n, d) => n + activeRolls(d, fav), 0) } : null;
     })

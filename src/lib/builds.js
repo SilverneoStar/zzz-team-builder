@@ -126,3 +126,16 @@ export function subPriority(agentId) {
   subCache.set(agentId, out);
   return out;
 }
+
+// The substats the game counts as active modifiers (coloured orange): the
+// favoured ones, leaving out flat HP, ATK, DEF and PEN unless the build puts
+// them first. Checked against the game: Ye Shunguang's discs give 23 this way,
+// as her Base Stats screen shows.
+const NOT_ACTIVE = new Set(['HP', 'ATK', 'DEF', 'PEN']);
+const activeCache = new Map();
+export function activeStats(agentId) {
+  if (activeCache.has(agentId)) return activeCache.get(agentId);
+  const out = new Set([...subPriority(agentId)].filter(([st, tier]) => tier === 0 || !NOT_ACTIVE.has(st)).map(([st]) => st));
+  activeCache.set(agentId, out);
+  return out;
+}

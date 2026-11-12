@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import LoadoutPanel from './LoadoutPanel.jsx';
 import BuildReview from './BuildReview.jsx';
+import ScreenshotReader from './ScreenshotReader.jsx';
 import ExportIcon from './ExportIcon.jsx';
 import { emptyLoadout, loadoutOf } from '../lib/teamsReducer.js';
 import { recommendedLoadout } from '../lib/builds.js';
@@ -42,6 +43,17 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
     flash('Build loaded');
   }
 
+  // A code read from an image: the same as pasting it.
+  function useImageCode(t) {
+    const lo = t.loadouts?.[a.id];
+    if (!lo) {
+      setError(`That image’s code doesn’t include ${a.name}.`);
+      return;
+    }
+    start(lo);
+    flash('Build loaded from the image');
+  }
+
   const pasteForm = (
     <form className="mybuild__paste" onSubmit={usePaste}>
       <label className="field">
@@ -67,6 +79,15 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           {error}
         </p>
       )}
+      <ScreenshotReader
+        agent={a}
+        loadout={loadout ?? { ...emptyLoadout(), ...(recommended ?? {}) }}
+        onBuild={(lo) => {
+          start(lo);
+          flash('Build filled from your screenshots');
+        }}
+        onCode={useImageCode}
+      />
     </form>
   );
 

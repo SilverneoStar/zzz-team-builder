@@ -37,3 +37,7 @@ Rights holders may request changes or removal of any content by [opening an issu
 
 
 W-Engine passive effects are short summaries, written in our own words, of each W-Engine's in-game passive at Phase 1. Incarcerating Grip has none yet because it is not released.
+
+## Reading screenshots
+
+"Upload screenshots" reads pictures in the browser with Tesseract.js (Apache License 2.0), loaded from cdn.jsdelivr.net the first time it's used, along with its English language data. Pictures are read on the device and aren't uploaded or saved. Team and build images saved from the site also carry their code inside the PNG file, so the saved image gives the exact code back.

@@ -273,16 +273,20 @@ function footer(ctx, W, H, team) {
   // The card code: paste it into "Paste a friend's code" to load the team,
   // substats included when they're set (the code is longer then).
   const code = encodeCardCode(team, loadoutOf);
+  if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
   const full = code.length > encodeCardCode(team, loadoutOf, { subs: false }).length;
   ctx.fillStyle = '#b5b5b5';
   ctx.font = `600 13px ${MONO}`;
-  ctx.fillText('TEAM CODE', 40, H - 66);
-  const labelW = ctx.measureText('TEAM CODE').width;
   if (full) {
-    ctx.font = `500 11px ${MONO}`;
-    ctx.fillText('WITH SUBSTATS', 40, H - 52);
+    // Label above, code across the full width below it: easier to read back
+    // from a screenshot.
+    ctx.fillText('TEAM CODE · WITH SUBSTATS', 40, H - 88);
+    drawCode(ctx, code, 40, H - 80, W - 80, 36, { max: 16 });
+  } else {
+    ctx.fillText('TEAM CODE', 40, H - 66);
+    const labelW = ctx.measureText('TEAM CODE').width;
+    drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 32);
   }
-  drawCode(ctx, code, 40 + Math.max(labelW, 96) + 16, H - 82, W - 100 - Math.max(labelW, 96), 32);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText(

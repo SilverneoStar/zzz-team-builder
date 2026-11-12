@@ -9924,3 +9924,13 @@ details.disc-guide + details.disc-guide {
 .subguide td, .subguide th { padding: 3px 12px 3px 0; text-align: left; }
 .subguide th { font-weight: 600; color: var(--muted); }
 .subguide ul { margin: 6px 0; padding-left: 18px; font-size: 0.9rem; line-height: 1.4; }
+
+/* Reading uploaded screenshots. */
+.shots { display: grid; gap: 6px; justify-items: start; margin: 10px 0; }
+.shots__hint { margin: 0; }
+.shots__results { width: 100%; }
+.shots__results ul { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 4px; font-size: 0.9rem; }
+.shots__r { padding-left: 16px; position: relative; }
+.shots__r::before { content: ''; position: absolute; left: 2px; top: 0.5em; width: 8px; height: 8px; border-radius: 50%; background: #3fbf7a; }
+.shots__r--unknown::before { background: #e0623a; }
+.shots__r--skills::before { background: var(--muted); }

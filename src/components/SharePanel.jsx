@@ -4,6 +4,7 @@ import { PRESETS } from '../data/presets.js';
 import { decodeTeam, encodeTeam } from '../lib/share.js';
 import { decodeCardCode, encodeCardCode } from '../lib/cardCode.js';
 import { loadoutOf } from '../lib/teamsReducer.js';
+import ScreenshotReader from './ScreenshotReader.jsx';
 
 export default function SharePanel({ team, dispatch }) {
   const code = encodeTeam(team, loadoutOf);
@@ -116,6 +117,7 @@ export default function SharePanel({ team, dispatch }) {
         </div>
         {error && <p className="field__error">{error}</p>}
       </form>
+      <ScreenshotReader codesOnly onCode={(t) => dispatch({ type: 'import', ...t })} />
     </section>
   );
 }
