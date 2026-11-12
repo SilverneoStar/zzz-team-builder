@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useShowBeta } from '../lib/betaInfo.js';
 import BetaHidden from './BetaHidden.jsx';
-import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
+import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, SPECIALTY_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
+
+const SPECIALTY_NAME = new Proxy({}, { get: (_, k) => SPECIALTY_BY_ID[k]?.name ?? k });
 import { BUILDS } from '../data/builds.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
 import { passiveStatus, kitLinks } from '../lib/analyze.js';
-import { recommendedLoadout, recommendedTeam } from '../lib/builds.js';
+import { recommendedLoadout, recommendedTeam, subPriority } from '../lib/builds.js';
+import { formatStat, subValue } from '../lib/discs.js';
+import { ACTIVE_FULL } from '../lib/synergy.js';
 import { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
 import RankBadge from './RankBadge.jsx';
@@ -72,6 +76,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
           <dd>{statLabel(b.substats)}</dd>
         </div>
       </dl>
+      <SubstatGuide agent={a} />
 
       <div className="build__actions">
         <button
@@ -171,6 +176,68 @@ export function AgentTeams({ agent: a, onLoadTeam }) {
         </>
       )}
     </section>
+  );
+}
+
+/** How substats work for this Agent: what they favour, what a roll is worth, and the count to aim for. */
+function SubstatGuide({ agent }) {
+  const fav = subPriority(agent.id);
+  if (!fav.size) return null;
+  const tiers = [];
+  [...fav.entries()].forEach(([stat, t]) => (tiers[t] ??= []).push(stat));
+  const ordered = tiers.filter(Boolean);
+  const target = ACTIVE_FULL[agent.specialty];
+  return (
+    <details className="subguide">
+      <summary className="micro-title">Substats explained</summary>
+      <div className="subguide__tiers" aria-label="Favoured substats, most wanted first">
+        {ordered.map((group, i) => (
+          <span key={group.join()} className="subguide__tier">
+            {i > 0 && <span className="subguide__gt">›</span>}
+            {group.map((st) => (
+              <span key={st} className="subguide__chip">
+                {st}
+              </span>
+            ))}
+          </span>
+        ))}
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Substat</th>
+            <th>One roll (S-Rank)</th>
+            <th>Maxed (+5)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[...fav.keys()].map((st) => (
+            <tr key={st}>
+              <td>{st}</td>
+              <td>{formatStat(st, subValue('S', st, 0))}</td>
+              <td>{formatStat(st, subValue('S', st, 5))}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ul>
+        <li>
+          Each disc has up to 4 substats, never its main stat. Its upgrades (+3 to +15) add rolls to them: 4 upgrades,
+          or 5 if it dropped with 4 substats.
+        </li>
+        <li>
+          The game colours the substats an Agent favours orange. Every roll on one counts toward the
+          <b> Active Modifier Count</b> on their Base Stats screen.
+        </li>
+        <li>
+          {target
+            ? `For ${SPECIALTY_NAME[agent.specialty]} Agents, a top build is about ${target}+ active modifiers.`
+            : 'For Supports the count matters less: buffs and Energy Regen do more for them.'}{' '}
+          Rolls on stats they don’t favour (like flat HP or DEF on a damage dealer) are wasted.
+        </li>
+        <li>Rate your own discs in My build: Cortado reviews the main stats and substats.</li>
+      </ul>
+    </details>
   );
 }
 

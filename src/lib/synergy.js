@@ -55,7 +55,7 @@ import { activeRolls, totalRolls } from './discs.js';
 // stats: ATK% and Anomaly Proficiency); CRIT-based ones need more (a Severian at
 // 30 still shows B in game). Supports are left out: their value is in buffs
 // and non-damage stats, so the count says little about them.
-const ACTIVE_FULL = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
+export const ACTIVE_FULL = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
 import { PRESETS } from '../data/presets.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -191,7 +191,7 @@ function anomalyAttribute(memberIds, i) {
 }
 
 // A slot 4–6 main stat as the build text names it ("Fire DMG", "ATK %", "PEN").
-const MAIN_PATTERNS = {
+export const MAIN_PATTERNS = {
   'HP%': /\bHP\b/,
   'ATK%': /\bATK\b/,
   'DEF%': /\bDEF\b/,

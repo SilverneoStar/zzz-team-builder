@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LoadoutPanel from './LoadoutPanel.jsx';
+import BuildReview from './BuildReview.jsx';
 import ExportIcon from './ExportIcon.jsx';
 import { emptyLoadout, loadoutOf } from '../lib/teamsReducer.js';
 import { recommendedLoadout } from '../lib/builds.js';
@@ -117,6 +118,8 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           onClose={() => {}}
         />
       </div>
+
+      <BuildReview agentId={a.id} loadout={loadout} />
 
       <div className="field">
         <label htmlFor={`mybuild-code-${a.id}`}>
