@@ -143,10 +143,10 @@ export const DEADLY_ASSAULT = {
 };
 
 export const SHIYU_DEFENSE = {
-  id: '2026-10-30',
+  id: '2026-11-13',
   label: 'Shiyu Defense: Critical Node',
-  start: '2026-10-30',
-  end: '2026-11-12',
+  start: '2026-11-13',
+  end: '2026-11-26',
   note: 'The score check is Stage 5: three rooms, each needing its own squad, so no Agent can be in two rooms.',
   stages: [
     {
@@ -161,99 +161,78 @@ export const SHIYU_DEFENSE = {
       buffs: [],
       sides: [
         {
-          name: 'Miasma Ravager – Avarus',
-          waves: ['Frenzied Maniac, Wicked Wraith', 'Miasma Ravager – Avarus'],
-          tip: 'Parry its rolling attack with Defensive Assists 3 times in a row to interrupt it and expose its weakness.',
-          gimmicks: [
-            'Rolls its massive body at you: parry it with Defensive Assists 3 times in a row to interrupt the roll and expose its weakness.',
-            'After taking enough DMG it activates a Miasmic Field.',
-          ],
-          art: 'enemies/sd-5-1.webp',
-          weak: ['fire', 'ether'],
-          resist: ['ice'],
-          buffs: [
-            {
-              id: 'sd-5-1',
-              name: 'Room 1',
-              text: [
-                'Anomaly Agents’ Fire DMG +20%.',
-                'When an Agent’s Attribute Anomaly DMG crits, the squad recovers 20 Energy and Attribute Anomaly DMG rises by 30% for 20s (once every 20s).',
-              ],
-              favors: { specialty: { anomaly: 3 }, attribute: { fire: 1.5, ether: 1 }, anomalyPair: true },
-            },
-          ],
-          // Picks in order of preference: full Anomaly teams first.
-          ranked: true,
-          picks: [
-            ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
-            ['burnice-white', 'velina-airgid', 'remielle-dan'],
-            ['phoenix-reffaella', 'velina-airgid', 'ukinami-yuzuha'],
-            ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
-          ],
-        },
-        {
-          name: 'Lockspring',
-          waves: ['Assault Gunner, Guardian MK II', 'Lockspring'],
-          tip: 'Some of its blows hit so hard that even a successful Defensive Assist gets no Assist Follow-Up, and it may taunt you.',
-          gimmicks: [
-            'Certain blows hit so hard that even after a successful Defensive Assist, no Assist Follow-Up can activate.',
-            'After those blows, Lockspring may respond with a taunt.',
-          ],
-          art: 'enemies/sd-5-2.webp',
-          weak: ['physical', 'electric'],
+          name: 'AAU – Airspace Sentinel',
+          art: 'enemies/sd-1113-1.webp',
+          weak: ['ice', 'wind'],
           resist: ['ether'],
           buffs: [
             {
-              id: 'sd-5-2',
-              name: 'Room 2',
+              id: 'sd-1113-1',
+              name: 'Room 1',
               text: [
-                'Agent Sharp DMG +20% (for Armorer Agents) and DEF +20%.',
-                'When an Agent defeats an Elite enemy, Stun Agents restore 30 Energy and the squad restores 500 Decibels.',
+                'Attack Agents’ ATK +35%, and Wind DMG +20%.',
+                'When an Agent’s Ultimate hits an enemy, its Wind RES drops by 15% for 30s (repeat triggers reset the duration).',
               ],
-              // Sharp DMG is the Armorer part (Claret for now).
-              favors: { specialty: { armorer: 3, stun: 1 }, attribute: { electric: 1, physical: 1 } },
+              favors: { specialty: { attack: 3, stun: 1 }, attribute: { wind: 2, ice: 1 } },
             },
           ],
-          // Claret's Armorer team first; Nekomata deals great damage since her Potential update.
+          // Made for Severian: Wind Attack with Roxy; Sigrid for Ice.
           ranked: true,
           picks: [
-            ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
-            ['nekomiya-mana', 'dialyn', 'astra-yao'],
-            ['ye-shunguang', 'dialyn', 'sunna'],
-            ['soldier-0-anby', 'trigger', ['seed', 'orphie-magnusson-and-magus']],
+            ['severian-lowell', 'roxy-ifrita-pryce', ['astra-yao', 'sunna']],
+            ['severian-lowell', 'norma-hollowell', 'astra-yao'],
+            ['sigrid-de-lazur', 'roxy-ifrita-pryce', 'sunna'],
+            ['sigrid-de-lazur', 'von-lycaon', 'sunna'],
           ],
         },
         {
-          name: 'Miasmic Komano Manato',
-          waves: ['Miasmic – Huskron, Miasma Spawn, Huskron', 'Miasmic Komano Manato'],
-          tip: 'Parry his skills: Defensive Assists interrupt some of them, and parrying his powerful skills forces him into a Weakened state.',
-          gimmicks: [
-            'A Defensive Assist against some of his skills interrupts his attacks.',
-            'Parrying his powerful skills forces him into a Weakened state.',
-            'After taking enough DMG he activates a Miasmic Field and unleashes powerful attacks.',
-          ],
-          art: 'enemies/sd-5-3.webp',
-          weak: ['ice'],
-          resist: ['physical'],
+          name: 'The Defector – Isolde',
+          art: 'enemies/sd-1113-2.webp',
+          weak: ['fire', 'physical'],
+          resist: ['ether'],
           buffs: [
             {
-              id: 'sd-5-3',
-              name: 'Room 3',
+              id: 'sd-1113-2',
+              name: 'Room 2',
               text: [
-                'Attack Agents’ Ether and Ice DMG +20%, and their CRIT DMG +40%.',
-                'When an Agent Stuns an enemy, its Stun recovery rate drops by 15% for 15s (repeat triggers reset the duration).',
+                'When an Anomaly Agent’s Attribute Anomaly DMG crits, the whole squad gets ATK +10% and Attribute Anomaly DMG +20% for 15s (repeat triggers reset the duration).',
+                'When an Agent inflicts Burn (Fire Anomaly), the target’s Fire RES drops by 10% for 15s (repeat triggers reset the duration).',
               ],
-              favors: { specialty: { attack: 3, stun: 1 }, attribute: { ice: 2, ether: 1 } },
+              favors: { specialty: { anomaly: 3 }, attribute: { fire: 2, physical: 1 }, anomalyPair: true, anyAttribute: true },
             },
           ],
-          // Made for Hugo, Sigrid or Pyrois.
+          // Full Anomaly teams: Phoenix for Fire, Jane for Physical.
           ranked: true,
           picks: [
-            ['hugo-vlad', 'von-lycaon', 'lighter'],
-            ['sigrid-de-lazur', 'norma-hollowell', 'sunna'],
-            ['pyrois', 'dialyn', 'sunna'],
-            // A budget option: Norma and Nicole.
-            ['pyrois', 'norma-hollowell', 'nicole-demara'],
+            ['phoenix-reffaella', 'jane-doe', 'remielle-dan'],
+            ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
+            ['jane-doe', 'burnice-white', 'ukinami-yuzuha'],
+            ['phoenix-reffaella', 'jane-doe', 'ukinami-yuzuha'],
+          ],
+        },
+        {
+          name: 'Haytor',
+          art: 'enemies/sd-1113-3.webp',
+          weak: ['ice', 'fire'],
+          resist: ['electric'],
+          buffs: [
+            {
+              id: 'sd-1113-3',
+              name: 'Room 3',
+              text: [
+                'Agents’ Sheer DMG +35%.',
+                'After a Rupture Agent uses their Ultimate, their Fire DMG and Ice DMG rise by 50% for 15s (repeat triggers reset the duration).',
+              ],
+              favors: { specialty: { rupture: 3, stun: 1 }, attribute: { fire: 1.5, ice: 1.5 } },
+            },
+          ],
+          // Rupture teams: Starlight Billy, Banyue, Yidhari or Manato.
+          ranked: true,
+          picks: [
+            ['starlight-billy-kid', 'dialyn', 'lucia-elowen'],
+            ['banyue', 'ju-fufu', 'lucia-elowen'],
+            ['yidhari-murphy', 'von-lycaon', 'lucia-elowen'],
+            ['komano-manato', 'dialyn', 'pan-yinhu'],
           ],
         },
       ],
