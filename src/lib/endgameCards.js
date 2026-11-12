@@ -24,8 +24,9 @@ const K = {
   line: '#333',
   fg: '#f2f2f2',
   text: '#e2e2e2',
-  muted: '#a3a3a3',
-  dim: '#7a7a7a',
+  // Labels and notes: light enough to read on a phone against the dark panels.
+  muted: '#cdcdcd',
+  dim: '#a8a8a8',
 };
 const ICON_FILE = {
   physical: 'physical',
@@ -76,7 +77,7 @@ const picked = (ids) => (ids?.some(Boolean) ? ids.filter(Boolean) : null);
 /** Draws "label ......... score + stars/rank" on one line. */
 function teamHead(ctx, label, x, y, w, score, mark, markColor = '#f5c542') {
   ctx.fillStyle = K.dim;
-  ctx.font = `600 13px ${MONO}`;
+  ctx.font = `600 14px ${MONO}`;
   ctx.fillText(label, x, y);
   if (!score) return;
   ctx.textAlign = 'right';
@@ -175,7 +176,7 @@ async function loadIcons(base) {
 /** "Weak" / "Resist" row of attribute icons; returns the x after it. */
 function attrRow(ctx, label, ids, icons, x, y, size = 26) {
   ctx.fillStyle = K.dim;
-  ctx.font = `600 13px ${MONO}`;
+  ctx.font = `600 14px ${MONO}`;
   ctx.fillText(label, x, y + size * 0.68);
   let px = x + 70;
   if (!ids.length) {
@@ -252,8 +253,8 @@ async function header(ctx, base, logoSrc, title, dates) {
 }
 
 function foot(ctx, custom) {
-  ctx.fillStyle = K.dim;
-  ctx.font = `500 12px ${FONT}`;
+  ctx.fillStyle = K.muted;
+  ctx.font = `500 13px ${FONT}`;
   ctx.fillText(
     custom
       ? 'Teams picked by the player. Other teams can clear too.'
@@ -514,7 +515,7 @@ async function drawShiyu(ctx, base, custom) {
     const comp = ids ? teamComp(ids, side, Boolean(custom)) : custom ? 'Not filled in' : '';
     if (comp) {
       ctx.fillStyle = K.muted;
-      ctx.font = `500 14px ${FONT}`;
+      ctx.font = `500 15px ${FONT}`;
       ctx.fillText(fit(ctx, comp, 340), W - 40 - 340, y + 62);
     }
     await teamPortraits(ctx, ids, base, W - 40 - 340, y + 76, 96, 12);
