@@ -13,7 +13,18 @@ import {
   wEnginesFor,
 } from '../data/game.js';
 import { useRef, useState } from 'react';
-import { RANKS, discBonuses, mainMax, mainStatOf } from '../lib/discs.js';
+import {
+  RANKS,
+  SUB_STATS,
+  discBonuses,
+  discStatTotals,
+  formatStat,
+  mainMax,
+  mainStatOf,
+  maxUpgrades,
+  subValue,
+  upgradesUsed,
+} from '../lib/discs.js';
 import DiscWheel, { setColor } from './DiscWheel.jsx';
 import Portrait from './Portrait.jsx';
 import { BETA_POTENTIAL, MAX_POTENTIAL, ROMAN, hasPotential } from '../data/potentials.js';
@@ -357,12 +368,15 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                   </select>
                 </label>
               )}
+              <SubStats disc={cur} slot={slot} onChange={(patch) => setDisc(slot - 1, patch)} />
             </div>
           ) : (
             <p className="muted small wheel__hint">
               Tap a disc slot to set its Drive Disc, rank and main stat. Tap the middle to change the W-Engine.
             </p>
           )}
+
+          <DiscTotals discs={discs} label={statLabel} />
 
           <div className="bonuses">
             <span className="field__label">Set bonuses</span>
@@ -401,6 +415,95 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
         </div>
       </div>
     </section>
+  );
+}
+
+/** A disc's up to four substats, each with its extra upgrades (shared: 4, or 5). */
+function SubStats({ disc, slot, onChange }) {
+  const subs = disc.subs ?? [];
+  const own = mainStatOf(slot, disc);
+  const used = upgradesUsed(disc);
+  const cap = maxUpgrades(disc);
+  const set = (i, patch) => onChange({ subs: subs.map((x, k) => (k === i ? { ...x, ...patch } : x)) });
+  const free = (stat) => SUB_STATS.filter((st) => st !== own && (st === stat || !subs.some((x) => x.stat === st)));
+  return (
+    <div className="subs">
+      <div className="subs__head">
+        <span className="field__label">Substats</span>
+        <span className={`subs__count${used > cap ? ' is-over' : ''}`}>
+          Upgrades {used}/{cap}
+        </span>
+      </div>
+      {subs.map((x, i) => (
+        <div key={x.stat} className="subs__row">
+          <select value={x.stat} onChange={(e) => set(i, { stat: e.target.value })} aria-label={`Substat ${i + 1}`}>
+            {free(x.stat).map((st) => (
+              <option key={st} value={st}>
+                {st}
+              </option>
+            ))}
+          </select>
+          <span className="subs__ups" role="group" aria-label={`${x.stat} upgrades`}>
+            <button type="button" className="stepper__btn" disabled={!x.up} onClick={() => set(i, { up: x.up - 1 })} aria-label={`Fewer ${x.stat} upgrades`}>
+              −
+            </button>
+            <b className="subs__up">+{x.up}</b>
+            <button type="button" className="stepper__btn" disabled={used >= cap} onClick={() => set(i, { up: x.up + 1 })} aria-label={`More ${x.stat} upgrades`}>
+              +
+            </button>
+          </span>
+          <span className="subs__val">{formatStat(x.stat, subValue(disc.rank, x.stat, x.up))}</span>
+          <button type="button" className="subs__x" onClick={() => onChange({ subs: subs.filter((_, k) => k !== i) })} aria-label={`Remove ${x.stat}`}>
+            ×
+          </button>
+        </div>
+      ))}
+      {subs.length < 4 && (
+        <select
+          className="subs__add"
+          value=""
+          onChange={(e) => e.target.value && onChange({ subs: [...subs, { stat: e.target.value, up: 0 }] })}
+          aria-label="Add a substat"
+        >
+          <option value="">+ Add substat</option>
+          {free(null).map((st) => (
+            <option key={st} value={st}>
+              {st}
+            </option>
+          ))}
+        </select>
+      )}
+      <label className="subs__four small muted">
+        <input type="checkbox" checked={!!disc.four} onChange={(e) => onChange({ four: e.target.checked })} />
+        Dropped with 4 substats (5 upgrades instead of 4)
+      </label>
+      {disc.rank === 'B' && subs.length > 0 && <p className="small muted">B-Rank substat values aren’t published.</p>}
+    </div>
+  );
+}
+
+/** Every stat the six discs give: main stats at level 15 plus substats. */
+function DiscTotals({ discs, label }) {
+  const totals = discStatTotals(discs);
+  if (!totals.length) return null;
+  return (
+    <div className="disc-totals">
+      <span className="field__label">Stats from discs</span>
+      <ul>
+        {totals.map((t) => (
+          <li key={t.stat}>
+            <span>{label(t.stat)}</span>
+            <b>{formatStat(t.stat, t.value)}</b>
+            {t.main > 0 && t.sub > 0 && (
+              <span className="muted small">
+                {formatStat(t.stat, t.main)} main + {formatStat(t.stat, t.sub)} sub
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p className="muted small">Main stats at level 15. Doesn’t include the Agent, W-Engine or set bonuses.</p>
+    </div>
   );
 }
 

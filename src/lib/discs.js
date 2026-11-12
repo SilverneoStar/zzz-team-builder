@@ -1,8 +1,14 @@
 import { DISC_FIXED, DISC_MAIN_STATS, DRIVE_DISC_BY_ID } from '../data/game.js';
 
-// Six Drive Disc slots per Agent. Each slot: { set, rank, main } where set is
-// a Drive Disc set id (or null), rank 'S' | 'A' | 'B', and main the main stat
-// for slots 4–6 (slots 1–3 always roll flat HP, ATK and DEF).
+// Six Drive Disc slots per Agent. Each slot: { set, rank, main, subs, four }
+// where set is a Drive Disc set id (or null), rank 'S' | 'A' | 'B', main the
+// main stat for slots 4–6 (slots 1–3 always roll flat HP, ATK and DEF), and
+// subs up to four substats as { stat, up } (up = extra upgrades it got).
+//
+// Substats: a disc has up to four, never its main stat. A disc that dropped
+// with three gains its fourth at +3, then gets 4 upgrades (+6 to +15); one that
+// dropped with four (`four`) gets 5. Each upgrade adds one more roll to one
+// substat, so they can all go to one stat or be spread out.
 export const SLOTS = [1, 2, 3, 4, 5, 6];
 export const RANKS = ['S', 'A', 'B'];
 
@@ -10,7 +16,26 @@ export const RANKS = ['S', 'A', 'B'];
 // 3 bottom-left, 4 bottom-right, 5 right, 6 top-right.
 export const SLOT_POSITION = { 1: 'tl', 2: 'l', 3: 'bl', 4: 'br', 5: 'r', 6: 'tr' };
 
-export const emptyDisc = () => ({ set: null, rank: 'S', main: null });
+export const emptyDisc = () => ({ set: null, rank: 'S', main: null, subs: [], four: false });
+
+export const SUB_STATS = ['HP', 'ATK', 'DEF', 'HP%', 'ATK%', 'DEF%', 'CRIT Rate', 'CRIT DMG', 'PEN', 'Anomaly Proficiency'];
+// Value of one roll, by rank. B-rank values aren't published.
+const SUB_ROLL = {
+  S: { HP: 112, ATK: 19, DEF: 15, 'HP%': 3, 'ATK%': 3, 'DEF%': 4.8, 'CRIT Rate': 2.4, 'CRIT DMG': 4.8, PEN: 9, 'Anomaly Proficiency': 9 },
+  A: { HP: 75, ATK: 13, DEF: 10, 'HP%': 2, 'ATK%': 2, 'DEF%': 3.2, 'CRIT Rate': 1.6, 'CRIT DMG': 3.2, PEN: 6, 'Anomaly Proficiency': 6 },
+};
+const PERCENT = new Set(['HP%', 'ATK%', 'DEF%', 'CRIT Rate', 'CRIT DMG', 'PEN Ratio', 'Attribute DMG', 'Anomaly Mastery', 'Impact', 'Energy Regen']);
+/** Most upgrades a disc's substats can share: 4, or 5 if it dropped with four substats. */
+export const maxUpgrades = (disc) => (disc?.four ? 5 : 4);
+export const upgradesUsed = (disc) => (disc?.subs ?? []).reduce((n, x) => n + (x.up ?? 0), 0);
+/** Value of a substat with `up` extra upgrades on a disc of this rank, or null. */
+export const subValue = (rank, stat, up = 0) => {
+  const roll = SUB_ROLL[rank]?.[stat];
+  return roll == null ? null : roll * (1 + up);
+};
+/** Text like "12%" or "56" for a stat value. */
+export const formatStat = (stat, v) =>
+  v == null ? '—' : PERCENT.has(stat) ? `${Math.round(v * 10) / 10}%` : `${Math.round(v).toLocaleString('en-US')}`;
 export const emptyDiscs = () => SLOTS.map(() => emptyDisc());
 
 // Highest main stat at level 15, by rank (B-rank maxima aren't published).
@@ -62,7 +87,20 @@ export function normaliseDiscs(discs, legacy = {}) {
       const set = d?.set && DRIVE_DISC_BY_ID[d.set] ? d.set : null;
       const rank = RANKS.includes(d?.rank) ? d.rank : 'S';
       const main = slot >= 4 && DISC_MAIN_STATS[slot].includes(d?.main) ? d.main : null;
-      return { set, rank, main };
+      const own = mainStatOf(slot, { main });
+      const four = !!d?.four;
+      const subs = [];
+      (Array.isArray(d?.subs) ? d.subs : []).forEach((x) => {
+        if (subs.length < 4 && SUB_STATS.includes(x?.stat) && x.stat !== own && !subs.some((y) => y.stat === x.stat))
+          subs.push({ stat: x.stat, up: Math.max(0, Math.min(5, Math.round(x.up) || 0)) });
+      });
+      // Keep the upgrades within what the disc can have.
+      let left = four ? 5 : 4;
+      subs.forEach((x) => {
+        x.up = Math.min(x.up, left);
+        left -= x.up;
+      });
+      return { set, rank, main, subs, four };
     });
   }
   // Older saves had a 4-piece set, a 2-piece set and main stats for 4–6.
@@ -73,6 +111,32 @@ export function normaliseDiscs(discs, legacy = {}) {
     if (DISC_MAIN_STATS[s].includes(legacy.main?.[s])) out[s - 1].main = legacy.main[s];
   });
   return out;
+}
+
+const num = (v) => (v == null ? null : Number(String(v).replace(/[,%]/g, '')));
+
+/**
+ * Stats from all six discs: main stats (at level 15) plus substats, as
+ * [{ stat, value, main, sub }] in a fixed order. Attribute DMG and the like keep
+ * their names; the caller labels them.
+ */
+export function discStatTotals(discs) {
+  const tally = {};
+  const add = (stat, v, kind) => {
+    if (v == null || Number.isNaN(v)) return;
+    tally[stat] ??= { stat, value: 0, main: 0, sub: 0 };
+    tally[stat].value += v;
+    tally[stat][kind] += v;
+  };
+  discs.forEach((d, i) => {
+    if (!d.set && !d.main && !(d.subs ?? []).length) return;
+    const slot = i + 1;
+    const m = mainStatOf(slot, d);
+    if (m) add(m, num(mainMax(slot, d)), 'main');
+    (d.subs ?? []).forEach((x) => add(x.stat, subValue(d.rank, x.stat, x.up), 'sub'));
+  });
+  const order = ['HP', 'HP%', 'ATK', 'ATK%', 'DEF', 'DEF%', 'CRIT Rate', 'CRIT DMG', 'PEN', 'PEN Ratio', 'Anomaly Proficiency', 'Anomaly Mastery', 'Attribute DMG', 'Impact', 'Energy Regen'];
+  return order.filter((k) => tally[k]).map((k) => tally[k]);
 }
 
 /**
