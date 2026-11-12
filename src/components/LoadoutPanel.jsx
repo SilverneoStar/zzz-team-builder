@@ -379,7 +379,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
             </p>
           )}
 
-          <DiscTotals discs={discs} label={statLabel} agentId={agent.id} />
+          <DiscTotals discs={discs} label={statLabel} agentId={agent.id} specialty={agent.specialty} specialtyName={SPECIALTY_BY_ID[agent.specialty]?.name} />
 
           <div className="bonuses">
             <span className="field__label">Set bonuses</span>
@@ -504,7 +504,11 @@ function SubStats({ agentId, disc, slot, onChange }) {
 }
 
 /** Every stat the six discs give: main stats at level 15 plus substats. */
-function DiscTotals({ discs, label, agentId }) {
+// About where the Active Modifier Count reaches a top build, by specialty
+// (matches ACTIVE_FULL in lib/synergy.js).
+const ACTIVE_TOP = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
+
+function DiscTotals({ discs, label, agentId, specialty, specialtyName }) {
   const totals = discStatTotals(discs);
   if (!totals.length) return null;
   const fav = subPriority(agentId);
@@ -518,7 +522,10 @@ function DiscTotals({ discs, label, agentId }) {
           Active modifiers <b>{active}</b>
           <span className="muted small">
             {' '}
-            of {rolls} substat rolls on stats this Agent favours (the game’s Active Modifier Count)
+            of {rolls} substat rolls on stats this Agent favours (the game’s Active Modifier Count).{' '}
+            {ACTIVE_TOP[specialty]
+              ? `A top build is about ${ACTIVE_TOP[specialty]}+ for ${specialtyName} Agents.`
+              : 'For Supports it says less: their value is in buffs.'}
           </span>
         </p>
       )}

@@ -50,8 +50,12 @@ import { BUILDS } from '../data/builds.js';
 import { subPriority } from './builds.js';
 import { activeRolls, totalRolls } from './discs.js';
 
-// Active Modifier Count at which an Agent's substats count as fully built.
-const ACTIVE_FULL = 40;
+// Active Modifier Count at which an Agent's substats count as fully built, by
+// specialty. Anomaly Agents reach a top build at about 20 (they want fewer
+// stats: ATK% and Anomaly Proficiency); CRIT-based ones need more (a Severian at
+// 30 still shows B in game). Supports are left out: their value is in buffs
+// and non-damage stats, so the count says little about them.
+const ACTIVE_FULL = { anomaly: 20, rupture: 30, stun: 30, defense: 30, attack: 40, armorer: 40 };
 import { PRESETS } from '../data/presets.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -681,6 +685,7 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   // counts them. A bonus for members with substats entered: about 40 is a
   // well-built Agent, so up to +5 for the squad's average against that.
   const withSubs = squad
+    .filter((a) => ACTIVE_FULL[a.specialty])
     .map((a) => {
       const discs = loadouts[a.id]?.discs ?? [];
       const fav = subPriority(a.id);
@@ -689,14 +694,17 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
     })
     .filter(Boolean);
   if (withSubs.length) {
-    const avg = withSubs.reduce((n, x) => n + Math.min(1, x.active / ACTIVE_FULL), 0) / squad.length;
+    const rated = squad.filter((a) => ACTIVE_FULL[a.specialty]).length;
+    const avg = withSubs.reduce((n, x) => n + Math.min(1, x.active / ACTIVE_FULL[x.a.specialty]), 0) / rated;
     parts.push({
       id: 'active',
       label: 'Active modifiers (bonus)',
       points: Math.round(avg * 5 * 10) / 10,
       max: 5,
       bonus: true,
-      detail: withSubs.map((x) => `${shortName(x.a)} ${x.active}`).join(', ') + ` (about ${ACTIVE_FULL} is well built)`,
+      detail:
+        withSubs.map((x) => `${shortName(x.a)} ${x.active} (top build ≈${ACTIVE_FULL[x.a.specialty]})`).join(', ') +
+        '; Supports aren’t rated',
     });
   }
 
