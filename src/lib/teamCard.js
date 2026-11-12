@@ -150,10 +150,8 @@ async function header(ctx, W, team, base, { titleSize = 54, qr = true } = {}) {
     ids.length === 3
       ? synergyScore(team.members, team.bangboo, Object.fromEntries(ids.map((id) => [id, loadoutOf(team, id)])))
       : null;
-  // Leave room for Cortado, the score beside it, and the QR code.
-  const QR = 108;
-  const qx = W - (syn ? 350 : 170) - QR;
-  const room = qr ? qx - 24 - 40 : W - (syn ? 330 : 260);
+  // Leave room for Cortado, and for the score beside it.
+  const room = W - (syn ? 330 : 260);
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
   ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, a) =>
     grad.addColorStop(i / (a.length - 1), c),
@@ -175,8 +173,16 @@ async function header(ctx, W, team, base, { titleSize = 54, qr = true } = {}) {
     ctx.font = `800 ${size}px ${DISPLAY}`;
   }
   ctx.fillText(fit(ctx, title, room), 40, 74 + titleSize);
-  // QR code with the team code, in the header's free space.
-  if (qr) drawQR(ctx, qrText(encodeCardCode(team, loadoutOf)), qx, 48, QR);
+  // The watermark sits up here, faded, when the QR code takes its corner below.
+  if (qr) {
+    ctx.save();
+    ctx.globalAlpha = 0.45;
+    ctx.fillStyle = '#a3a3a3';
+    ctx.font = `500 15px ${MONO}`;
+    ctx.textAlign = 'right';
+    ctx.fillText('salman-SilverStarneo', W - (syn ? 350 : 170), 74);
+    ctx.restore();
+  }
 
   const mascot = await loadImage(`${base}mascot.svg`);
   if (!mascot) return;
@@ -300,7 +306,7 @@ export function drawQR(ctx, text, x, y, size) {
     for (let c = 0; c < n; c += 1) if (q.isDark(r, c)) ctx.fillRect(ox + (c + 2) * m, oy + (r + 2) * m, m, m);
 }
 
-function footer(ctx, W, H, team) {
+function footer(ctx, W, H, team, { qr = true } = {}) {
   // The team code isn't written out (it got too long with substats): the QR
   // code and the PNG file carry it. Saved images keep the code for the reader.
   const code = encodeCardCode(team, loadoutOf);
@@ -315,6 +321,12 @@ function footer(ctx, W, H, team) {
     40,
     H - 35,
   );
+  if (qr) {
+    // QR code in the bottom-right corner (the watermark moves to the header).
+    const Q = 108;
+    drawQR(ctx, qrText(code), W - 40 - Q, H - 22 - Q, Q);
+    return;
+  }
   ctx.textAlign = 'right';
   ctx.fillText('salman-SilverStarneo', W - 40, H - 35);
   ctx.textAlign = 'left';
@@ -793,7 +805,7 @@ async function drawSquad(ctx, W, H, team, base) {
   ctx.fillText(bangboo ? fit(ctx, bangboo.name, 150) : 'None', cx, cy + 122);
   ctx.textAlign = 'left';
   drawQR(ctx, qrText(encodeCardCode(team, loadoutOf)), cx - 55, cy + 142, 110);
-  footer(ctx, W, H, team);
+  footer(ctx, W, H, team, { qr: false });
 }
 
 async function drawSquare(ctx, W, H, team, base) {
