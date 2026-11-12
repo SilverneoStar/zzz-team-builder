@@ -48,6 +48,10 @@ import {
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { subPriority } from './builds.js';
+import { activeRolls, totalRolls } from './discs.js';
+
+// Active Modifier Count at which an Agent's substats count as fully built.
+const ACTIVE_FULL = 40;
 import { PRESETS } from '../data/presets.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -672,6 +676,29 @@ export function synergyScore(memberIds, bangbooId, loadouts = {}) {
   // Proficiency on a non-Anomaly Agent, say) lowers this part.
   const fit = buildFit(squad, loadouts);
   if (fit) parts.push(fit);
+
+  // Active modifiers: substat rolls on stats each member favours, as the game
+  // counts them. A bonus for members with substats entered: about 40 is a
+  // well-built Agent, so up to +5 for the squad's average against that.
+  const withSubs = squad
+    .map((a) => {
+      const discs = loadouts[a.id]?.discs ?? [];
+      const fav = subPriority(a.id);
+      const rolls = discs.reduce((n, d) => n + totalRolls(d), 0);
+      return rolls && fav.size ? { a, active: discs.reduce((n, d) => n + activeRolls(d, fav), 0) } : null;
+    })
+    .filter(Boolean);
+  if (withSubs.length) {
+    const avg = withSubs.reduce((n, x) => n + Math.min(1, x.active / ACTIVE_FULL), 0) / squad.length;
+    parts.push({
+      id: 'active',
+      label: 'Active modifiers (bonus)',
+      points: Math.round(avg * 5 * 10) / 10,
+      max: 5,
+      bonus: true,
+      detail: withSubs.map((x) => `${shortName(x.a)} ${x.active}`).join(', ') + ` (about ${ACTIVE_FULL} is well built)`,
+    });
+  }
 
   // Mindscapes and Potential: a bonus on top, so a squad without them loses
   // nothing. Early levels count most (most players stop at M1–M2, few go to

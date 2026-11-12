@@ -16,6 +16,8 @@ import { useRef, useState } from 'react';
 import {
   RANKS,
   SUB_STATS,
+  activeRolls,
+  totalRolls,
   discBonuses,
   discStatTotals,
   formatStat,
@@ -377,7 +379,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
             </p>
           )}
 
-          <DiscTotals discs={discs} label={statLabel} />
+          <DiscTotals discs={discs} label={statLabel} agentId={agent.id} />
 
           <div className="bonuses">
             <span className="field__label">Set bonuses</span>
@@ -439,6 +441,11 @@ function SubStats({ agentId, disc, slot, onChange }) {
         <span className="field__label">Substats</span>
         <span className={`subs__count${used > cap ? ' is-over' : ''}`}>
           Upgrades {used}/{cap}
+          {fav.size > 0 && subs.length > 0 && (
+            <>
+              {' · '}Active {activeRolls(disc, fav)}/{totalRolls(disc)}
+            </>
+          )}
         </span>
       </div>
       {text && (
@@ -497,12 +504,24 @@ function SubStats({ agentId, disc, slot, onChange }) {
 }
 
 /** Every stat the six discs give: main stats at level 15 plus substats. */
-function DiscTotals({ discs, label }) {
+function DiscTotals({ discs, label, agentId }) {
   const totals = discStatTotals(discs);
   if (!totals.length) return null;
+  const fav = subPriority(agentId);
+  const rolls = discs.reduce((n, d) => n + totalRolls(d), 0);
+  const active = discs.reduce((n, d) => n + activeRolls(d, fav), 0);
   return (
     <div className="disc-totals">
       <span className="field__label">Stats from discs</span>
+      {rolls > 0 && fav.size > 0 && (
+        <p className="disc-totals__active">
+          Active modifiers <b>{active}</b>
+          <span className="muted small">
+            {' '}
+            of {rolls} substat rolls on stats this Agent favours (the game’s Active Modifier Count)
+          </span>
+        </p>
+      )}
       <ul>
         {totals.map((t) => (
           <li key={t.stat}>

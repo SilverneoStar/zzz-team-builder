@@ -28,6 +28,13 @@ const PERCENT = new Set(['HP%', 'ATK%', 'DEF%', 'CRIT Rate', 'CRIT DMG', 'PEN Ra
 /** Most upgrades a disc's substats can share: 4, or 5 if it dropped with four substats. */
 export const maxUpgrades = (disc) => (disc?.four ? 5 : 4);
 export const upgradesUsed = (disc) => (disc?.subs ?? []).reduce((n, x) => n + (x.up ?? 0), 0);
+/**
+ * Active modifiers, as the game counts them: each roll (a substat plus each
+ * upgrade on it) on a substat the Agent favours. `fav` is a Set or Map of stats.
+ */
+export const activeRolls = (disc, fav) =>
+  (disc?.subs ?? []).reduce((n, x) => n + (fav.has(x.stat) ? 1 + (x.up ?? 0) : 0), 0);
+export const totalRolls = (disc) => (disc?.subs ?? []).reduce((n, x) => n + 1 + (x.up ?? 0), 0);
 /** Value of a substat with `up` extra upgrades on a disc of this rank, or null. */
 export const subValue = (rank, stat, up = 0) => {
   const roll = SUB_ROLL[rank]?.[stat];
