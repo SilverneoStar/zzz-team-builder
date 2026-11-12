@@ -235,15 +235,54 @@ function rankFace(ctx, rank, x, y, size) {
   ctx.restore();
 }
 
+/**
+ * Draws a card code in the box (x, y = top, w × h), as big as fits: on one
+ * line when it's short, wrapped at its dashes onto more lines when it carries
+ * substats. Returns the font size used.
+ */
+export function drawCode(ctx, code, x, y, w, h, { max = 20, min = 9 } = {}) {
+  const groups = code.split('-');
+  const linesAt = (size) => {
+    ctx.font = `600 ${size}px ${MONO}`;
+    const lines = [];
+    let cur = '';
+    groups.forEach((g) => {
+      const next = cur ? `${cur}-${g}` : g;
+      if (cur && ctx.measureText(next).width > w) {
+        lines.push(`${cur}-`);
+        cur = g;
+      } else cur = next;
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  };
+  let size = max;
+  let lines = linesAt(size);
+  while (size > min && lines.length * size * 1.2 > h) {
+    size -= 1;
+    lines = linesAt(size);
+  }
+  ctx.fillStyle = '#e6e6e6';
+  ctx.textBaseline = 'top';
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * size * 1.2));
+  ctx.textBaseline = 'alphabetic';
+  return size;
+}
+
 function footer(ctx, W, H, team) {
-  // The short card code: paste it into "Paste a friend's code" to load the team.
+  // The card code: paste it into "Paste a friend's code" to load the team,
+  // substats included when they're set (the code is longer then).
+  const code = encodeCardCode(team, loadoutOf);
+  const full = code.length > encodeCardCode(team, loadoutOf, { subs: false }).length;
   ctx.fillStyle = '#b5b5b5';
   ctx.font = `600 13px ${MONO}`;
   ctx.fillText('TEAM CODE', 40, H - 66);
   const labelW = ctx.measureText('TEAM CODE').width;
-  ctx.fillStyle = '#e6e6e6';
-  ctx.font = `600 20px ${MONO}`;
-  ctx.fillText(fit(ctx, encodeCardCode(team, loadoutOf, { subs: false }), W - 120 - labelW), 40 + labelW + 16, H - 63);
+  if (full) {
+    ctx.font = `500 11px ${MONO}`;
+    ctx.fillText('WITH SUBSTATS', 40, H - 52);
+  }
+  drawCode(ctx, code, 40 + Math.max(labelW, 96) + 16, H - 82, W - 100 - Math.max(labelW, 96), 32);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText(

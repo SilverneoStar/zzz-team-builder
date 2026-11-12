@@ -49,6 +49,7 @@ import {
   roleLine,
   roundRect,
   slantedArt,
+  drawCode,
 } from './teamCard.js';
 
 // Card types live in exportSettings.js; re-exported so older imports keep working.
@@ -1078,8 +1079,9 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     loadEngines(engs.map((o) => o.id), base),
     loadDiscs([...alt.four.slice(0, 2), ...alt.two.slice(0, 2)], base),
   ]);
-  // Images keep the short code; substats travel in the copied code and links.
-  const code = buildCode(a.id, lo, { subs: false });
+  // The build code, substats included when they're set (longer then).
+  const code = buildCode(a.id, lo);
+  const full = code.length > buildCode(a.id, lo, { subs: false }).length;
   if (tall) {
     const ay = btop + bh + 16;
     const ah = H - 110 - ay;
@@ -1093,16 +1095,18 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
     ctx.fillText('BUILD CODE', 40, H - 66);
-    const labelW = ctx.measureText('BUILD CODE').width;
-    ctx.fillStyle = '#e6e6e6';
-    ctx.font = `600 20px ${MONO}`;
-    ctx.fillText(fit(ctx, code, W - 120 - labelW), 40 + labelW + 16, H - 63);
+    const labelW = Math.max(ctx.measureText('BUILD CODE').width, 96);
+    if (full) {
+      ctx.font = `500 11px ${MONO}`;
+      ctx.fillText('WITH SUBSTATS', 40, H - 52);
+    }
+    drawCode(ctx, code, 40 + labelW + 16, H - 82, W - 100 - labelW, 34);
   } else {
     // One strip: alternatives on the left, the build code on the right.
     const ay = top + ph + 12;
     const ah = H - 46 - ay;
     panel(ctx, 40, ay, W - 80, ah, 'Alternatives');
-    const cw = 290;
+    const cw = full ? 380 : 290;
     const cx = W - 40 - cw;
     ctx.strokeStyle = K.line;
     ctx.beginPath();
@@ -1121,10 +1125,10 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
       ctx.fillText(fit(ctx, tag.toUpperCase(), w - 50), ix + 44, iy + 38);
       ix += w;
     };
-    engs.slice(0, 3).forEach((o) => item(altIcons[o.id], W_ENGINE_BY_ID[o.id].name, ENGINE_TAG[o.kind], 168));
+    engs.slice(0, 3).forEach((o) => ix + 120 < cx && item(altIcons[o.id], W_ENGINE_BY_ID[o.id].name, ENGINE_TAG[o.kind], Math.min(168, cx - ix - 6)));
     const d4 = alt.four[0];
     const d2 = alt.two[0];
-    if (d4) item(altDiscs[d4], DRIVE_DISC_BY_ID[d4].name, '4-piece', 148);
+    if (d4 && ix + 120 < cx) item(altDiscs[d4], DRIVE_DISC_BY_ID[d4].name, '4-piece', Math.min(148, cx - ix - 6));
     if (d2 && ix + 120 < cx) item(altDiscs[d2], DRIVE_DISC_BY_ID[d2].name, '2-piece', Math.min(148, cx - ix - 6));
     if (!engs.length && !d4 && !d2) {
       ctx.fillStyle = K.muted;
@@ -1133,10 +1137,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     }
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
-    ctx.fillText('BUILD CODE', cx + 20, ay + 30);
-    ctx.fillStyle = '#e6e6e6';
-    ctx.font = `600 20px ${MONO}`;
-    ctx.fillText(fit(ctx, code, cw - 40), cx + 20, ay + 58);
+    ctx.fillText(full ? 'BUILD CODE · WITH SUBSTATS' : 'BUILD CODE', cx + 20, ay + 30);
+    drawCode(ctx, code, cx + 20, ay + 40, cw - 40, ah - 48);
   }
   foot(ctx, W, H);
 }
