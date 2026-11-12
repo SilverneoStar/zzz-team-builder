@@ -94,3 +94,35 @@ export function recommendationFor(agentId) {
     beta: src?.beta ?? false,
   };
 }
+
+// Substats an Agent favours, read from their build's substat line, e.g.
+// "CRIT Rate = CRIT DMG > ATK % > PEN": a Map of substat → tier (0 = most wanted).
+// Stats in the same tier ("=", "/") share it; notes in brackets are ignored.
+const SUB_TOKENS = [
+  [/^crit rate$/i, 'CRIT Rate'],
+  [/^(crit )?dmg$/i, 'CRIT DMG'],
+  [/^atk ?%$/i, 'ATK%'],
+  [/^atk$/i, 'ATK'],
+  [/^hp ?%$/i, 'HP%'],
+  [/^hp$/i, 'HP'],
+  [/^def ?%$/i, 'DEF%'],
+  [/^def$/i, 'DEF'],
+  [/^pen$/i, 'PEN'],
+  [/^(anomaly proficiency|ap)$/i, 'Anomaly Proficiency'],
+];
+const subCache = new Map();
+export function subPriority(agentId) {
+  if (subCache.has(agentId)) return subCache.get(agentId);
+  const text = (BUILDS[agentId]?.substats ?? '').replace(/\([^)]*\)/g, '');
+  const out = new Map();
+  text
+    .split(/\s*(?:>+|>=|≥)\s*/)
+    .forEach((tier, i) =>
+      tier.split(/\s*[=/]\s*/).forEach((tok) => {
+        const hit = SUB_TOKENS.find(([re]) => re.test(tok.trim()));
+        if (hit && !out.has(hit[1])) out.set(hit[1], i);
+      }),
+    );
+  subCache.set(agentId, out);
+  return out;
+}

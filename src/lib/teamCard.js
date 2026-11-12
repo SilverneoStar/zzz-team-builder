@@ -243,7 +243,7 @@ function footer(ctx, W, H, team) {
   const labelW = ctx.measureText('TEAM CODE').width;
   ctx.fillStyle = '#e6e6e6';
   ctx.font = `600 20px ${MONO}`;
-  ctx.fillText(fit(ctx, encodeCardCode(team, loadoutOf), W - 120 - labelW), 40 + labelW + 16, H - 63);
+  ctx.fillText(fit(ctx, encodeCardCode(team, loadoutOf, { subs: false }), W - 120 - labelW), 40 + labelW + 16, H - 63);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText(

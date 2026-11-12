@@ -6,13 +6,15 @@ import {
   TEAM_SIZE,
   W_ENGINE_BY_ID,
 } from '../data/game.js';
-import { RANKS, normaliseDiscs } from './discs.js';
+import { RANKS, SUB_STATS, normaliseDiscs } from './discs.js';
 import { hasPotential } from '../data/potentials.js';
 
 // A team code looks like:
 //   zzz2~Ellen_Freeze~ellen-joe.von-lycaon.soukaku~sharkboo~<gear>.<gear>.<gear>
 // Each Agent's gear is W-Engine,phase,mindscape,slot1,…,slot6[,potential] and each slot is
-// set_rank_main (main as its position in DISC_MAIN_STATS for slots 4–6).
+// set_rank_main (main as its position in DISC_MAIN_STATS for slots 4–6),
+// plus _subs when the disc has substats: an optional "f" (dropped with four),
+// then two digits per substat, its position in SUB_STATS and its upgrades.
 // Only letters, digits and . , _ ~ - appear, so it's safe in a URL hash.
 // Older zzz1 codes (a 4-piece and 2-piece set per Agent) still import.
 const PREFIX = 'zzz2';
@@ -35,7 +37,9 @@ export function encodeTeam(team, loadoutOf) {
         ...lo.discs.map((d, i) => {
           const slot = i + 1;
           const m = slot >= 4 ? DISC_MAIN_STATS[slot].indexOf(d.main) : -1;
-          return `${d.set ?? ''}_${d.rank}_${m < 0 ? '' : m}`;
+          const subs = (d.subs ?? []).map((x) => `${SUB_STATS.indexOf(x.stat)}${x.up ?? 0}`).join('');
+          const tail = subs || d.four ? `_${d.four ? 'f' : ''}${subs}` : '';
+          return `${d.set ?? ''}_${d.rank}_${m < 0 ? '' : m}${tail}`;
         }),
         // Potential goes last and only when set, so older codes stay the same.
         ...(lo.potential ? [lo.potential] : []),
@@ -91,12 +95,16 @@ export function decodeTeam(code) {
       return;
     }
     const discs = rest.slice(0, 6).map((cell, i) => {
-      const [set, rank, m] = (cell ?? '').split('_');
+      const [set, rank, m, sub = ''] = (cell ?? '').split('_');
       const slot = i + 1;
+      const four = sub.startsWith('f');
+      const pairs = (four ? sub.slice(1) : sub).match(/\d\d/g) ?? [];
       return {
         set: DRIVE_DISC_BY_ID[set] ? set : null,
         rank: RANKS.includes(rank) ? rank : 'S',
         main: slot >= 4 && m !== '' && m != null ? (DISC_MAIN_STATS[slot][Number(m)] ?? null) : null,
+        four,
+        subs: pairs.map((p) => ({ stat: SUB_STATS[Number(p[0])], up: Number(p[1]) })).filter((x) => x.stat),
       };
     });
     const pot = Math.min(6, Math.max(0, Number(rest[6]) || 0));

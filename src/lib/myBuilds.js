@@ -49,7 +49,7 @@ const solo = (agentId, loadout) => ({
 });
 
 /** Short share code for one Agent's build (the same format as team image codes). */
-export const buildCode = (agentId, loadout) => encodeCardCode(solo(agentId, loadout), loadoutOf);
+export const buildCode = (agentId, loadout, opts) => encodeCardCode(solo(agentId, loadout), loadoutOf, opts);
 
 /**
  * Reads a pasted build or team code. Returns this Agent's loadout from it, or

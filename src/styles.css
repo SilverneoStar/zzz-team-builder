@@ -9901,3 +9901,5 @@ details.disc-guide + details.disc-guide {
 .disc-totals li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 0.9rem; }
 .disc-totals li b { margin-left: auto; font-variant-numeric: tabular-nums; }
 .disc-totals li .small { flex-basis: 100%; text-align: right; }
+.subs__fav { margin: 0; }
+.subs__row.is-off .subs__val { color: #e0623a; }

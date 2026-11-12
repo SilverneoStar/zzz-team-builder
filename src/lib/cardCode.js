@@ -6,7 +6,7 @@ import {
   W_ENGINE_BY_ID,
   AGENT_BY_ID,
 } from '../data/game.js';
-import { RANKS, SLOTS, normaliseDiscs } from './discs.js';
+import { RANKS, SLOTS, SUB_STATS, normaliseDiscs } from './discs.js';
 import { hasPotential } from '../data/potentials.js';
 
 // Card codes: the short code printed on team images, e.g.
@@ -29,6 +29,10 @@ import { hasPotential } from '../data/potentials.js';
 //                                 slots 4, 5, 6 (3 each)
 //                             0 = the six discs written out:
 //                                 set (6) · rank (2) · main (3) each
+//   substats (optional; codes from before simply end here):
+//     present (1)             1 = a substat section follows
+//     per filled Agent, per slot 1–6:
+//       count (3) · four (1) · per substat: stat (4, position in SUB_STATS) · upgrades (3)
 //   zero padding to a whole 5-character group
 //
 // IMPORTANT: every list below is APPEND-ONLY. A code stores positions in
@@ -109,7 +113,7 @@ function simple(discs) {
 }
 
 /** The short code for a team. `loadoutOf(team, id)` returns an Agent's gear. */
-export function encodeCardCode(team, loadoutOf) {
+export function encodeCardCode(team, loadoutOf, { subs = true } = {}) {
   const w = new BitWriter();
   for (let i = 0; i < TEAM_SIZE; i += 1) w.write(pos(AGENT_ORDER, team.members[i]), 7);
   w.write(pos(BANGBOO_ORDER, team.bangboo), 6);
@@ -137,6 +141,22 @@ export function encodeCardCode(team, loadoutOf) {
       });
     }
   });
+  const filled = team.members.filter(Boolean);
+  const anySubs = filled.some((id) => loadoutOf(team, id).discs.some((d) => d.subs?.length || d.four));
+  if (subs && anySubs) {
+    w.write(1, 1);
+    filled.forEach((id) =>
+      loadoutOf(team, id).discs.forEach((d) => {
+        const list = (d.subs ?? []).slice(0, 4);
+        w.write(list.length, 3);
+        w.write(d.four ? 1 : 0, 1);
+        list.forEach((x) => {
+          w.write(Math.max(0, SUB_STATS.indexOf(x.stat)), 4);
+          w.write(Math.min(5, x.up ?? 0), 3);
+        });
+      }),
+    );
+  }
   const body = w.bits;
   while (body.length % 5 !== 0) body.push(0);
   const c = new BitWriter();
@@ -212,6 +232,19 @@ export function decodeCardCode(code) {
         potential: hasPotential(id) ? potential : 0,
         discs: normaliseDiscs(discs),
       };
+    }
+    // Substats, when the code has them (padding is under 5 zero bits, so a
+    // 1 here can only be the start of a substat section).
+    if (r.pos < bits.length && r.read(1) === 1) {
+      members.filter(Boolean).forEach((id) => {
+        const discs = loadouts[id].discs.map((d) => {
+          const n = r.read(3);
+          const four = r.read(1) === 1;
+          const subs = Array.from({ length: Math.min(4, n) }, () => ({ stat: SUB_STATS[r.read(4)], up: r.read(3) }));
+          return { ...d, four, subs: subs.filter((x) => x.stat) };
+        });
+        loadouts[id] = { ...loadouts[id], discs: normaliseDiscs(discs) };
+      });
     }
     return { name: 'Shared team', members, bangboo, loadouts };
   } catch {

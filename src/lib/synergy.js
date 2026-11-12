@@ -47,6 +47,7 @@ import {
   shortName,
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { subPriority } from './builds.js';
 import { PRESETS } from '../data/presets.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { BANGBOO_SKILLS, needMet } from '../data/bangbooSkills.js';
@@ -289,6 +290,30 @@ function buildFit(squad, loadouts) {
         bits.push(`${shortName(a)}: ${m} on slot ${slot} doesn’t suit them (recommended: ${rec})`);
       }
     });
+    // Substats: every roll (a substat's first, plus each upgrade) on a stat the
+    // Agent's build doesn't list is wasted; −1 for every 5 (at most −3 each).
+    const fav = subPriority(a.id);
+    let rolls = 0;
+    let wasted = 0;
+    const wastedStats = new Set();
+    discs.forEach((d) =>
+      (d?.subs ?? []).forEach((x) => {
+        const n = 1 + (x.up ?? 0);
+        rolls += n;
+        if (fav.size && !fav.has(x.stat)) {
+          wasted += n;
+          wastedStats.add(x.stat);
+        }
+      }),
+    );
+    if (rolls && fav.size) {
+      checked += 1;
+      const cost = Math.min(3, Math.floor(wasted / 5));
+      if (cost) {
+        penalty += cost;
+        bits.push(`${shortName(a)}: ${wasted} of ${rolls} substat rolls on ${[...wastedStats].join(', ')}, which their build doesn’t favour`);
+      }
+    }
   });
   if (!checked) return null;
   // A penalty only: discs that suit the Agent cost nothing (at most −10 in all).
@@ -299,7 +324,7 @@ function buildFit(squad, loadouts) {
     max: 10,
     bonus: true,
     penalty: true,
-    detail: bits.length ? bits.join('; ') : 'Every equipped set and main stat gives stats its Agent uses',
+    detail: bits.length ? bits.join('; ') : 'Every equipped set, main stat and substat gives stats its Agent uses',
   };
 }
 

@@ -31,7 +31,8 @@ import { BETA_POTENTIAL, MAX_POTENTIAL, ROMAN, hasPotential } from '../data/pote
 import { ENGINE_PICKS } from '../data/enginePicks.js';
 import RankBadge from './RankBadge.jsx';
 import MemberPicker from './MemberPicker.jsx';
-import { recommendationFor } from '../lib/builds.js';
+import { recommendationFor, subPriority } from '../lib/builds.js';
+import { BUILDS } from '../data/builds.js';
 import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
@@ -368,7 +369,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                   </select>
                 </label>
               )}
-              <SubStats disc={cur} slot={slot} onChange={(patch) => setDisc(slot - 1, patch)} />
+              <SubStats agentId={agent.id} disc={cur} slot={slot} onChange={(patch) => setDisc(slot - 1, patch)} />
             </div>
           ) : (
             <p className="muted small wheel__hint">
@@ -419,13 +420,19 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
 }
 
 /** A disc's up to four substats, each with its extra upgrades (shared: 4, or 5). */
-function SubStats({ disc, slot, onChange }) {
+function SubStats({ agentId, disc, slot, onChange }) {
   const subs = disc.subs ?? [];
   const own = mainStatOf(slot, disc);
   const used = upgradesUsed(disc);
   const cap = maxUpgrades(disc);
   const set = (i, patch) => onChange({ subs: subs.map((x, k) => (k === i ? { ...x, ...patch } : x)) });
-  const free = (stat) => SUB_STATS.filter((st) => st !== own && (st === stat || !subs.some((x) => x.stat === st)));
+  // The Agent's favoured substats first, best first, marked Rec.
+  const fav = subPriority(agentId);
+  const rank = (st) => (fav.has(st) ? fav.get(st) : 99);
+  const free = (stat) =>
+    SUB_STATS.filter((st) => st !== own && (st === stat || !subs.some((x) => x.stat === st))).sort((a, b) => rank(a) - rank(b));
+  const mark = (st) => (fav.has(st) ? ' · Rec.' : '');
+  const text = BUILDS[agentId]?.substats;
   return (
     <div className="subs">
       <div className="subs__head">
@@ -434,12 +441,18 @@ function SubStats({ disc, slot, onChange }) {
           Upgrades {used}/{cap}
         </span>
       </div>
+      {text && (
+        <p className="subs__fav small muted">
+          Favours: <b>{text}</b>
+        </p>
+      )}
       {subs.map((x, i) => (
-        <div key={x.stat} className="subs__row">
+        <div key={x.stat} className={`subs__row${fav.size && !fav.has(x.stat) ? ' is-off' : ''}`}>
           <select value={x.stat} onChange={(e) => set(i, { stat: e.target.value })} aria-label={`Substat ${i + 1}`}>
             {free(x.stat).map((st) => (
               <option key={st} value={st}>
                 {st}
+                {mark(st)}
               </option>
             ))}
           </select>
@@ -469,6 +482,7 @@ function SubStats({ disc, slot, onChange }) {
           {free(null).map((st) => (
             <option key={st} value={st}>
               {st}
+              {mark(st)}
             </option>
           ))}
         </select>

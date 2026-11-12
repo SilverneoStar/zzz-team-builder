@@ -1078,7 +1078,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     loadEngines(engs.map((o) => o.id), base),
     loadDiscs([...alt.four.slice(0, 2), ...alt.two.slice(0, 2)], base),
   ]);
-  const code = buildCode(a.id, lo);
+  // Images keep the short code; substats travel in the copied code and links.
+  const code = buildCode(a.id, lo, { subs: false });
   if (tall) {
     const ay = btop + bh + 16;
     const ah = H - 110 - ay;
