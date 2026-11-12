@@ -1087,18 +1087,20 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   const full = code.length > buildCode(a.id, lo, { subs: false }).length;
   if (tall) {
     const ay = btop + bh + 16;
-    const ah = H - 178 - ay;
+    const ah = H - 166 - ay;
     if (ah >= 110) {
       panel(ctx, 40, ay, W - 80, ah, 'Alternatives', 'signature → budget');
       const rows = Math.max(1, Math.min(4, Math.floor((ah - 52) / 42)));
-      drawAltEngines(ctx, engs, altIcons, 60, ay + 44, 560, Math.min(50, (ah - 52) / Math.min(rows, Math.max(1, engs.length))), rows);
+      const cols = rows < engs.length ? 2 : 1;
+      const shown = Math.min(rows, Math.ceil(Math.max(1, engs.length) / cols));
+      drawAltEngines(ctx, engs, altIcons, 60, ay + 44, 580, Math.min(50, (ah - 52) / shown), rows, cols);
       drawAltDiscs(ctx, alt, altDiscs, 660, ay + 46, W - 60 - 660, ah - 56);
     }
     // Build code: paste into My build (or the team builder) to load this build.
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
     // QR code bottom right: opens the site with this build.
-    const Q = 116;
+    const Q = 104;
     drawQR(ctx, qrText(code), W - 40 - Q, H - 46 - Q, Q);
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
@@ -1156,24 +1158,32 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
 }
 
 /** Alternative W-Engines, one per row with what kind of pick each is. */
-function drawAltEngines(ctx, opts, icons, x, y, w, rowH, count) {
+function drawAltEngines(ctx, opts, icons, x0, y, w0, rowH, count, cols = 1) {
+  const x = x0;
+  const w = w0;
   if (!opts.length) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 15px ${FONT}`;
     ctx.fillText('No other W-Engines listed yet.', x, y + 20);
     return;
   }
-  opts.slice(0, count).forEach((o, i) => {
+  // Side by side when the panel is short: two columns of rows.
+  const cw = w0 / cols;
+  opts.slice(0, count * cols).forEach((o, k) => {
     const e = W_ENGINE_BY_ID[o.id];
+    const i = Math.floor(k / cols);
     const ry = y + i * rowH;
+    const x = x0 + (k % cols) * cw;
+    const w = cw - (cols > 1 ? 12 : 0);
     engineIcon(ctx, icons[o.id], x, ry, rowH - 6);
     ctx.fillStyle = K.fg;
     ctx.font = `600 17px ${FONT}`;
-    ctx.fillText(fit(ctx, e.name, w - rowH - 40), x + rowH + 4, ry + rowH / 2 - 2);
+    ctx.fillText(fit(ctx, e.name, w - rowH - 8), x + rowH + 4, ry + rowH / 2 - 2);
     ctx.fillStyle = K.dim;
     ctx.font = `500 12px ${MONO}`;
-    ctx.fillText(fit(ctx, ENGINE_TAG[o.kind].toUpperCase(), w - rowH - 40), x + rowH + 4, ry + rowH / 2 + 15);
-    rankBadge(ctx, e.rank, x + w - 16, ry + rowH / 2 - 4, 13);
+    ctx.fillText(fit(ctx, ENGINE_TAG[o.kind].toUpperCase(), w - rowH - 8), x + rowH + 4, ry + rowH / 2 + 15);
+    // Rank on the icon's corner, beside the picture it belongs to.
+    rankBadge(ctx, e.rank, x + rowH - 12, ry + rowH - 14, 11);
   });
 }
 

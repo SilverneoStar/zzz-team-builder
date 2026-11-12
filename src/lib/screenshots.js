@@ -63,7 +63,7 @@ async function readQR(bitmap) {
   if (!jsQR) return null;
   const tries = [
     [0.55, 0.55, 1, 1],
-    [0.6, 0, 1, 0.45],
+    [0.45, 0, 1, 0.45],
     [0, 0, 1, 1],
   ];
   for (const [x0, y0, x1, y1] of tries) {

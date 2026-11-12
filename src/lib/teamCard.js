@@ -143,15 +143,17 @@ export function background(ctx, W, H) {
   });
 }
 
-async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
+async function header(ctx, W, team, base, { titleSize = 54, qr = true } = {}) {
   // The synergy score, for full squads only.
   const ids = team.members.filter(Boolean);
   const syn =
     ids.length === 3
       ? synergyScore(team.members, team.bangboo, Object.fromEntries(ids.map((id) => [id, loadoutOf(team, id)])))
       : null;
-  // Leave room for Cortado, and for the score beside it.
-  const room = W - (syn ? 330 : 260);
+  // Leave room for Cortado, the score beside it, and the QR code.
+  const QR = 108;
+  const qx = W - (syn ? 350 : 170) - QR;
+  const room = qr ? qx - 24 - 40 : W - (syn ? 330 : 260);
   const grad = ctx.createLinearGradient(40, 0, W - 40, 0);
   ['#4a4f5c', '#9ea4b1', '#c3c8d2', '#6b7180', '#464b57'].forEach((c, i, a) =>
     grad.addColorStop(i / (a.length - 1), c),
@@ -173,6 +175,8 @@ async function header(ctx, W, team, base, { titleSize = 54 } = {}) {
     ctx.font = `800 ${size}px ${DISPLAY}`;
   }
   ctx.fillText(fit(ctx, title, room), 40, 74 + titleSize);
+  // QR code with the team code, in the header's free space.
+  if (qr) drawQR(ctx, qrText(encodeCardCode(team, loadoutOf)), qx, 48, QR);
 
   const mascot = await loadImage(`${base}mascot.svg`);
   if (!mascot) return;
@@ -297,26 +301,13 @@ export function drawQR(ctx, text, x, y, size) {
 }
 
 function footer(ctx, W, H, team) {
-  // The card code: paste it into "Paste a friend's code" to load the team,
-  // substats included when they're set (the code is longer then).
+  // The team code isn't written out (it got too long with substats): the QR
+  // code and the PNG file carry it. Saved images keep the code for the reader.
   const code = encodeCardCode(team, loadoutOf);
   if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
-  const full = code.length > encodeCardCode(team, loadoutOf, { subs: false }).length;
-  // QR code in the bottom-right corner, above the watermark.
-  const Q = 116;
-  drawQR(ctx, qrText(code), W - 40 - Q, H - 54 - Q, Q);
-  const cw = W - 80 - Q - 20;
   ctx.fillStyle = '#b5b5b5';
   ctx.font = `600 13px ${MONO}`;
-  if (full) {
-    // Label above, code below it: easier to read back from a screenshot.
-    ctx.fillText('TEAM CODE · WITH SUBSTATS', 40, H - 88);
-    drawCode(ctx, code, 40, H - 80, cw, 36, { max: 16 });
-  } else {
-    ctx.fillText('TEAM CODE', 40, H - 66);
-    const labelW = ctx.measureText('TEAM CODE').width;
-    drawCode(ctx, code, 40 + labelW + 16, H - 82, cw - labelW - 16, 32);
-  }
+  ctx.fillText('SCAN THE QR CODE, OR UPLOAD THIS IMAGE ON THE SITE, TO LOAD THIS TEAM', 40, H - 62);
   ctx.fillStyle = '#a3a3a3';
   ctx.font = `500 14px ${FONT}`;
   ctx.fillText(
@@ -676,7 +667,8 @@ async function drawColumns(ctx, W, H, team, base) {
 }
 
 async function drawSquad(ctx, W, H, team, base) {
-  await header(ctx, W, team, base, { titleSize: 44 });
+  // The header is short here: the QR code goes under the Bangboo instead.
+  await header(ctx, W, team, base, { titleSize: 44, qr: false });
   const { arts, bangboo, bArt, engines, discs, roles, factions } = await loadArt(team, base, { stack: [262, 244] });
   // Three big leaning cards, then the Bangboo disc, like the squad screen.
   const cardW = 262;
@@ -800,6 +792,7 @@ async function drawSquad(ctx, W, H, team, base) {
   ctx.font = `700 17px ${FONT}`;
   ctx.fillText(bangboo ? fit(ctx, bangboo.name, 150) : 'None', cx, cy + 122);
   ctx.textAlign = 'left';
+  drawQR(ctx, qrText(encodeCardCode(team, loadoutOf)), cx - 55, cy + 142, 110);
   footer(ctx, W, H, team);
 }
 
