@@ -169,7 +169,7 @@ const fromPos = (list, n) => (n === 0 ? null : (list[n - 1] ?? undefined));
 
 /** { members, bangboo, loadouts } from a short code, or null if it isn't valid. */
 export function decodeCardCode(code) {
-  const chars = (code ?? '').toUpperCase().replace(/[\s-]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1');
+  const chars = (code ?? '').toUpperCase().replace(/^\s*ZZZ:/, '').replace(/[\s-]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1');
   if (chars.length < 10 || [...chars].some((ch) => !ALPHABET.includes(ch))) return null;
   const bits = toBits(chars);
   const body = bits.slice(5);
