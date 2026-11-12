@@ -477,23 +477,25 @@ async function drawShiyu(ctx, base, custom) {
     ctx.fillText(fit(ctx, side.name ?? '', 470), 226, y + 72);
     attrRow(ctx, 'WEAK', side.weak, icons, 226, y + 88, 28);
     attrRow(ctx, 'RESIST', side.resist, icons, 226, y + 126, 28);
-    // Room buff, then the fight tip
-    let ly = y + 196;
-    ctx.fillStyle = K.text;
-    ctx.font = `500 14px ${FONT}`;
+    // Room buff, then the fight tip: full width under the art and the team,
+    // larger and brighter so it reads on a phone.
+    let ly = y + 224;
+    const tw = W - 80 - 32;
+    ctx.fillStyle = K.fg;
+    ctx.font = `500 16px ${FONT}`;
     (side.buffs?.[0]?.text ?? []).slice(0, 2).forEach((t) => {
-      wrap(ctx, t, W - 80 - 400, 2).forEach((l) => {
+      wrap(ctx, t, tw, 2).forEach((l) => {
         ctx.fillText(l, 56, ly);
-        ly += 19;
+        ly += 22;
       });
     });
-    if (side.tip) {
-      ly += 6;
-      ctx.fillStyle = K.muted;
-      ctx.font = `italic 500 14px ${FONT}`;
-      wrap(ctx, side.tip, W - 80 - 400, 2).forEach((l) => {
+    if (side.tip && ly < y + rh - 14) {
+      ly += 4;
+      ctx.fillStyle = K.text;
+      ctx.font = `italic 500 15px ${FONT}`;
+      wrap(ctx, side.tip, tw, 1).forEach((l) => {
         ctx.fillText(l, 56, ly);
-        ly += 19;
+        ly += 20;
       });
     }
     // Team on the right
