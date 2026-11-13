@@ -856,7 +856,7 @@ function shrink(ctx, text, w, weight, max, min) {
 }
 
 /** The reader's own build: their W-Engine, each Drive Disc and the set bonuses. */
-async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
+async function drawMine(ctx, W, H, a, base, lo, tall, { note = '', skills = null, core = null } = {}) {
   await head(ctx, W, a, base, 'My build');
   const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
@@ -1175,6 +1175,9 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     by += 34;
   });
 
+  const SKILL_IDS = ['basic', 'dodge', 'assist', 'special', 'chain'];
+  const hasSkills = Boolean((skills && SKILL_IDS.some((k) => skills[k])) || core != null);
+  const skillIcons = hasSkills ? await loadSkillIcons([...SKILL_IDS, 'core'], base) : {};
   // The build code, substats included when they're set (longer then).
   const code = buildCode(a.id, lo);
   if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
@@ -1194,7 +1197,11 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     drawQR(ctx, qrText(code), W - 40 - Q, H - 46 - Q, Q);
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
-    if (full) {
+    if (hasSkills) {
+      // Skill levels and Core Skill in place of the code (the QR code carries it).
+      ctx.fillText('SKILLS', 40, H - 112);
+      drawSkillLevels(ctx, skillIcons, skills, core, 40, H - 102, Math.min(620, W - 100 - Q));
+    } else if (full) {
       ctx.fillText('BUILD CODE · WITH SUBSTATS', 40, H - 88);
       drawCode(ctx, code, 40, H - 80, W - 100 - Q, 36, { max: 18 });
     } else {
@@ -1207,7 +1214,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     const ay = top + ph + 12;
     const ah = H - 46 - ay;
     panel(ctx, 40, ay, W - 80, ah, 'Cortado’s notes');
-    const cw = full ? 380 : 290;
+    const cw = hasSkills ? 380 : full ? 380 : 290;
     const cx = W - 40 - cw;
     ctx.strokeStyle = K.line;
     ctx.beginPath();
@@ -1217,8 +1224,13 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     drawReviewNotes(ctx, review, 230, ay + 30, cx - 230 - 16, ah - 30, 1);
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
-    ctx.fillText(full ? 'BUILD CODE · WITH SUBSTATS' : 'BUILD CODE', cx + 20, ay + 30);
-    drawCode(ctx, code, cx + 20, ay + 40, cw - 40, ah - 48);
+    if (hasSkills) {
+      ctx.fillText('SKILLS', cx + 20, ay + 26);
+      drawSkillLevels(ctx, skillIcons, skills, core, cx + 20, ay + 34, cw - 40, 26);
+    } else {
+      ctx.fillText(full ? 'BUILD CODE · WITH SUBSTATS' : 'BUILD CODE', cx + 20, ay + 30);
+      drawCode(ctx, code, cx + 20, ay + 40, cw - 40, ah - 48);
+    }
     // QR code in the empty space under the mascot (the strip is too short for one).
     const Q = 124;
     drawQR(ctx, qrText(code), W - 40 - Q, top - 8 - Q, Q);
@@ -1228,6 +1240,20 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
 
 /** The first sentence of a set bonus ("…by 20%. When equipped…" → "…by 20%."). */
 const firstSentence = (t) => (t.match(/^.*?[.!](?=\s|$)/)?.[0] ?? t).trim();
+
+/** Five skill icons with their levels, then the Core Skill letter. */
+function drawSkillLevels(ctx, icons, skills, core, x, y, w, size = 34) {
+  const ids = ['basic', 'dodge', 'assist', 'special', 'chain', 'core'];
+  const step = w / ids.length;
+  ids.forEach((id, i) => {
+    const ix = x + i * step;
+    if (icons[id]) ctx.drawImage(icons[id], ix, y, size, size);
+    const v = id === 'core' ? (core ? 'ABCDEF'[core - 1] : core === 0 ? '–' : null) : skills?.[id];
+    ctx.fillStyle = v == null ? K.dim : id === 'core' ? '#f5b544' : K.fg;
+    ctx.font = `800 ${Math.round(size * 0.62)}px ${DISPLAY}`;
+    ctx.fillText(v == null ? '–' : String(v), ix + size + 6, y + size * 0.78);
+  });
+}
 
 /** Cortado's review notes, a coloured dot each (good / worth a look / weak). */
 function drawReviewNotes(ctx, review, x, y, w, h, perNote = 2) {
@@ -1399,7 +1425,7 @@ const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMin
 /** Renders one of the Agent cards onto a canvas. */
 export async function renderAgentCard(
   agent,
-  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null, shape = 'wide', note = '' } = {},
+  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null, shape = 'wide', note = '', skills = null, core = null } = {},
 ) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
@@ -1415,6 +1441,6 @@ export async function renderAgentCard(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
-  await DRAW[id](ctx, W, H, agent, base, loadout, tall, note);
+  await DRAW[id](ctx, W, H, agent, base, loadout, tall, { note, skills, core });
   return canvas;
 }

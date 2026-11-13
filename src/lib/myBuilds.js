@@ -88,6 +88,23 @@ export function noteMyBuild(agentId, id, note) {
 }
 export const NOTE_MAX = 160;
 
+/** Skill levels in the game's order, and the Core Skill (0 none, 1–6 = A–F). */
+export const SKILL_ORDER = ['basic', 'dodge', 'assist', 'special', 'chain'];
+export const CORE_LETTERS = ['None', 'A', 'B', 'C', 'D', 'E', 'F'];
+
+/** The active build's extras: { note, skills: { basic, … } | null, core | null }. */
+export function myExtrasOf(agentId, all = loadMyBuilds()) {
+  const { active, builds } = buildsOf(agentId, all);
+  const b = builds.find((x) => x.id === active);
+  return { note: b?.note ?? '', skills: b?.skills ?? null, core: b?.core ?? null };
+}
+
+/** Sets skill levels and/or the Core Skill on one build (patch: { skills?, core? }). */
+export function skillsMyBuild(agentId, id, patch) {
+  const book = buildsOf(agentId);
+  return put(agentId, { ...book, builds: book.builds.map((b) => (b.id === id ? { ...b, ...patch } : b)) });
+}
+
 export const setActiveBuild = (agentId, id) => put(agentId, { ...buildsOf(agentId), active: id });
 
 export function renameMyBuild(agentId, id, name) {

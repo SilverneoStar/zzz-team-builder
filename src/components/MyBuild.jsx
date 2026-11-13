@@ -9,6 +9,9 @@ import {
   MAX_BUILDS,
   NOTE_MAX,
   noteMyBuild,
+  SKILL_ORDER,
+  CORE_LETTERS,
+  skillsMyBuild,
   addMyBuild,
   buildCode,
   buildsOf,
@@ -19,6 +22,8 @@ import {
   setActiveBuild,
 } from '../lib/myBuilds.js';
 import { loadoutOf as fillLoadout } from '../lib/teamsReducer.js';
+
+const SKILL_NAMES = { basic: 'Basic', dodge: 'Dodge', assist: 'Assist', special: 'Special', chain: 'Chain' };
 
 // "My build": the reader's own gear for this Agent, saved in this browser.
 // Several builds per Agent (one active): each can be shared as a short code,
@@ -45,12 +50,16 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
   // A new build when adding one (or there's none yet), else it replaces the current one.
   const start = (lo) => {
     const full = { ...emptyLoadout(), ...lo };
+    let id = current?.id ?? null;
     if (adding || !current) {
-      if (!addMyBuild(a.id, full).ok) flash('Couldn’t save in this browser.');
+      const r = addMyBuild(a.id, full);
+      if (!r.ok) flash('Couldn’t save in this browser.');
+      id = r.id;
       refresh();
     } else keep(full);
     setAdding(false);
     setError('');
+    return id;
   };
   const pick = (id) => {
     setActiveBuild(a.id, id);
@@ -135,8 +144,12 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
       <ScreenshotReader
         agent={a}
         loadout={loadout ?? { ...emptyLoadout(), ...(recommended ?? {}) }}
-        onBuild={(lo) => {
-          start(lo);
+        onBuild={(lo, extra) => {
+          const id = start(lo);
+          if (id && extra?.levels) {
+            skillsMyBuild(a.id, id, { skills: Object.fromEntries(SKILL_ORDER.map((k, i) => [k, extra.levels[i]])) });
+            refresh();
+          }
           flash('Build filled from your screenshots');
         }}
         onCode={useImageCode}
@@ -224,6 +237,50 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           }}
         />
       </label>
+      <fieldset className="mybuild__skills">
+        <legend>
+          Skills <span className="muted">· shown on the build image</span>
+        </legend>
+        {SKILL_ORDER.map((k) => (
+          <label key={k} className="mybuild__skill">
+            <img src={`${import.meta.env.BASE_URL}skills/${k}.webp`} alt="" width="28" height="28" />
+            <span>{SKILL_NAMES[k]}</span>
+            <select
+              value={current.skills?.[k] ?? ''}
+              onChange={(e) => {
+                const v = e.target.value ? Number(e.target.value) : null;
+                skillsMyBuild(a.id, current.id, { skills: { ...(current.skills ?? {}), [k]: v } });
+                refresh();
+              }}
+            >
+              <option value="">–</option>
+              {Array.from({ length: 16 }, (_, i) => i + 1).map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
+        <label className="mybuild__skill">
+          <img src={`${import.meta.env.BASE_URL}skills/core.webp`} alt="" width="28" height="28" />
+          <span>Core Skill</span>
+          <select
+            value={current.core ?? ''}
+            onChange={(e) => {
+              skillsMyBuild(a.id, current.id, { core: e.target.value === '' ? null : Number(e.target.value) });
+              refresh();
+            }}
+          >
+            <option value="">–</option>
+            {CORE_LETTERS.map((l, i) => (
+              <option key={l} value={i}>
+                {l}
+              </option>
+            ))}
+          </select>
+        </label>
+      </fieldset>
       <div className="mybuild__editor">
         <LoadoutPanel
           agent={a}

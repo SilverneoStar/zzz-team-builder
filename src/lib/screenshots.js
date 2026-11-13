@@ -376,7 +376,11 @@ export function parseSkills(text) {
   // stats, W-Engine or disc on the page, also mean the Skills tab.
   const levels = (text.match(/\b\d{2}\s*\/?\s*12\b/g) ?? []).length >= 3;
   const tabs = /base\s*stats/i.test(text) && /equipment/i.test(text) && /sk[il1|]{1,3}s/i.test(text);
-  return /base\s*stats/i.test(text) && (levels || tabs) ? { kind: 'skills' } : null;
+  if (!(/base\s*stats/i.test(text) && (levels || tabs))) return null;
+  // Levels read as "11 12" or "11/12", in the game's order (Basic, Dodge,
+  // Assist, Special, Chain). Only used when all five are read.
+  const nums = [...text.matchAll(/\b(\d{1,2})\s*[/|]?\s*1[2-6]\b/g)].map((m) => Number(m[1])).filter((n) => n >= 1 && n <= 16);
+  return { kind: 'skills', levels: nums.length === 5 ? nums : null };
 }
 
 /** Equipment: the W-Engine's name, or null. */

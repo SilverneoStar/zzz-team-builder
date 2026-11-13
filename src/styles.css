@@ -9972,3 +9972,23 @@ details.disc-guide + details.disc-guide {
   background: var(--surface);
   color: var(--fg);
 }
+.mybuild__skills {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px 12px;
+}
+.mybuild__skills legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+.mybuild__skill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mybuild__skill span {
+  flex: 1;
+}
