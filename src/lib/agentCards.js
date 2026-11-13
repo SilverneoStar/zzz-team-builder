@@ -1175,14 +1175,6 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     by += 34;
   });
 
-  // Alternatives: other W-Engines (signature → A-Rank) and disc sets to try.
-  const engs = engineOptions(a.id).filter((o) => o.id !== lo.wEngine);
-  const worn = counts.filter((c) => c.count >= 2).map((c) => c.id);
-  const alt = discOptions(a.id, worn);
-  const [altIcons, altDiscs] = await Promise.all([
-    loadEngines(engs.map((o) => o.id), base),
-    loadDiscs([...alt.four.slice(0, 2), ...alt.two.slice(0, 2)], base),
-  ]);
   // The build code, substats included when they're set (longer then).
   const code = buildCode(a.id, lo);
   if (ctx.canvas.dataset) ctx.canvas.dataset.code = code;
@@ -1191,12 +1183,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     const ay = btop + bh + 16;
     const ah = H - 166 - ay;
     if (ah >= 90) {
-      panel(ctx, 40, ay, W - 80, ah, 'Alternatives', 'signature → budget');
-      const rows = Math.max(1, Math.min(4, Math.floor((ah - 52) / 42)));
-      const cols = rows < engs.length ? 2 : 1;
-      const shown = Math.min(rows, Math.ceil(Math.max(1, engs.length) / cols));
-      drawAltEngines(ctx, engs, altIcons, 60, ay + 44, 580, Math.min(50, (ah - 52) / shown), rows, cols);
-      drawAltDiscs(ctx, alt, altDiscs, 660, ay + 46, W - 60 - 660, ah - 56);
+      panel(ctx, 40, ay, W - 80, ah, 'Cortado’s notes', review?.score != null ? `${review.score}/100` : null);
+      drawReviewNotes(ctx, review, 60, ay + 62, W - 120, ah - 66, 2);
     }
     // Build code: paste into My build (or the team builder) to load this build.
     ctx.fillStyle = '#b5b5b5';
@@ -1218,7 +1206,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     // One strip: alternatives on the left, the build code on the right.
     const ay = top + ph + 12;
     const ah = H - 46 - ay;
-    panel(ctx, 40, ay, W - 80, ah, 'Alternatives');
+    panel(ctx, 40, ay, W - 80, ah, 'Cortado’s notes');
     const cw = full ? 380 : 290;
     const cx = W - 40 - cw;
     ctx.strokeStyle = K.line;
@@ -1226,28 +1214,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
     ctx.moveTo(cx, ay + 12);
     ctx.lineTo(cx, ay + ah - 12);
     ctx.stroke();
-    let ix = 190;
-    const iy = ay + 14;
-    const item = (img, name, tag, w) => {
-      if (img) engineIcon(ctx, img, ix, iy + 4, 38);
-      ctx.fillStyle = K.fg;
-      ctx.font = `600 14px ${FONT}`;
-      ctx.fillText(fit(ctx, name, w - 50), ix + 44, iy + 20);
-      ctx.fillStyle = K.dim;
-      ctx.font = `500 11px ${MONO}`;
-      ctx.fillText(fit(ctx, tag.toUpperCase(), w - 50), ix + 44, iy + 38);
-      ix += w;
-    };
-    engs.slice(0, 3).forEach((o) => ix + 120 < cx && item(altIcons[o.id], W_ENGINE_BY_ID[o.id].name, ENGINE_TAG[o.kind], Math.min(168, cx - ix - 6)));
-    const d4 = alt.four[0];
-    const d2 = alt.two[0];
-    if (d4 && ix + 120 < cx) item(altDiscs[d4], DRIVE_DISC_BY_ID[d4].name, '4-piece', Math.min(148, cx - ix - 6));
-    if (d2 && ix + 120 < cx) item(altDiscs[d2], DRIVE_DISC_BY_ID[d2].name, '2-piece', Math.min(148, cx - ix - 6));
-    if (!engs.length && !d4 && !d2) {
-      ctx.fillStyle = K.muted;
-      ctx.font = `500 15px ${FONT}`;
-      ctx.fillText('None listed yet.', 190, iy + 28);
-    }
+    drawReviewNotes(ctx, review, 230, ay + 30, cx - 230 - 16, ah - 30, 1);
     ctx.fillStyle = '#b5b5b5';
     ctx.font = `600 13px ${MONO}`;
     ctx.fillText(full ? 'BUILD CODE · WITH SUBSTATS' : 'BUILD CODE', cx + 20, ay + 30);
@@ -1261,6 +1228,31 @@ async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
 
 /** The first sentence of a set bonus ("…by 20%. When equipped…" → "…by 20%."). */
 const firstSentence = (t) => (t.match(/^.*?[.!](?=\s|$)/)?.[0] ?? t).trim();
+
+/** Cortado's review notes, a coloured dot each (good / worth a look / weak). */
+function drawReviewNotes(ctx, review, x, y, w, h, perNote = 2) {
+  const notes = review?.notes ?? [];
+  if (!notes.length) {
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 15px ${FONT}`;
+    ctx.fillText(fit(ctx, 'Add main stats and substats to your discs and Cortado will review them.', w), x, y + 4);
+    return;
+  }
+  const DOT = { good: '#5cc98a', warn: '#f5b544', bad: '#e2654a' };
+  ctx.font = `500 15px ${FONT}`;
+  let ly = y;
+  for (const n of notes) {
+    const lines = wrap(ctx, n.text, w - 20, perNote);
+    if (ly + (lines.length - 1) * 20 > y + h - 8) break;
+    ctx.fillStyle = DOT[n.tone] ?? K.dim;
+    ctx.beginPath();
+    ctx.arc(x + 5, ly - 5, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = K.text;
+    lines.forEach((l, i) => ctx.fillText(l, x + 18, ly + i * 20));
+    ly += lines.length * 20 + 8;
+  }
+}
 
 /** One disc as a wide row (tall image): disc, slot, set, main stat | substats. */
 function drawDiscRow(ctx, d, slot, discArt, fav, label, tx, ty, tw, th, ic) {
