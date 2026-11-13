@@ -5,13 +5,28 @@ import ScreenshotReader from './ScreenshotReader.jsx';
 import ExportIcon from './ExportIcon.jsx';
 import { emptyLoadout, loadoutOf } from '../lib/teamsReducer.js';
 import { recommendedLoadout } from '../lib/builds.js';
-import { buildCode, deleteMyBuild, myBuildOf, readBuildCode, saveMyBuild } from '../lib/myBuilds.js';
+import {
+  MAX_BUILDS,
+  addMyBuild,
+  buildCode,
+  buildsOf,
+  deleteMyBuild,
+  readBuildCode,
+  renameMyBuild,
+  saveMyBuild,
+  setActiveBuild,
+} from '../lib/myBuilds.js';
+import { loadoutOf as fillLoadout } from '../lib/teamsReducer.js';
 
 // "My build": the reader's own gear for this Agent, saved in this browser.
-// It can be shared as a short code, pasted back in, put into the current team
-// or exported as a card.
+// Several builds per Agent (one active): each can be shared as a short code,
+// pasted back in, put into the current team or exported as a card.
 export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExport }) {
-  const [loadout, setLoadout] = useState(() => myBuildOf(a.id));
+  const [book, setBook] = useState(() => buildsOf(a.id));
+  const [adding, setAdding] = useState(false);
+  const current = book.builds.find((b) => b.id === book.active);
+  const loadout = adding || !current ? null : fillLoadout({ loadouts: { [a.id]: current.loadout } }, a.id);
+  const refresh = () => setBook(buildsOf(a.id));
   const [status, setStatus] = useState('');
   const [paste, setPaste] = useState('');
   const [error, setError] = useState('');
@@ -22,13 +37,49 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
     setTimeout(() => setStatus((s) => (s === msg ? '' : s)), 1800);
   };
   const keep = (lo) => {
-    setLoadout(lo);
-    if (!saveMyBuild(a.id, lo)) flash('Couldn’t save in this browser. It stays until you leave the page.');
+    if (!saveMyBuild(a.id, lo)) flash('Couldn’t save in this browser.');
+    refresh();
   };
+  // A new build when adding one (or there's none yet), else it replaces the current one.
   const start = (lo) => {
-    keep({ ...emptyLoadout(), ...lo });
+    const full = { ...emptyLoadout(), ...lo };
+    if (adding || !current) {
+      if (!addMyBuild(a.id, full).ok) flash('Couldn’t save in this browser.');
+      refresh();
+    } else keep(full);
+    setAdding(false);
     setError('');
   };
+  const pick = (id) => {
+    setActiveBuild(a.id, id);
+    setAdding(false);
+    refresh();
+  };
+
+  // Tabs for the saved builds, plus "New build".
+  const switcher = book.builds.length > 0 && (
+    <div className="mybuild__switch" role="tablist" aria-label={`${a.name}’s builds`}>
+      {book.builds.map((b) => (
+        <button
+          key={b.id}
+          role="tab"
+          aria-selected={!adding && b.id === book.active}
+          className={`chip${!adding && b.id === book.active ? ' chip--on' : ''}`}
+          onClick={() => pick(b.id)}
+        >
+          {b.name}
+        </button>
+      ))}
+      <button
+        className={`chip chip--add${adding ? ' chip--on' : ''}`}
+        onClick={() => setAdding(true)}
+        disabled={book.builds.length >= MAX_BUILDS}
+        title={book.builds.length >= MAX_BUILDS ? `Up to ${MAX_BUILDS} builds per Agent` : undefined}
+      >
+        + New build
+      </button>
+    </div>
+  );
   const recommended = recommendedLoadout(a.id);
 
   function usePaste(e) {
@@ -94,9 +145,11 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
   if (!loadout) {
     return (
       <div className="mybuild mybuild--empty">
+        {switcher}
         <p className="muted">
-          Make your own build for {a.name}: pick the W-Engine, Mindscape and each Drive Disc you actually have. It’s
-          saved in this browser, and you can share it with a short code or as an image.
+          {adding
+            ? `A new build for ${a.name}, next to your others (up to ${MAX_BUILDS}). Start it one of these ways:`
+            : `Make your own build for ${a.name}: pick the W-Engine, Mindscape and each Drive Disc you actually have. It’s saved in this browser, and you can share it with a short code or as an image. You can keep up to ${MAX_BUILDS} builds per Agent.`}
         </p>
         <div className="mybuild__starts">
           {recommended && (
@@ -112,6 +165,11 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           <button className="btn" onClick={() => start(emptyLoadout())}>
             Start empty
           </button>
+          {adding && (
+            <button className="btn btn--quiet" onClick={() => setAdding(false)}>
+              Cancel
+            </button>
+          )}
         </div>
         {pasteForm}
       </div>
@@ -131,6 +189,24 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
 
   return (
     <div className="mybuild">
+      {switcher}
+      <label className="field mybuild__name">
+        <span>Build name</span>
+        <input
+          value={current.name}
+          maxLength={24}
+          onChange={(e) => {
+            renameMyBuild(a.id, current.id, e.target.value);
+            refresh();
+          }}
+          onBlur={(e) => {
+            if (!e.target.value.trim()) {
+              renameMyBuild(a.id, current.id, `Build ${book.builds.indexOf(current) + 1}`);
+              refresh();
+            }
+          }}
+        />
+      </label>
       <div className="mybuild__editor">
         <LoadoutPanel
           agent={a}
@@ -180,9 +256,10 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
             <button
               className="btn btn--danger"
               onClick={() => {
-                deleteMyBuild(a.id);
-                setLoadout(null);
+                deleteMyBuild(a.id, current.id);
+                refresh();
                 setConfirmDelete(false);
+                flash(`${current.name} deleted`);
               }}
             >
               Delete it
@@ -193,7 +270,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           </>
         ) : (
           <button className="btn btn--quiet" onClick={() => setConfirmDelete(true)}>
-            Delete my build
+            Delete this build
           </button>
         )}
       </div>
@@ -202,7 +279,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
       </p>
 
       <details className="mybuild__more">
-        <summary>Replace with another build</summary>
+        <summary>Replace this build</summary>
         <div className="mybuild__starts">
           {recommended && (
             <button

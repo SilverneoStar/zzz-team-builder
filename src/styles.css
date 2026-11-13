@@ -9934,3 +9934,31 @@ details.disc-guide + details.disc-guide {
 .shots__r::before { content: ''; position: absolute; left: 2px; top: 0.5em; width: 8px; height: 8px; border-radius: 50%; background: #3fbf7a; }
 .shots__r--unknown::before { background: #e0623a; }
 .shots__r--skills::before { background: var(--muted); }
+
+/* My build: switch between saved builds */
+.mybuild__switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mybuild__switch .chip {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--fg);
+}
+.mybuild__switch .chip--on {
+  border-color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg);
+  font-weight: 700;
+}
+.mybuild__switch .chip--add {
+  border-style: dashed;
+}
+.mybuild__switch .chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mybuild__name input {
+  max-width: 280px;
+}
