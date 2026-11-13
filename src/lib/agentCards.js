@@ -1052,29 +1052,81 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   const bw = W - 40 - bx;
   const btop = tall ? dtop + dh + 16 : top;
   const { twos, counts } = discBonuses(lo.discs);
-  // On a tall image the panel fits its text, leaving the rest for alternatives.
+  // The 4-piece bonus cut to its first sentence: the full text is on the site.
+  const bonusParts = (id) => {
+    const set = DRIVE_DISC_BY_ID[id];
+    const n = counts.find((c) => c.id === id).count;
+    return n >= 4 ? [`2: ${set.twoPiece}`, `4: ${firstSentence(set.fourPiece)}`] : [`2: ${set.twoPiece}`];
+  };
+  // On a tall image: one tile per set, two side by side (like the discs), each a
+  // row with the disc beside its name and bonuses. The panel fits the tiles.
   let bh = ph;
   if (tall) {
-    ctx.font = `500 16px ${FONT}`;
-    bh = 58 + (twos.length ? 0 : 66);
-    twos.slice(0, 3).forEach((id) => {
+    const sets = twos.slice(0, 4);
+    const bc = Math.min(2, Math.max(1, sets.length));
+    const btw = (bw - 40 - 8 * (bc - 1)) / bc;
+    const textW = btw - 24 - 48 - 12;
+    ctx.font = `500 15px ${FONT}`;
+    const tileH = (id) => 44 + bonusParts(id).reduce((k, t) => k + wrap(ctx, t, textW, 3).length * 20, 0) + 12;
+    const rowsH = [];
+    sets.forEach((id, i) => {
+      const r = Math.floor(i / bc);
+      rowsH[r] = Math.max(rowsH[r] ?? 0, Math.max(76, tileH(id)));
+    });
+    bh = sets.length ? 46 + rowsH.reduce((k, h) => k + h + 8, 0) + 12 : 112;
+    panel(ctx, bx, btop, bw, bh, 'Set bonuses');
+    if (!sets.length) {
+      ctx.fillStyle = K.muted;
+      ctx.font = `500 16px ${FONT}`;
+      ctx.fillText(fit(ctx, 'No set bonus yet: two discs of a set give its 2-piece bonus.', bw - 40), bx + 20, btop + 74);
+    }
+    let ry = btop + 46;
+    sets.forEach((id, i) => {
+      const r = Math.floor(i / bc);
+      if (i % bc === 0 && r > 0) ry += rowsH[r - 1] + 8;
+      const tx = bx + 20 + (i % bc) * (btw + 8);
+      const th2 = rowsH[r];
       const set = DRIVE_DISC_BY_ID[id];
       const n = counts.find((c) => c.id === id).count;
-      const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${firstSentence(set.fourPiece)}`] : [`2: ${set.twoPiece}`];
-      bh += 10 + parts.reduce((k, t) => k + wrap(ctx, t, bw - 40, 7).length * 23, 0) + 34;
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      roundRect(ctx, tx, ry, btw, th2, 10);
+      ctx.fill();
+      ctx.strokeStyle = setColor(id);
+      ctx.globalAlpha = 0.55;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      if (discArt[id]) ctx.drawImage(discArt[id], tx + 12, ry + (th2 - 48) / 2, 48, 48);
+      const lx = tx + 12 + 48 + 12;
+      ctx.fillStyle = K.fg;
+      shrink(ctx, set.name, textW - 40, 700, 17, 13);
+      ctx.fillText(fit(ctx, set.name, textW - 40), lx, ry + 28);
+      ctx.fillStyle = K.dim;
+      ctx.font = `600 13px ${MONO}`;
+      ctx.textAlign = 'right';
+      ctx.fillText(`×${n}`, tx + btw - 12, ry + 28);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = K.text;
+      ctx.font = `500 15px ${FONT}`;
+      let ly = ry + 30;
+      bonusParts(id).forEach((t) =>
+        wrap(ctx, t, textW, 3).forEach((l) => {
+          ly += 20;
+          ctx.fillText(l, lx, ly);
+        }),
+      );
     });
-    bh = Math.max(150, bh - 14);
   }
-  panel(ctx, bx, btop, bw, bh, 'Set bonuses');
+  if (!tall) panel(ctx, bx, btop, bw, bh, 'Set bonuses');
   let by = btop + 58;
-  if (!twos.length) {
+  if (!tall && !twos.length) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 16px ${FONT}`;
     wrap(ctx, 'No set bonus yet: two discs of a set give its 2-piece bonus.', bw - 40, 3).forEach((l, i) =>
       ctx.fillText(l, bx + 20, by + i * 22),
     );
   }
-  twos.slice(0, 3).forEach((id) => {
+  (tall ? [] : twos.slice(0, 3)).forEach((id) => {
     const set = DRIVE_DISC_BY_ID[id];
     const n = counts.find((c) => c.id === id).count;
     if (discArt[id]) ctx.drawImage(discArt[id], bx + 20, by - 22, 30, 30);
@@ -1088,8 +1140,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.textAlign = 'left';
     ctx.fillStyle = K.text;
     ctx.font = `500 ${tall ? 16 : 14}px ${FONT}`;
-    // The 4-piece bonus cut to its first sentence: the full text is on the site.
-    const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${firstSentence(set.fourPiece)}`] : [`2: ${set.twoPiece}`];
+    const parts = bonusParts(id);
     by += 10;
     parts.forEach((t) => {
       const lines = wrap(ctx, t, bw - 40, tall ? 7 : twos.length > 1 ? (n >= 4 ? 5 : 2) : n >= 4 ? 7 : 3);
