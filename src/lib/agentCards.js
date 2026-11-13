@@ -990,19 +990,25 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   }
 
   const fav = activeStats(a.id);
-  // Drive Discs: six tiles in wheel order, 3 × 2.
+  // Drive Discs: six tiles in wheel order, 3 × 2 (2 × 3 on a tall image, each
+  // tile one row: disc, set and main stat, then its substats in a column).
   const dx = tall ? 40 : 356;
   const dw = tall ? W - 80 : 530;
   const dtop = tall ? 332 : top;
-  const th = tall ? 172 : 101;
-  const dh = tall ? 46 + 2 * th + 10 + 20 : ph;
+  const cols = tall ? 2 : 3;
+  const th = tall ? 112 : 101;
+  const dh = tall ? 46 + 3 * th + 2 * 10 + 20 : ph;
   panel(ctx, dx, dtop, dw, dh, 'Drive Discs');
-  const tw = (dw - 40 - 16) / 3;
-  const ic = tall ? 64 : 46;
+  const tw = (dw - 40 - 8 * (cols - 1)) / cols;
+  const ic = tall ? 56 : 46;
   lo.discs.forEach((d, i) => {
     const slot = i + 1;
-    const tx = dx + 20 + (i % 3) * (tw + 8);
-    const ty = dtop + 46 + Math.floor(i / 3) * (th + 10);
+    const tx = dx + 20 + (i % cols) * (tw + 8);
+    const ty = dtop + 46 + Math.floor(i / cols) * (th + 10);
+    if (tall) {
+      drawDiscRow(ctx, d, slot, discArt, fav, label, tx, ty, tw, th, ic);
+      return;
+    }
     ctx.fillStyle = 'rgba(255,255,255,0.04)';
     roundRect(ctx, tx, ty, tw, th, 10);
     ctx.fill();
@@ -1039,8 +1045,6 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
     shrink(ctx, mainText, tw - 20, 500, tall ? 16 : 14, 11.5);
     ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 114 : 95));
-    // Substats (tall image): favoured ones bright like the game's orange, the rest dim.
-    if (tall && d.subs?.length) drawSubs(ctx, d.subs, fav, tx + 10, ty + 140, tw - 20);
   });
 
   // Set bonuses: beside the discs, or under them on a tall image.
@@ -1183,6 +1187,72 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
 
 /** The first sentence of a set bonus ("…by 20%. When equipped…" → "…by 20%."). */
 const firstSentence = (t) => (t.match(/^.*?[.!](?=\s|$)/)?.[0] ?? t).trim();
+
+/** One disc as a wide row (tall image): disc, slot, set, main stat | substats. */
+function drawDiscRow(ctx, d, slot, discArt, fav, label, tx, ty, tw, th, ic) {
+  ctx.fillStyle = 'rgba(255,255,255,0.04)';
+  roundRect(ctx, tx, ty, tw, th, 10);
+  ctx.fill();
+  ctx.strokeStyle = d.set ? setColor(d.set) : '#3a3a3a';
+  ctx.globalAlpha = d.set ? 0.55 : 1;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+  const iy = ty + (th - ic) / 2;
+  const img = d.set && discArt[d.set];
+  if (img) ctx.drawImage(img, tx + 12, iy, ic, ic);
+  else {
+    ctx.beginPath();
+    ctx.arc(tx + 12 + ic / 2, iy + ic / 2, ic / 2 - 2, 0, Math.PI * 2);
+    ctx.strokeStyle = '#4a4a4a';
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // Substats column on the right; the left part gets the rest.
+  const sw = 190;
+  const sx = tx + tw - sw - 12;
+  const lx = tx + 12 + ic + 12;
+  const lw = sx - 14 - lx;
+  ctx.fillStyle = K.dim;
+  ctx.font = `600 13px ${MONO}`;
+  ctx.fillText(fit(ctx, d.set ? `SLOT ${slot} · ${d.rank}-RANK` : `SLOT ${slot}`, lw), lx, ty + 32);
+  ctx.fillStyle = K.fg;
+  const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
+  shrink(ctx, name, lw, 600, 18, 12);
+  ctx.fillText(fit(ctx, name, lw), lx, ty + 60);
+  const st = mainStatOf(slot, d);
+  const max = d.set ? mainMax(slot, d) : null;
+  ctx.fillStyle = K.text;
+  const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
+  shrink(ctx, mainText, lw, 500, 16, 11.5);
+  ctx.fillText(fit(ctx, mainText, lw), lx, ty + 84);
+  ctx.strokeStyle = K.line;
+  ctx.beginPath();
+  ctx.moveTo(sx - 8, ty + 14);
+  ctx.lineTo(sx - 8, ty + th - 14);
+  ctx.stroke();
+  const subs = d.subs ?? [];
+  if (!subs.length) {
+    ctx.fillStyle = K.dim;
+    ctx.font = `500 13px ${FONT}`;
+    ctx.fillText('No substats set', sx + 4, ty + th / 2 + 5);
+    return;
+  }
+  // Favoured substats bright, like the game's orange; the rest dim.
+  subs.slice(0, 4).forEach((sub, k) => {
+    ctx.fillStyle = fav.has(sub.stat) ? '#f5b544' : K.dim;
+    ctx.font = `600 14px ${FONT}`;
+    const up = sub.up ? ` +${sub.up}` : '';
+    const nameW = sw - 4 - ctx.measureText(up).width;
+    ctx.fillText(fit(ctx, sub.stat, nameW), sx + 4, ty + 26 + k * 22);
+    if (up) {
+      ctx.textAlign = 'right';
+      ctx.fillText(up.trim(), sx + sw, ty + 26 + k * 22);
+      ctx.textAlign = 'left';
+    }
+  });
+}
 
 /** A disc's substats over up to two lines: "CRIT DMG +1 · ATK% · …", favoured ones bright. */
 function drawSubs(ctx, subs, fav, x, y, w) {
