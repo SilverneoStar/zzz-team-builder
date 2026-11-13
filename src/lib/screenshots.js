@@ -119,6 +119,25 @@ async function crop(bitmap, x0, y0, x1, y1) {
   return c;
 }
 
+/** The Active Modifier Count from the Base Stats tab (right of its label), or null. */
+async function readCount(bitmap, onProgress) {
+  const x0 = 0.745, y0 = 0.76, x1 = 0.81, y1 = 0.83;
+  const w = Math.round(bitmap.width * (x1 - x0)), h = Math.round(bitmap.height * (y1 - y0));
+  const c = document.createElement('canvas');
+  c.width = w * 3;
+  c.height = h * 3;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(bitmap, bitmap.width * x0, bitmap.height * y0, w, h, 0, 0, c.width, c.height);
+  // Bright in any channel (the pink digits) → black on white.
+  const img = ctx.getImageData(0, 0, c.width, c.height);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) d[i] = d[i + 1] = d[i + 2] = Math.max(d[i], d[i + 1], d[i + 2]) > 140 ? 0 : 255;
+  ctx.putImageData(img, 0, 0);
+  const t = await readText(c, onProgress, { tessedit_char_whitelist: '0123456789', tessedit_pageseg_mode: '7' });
+  const m = t.match(/\d{1,2}/);
+  return m ? Number(m[0]) : null;
+}
+
 /** The picture as a canvas, cropped to its bottom part (where codes are), scaled, and as dark text on white. */
 async function codeStrip(bitmap, scale, threshold) {
   const top = Math.round(bitmap.height * 0.8);
@@ -201,14 +220,27 @@ function statLine(line, names, bare = false) {
       if (m[k + 1] == null) {
         // A stray character before the value: take the first number later on the line.
         const later = l.slice(m[0].length).match(/^\W{0,3}([\d.,]+)\s*(%?)/);
-        if (later) return { stat, up: Number(m[k] ?? 0), pct: later[2] === '%', bare: false };
+        if (later) return { stat, up: Number(m[k] ?? 0), pct: later[2] === '%', bare: false, val: later[1] };
       }
-      return { stat, up: Number(m[k] ?? 0), pct: m[k + 2] === '%', bare: m[k + 1] == null };
+      return { stat, up: Number(m[k] ?? 0), pct: m[k + 2] === '%', bare: m[k + 1] == null, val: m[k + 1] };
     }
   }
   return null;
 }
 const VALUE_ONLY = /^[\d.,]+\s*%?$/;
+// ATK, HP and DEF substats come flat or as a percentage. The "%" is easy to
+// miss, so the value decides: a percentage roll is a few points (3% a roll),
+// a flat one is much larger (19 ATK, 112 HP, 15 DEF a roll).
+const FLAT_ROLL = { S: { ATK: 19, HP: 112, DEF: 15 }, A: { ATK: 13, HP: 75, DEF: 10 } };
+const PCT_ROLL = { S: { ATK: 3, HP: 3, DEF: 4.8 }, A: { ATK: 2, HP: 2, DEF: 3.2 } };
+function flatOrPct(st, rank) {
+  const v = parseFloat(String(st.val ?? '').replace(',', '.'));
+  if (!Number.isFinite(v)) return st.pct;
+  const n = 1 + (st.up ?? 0);
+  const flat = (FLAT_ROLL[rank] ?? FLAT_ROLL.S)[st.stat] * n;
+  const pct = (PCT_ROLL[rank] ?? PCT_ROLL.S)[st.stat] * n;
+  return Math.abs(Math.log(v / pct)) < Math.abs(Math.log(v / flat));
+}
 
 /** { slot, set, rank, level, main, subs, four } from a Drive Disc screen, or null. */
 export function parseDisc(text) {
@@ -232,7 +264,9 @@ export function parseDisc(text) {
   let guessed = 0;
   const fill = (st) => {
     if (st?.bare) {
-      st.pct = !!values.shift()?.endsWith('%');
+      const v = values.shift();
+      st.pct = !!v?.endsWith('%');
+      st.val = v?.replace('%', '');
       guessed += 1;
     }
     return st;
@@ -253,13 +287,15 @@ export function parseDisc(text) {
   const only = mainRaw && [4, 5, 6].filter((n) => DISC_MAIN_STATS[n].includes(mainRaw));
   const slot = slotHit ? Number(slotHit[1]) : (FIXED[mainRaw] ?? (only?.length === 1 ? only[0] : null));
   if (!slot) return null;
+  // Slots 4–6 never have a flat main stat: a missed "%" is still a percentage.
+  if (slot >= 4 && ['ATK', 'HP', 'DEF'].includes(mainRaw)) mainRaw = `${mainRaw}%`;
   const main = slot >= 4 && DISC_MAIN_STATS[slot].includes(mainRaw) ? mainRaw : null;
 
   const subs = [];
   lines.slice(subAt + 1, endAt > subAt ? endAt : subAt + 6).forEach((l) => {
     const st = fill(statLine(l, SUB_NAMES, true));
     if (!st || subs.length >= 4) return;
-    const stat = st.pct && ['ATK', 'HP', 'DEF'].includes(st.stat) ? `${st.stat}%` : st.stat;
+    const stat = ['ATK', 'HP', 'DEF'].includes(st.stat) && flatOrPct(st, rank) ? `${st.stat}%` : st.stat;
     if (!subs.some((x) => x.stat === stat)) subs.push({ stat, up: Math.min(5, st.up) });
   });
   const ups = subs.reduce((n, x) => n + x.up, 0);
@@ -379,7 +415,13 @@ export async function readScreenshot(file, onProgress) {
       const col = await crop(bitmap, 0.3, 0.12, 0.54, 0.92);
       found = mergeDisc(found, parseDisc(await readText(col, onProgress)));
     }
-    found ??= parseBaseStats(text) ?? parseSkills(text) ?? parseEquipment(text);
+    found ??= parseBaseStats(text) ?? parseEquipment(text) ?? parseSkills(text);
+    if (found?.kind === 'stats') {
+      // The Active Modifier Count is pink on dark and often half-read: read its
+      // box again on its own, digits only.
+      const n = await readCount(bitmap, onProgress);
+      if (n != null && (found.active == null || n >= found.active)) found.active = n;
+    }
     if (found && !/(TEAM|BUILD)\s*C[O0]DE/i.test(text)) return found;
     // A team or build image from this site: read the code strip more carefully,
     // a few ways, and keep the first reading whose check digit matches.
