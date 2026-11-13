@@ -6,7 +6,7 @@ import { AGENT_BY_ID, DRIVE_DISC_BY_ID } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { activeStats, subPriority } from './builds.js';
 import { activeRolls, discBonuses, totalRolls } from './discs.js';
-import { ACTIVE_FULL, MAIN_PATTERNS, SYNERGY_RANKS } from './synergy.js';
+import { ACTIVE_FULL, MAIN_PATTERNS, SYNERGY_RANKS, slot5Close } from './synergy.js';
 
 /** Returns { score, rank, notes: [{ tone: 'good'|'warn'|'bad', text }], hasSubs } or null. */
 export function reviewBuild(agentId, loadout) {
@@ -26,7 +26,17 @@ export function reviewBuild(agentId, loadout) {
     mainSet += 1;
     const ok = MAIN_PATTERNS[m]?.test(rec) ?? false;
     if (ok) mainOk += 1;
-    else notes.push({ tone: 'bad', text: `Slot ${slot}: ${m} doesn’t suit them. Go for ${rec}.` });
+    else if (slot === 5 && slot5Close(a, m, rec)) {
+      // Close enough: counts as right, with a word on when it's better or worse.
+      mainOk += 1;
+      notes.push({
+        tone: 'good',
+        text:
+          m === 'PEN Ratio'
+            ? `Slot 5: PEN Ratio is within a few % of ${rec}: better against high-DEF bosses, weaker next to DEF Shred (like Nicole).`
+            : `Slot 5: ${m} is within a few % of ${rec} in most content.`,
+      });
+    } else notes.push({ tone: 'bad', text: `Slot ${slot}: ${m} doesn’t suit them. Go for ${rec}.` });
   });
   if (mainSet && mainOk === mainSet) notes.unshift({ tone: 'good', text: `Main stats on slots 4–6 all match the recommended build.` });
   if (mainSet < 3) notes.push({ tone: 'warn', text: `Set the main stat on ${3 - mainSet === 1 ? 'one more slot' : `${3 - mainSet} more slots`} (4–6) for a full review.` });

@@ -240,7 +240,7 @@ export const STAT_TARGETS = {
   'alexandrina-sebastiane': {
     version: '3.1',
     role: 'Support',
-    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    targets: ['PEN Ratio 72% to cap her team PEN Ratio buff at 30%', 'CRIT Rate 50%+ · CRIT DMG 100%+ · Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'seth-lowell': {
     version: '2.7',

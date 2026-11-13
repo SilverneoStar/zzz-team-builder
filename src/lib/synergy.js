@@ -205,6 +205,20 @@ export const MAIN_PATTERNS = {
   'Energy Regen': /Energy Regen/,
 };
 
+/**
+ * Slot 5 on Attack Agents: Attribute DMG, PEN Ratio and ATK% are within a few %
+ * of each other in most content, so any of them is fine when the recommended
+ * build lists one (community damage maths, November 2026).
+ */
+const SLOT5_CLOSE = ['Attribute DMG', 'PEN Ratio', 'ATK%'];
+export function slot5Close(agent, main, rec) {
+  return (
+    agent?.specialty === 'attack' &&
+    SLOT5_CLOSE.includes(main) &&
+    SLOT5_CLOSE.some((m) => MAIN_PATTERNS[m].test(rec ?? ''))
+  );
+}
+
 // Stats an Agent's recommended build values, read from its main stats and
 // substats, plus what their specialty always uses.
 const PROFILE_PATTERNS = {
@@ -293,7 +307,7 @@ function buildFit(squad, loadouts) {
       const rec = b?.main[slot];
       if (!m || !rec || !MAIN_PATTERNS[m]) return;
       checked += 1;
-      if (!MAIN_PATTERNS[m].test(rec)) {
+      if (!MAIN_PATTERNS[m].test(rec) && !(slot === 5 && slot5Close(a, m, rec))) {
         penalty += 2;
         bits.push(`${shortName(a)}: ${m} on slot ${slot} doesn’t suit them (recommended: ${rec})`);
       }

@@ -235,6 +235,18 @@ function SubstatGuide({ agent }) {
             : 'For Supports the count matters less: buffs and Energy Regen do more for them.'}{' '}
           Rolls on stats they don’t favour (like flat HP or DEF on a damage dealer) are wasted.
         </li>
+        {agent.specialty === 'rupture' ? (
+          <li>
+            <b>PEN and PEN Ratio</b> do nothing for Rupture Agents: their Sheer damage already ignores DEF.
+          </li>
+        ) : (
+          <li>
+            <b>PEN Ratio</b> ignores a share of the enemy’s DEF and gets stronger the more you have: about 32% (slot 5
+            + Puffer Electro 2-piece) is standard, and past about 50% it beats ATK% or Attribute DMG on slot 5. It
+            shines on high-DEF bosses, but next to DEF Shred (like Nicole’s) each point is worth about a quarter less.
+            Flat <b>PEN</b> is taken off last, after both.
+          </li>
+        )}
         <li>Rate your own discs in My build: Cortado reviews the main stats and substats.</li>
       </ul>
     </details>
