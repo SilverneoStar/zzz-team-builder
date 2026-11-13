@@ -239,7 +239,7 @@ function SubstatGuide({ agent }) {
           <li>
             <b>PEN and PEN Ratio</b> do nothing for Rupture Agents: their Sheer damage already ignores DEF.
           </li>
-        ) : (
+        ) : ['support', 'defense'].includes(agent.specialty) ? null : (
           <li>
             <b>PEN Ratio</b> ignores a share of the enemy’s DEF and gets stronger the more you have: about 32% (slot 5
             + Puffer Electro 2-piece) is standard, and past about 50% it beats ATK% or Attribute DMG on slot 5. It
