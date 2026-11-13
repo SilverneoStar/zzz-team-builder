@@ -24,7 +24,7 @@ export const STAT_TARGETS = {
   'dialyn': {
     version: '2.6',
     role: 'Burst Stunner',
-    targets: ['CRIT Rate 80–100% without the signature W-Engine, 100% with it (100% maximizes the Impact% self-buff)'],
+    targets: ['CRIT Rate 80–100% without the signature W-Engine, 100% with it (100% maximizes the Impact% self-buff)', 'Energy Regen about 1.92–2.5 for more EX Specials (more Daze); Yesterday Calls adds off-field Energy'],
   },
   'alice-thymefield': {
     version: '3.1',
@@ -44,7 +44,7 @@ export const STAT_TARGETS = {
   'ukinami-yuzuha': {
     version: '3.0',
     role: 'Anomaly Support',
-    targets: ['ATK 3,000 (maximizes her teamwide ATK buffs)'],
+    targets: ['ATK 3,000 (maximizes her teamwide ATK buffs)', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'caesar-king': {
     version: '3.1',
@@ -99,7 +99,7 @@ export const STAT_TARGETS = {
   'orphie-magnusson-and-magus': {
     version: '3.2',
     role: 'Off-Field DPS',
-    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63%', 'CRIT DMG 120–150%+'],
+    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+', 'Energy Regen about 1.92–2.5 for more EX Specials (more Daze)'],
   },
   'ju-fufu': {
     version: '3.0',
@@ -119,7 +119,7 @@ export const STAT_TARGETS = {
   'burnice-white': {
     version: '3.1',
     role: 'Off-Field DPS',
-    targets: ['ATK 2,500–2,800+ with an ATK main-stat W-Engine, 2,300–2,500+ otherwise', 'Anomaly Proficiency 390–440+ with an Anomaly Proficiency main-stat W-Engine, 320–370+ otherwise'],
+    targets: ['ATK 2,500–2,800+ with an ATK main-stat W-Engine, 2,300–2,500+ otherwise', 'Anomaly Proficiency 390–440+ with an Anomaly Proficiency main-stat W-Engine, 320–370+ otherwise', 'Energy Regen on slot 6 helps her chain abilities (her Potential scales off it)'],
   },
   'soldier-11': {
     version: '3.0',
@@ -139,7 +139,7 @@ export const STAT_TARGETS = {
   'luciana-de-montefio': {
     version: '2.6',
     role: 'Support',
-    targets: ['ATK 2,367 at EX 11, 2,265 at EX 12, 2,083 at EX 14, 1,922 at EX 16 (maximizes the ATK buff)', 'Anomaly Proficiency 250+'],
+    targets: ['ATK 2,367 at EX 11, 2,265 at EX 12, 2,083 at EX 14, 1,922 at EX 16 (maximizes the ATK buff)', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'ben-bigger': {
     version: '2.7',
@@ -189,7 +189,7 @@ export const STAT_TARGETS = {
   'soukaku': {
     version: '3.1',
     role: 'Support',
-    targets: ['ATK 2,500 at Core F, 2,623 at Core E, 2,778 at Core D (maximizes the ATK buff)', 'Anomaly Proficiency 250+'],
+    targets: ['ATK 2,500 at Core F, 2,623 at Core E, 2,778 at Core D (maximizes the ATK buff)', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'claret-flint': {
     version: '3.2',
@@ -200,7 +200,7 @@ export const STAT_TARGETS = {
   'cissia': {
     version: '3.0',
     role: 'Quick-Swap DPS',
-    targets: ['ATK 2,700–3,200+ with an ATK main-stat W-Engine, 2,200–2,700+ otherwise', 'CRIT Rate 57–82%', 'CRIT DMG 110%+'],
+    targets: ['ATK 2,700–3,200+ with an ATK main-stat W-Engine, 2,200–2,700+ otherwise', 'CRIT Rate 57–82% · CRIT DMG 110%+', 'Energy Regen about 1.92 (slot 6 + Swing Jazz 2-piece) to fire more EX Specials'],
   },
   'seed': {
     version: '3.0',
@@ -240,7 +240,7 @@ export const STAT_TARGETS = {
   'alexandrina-sebastiane': {
     version: '3.1',
     role: 'Support',
-    targets: ['CRIT Rate 50%+', 'CRIT DMG 100%+', 'Anomaly Proficiency 250+'],
+    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'seth-lowell': {
     version: '2.7',
@@ -290,7 +290,7 @@ export const STAT_TARGETS = {
   'astra-yao': {
     version: '3.0',
     role: 'Support',
-    targets: ['ATK 3,429 (maximizes her teamwide ATK buffs)'],
+    targets: ['ATK 3,429 (maximizes her teamwide ATK buffs)', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'zhu-yuan': {
     version: '3.2',
@@ -300,7 +300,7 @@ export const STAT_TARGETS = {
   'nicole-demara': {
     version: '2.2',
     role: 'Support',
-    targets: ['CRIT Rate 50%+', 'CRIT DMG 100%+', 'Anomaly Proficiency 250+'],
+    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
   },
   'roxy-ifrita-pryce': {
     version: '3.2',
