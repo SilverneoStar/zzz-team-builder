@@ -23,7 +23,7 @@ import MemberPicker from './MemberPicker.jsx';
 import { shownFaction, useMemberIndex } from '../lib/memberArt.js';
 import MyBuild from './MyBuild.jsx';
 import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
-import { myBuildOf } from '../lib/myBuilds.js';
+import { myBuildOf, myNoteOf } from '../lib/myBuilds.js';
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -243,7 +243,7 @@ export default function AgentDetail({
           kinds={myBuildOf(a.id) ? [...AGENT_CARDS, MY_BUILD_CARD] : AGENT_CARDS}
           kind={card}
           onKind={setCard}
-          render={(opts) => renderAgentCard(a, { ...opts, loadout: myBuildOf(a.id) })}
+          render={(opts) => renderAgentCard(a, { ...opts, loadout: myBuildOf(a.id), note: myNoteOf(a.id) })}
         />
       )}
     </article>

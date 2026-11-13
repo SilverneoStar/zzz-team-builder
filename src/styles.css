@@ -9962,3 +9962,13 @@ details.disc-guide + details.disc-guide {
 .mybuild__name input {
   max-width: 280px;
 }
+.mybuild__note textarea {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+}

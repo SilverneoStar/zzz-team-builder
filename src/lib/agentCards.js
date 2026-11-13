@@ -856,7 +856,7 @@ function shrink(ctx, text, w, weight, max, min) {
 }
 
 /** The reader's own build: their W-Engine, each Drive Disc and the set bonuses. */
-async function drawMine(ctx, W, H, a, base, lo, tall) {
+async function drawMine(ctx, W, H, a, base, lo, tall, note = '') {
   await head(ctx, W, a, base, 'My build');
   const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
@@ -924,6 +924,29 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   const top = 262;
   const ph = 274;
   const eh = 170;
+
+  // The player's own note, under the chips: up to three lines on a tall image
+  // (beside the W-Engine), one on a wide one.
+  const memo = (note ?? '').trim().replace(/\s+/g, ' ');
+  if (memo) {
+    const nx = 214;
+    ctx.fillStyle = K.dim;
+    ctx.font = `600 12px ${MONO}`;
+    if (tall) {
+      const ny = py + 64;
+      ctx.fillText('NOTES', nx, ny);
+      ctx.fillStyle = K.text;
+      ctx.font = `italic 500 15px ${FONT}`;
+      wrap(ctx, memo, EW_X - 24 - nx, 3).forEach((l, i) => ctx.fillText(l, nx, ny + 21 + i * 20));
+    } else {
+      const ny = py + 54;
+      ctx.fillText('NOTES', nx, ny);
+      const lw = ctx.measureText('NOTES').width + 10;
+      ctx.fillStyle = K.text;
+      ctx.font = `italic 500 15px ${FONT}`;
+      ctx.fillText(fit(ctx, memo, W - 190 - nx - lw), nx + lw, ny);
+    }
+  }
 
   // W-Engine: a panel on the left, or beside the Agent's name on a tall image.
   if (tall) {
@@ -1384,7 +1407,7 @@ const DRAW = { build: drawBuild, farm: drawFarm, guide: drawGuide, mine: drawMin
 /** Renders one of the Agent cards onto a canvas. */
 export async function renderAgentCard(
   agent,
-  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null, shape = 'wide' } = {},
+  { base = '/', kind = 'build', scale = EXPORT_SCALE, loadout = null, shape = 'wide', note = '' } = {},
 ) {
   await document.fonts?.ready;
   const id = DRAW[kind] ? kind : 'build';
@@ -1400,6 +1423,6 @@ export async function renderAgentCard(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
   background(ctx, W, H);
-  await DRAW[id](ctx, W, H, agent, base, loadout, tall);
+  await DRAW[id](ctx, W, H, agent, base, loadout, tall, note);
   return canvas;
 }

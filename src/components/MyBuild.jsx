@@ -7,6 +7,8 @@ import { emptyLoadout, loadoutOf } from '../lib/teamsReducer.js';
 import { recommendedLoadout } from '../lib/builds.js';
 import {
   MAX_BUILDS,
+  NOTE_MAX,
+  noteMyBuild,
   addMyBuild,
   buildCode,
   buildsOf,
@@ -204,6 +206,21 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
               renameMyBuild(a.id, current.id, `Build ${book.builds.indexOf(current) + 1}`);
               refresh();
             }
+          }}
+        />
+      </label>
+      <label className="field mybuild__note">
+        <span>
+          Notes <span className="muted">· shown on the build image</span>
+        </span>
+        <textarea
+          rows={2}
+          maxLength={NOTE_MAX}
+          value={current.note ?? ''}
+          placeholder="e.g. Shiyu Room 1 build, still farming a CRIT Rate disc 4"
+          onChange={(e) => {
+            noteMyBuild(a.id, current.id, e.target.value);
+            refresh();
           }}
         />
       </label>

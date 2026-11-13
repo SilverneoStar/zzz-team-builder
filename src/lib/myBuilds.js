@@ -76,6 +76,18 @@ export function addMyBuild(agentId, loadout, name) {
   return { ok, id };
 }
 
+/** The active build's note (shown on the build image), or ''. */
+export function myNoteOf(agentId, all = loadMyBuilds()) {
+  const { active, builds } = buildsOf(agentId, all);
+  return builds.find((b) => b.id === active)?.note ?? '';
+}
+
+export function noteMyBuild(agentId, id, note) {
+  const book = buildsOf(agentId);
+  return put(agentId, { ...book, builds: book.builds.map((b) => (b.id === id ? { ...b, note: note.slice(0, NOTE_MAX) } : b)) });
+}
+export const NOTE_MAX = 160;
+
 export const setActiveBuild = (agentId, id) => put(agentId, { ...buildsOf(agentId), active: id });
 
 export function renameMyBuild(agentId, id, name) {
