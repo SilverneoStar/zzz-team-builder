@@ -255,6 +255,19 @@ function infoBlock(ctx, a, x, y, w, targetLines = 1, logo = null) {
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText('AIM FOR', x, y + 58);
     ctx.fillStyle = K.text;
+    if (targetLines > 1) {
+      // One target per line (up to three), shrunk to fit rather than cut short.
+      // All lines at the size the longest needs, so they match.
+      const lines = t.targets.slice(0, 3);
+      let size = 16;
+      for (const tg of lines) {
+        shrink(ctx, tg, w - 90, 500, size, 12);
+        size = Math.min(size, parseFloat(ctx.font.match(/([\d.]+)px/)[1]));
+      }
+      ctx.font = `500 ${size}px ${FONT}`;
+      lines.forEach((tg, i) => ctx.fillText(fit(ctx, tg, w - 90), x + 90, y + 58 + i * 21));
+      return;
+    }
     ctx.font = `500 16px ${FONT}`;
     wrap(ctx, t.targets.join(' · '), w - 90, targetLines).forEach((l, i) => ctx.fillText(l, x + 90, y + 58 + i * 22));
   }

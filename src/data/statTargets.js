@@ -310,7 +310,7 @@ export const STAT_TARGETS = {
   'velina-airgid': {
     version: '3.1',
     role: 'Off-Field DPS',
-    targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,500+ otherwise', 'Anomaly Proficiency 410–430+ with an Anomaly Proficiency main-stat W-Engine, 340–360+ otherwise'],
+    targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,500+ otherwise', 'Anomaly Proficiency 410–430+ with an Anomaly Proficiency main-stat W-Engine, 340–360+ otherwise', 'Energy Regen on slot 6: her Core Passive uses it'],
   },
   'remielle-dan': {
     version: '3.1',
