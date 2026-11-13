@@ -17,7 +17,9 @@ const describe = (r) => {
     return `Slot ${r.slot}: ${r.setName ?? 'unknown set'} (${r.rank})${r.main ? ` · ${r.main}` : ''}${subs ? ` · ${subs}` : ''}`;
   }
   if (r.kind === 'skills')
-    return r.levels ? `Skills: ${r.levels.join(' · ')} (Basic, Dodge, Assist, Special, Chain)` : 'Skills tab: the levels couldn’t be read. Set them under Skills.';
+    return r.levels
+      ? `Skills: ${r.levels.map((n) => n ?? '?').join(' · ')} (Basic, Dodge, Assist, Special, Chain)${r.levels.includes(null) ? '. Set the ? ones under Skills' : ''}. The game’s digits are hard to read: check them.`
+      : 'Skills tab: the levels couldn’t be read. Set them under Skills.';
   if (r.kind === 'engine') return `W-Engine: ${r.name}${r.phase ? ` · Phase ${r.phase}` : ''}`;
   if (r.kind === 'stats')
     return `Base Stats${r.agentId ? ` for ${AGENT_BY_ID[r.agentId].name}` : ''}${r.active != null ? ` · Active Modifier Count ${r.active}` : ''}`;

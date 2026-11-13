@@ -119,6 +119,57 @@ async function crop(bitmap, x0, y0, x1, y1) {
   return c;
 }
 
+/**
+ * Skill levels from the Skills tab: the game's digits are heavy italics that
+ * one reading often gets wrong, so each level is read eight ways and kept only
+ * when at least two readings agree. Positions are for phone screenshots
+ * (about 2.2 : 1); [basic, dodge, assist, special, chain], null where unsure.
+ */
+async function readSkillLevels(bitmap, onProgress) {
+  const centres = [0.59, 0.667, 0.744, 0.823, 0.9];
+  const ways = [
+    [1, true, '7'],
+    [2, true, '7'],
+    [4, true, '8'],
+    [2, false, '7'],
+    [4, false, '8'],
+    [3, true, '7'],
+    [3, false, '7'],
+    [2, true, '8'],
+  ];
+  const out = [];
+  for (const cx of centres) {
+    const x0 = cx - 0.035;
+    const x1 = cx + 0.005;
+    const sw = Math.round(bitmap.width * (x1 - x0));
+    const sh = Math.round(bitmap.height * 0.055);
+    const votes = {};
+    for (const [k, thresh, psm] of ways) {
+      const c = document.createElement('canvas');
+      c.width = sw * k + 40;
+      c.height = sh * k + 40;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(bitmap, bitmap.width * x0, bitmap.height * 0.705, sw, sh, 20, 20, sw * k, sh * k);
+      const img = ctx.getImageData(20, 20, sw * k, sh * k);
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const m = Math.max(d[i], d[i + 1], d[i + 2]);
+        d[i] = d[i + 1] = d[i + 2] = thresh ? (m > 150 ? 0 : 255) : 255 - m;
+      }
+      ctx.putImageData(img, 20, 20);
+      const t = (await readText(c, onProgress, { tessedit_char_whitelist: '0123456789', tessedit_pageseg_mode: psm })).trim();
+      const n = /^\d{1,2}$/.test(t) ? Number(t) : NaN;
+      if (n >= 1 && n <= 16) votes[n] = (votes[n] ?? 0) + 1;
+    }
+    const best = Object.entries(votes).sort((a, b) => b[1] - a[1]);
+    out.push(best[0] && best[0][1] >= 3 && (!best[1] || best[1][1] * 2 <= best[0][1]) ? Number(best[0][0]) : null);
+  }
+  return out;
+}
+
 /** The Active Modifier Count from the Base Stats tab (right of its label), or null. */
 async function readCount(bitmap, onProgress) {
   const x0 = 0.745, y0 = 0.76, x1 = 0.81, y1 = 0.83;
@@ -420,6 +471,10 @@ export async function readScreenshot(file, onProgress) {
       found = mergeDisc(found, parseDisc(await readText(col, onProgress)));
     }
     found ??= parseBaseStats(text) ?? parseEquipment(text) ?? parseSkills(text);
+    if (found?.kind === 'skills' && !found.levels) {
+      const lv = await readSkillLevels(bitmap, onProgress);
+      if (lv.some((n) => n != null)) found.levels = lv;
+    }
     if (found?.kind === 'stats') {
       // The Active Modifier Count is pink on dark and often half-read: read its
       // box again on its own, digits only.

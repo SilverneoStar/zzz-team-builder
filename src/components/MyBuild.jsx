@@ -147,7 +147,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
         onBuild={(lo, extra) => {
           const id = start(lo);
           if (id && extra?.levels) {
-            skillsMyBuild(a.id, id, { skills: Object.fromEntries(SKILL_ORDER.map((k, i) => [k, extra.levels[i]])) });
+            skillsMyBuild(a.id, id, { skills: Object.fromEntries(SKILL_ORDER.map((k, i) => [k, extra.levels[i] ?? null])) });
             refresh();
           }
           flash('Build filled from your screenshots');
@@ -205,6 +205,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
   return (
     <div className="mybuild">
       {switcher}
+      <div className="mybuild__top">
       <label className="field mybuild__name">
         <span>Build name</span>
         <input
@@ -222,6 +223,31 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           }}
         />
       </label>
+        <div className="mybuild__delete">
+        {confirmDelete ? (
+          <>
+            <button
+              className="btn btn--danger"
+              onClick={() => {
+                deleteMyBuild(a.id, current.id);
+                refresh();
+                setConfirmDelete(false);
+                flash(`${current.name} deleted`);
+              }}
+            >
+              Delete it
+            </button>
+            <button className="btn btn--quiet" onClick={() => setConfirmDelete(false)}>
+              Keep
+            </button>
+          </>
+        ) : (
+          <button className="btn btn--quiet" onClick={() => setConfirmDelete(true)}>
+            Delete this build
+          </button>
+        )}
+        </div>
+      </div>
       <label className="field mybuild__note">
         <span>
           Notes <span className="muted">· shown on the build image</span>
@@ -325,28 +351,6 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           <ExportIcon />
           Export my build
         </button>
-        {confirmDelete ? (
-          <>
-            <button
-              className="btn btn--danger"
-              onClick={() => {
-                deleteMyBuild(a.id, current.id);
-                refresh();
-                setConfirmDelete(false);
-                flash(`${current.name} deleted`);
-              }}
-            >
-              Delete it
-            </button>
-            <button className="btn btn--quiet" onClick={() => setConfirmDelete(false)}>
-              Keep
-            </button>
-          </>
-        ) : (
-          <button className="btn btn--quiet" onClick={() => setConfirmDelete(true)}>
-            Delete this build
-          </button>
-        )}
       </div>
       <p className="mybuild__status muted small" aria-live="polite">
         {status || 'Saved in this browser.'}

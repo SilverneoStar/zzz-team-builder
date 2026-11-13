@@ -9992,3 +9992,17 @@ details.disc-guide + details.disc-guide {
 .mybuild__skill span {
   flex: 1;
 }
+.mybuild__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+.mybuild__top .mybuild__name {
+  flex: 1 1 200px;
+}
+.mybuild__delete {
+  display: flex;
+  gap: 8px;
+}
