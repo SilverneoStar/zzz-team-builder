@@ -79,7 +79,7 @@ export const STAT_TARGETS = {
   'piper-wheel': {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
-    targets: ['ATK 2,400–2,550+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 350–400+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Energy Regen to stay at 20 Power stacks (EX Special about every 6s) for +18% squad DMG'],
+    targets: ['ATK 2,400–2,550+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 350–400+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Energy Regen (no cap) keeps her at 20 Power stacks (EX Special about every 6s) for +18% squad DMG'],
   },
   'corin-wickes': {
     version: '2.6',
@@ -144,7 +144,7 @@ export const STAT_TARGETS = {
   'ben-bigger': {
     version: '2.7',
     role: 'Shielder',
-    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Energy Regen to keep his shield (and its +16% CRIT Rate for an ally) up: slot 6 Energy Regen or DEF%'],
+    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Energy Regen (no cap) keeps his shield and its +16% CRIT Rate for an ally up: slot 6 Energy Regen or DEF%'],
   },
   'sigrid-de-lazur': {
     version: '3.2',
@@ -275,7 +275,7 @@ export const STAT_TARGETS = {
   'lucia-elowen': {
     version: '2.8',
     role: 'Rupture Support',
-    targets: ['HP 22,000–24,000 (maximizes her teamwide Sheer Force)', 'Energy Regen to keep Ether Veil and Dreamer’s Nursery Rhyme refreshed: Moonlight Lullaby 2-piece'],
+    targets: ['HP 22,000–24,000 (maximizes her teamwide Sheer Force)', 'Energy Regen (no cap) keeps Ether Veil and Dreamer’s Nursery Rhyme refreshed: Moonlight Lullaby 2-piece'],
   },
   'yixuan': {
     version: '2.6',
