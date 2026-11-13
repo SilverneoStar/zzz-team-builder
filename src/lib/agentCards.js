@@ -26,6 +26,8 @@ import { materialIcon } from './materialIcons.js';
 import { factionLogo } from '../components/FactionLogo.jsx';
 import { discBonuses, mainMax, mainStatOf } from './discs.js';
 import { buildCode } from './myBuilds.js';
+import { activeStats } from './builds.js';
+import { reviewBuild } from './buildReview.js';
 import { shownFaction } from './memberArt.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { SKILL_PRIORITY } from '../data/skillPriority.js';
@@ -52,6 +54,7 @@ import {
   drawCode,
   drawQR,
   qrText,
+  rankFace,
 } from './teamCard.js';
 
 // Card types live in exportSettings.js; re-exported so older imports keep working.
@@ -872,6 +875,23 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     foot(ctx, W, H);
     return;
   }
+  // Cortado's build review: the rank on his face screen, the score beside him.
+  const review = reviewBuild(a.id, lo);
+  if (review?.rank && review.score != null) {
+    rankFace(ctx, review.rank, W - 130, 46, 90);
+    const right = W - 142;
+    ctx.textAlign = 'right';
+    ctx.fillStyle = K.muted;
+    ctx.font = `500 13px ${MONO}`;
+    ctx.fillText('CORTADO’S REVIEW', right, 78);
+    ctx.font = `600 16px ${FONT}`;
+    const outW = ctx.measureText('/100').width;
+    ctx.fillText('/100', right, 122);
+    ctx.fillStyle = K.fg;
+    ctx.font = `800 44px ${DISPLAY}`;
+    ctx.fillText(String(review.score), right - outW - 4, 122);
+    ctx.textAlign = 'left';
+  }
   const attrName = ATTRIBUTE_BY_ID[a.attribute]?.name;
   const label = (st) => (st === 'Attribute DMG' ? `${attrName} DMG` : st);
   const e = lo.wEngine && W_ENGINE_BY_ID[lo.wEngine];
@@ -969,11 +989,12 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.fillText('None equipped', 60, top + 80);
   }
 
+  const fav = activeStats(a.id);
   // Drive Discs: six tiles in wheel order, 3 × 2.
   const dx = tall ? 40 : 356;
   const dw = tall ? W - 80 : 530;
   const dtop = tall ? 332 : top;
-  const th = tall ? 142 : 101;
+  const th = tall ? 172 : 101;
   const dh = tall ? 46 + 2 * th + 10 + 20 : ph;
   panel(ctx, dx, dtop, dw, dh, 'Drive Discs');
   const tw = (dw - 40 - 16) / 3;
@@ -1011,13 +1032,15 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     // Shrink a long set name before cutting it short.
     const name = d.set ? (DRIVE_DISC_BY_ID[d.set]?.name ?? '') : 'Empty';
     shrink(ctx, name, tw - 20, 600, tall ? 18 : 15, 12);
-    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 100 : 78));
+    ctx.fillText(fit(ctx, name, tw - 20), tx + 10, ty + (tall ? 92 : 78));
     const st = mainStatOf(slot, d);
     const max = d.set ? mainMax(slot, d) : null;
     ctx.fillStyle = K.text;
     const mainText = st ? `${label(st)}${max ? ` ${max}` : ''}` : 'Main stat not set';
     shrink(ctx, mainText, tw - 20, 500, tall ? 16 : 14, 11.5);
-    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 124 : 95));
+    ctx.fillText(fit(ctx, mainText, tw - 20), tx + 10, ty + (tall ? 114 : 95));
+    // Substats (tall image): favoured ones bright like the game's orange, the rest dim.
+    if (tall && d.subs?.length) drawSubs(ctx, d.subs, fav, tx + 10, ty + 140, tw - 20);
   });
 
   // Set bonuses: beside the discs, or under them on a tall image.
@@ -1033,7 +1056,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     twos.slice(0, 3).forEach((id) => {
       const set = DRIVE_DISC_BY_ID[id];
       const n = counts.find((c) => c.id === id).count;
-      const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${set.fourPiece}`] : [`2: ${set.twoPiece}`];
+      const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${firstSentence(set.fourPiece)}`] : [`2: ${set.twoPiece}`];
       bh += 10 + parts.reduce((k, t) => k + wrap(ctx, t, bw - 40, 7).length * 23, 0) + 34;
     });
     bh = Math.max(150, bh - 14);
@@ -1061,7 +1084,8 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
     ctx.textAlign = 'left';
     ctx.fillStyle = K.text;
     ctx.font = `500 ${tall ? 16 : 14}px ${FONT}`;
-    const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${set.fourPiece}`] : [`2: ${set.twoPiece}`];
+    // The 4-piece bonus cut to its first sentence: the full text is on the site.
+    const parts = n >= 4 ? [`2: ${set.twoPiece}`, `4: ${firstSentence(set.fourPiece)}`] : [`2: ${set.twoPiece}`];
     by += 10;
     parts.forEach((t) => {
       const lines = wrap(ctx, t, bw - 40, tall ? 7 : twos.length > 1 ? (n >= 4 ? 5 : 2) : n >= 4 ? 7 : 3);
@@ -1088,7 +1112,7 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   if (tall) {
     const ay = btop + bh + 16;
     const ah = H - 166 - ay;
-    if (ah >= 110) {
+    if (ah >= 90) {
       panel(ctx, 40, ay, W - 80, ah, 'Alternatives', 'signature → budget');
       const rows = Math.max(1, Math.min(4, Math.floor((ah - 52) / 42)));
       const cols = rows < engs.length ? 2 : 1;
@@ -1157,6 +1181,34 @@ async function drawMine(ctx, W, H, a, base, lo, tall) {
   foot(ctx, W, H);
 }
 
+/** The first sentence of a set bonus ("…by 20%. When equipped…" → "…by 20%."). */
+const firstSentence = (t) => (t.match(/^.*?[.!](?=\s|$)/)?.[0] ?? t).trim();
+
+/** A disc's substats over up to two lines: "CRIT DMG +1 · ATK% · …", favoured ones bright. */
+function drawSubs(ctx, subs, fav, x, y, w) {
+  ctx.font = `600 14px ${FONT}`;
+  let cx = x;
+  let line = 0;
+  subs.forEach((sub, i) => {
+    const t = `${sub.stat}${sub.up ? ` +${sub.up}` : ''}`;
+    const sep = i ? '  ·  ' : '';
+    const tw = ctx.measureText(sep + t).width;
+    if (i && cx + tw > x + w) {
+      line += 1;
+      cx = x;
+      if (line > 1) return;
+    } else if (sep) {
+      ctx.fillStyle = K.dim;
+      ctx.fillText(sep, cx, y + line * 20);
+      cx += ctx.measureText(sep).width;
+    }
+    if (line > 1) return;
+    ctx.fillStyle = fav.has(sub.stat) ? '#f5b544' : K.dim;
+    ctx.fillText(fit(ctx, t, x + w - cx), cx, y + line * 20);
+    cx += ctx.measureText(t).width;
+  });
+}
+
 /** Alternative W-Engines, one per row with what kind of pick each is. */
 function drawAltEngines(ctx, opts, icons, x0, y, w0, rowH, count, cols = 1) {
   const x = x0;
@@ -1193,7 +1245,10 @@ function drawAltDiscs(ctx, alt, discs, x, y, w, h) {
   [
     ['4-PIECE', alt.four.slice(0, 2)],
     ['2-PIECE', alt.two.slice(0, 2)],
-  ].forEach(([title, ids]) => {
+  ].forEach(([title, all]) => {
+    // Only as many as fit the panel (a short panel leaves out the 2nd of each).
+    const room = Math.floor((y + h - ry - 32 + 22) / 30);
+    const ids = all.slice(0, Math.max(0, room));
     if (!ids.length) return;
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;

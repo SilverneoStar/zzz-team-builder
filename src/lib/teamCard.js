@@ -206,7 +206,7 @@ async function header(ctx, W, team, base, { titleSize = 54, qr = true } = {}) {
 }
 
 /** Cortado's face screen (mascot drawn at x, y, size) with a synergy rank letter. */
-function rankFace(ctx, rank, x, y, size) {
+export function rankFace(ctx, rank, x, y, size) {
   const k = size / 64;
   ctx.save();
   ctx.translate(x, y);
