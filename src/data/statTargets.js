@@ -99,7 +99,7 @@ export const STAT_TARGETS = {
   'orphie-magnusson-and-magus': {
     version: '3.2',
     role: 'Off-Field DPS',
-    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+', 'Energy Regen about 1.92–2.5 for more EX Specials (more Daze)'],
+    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+'],
   },
   'ju-fufu': {
     version: '3.0',
