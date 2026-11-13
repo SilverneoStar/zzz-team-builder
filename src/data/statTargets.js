@@ -64,7 +64,7 @@ export const STAT_TARGETS = {
   'pan-yinhu': {
     version: '2.7',
     role: 'Rupture Support',
-    targets: ['ATK 3,000 (maximizes his Flat Sheer Force buff)', 'Energy Regen is secondary: slot 6 ATK% is fine, Energy Regen only if Meridian Flow drops'],
+    targets: ['ATK 3,000 (maximizes his Flat Sheer Force buff)', 'Energy Regen is secondary: only once he’s at 3,000 ATK and Meridian Flow still drops'],
   },
   'pulchra-fellini': {
     version: '2.6',
@@ -245,7 +245,7 @@ export const STAT_TARGETS = {
   'seth-lowell': {
     version: '2.7',
     role: 'Shielder · Anomaly Support',
-    targets: ['ATK 2,200–2,600+', 'Energy Regen only if his shield drops: slot 6 ATK% preferred'],
+    targets: ['ATK 2,200–2,600+', 'Energy Regen is secondary: ATK first (his shield scales off it), Energy Regen only if the shield still drops'],
   },
   'anton-ivanov': {
     version: '2.4',
