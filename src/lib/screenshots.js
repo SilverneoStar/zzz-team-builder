@@ -170,6 +170,34 @@ async function readSkillLevels(bitmap, onProgress) {
   return out;
 }
 
+/**
+ * Core Skill from the Skills tab: its A–F buttons glow (bright, coloured
+ * letters) once unlocked and stay grey before. Unlocks go in order, so the
+ * level is how many glow counting from A (0–6). Positions as for the levels.
+ */
+function readCore(bitmap) {
+  const at = { A: [1485, 315], B: [1435, 490], C: [1700, 315], D: [1650, 490], E: [1915, 315], F: [1865, 490] };
+  const r = Math.round((30 / 1080) * bitmap.height);
+  const c = document.createElement('canvas');
+  c.width = c.height = r * 2;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  const glow = Object.values(at).map(([x, y]) => {
+    const cx = (x / 2340) * bitmap.width;
+    const cy = (y / 1080) * bitmap.height;
+    ctx.clearRect(0, 0, r * 2, r * 2);
+    ctx.drawImage(bitmap, cx - r, cy - r, r * 2, r * 2, 0, 0, r * 2, r * 2);
+    const d = ctx.getImageData(0, 0, r * 2, r * 2).data;
+    let lit = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      const hi = Math.max(d[i], d[i + 1], d[i + 2]);
+      if (hi > 200 && hi - Math.min(d[i], d[i + 1], d[i + 2]) > 60) lit += 1;
+    }
+    return lit / (d.length / 4) >= 0.08;
+  });
+  const n = glow.indexOf(false);
+  return n === -1 ? 6 : n;
+}
+
 /** The Active Modifier Count from the Base Stats tab (right of its label), or null. */
 async function readCount(bitmap, onProgress) {
   const x0 = 0.745, y0 = 0.76, x1 = 0.81, y1 = 0.83;
@@ -475,6 +503,7 @@ export async function readScreenshot(file, onProgress) {
       const lv = await readSkillLevels(bitmap, onProgress);
       if (lv.some((n) => n != null)) found.levels = lv;
     }
+    if (found?.kind === 'skills') found.core = readCore(bitmap);
     if (found?.kind === 'stats') {
       // The Active Modifier Count is pink on dark and often half-read: read its
       // box again on its own, digits only.

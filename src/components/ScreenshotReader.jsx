@@ -17,9 +17,9 @@ const describe = (r) => {
     return `Slot ${r.slot}: ${r.setName ?? 'unknown set'} (${r.rank})${r.main ? ` · ${r.main}` : ''}${subs ? ` · ${subs}` : ''}`;
   }
   if (r.kind === 'skills')
-    return r.levels
+    return (r.core != null ? `Core Skill ${r.core ? 'ABCDEF'[r.core - 1] : 'none'} · ` : '') + (r.levels
       ? `Skills: ${r.levels.map((n) => n ?? '?').join(' · ')} (Basic, Dodge, Assist, Special, Chain)${r.levels.includes(null) ? '. Set the ? ones under Skills' : ''}. The game’s digits are hard to read: check them.`
-      : 'Skills tab: the levels couldn’t be read. Set them under Skills.';
+      : 'Skills tab: the levels couldn’t be read. Set them under Skills.');
   if (r.kind === 'engine') return `W-Engine: ${r.name}${r.phase ? ` · Phase ${r.phase}` : ''}`;
   if (r.kind === 'stats')
     return `Base Stats${r.agentId ? ` for ${AGENT_BY_ID[r.agentId].name}` : ''}${r.active != null ? ` · Active Modifier Count ${r.active}` : ''}`;
@@ -63,7 +63,7 @@ export default function ScreenshotReader({ agent, loadout, onBuild, onCode, code
 
   // What the screenshots add to this Agent's build.
   const usable = results.filter(
-    (r) => r.kind === 'disc' || r.kind === 'engine' || (r.kind === 'skills' && r.levels) || (r.kind === 'stats' && r.agentId === agent?.id),
+    (r) => r.kind === 'disc' || r.kind === 'engine' || (r.kind === 'skills' && (r.levels || r.core != null)) || (r.kind === 'stats' && r.agentId === agent?.id),
   );
   const wrongAgent = results.find((r) => (r.kind === 'stats' || r.kind === 'engine') && r.agentId && agent && r.agentId !== agent.id);
 
@@ -77,8 +77,8 @@ export default function ScreenshotReader({ agent, loadout, onBuild, onCode, code
       }
     });
     next.discs = normaliseDiscs(next.discs);
-    const sk = results.find((r) => r.kind === 'skills' && r.levels);
-    onBuild(next, sk ? { levels: sk.levels } : null);
+    const sk = results.find((r) => r.kind === 'skills');
+    onBuild(next, sk ? { levels: sk.levels ?? null, core: sk.core ?? null } : null);
     setResults([]);
   }
 

@@ -146,8 +146,11 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
         loadout={loadout ?? { ...emptyLoadout(), ...(recommended ?? {}) }}
         onBuild={(lo, extra) => {
           const id = start(lo);
-          if (id && extra?.levels) {
-            skillsMyBuild(a.id, id, { skills: Object.fromEntries(SKILL_ORDER.map((k, i) => [k, extra.levels[i] ?? null])) });
+          if (id && (extra?.levels || extra?.core != null)) {
+            skillsMyBuild(a.id, id, {
+              ...(extra.levels ? { skills: Object.fromEntries(SKILL_ORDER.map((k, i) => [k, extra.levels[i] ?? null])) } : {}),
+              ...(extra.core != null ? { core: extra.core } : {}),
+            });
             refresh();
           }
           flash('Build filled from your screenshots');
