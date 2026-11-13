@@ -97,7 +97,16 @@ async function readText(source, onProgress, params = null) {
   const w = await getWorker();
   progress = onProgress;
   await w.setParameters(params ?? { tessedit_char_whitelist: '', tessedit_pageseg_mode: '3' });
-  const { data } = await w.recognize(source);
+  // Tesseract.js takes a canvas, image, Blob or URL, but not an ImageBitmap:
+  // draw bitmaps onto a canvas first (an ImageBitmap reads as nothing).
+  let src = source;
+  if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) {
+    src = document.createElement('canvas');
+    src.width = source.width;
+    src.height = source.height;
+    src.getContext('2d').drawImage(source, 0, 0);
+  }
+  const { data } = await w.recognize(src);
   return data.text;
 }
 
