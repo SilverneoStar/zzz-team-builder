@@ -64,7 +64,7 @@ export const STAT_TARGETS = {
   'pan-yinhu': {
     version: '2.7',
     role: 'Rupture Support',
-    targets: ['ATK 3,000 (maximizes his Flat Sheer Force buff)'],
+    targets: ['ATK 3,000 (maximizes his Flat Sheer Force buff)', 'Energy Regen is secondary: slot 6 ATK% is fine, Energy Regen only if Meridian Flow drops'],
   },
   'pulchra-fellini': {
     version: '2.6',
@@ -79,7 +79,7 @@ export const STAT_TARGETS = {
   'piper-wheel': {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
-    targets: ['ATK 2,400–2,550+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 350–400+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise'],
+    targets: ['ATK 2,400–2,550+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 350–400+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Energy Regen to stay at 20 Power stacks (EX Special about every 6s) for +18% squad DMG'],
   },
   'corin-wickes': {
     version: '2.6',
@@ -99,7 +99,7 @@ export const STAT_TARGETS = {
   'orphie-magnusson-and-magus': {
     version: '3.2',
     role: 'Off-Field DPS',
-    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+'],
+    targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+', 'Energy Regen about 3.66 to cap Zeroed In (+700 squad ATK) and fire more off-field EX Specials'],
   },
   'ju-fufu': {
     version: '3.0',
@@ -144,7 +144,7 @@ export const STAT_TARGETS = {
   'ben-bigger': {
     version: '2.7',
     role: 'Shielder',
-    targets: ['CRIT Rate 50%+', 'CRIT DMG 100%+'],
+    targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Energy Regen to keep his shield (and its +16% CRIT Rate for an ally) up: slot 6 Energy Regen or DEF%'],
   },
   'sigrid-de-lazur': {
     version: '3.2',
@@ -245,7 +245,7 @@ export const STAT_TARGETS = {
   'seth-lowell': {
     version: '2.7',
     role: 'Shielder · Anomaly Support',
-    targets: ['ATK 2,200–2,600+'],
+    targets: ['ATK 2,200–2,600+', 'Energy Regen only if his shield drops: slot 6 ATK% preferred'],
   },
   'anton-ivanov': {
     version: '2.4',
@@ -275,7 +275,7 @@ export const STAT_TARGETS = {
   'lucia-elowen': {
     version: '2.8',
     role: 'Rupture Support',
-    targets: ['HP 22,000–24,000 (maximizes her teamwide Sheer Force)'],
+    targets: ['HP 22,000–24,000 (maximizes her teamwide Sheer Force)', 'Energy Regen to keep Ether Veil and Dreamer’s Nursery Rhyme refreshed: Moonlight Lullaby 2-piece'],
   },
   'yixuan': {
     version: '2.6',
