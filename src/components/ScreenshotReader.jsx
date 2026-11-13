@@ -43,8 +43,12 @@ export default function ScreenshotReader({ agent, loadout, onBuild, onCode, code
         const r = await readScreenshot(f, (p) => setBusy({ n: i + 1, of: files.length, p }));
         out.push({ ...r, file: f.name });
       } catch (e) {
-        setError(e.message || 'Couldn’t read that picture.');
-        break;
+        // One picture failing doesn't stop the rest; the reader not loading does.
+        if (/text reader/.test(e.message ?? '')) {
+          setError(e.message);
+          break;
+        }
+        out.push({ kind: 'unknown', file: f.name, failed: true });
       }
     }
     setBusy(null);

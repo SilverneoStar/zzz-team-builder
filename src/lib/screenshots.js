@@ -176,21 +176,30 @@ const MAIN_NAMES = [
 ];
 const RANK_BY_MAX = { 15: 'S', 12: 'A', 9: 'B' };
 
-/** A line like "HP +4 15%" → { stat, up, pct }. */
-function statLine(line, names) {
+/**
+ * A line like "HP +4 15%" → { stat, up, pct }. Some screenshots read the values
+ * as their own column after the names, so with `bare` a name with no value
+ * counts too (`bare: true`; parseDisc hands it the value from that column).
+ */
+function statLine(line, names, bare = false) {
   const l = line.replace(/[|_—~]+/g, ' ').trim();
+  const tail = bare ? String.raw`(?:\s+([\d.,]+)\s*(%?))?` : String.raw`\s+([\d.,]+)\s*(%?)`;
   for (const [pat, stat] of names) {
-    const m =
-      typeof pat === 'string'
-        ? l.match(new RegExp(`^${pat.replace(/ /g, '\\s+')}\\b\\s*(?:\\+\\s*(\\d))?\\s+([\\d.,]+)\\s*(%?)`, 'i'))
-        : l.match(new RegExp(`^${pat.source}\\b\\s*(?:\\+\\s*(\\d))?\\s+([\\d.,]+)\\s*(%?)`, 'i'));
-      if (m) {
-      const [up, , pct] = typeof pat === 'string' ? [m[1], m[2], m[3]] : [m[2], m[3], m[4]];
-      return { stat, up: Number(up ?? 0), pct: pct === '%' };
+    const src = typeof pat === 'string' ? pat.replace(/ /g, String.raw`\s+`) : pat.source;
+    const m = l.match(new RegExp(String.raw`^${src}\b\s*(?:\+\s*(\d))?` + tail, 'i'));
+    if (m) {
+      const k = typeof pat === 'string' ? 1 : 2;
+      if (m[k + 1] == null) {
+        // A stray character before the value: take the first number later on the line.
+        const later = l.slice(m[0].length).match(/^\W{0,3}([\d.,]+)\s*(%?)/);
+        if (later) return { stat, up: Number(m[k] ?? 0), pct: later[2] === '%', bare: false };
+      }
+      return { stat, up: Number(m[k] ?? 0), pct: m[k + 2] === '%', bare: m[k + 1] == null };
     }
   }
   return null;
 }
+const VALUE_ONLY = /^[\d.,]+\s*%?$/;
 
 /** { slot, set, rank, level, main, subs, four } from a Drive Disc screen, or null. */
 export function parseDisc(text) {
@@ -209,10 +218,21 @@ export function parseDisc(text) {
   const lv = text.match(/[LTlti]v\.?\s*(\d{1,2})\s*\/\s*(\d{1,2})/i);
   const rank = lv ? (RANK_BY_MAX[Number(lv[2])] ?? 'S') : 'S';
 
+  // Values read as their own column (after the names) are handed out in order.
+  const values = lines.slice(mainAt + 1).filter((l) => VALUE_ONLY.test(l));
+  let guessed = 0;
+  const fill = (st) => {
+    if (st?.bare) {
+      st.pct = !!values.shift()?.endsWith('%');
+      guessed += 1;
+    }
+    return st;
+  };
+
   let mainRaw = null;
   if (mainAt >= 0) {
     for (const l of lines.slice(mainAt + 1, subAt > mainAt ? subAt : mainAt + 3)) {
-      const st = statLine(l, MAIN_NAMES);
+      const st = fill(statLine(l, MAIN_NAMES, true));
       if (st) {
         mainRaw = st.pct && ['ATK', 'HP', 'DEF'].includes(st.stat) ? `${st.stat}%` : st.stat;
         break;
@@ -228,13 +248,13 @@ export function parseDisc(text) {
 
   const subs = [];
   lines.slice(subAt + 1, endAt > subAt ? endAt : subAt + 6).forEach((l) => {
-    const st = statLine(l, SUB_NAMES);
+    const st = fill(statLine(l, SUB_NAMES, true));
     if (!st || subs.length >= 4) return;
     const stat = st.pct && ['ATK', 'HP', 'DEF'].includes(st.stat) ? `${st.stat}%` : st.stat;
     if (!subs.some((x) => x.stat === stat)) subs.push({ stat, up: Math.min(5, st.up) });
   });
   const ups = subs.reduce((n, x) => n + x.up, 0);
-  return { kind: 'disc', slot, set: set?.id ?? null, setName: set?.name ?? null, rank, level: lv ? Number(lv[1]) : null, main, mainRaw, subs, four: ups > 4 };
+  return { kind: 'disc', slot, set: set?.id ?? null, setName: set?.name ?? null, rank, level: lv ? Number(lv[1]) : null, main, mainRaw, subs, four: ups > 4, guessed };
 }
 
 /** Two readings of the same disc screen combined: the fuller one wins each part. */
@@ -247,8 +267,11 @@ export function mergeDisc(a, b) {
     setName: a.setName ?? b.setName,
     main: a.main ?? b.main,
     level: a.level ?? b.level,
-    subs: b.subs.length > a.subs.length ? b.subs : a.subs,
-    four: (b.subs.length > a.subs.length ? b : a).four,
+    // More substats wins; on a tie, the reading that paired fewer values by guess.
+    ...(() => {
+      const w = b.subs.length > a.subs.length || (b.subs.length === a.subs.length && (b.guessed ?? 0) < (a.guessed ?? 0)) ? b : a;
+      return { subs: w.subs, four: w.four, guessed: w.guessed };
+    })(),
   };
 }
 
@@ -304,7 +327,11 @@ export function parseBaseStats(text) {
 
 /** The Skills tab: recognised so it isn't reported as unreadable (skill levels aren't used yet). */
 export function parseSkills(text) {
-  return /base\s*stats/i.test(text) && (text.match(/\b\d{2}\s*\/?\s*12\b/g) ?? []).length >= 3 ? { kind: 'skills' } : null;
+  // The level digits are stylised and often unread: the three tab names, with no
+  // stats, W-Engine or disc on the page, also mean the Skills tab.
+  const levels = (text.match(/\b\d{2}\s*\/?\s*12\b/g) ?? []).length >= 3;
+  const tabs = /base\s*stats/i.test(text) && /equipment/i.test(text) && /sk[il1|]{1,3}s/i.test(text);
+  return /base\s*stats/i.test(text) && (levels || tabs) ? { kind: 'skills' } : null;
 }
 
 /** Equipment: the W-Engine's name, or null. */
