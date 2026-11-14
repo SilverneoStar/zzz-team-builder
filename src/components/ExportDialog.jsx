@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CARD_SHAPES, EXPORT_SCALE, EXPORT_SIZES, TEAM_LAYOUTS, canvasToBlob } from '../lib/exportSettings.js';
 
 // The team image drawing code loads only when a team image is made.
@@ -186,7 +187,8 @@ export default function ExportDialog({
     }
   }
 
-  return (
+  // Rendered on <body>, so no page panel (with its own layering) can sit above it.
+  return createPortal(
     <div className="dialog-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="export-title">
         <header className="dialog__head">
@@ -302,6 +304,7 @@ export default function ExportDialog({
           </p>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
