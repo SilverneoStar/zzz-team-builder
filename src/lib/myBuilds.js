@@ -1,5 +1,6 @@
 import { emptyLoadout, loadoutOf } from './teamsReducer.js';
 import { decodeCardCode, encodeCardCode } from './cardCode.js';
+import { decodeTeam } from './share.js';
 
 // Personal Agent builds ("My build"): up to MAX_BUILDS saved loadouts per Agent,
 // one of them active, kept in this browser only. Same shape as a team loadout (see teamsReducer.js), so a build
@@ -141,4 +142,74 @@ export function readBuildCode(agentId, raw) {
   if (!t) return { error: 'That code isn’t valid. Paste a short build or team code.' };
   if (!t.members.includes(agentId)) return { error: 'That code is for a different Agent.' };
   return { loadout: t.loadouts[agentId] ?? emptyLoadout() };
+}
+
+/**
+ * Any code a reader might paste or scan: a short build/team code (with or
+ * without dashes), the text of an image's QR code (ZZZ:…), a link ending in
+ * #code=… or the long zzz2~… team code. { members, bangboo, loadouts, name? } or null.
+ */
+export function readAnyCode(raw) {
+  let text = (raw ?? '').trim();
+  if (!text) return null;
+  try {
+    text = decodeURIComponent(text);
+  } catch {
+    /* keep as typed */
+  }
+  const long = text.match(/zzz[12]~\S+/);
+  if (long) return decodeTeam(long[0]);
+  const m = text.match(/(?:ZZZ:|#code=)([0-9A-Za-z-]+)/i);
+  return decodeCardCode(m ? m[1] : text);
+}
+
+const same = (agentId, a, b) => {
+  const strip = (lo) => JSON.stringify({ ...fill(agentId, lo), savedAt: 0 });
+  return strip(a) === strip(b);
+};
+
+/**
+ * Saves each Agent's gear from a team or build code as a new build.
+ * Skips a build that's already saved, and Agents with no room left.
+ * Returns { added, already, full } (Agent ids).
+ */
+export function saveBuildsFrom(team, { name, extras = {} } = {}) {
+  const out = { added: [], already: [], full: [] };
+  team.members.filter(Boolean).forEach((id) => {
+    const lo = { ...emptyLoadout(), ...(team.loadouts?.[id] ?? {}) };
+    const book = buildsOf(id);
+    const twin = book.builds.find((b) => same(id, b.loadout, lo));
+    if (twin) {
+      setActiveBuild(id, twin.id);
+      if (extras[id]) skillsMyBuild(id, twin.id, extras[id]);
+      out.already.push(id);
+      return;
+    }
+    const r = addMyBuild(id, lo, name);
+    if (!r.ok) {
+      out.full.push(id);
+      return;
+    }
+    if (extras[id]) skillsMyBuild(id, r.id, extras[id]);
+    out.added.push(id);
+  });
+  return out;
+}
+
+/** Every saved build as a flat list: [{ agentId, id, name, active, loadout, note, savedAt }]. */
+export function allMyBuilds(all = loadMyBuilds()) {
+  return Object.keys(all).flatMap((agentId) => {
+    const { active, builds } = buildsOf(agentId, all);
+    return builds.map((b) => ({
+      agentId,
+      id: b.id,
+      name: b.name,
+      active: b.id === active,
+      loadout: fill(agentId, b.loadout),
+      note: b.note ?? '',
+      skills: b.skills ?? null,
+      core: b.core ?? null,
+      savedAt: b.loadout?.savedAt ?? 0,
+    }));
+  });
 }

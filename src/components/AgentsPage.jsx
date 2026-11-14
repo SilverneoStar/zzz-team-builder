@@ -52,7 +52,7 @@ function compare(a, b, col, dir) {
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, onLoadTeam }) {
+export default function AgentsPage({ agentId, tab, activeTeam, onAdd, onApplyBuild, onLoadTeam }) {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useAgentFilters();
   const [showUpcoming, setShowUpcoming] = useState(true);
@@ -94,7 +94,9 @@ export default function AgentsPage({ agentId, activeTeam, onAdd, onApplyBuild, o
 
       {selected && (
         <AgentDetail
+          key={`${selected.id}~${tab ?? ''}`}
           agent={selected}
+          tab={tab}
           inActiveTeam={activeTeam.members.includes(selected.id)}
           teamFull={activeTeam.members.every(Boolean)}
           onAdd={() => onAdd(selected.id)}

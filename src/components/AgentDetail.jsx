@@ -36,6 +36,7 @@ export default function AgentDetail({
   onApplyBuild,
   onLoadTeam,
   team,
+  tab,
 }) {
   const fac = shownFaction(a, useMemberIndex(a));
   // Load the Skills tab's data while the reader looks at the Overview.
@@ -197,6 +198,7 @@ export default function AgentDetail({
 
       <SwipeTabs
         key={a.id}
+        initial={tab}
         label={`${a.name} details`}
         slides={[
           {

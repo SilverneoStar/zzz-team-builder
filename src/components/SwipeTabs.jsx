@@ -7,11 +7,11 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
  * a gap. Slides off screen are inert, so focus and screen readers stay on
  * the one being read.
  *
- * slides: [{ id, label, content }]
+ * slides: [{ id, label, content }]; initial: the id of the slide to open on.
  */
-export default function SwipeTabs({ slides, label }) {
+export default function SwipeTabs({ slides, label, initial }) {
   const uid = useId();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(() => Math.max(0, slides.findIndex((s) => s.id === initial)));
   const [height, setHeight] = useState(null);
   const rootRef = useRef(null);
   const trackRef = useRef(null);
@@ -19,6 +19,13 @@ export default function SwipeTabs({ slides, label }) {
   const slideRefs = useRef([]);
   const settleRef = useRef(0);
   useEffect(() => () => clearTimeout(settleRef.current), []);
+
+  // Opening on a later slide: jump straight to it.
+  useLayoutEffect(() => {
+    const track = trackRef.current;
+    if (active > 0 && track) track.scrollLeft = slideRefs.current[active]?.offsetLeft ?? active * track.clientWidth;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Follow swipes: the slide nearest the track's scroll position is active.
   useEffect(() => {

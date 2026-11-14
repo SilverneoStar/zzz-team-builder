@@ -49,6 +49,34 @@ const loadJsQR = () =>
         document.head.appendChild(s);
       }));
 
+/**
+ * One camera frame (a <video>): the text of a QR code in it, or null. Uses the
+ * browser's own reader where there is one, else jsQR on a scaled-down frame.
+ */
+let liveDetector;
+export async function scanFrame(video) {
+  if (!video.videoWidth) return null;
+  if ('BarcodeDetector' in window) {
+    try {
+      liveDetector ??= new window.BarcodeDetector({ formats: ['qr_code'] });
+      const found = await liveDetector.detect(video);
+      return found[0]?.rawValue ?? null;
+    } catch {
+      /* fall back to jsQR */
+    }
+  }
+  const jsQR = await loadJsQR().catch(() => null);
+  if (!jsQR) return null;
+  const k = Math.min(1, 800 / Math.max(video.videoWidth, video.videoHeight));
+  const c = document.createElement('canvas');
+  c.width = Math.round(video.videoWidth * k);
+  c.height = Math.round(video.videoHeight * k);
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(video, 0, 0, c.width, c.height);
+  const img = ctx.getImageData(0, 0, c.width, c.height);
+  return jsQR(img.data, img.width, img.height)?.data ?? null;
+}
+
 /** The text of a QR code in the picture, or null. Looks at the whole picture, then its bottom-right corner. */
 async function readQR(bitmap) {
   if ('BarcodeDetector' in window) {

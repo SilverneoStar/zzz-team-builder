@@ -31,6 +31,7 @@ import TeamTabs from './components/TeamTabs.jsx';
 // Each page's code, by view id, so it can also be fetched ahead of time.
 const PAGE_CODE = {
   agents: () => import('./components/AgentsPage.jsx'),
+  'my-agents': () => import('./components/MyAgentsPage.jsx'),
   bangboo: () => import('./components/BangbooPage.jsx'),
   'drive-discs': () => import('./components/DriveDiscsPage.jsx'),
   ethereals: () => import('./components/EtherealsPage.jsx'),
@@ -39,6 +40,7 @@ const PAGE_CODE = {
 };
 const AgentsPage = lazyPage(PAGE_CODE.agents);
 const BangbooPage = lazyPage(PAGE_CODE.bangboo);
+const MyAgentsPage = lazyPage(PAGE_CODE['my-agents']);
 const DriveDiscsPage = lazyPage(PAGE_CODE['drive-discs']);
 const EtherealsPage = lazyPage(PAGE_CODE.ethereals);
 const ExportDialog = lazyPage(() => import('./components/ExportDialog.jsx'));
@@ -188,6 +190,7 @@ export default function App() {
         {route.view === 'agents' && (
           <AgentsPage
             agentId={route.agentId}
+            tab={route.tab}
             activeTeam={active}
             onAdd={addFromIndex}
             onApplyBuild={(agentId, loadout) => {
@@ -199,6 +202,14 @@ export default function App() {
             }}
             onLoadTeam={(team) => {
               dispatch({ type: 'import', ...team });
+              navigate('builder');
+            }}
+          />
+        )}
+        {route.view === 'my-agents' && (
+          <MyAgentsPage
+            onLoadTeam={(team) => {
+              dispatch({ type: 'import', ...team, name: team.name ?? 'Shared team' });
               navigate('builder');
             }}
           />

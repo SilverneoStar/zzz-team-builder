@@ -1,11 +1,12 @@
 import { startTransition, useEffect, useState } from 'react';
 
-// Tiny hash router: #builder, #agents, #agent-<id>, #w-engines,
+// Tiny hash router: #builder, #my-agents, #agents, #agent-<id>, #w-engines,
 // #w-engines-<specialty>, #w-engine-<id>, #drive-discs, #drive-disc-<id>,
 // #bangboo, #ethereals, #glossary. Hashes stay plain tokens so links work wherever the
 // app is hosted.
 export const VIEWS = [
   { id: 'builder', label: 'Team Builder' },
+  { id: 'my-agents', label: 'My Agents' },
   { id: 'agents', label: 'Agents' },
   { id: 'w-engines', label: 'W-Engines' },
   { id: 'drive-discs', label: 'Drive Discs' },
@@ -16,7 +17,11 @@ export const VIEWS = [
 
 export function parseHash(hash) {
   const h = (hash || '').replace(/^#/, '');
-  if (h.startsWith('agent-')) return { view: 'agents', agentId: h.slice(6) };
+  // #agent-<id>~mine opens straight on a tab (My build).
+  if (h.startsWith('agent-')) {
+    const [agentId, tab] = h.slice(6).split('~');
+    return { view: 'agents', agentId, tab };
+  }
   if (h.startsWith('w-engines-')) return { view: 'w-engines', specialty: h.slice(10) };
   if (h.startsWith('w-engine-')) return { view: 'w-engines', wEngineId: h.slice(9) };
   if (h.startsWith('drive-disc-')) return { view: 'drive-discs', discId: h.slice(11) };
