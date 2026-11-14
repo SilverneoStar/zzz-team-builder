@@ -9,7 +9,7 @@ import { ENKA_AGENTS, ENKA_SETS, ENKA_WEAPONS } from '../data/enkaMap.js';
 import { normaliseDiscs } from './discs.js';
 
 /** The relay's address, e.g. 'https://zzz-enka.<name>.workers.dev'. Empty = call Enka directly. */
-export const ENKA_RELAY = '';
+export const ENKA_RELAY = 'https://zzz-enka.starneosilver.workers.dev';
 
 const url = (uid) => (ENKA_RELAY ? `${ENKA_RELAY.replace(/\/$/, '')}/zzz/${uid}` : `https://enka.network/api/zzz/uid/${uid}`);
 
