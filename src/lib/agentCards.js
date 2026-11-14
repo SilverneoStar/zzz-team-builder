@@ -788,8 +788,11 @@ async function drawGuide(ctx, W, H, a, base) {
     drawSets(ctx, b.twoPiece, 452, y + 204, 250, 2, 34, discs);
     drawMains(ctx, b, 724, y + 70, 296);
     y += 298;
-    // Up to four teams, two per row.
-    const teams = b.teams.slice(0, 4);
+    // Up to four teams, two per row: a different lead each where the list has
+    // them (so one damage dealer doesn't fill the card), then the rest in order.
+    const lead = (t) => t[0];
+    const varied = b.teams.filter((t, i) => b.teams.findIndex((u) => lead(u) === lead(t)) === i);
+    const teams = [...varied, ...b.teams.filter((t) => !varied.includes(t))].slice(0, 4);
     const tn = Math.ceil(teams.length / 2);
     panel(ctx, 40, y, 1000, 60 + tn * 100, 'Best teams');
     teams.forEach((t, i) => teamRow(ctx, t, arts, 56 + (i % 2) * 500, y + 44 + Math.floor(i / 2) * 100, 470, a.id));
