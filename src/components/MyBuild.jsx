@@ -2,6 +2,7 @@ import { useState } from 'react';
 import LoadoutPanel from './LoadoutPanel.jsx';
 import BuildReview from './BuildReview.jsx';
 import ScreenshotReader from './ScreenshotReader.jsx';
+import UidImport from './UidImport.jsx';
 import ExportIcon from './ExportIcon.jsx';
 import { emptyLoadout, loadoutOf } from '../lib/teamsReducer.js';
 import { recommendedLoadout } from '../lib/builds.js';
@@ -156,6 +157,20 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           flash('Build filled from your screenshots');
         }}
         onCode={useImageCode}
+      />
+      <UidImport
+        agent={a}
+        onBuild={(lo, extra) => {
+          const id = start(lo);
+          if (id && (extra?.skills || extra?.core != null)) {
+            skillsMyBuild(a.id, id, {
+              ...(extra.skills ? { skills: extra.skills } : {}),
+              ...(extra.core != null ? { core: extra.core } : {}),
+            });
+            refresh();
+          }
+          flash('Build loaded from your showcase');
+        }}
       />
     </form>
   );
