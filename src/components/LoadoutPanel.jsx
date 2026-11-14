@@ -84,8 +84,9 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const hasBeta =
     recAll?.beta ||
     betaPotential ||
-    (ENGINE_PICKS[agent.id] ?? []).some((p) => p.beta) ||
-    W_ENGINES.some((x) => x.beta && x.specialty === agent.specialty);
+    (ENGINE_PICKS[agent.id] ?? []).some((p) => p.beta);
+  // (Upcoming W-Engines of the same specialty alone don't show the switch: it
+  // read as if the Agent herself were in beta. They still list when it's on.)
   const useEngine = () => rec?.best && onChange({ wEngine: rec.best });
   const useSets = () =>
     onChange({
