@@ -75,7 +75,8 @@ function parseDisc(eq) {
   const set = ENKA_SETS[Math.floor(id / 100) * 100] ?? null;
   // The rarity digit sits before the slot digit in the item id (…41 = S slot 1).
   const rank = RANK[Math.floor(id / 10) % 10] ?? 'S';
-  const main = MAIN[eq?.MainStatList?.[0]?.PropertyId] ?? null;
+  // The live API calls it MainPropertyList (the docs say MainStatList): take either.
+  const main = MAIN[(eq?.MainPropertyList ?? eq?.MainStatList)?.[0]?.PropertyId] ?? null;
   const subs = (eq?.RandomPropertyList ?? [])
     .map((p) => ({ stat: SUB[p.PropertyId], up: Math.max(0, (p.PropertyLevel ?? 1) - 1) }))
     .filter((x) => x.stat);
