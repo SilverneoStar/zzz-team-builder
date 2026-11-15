@@ -10700,9 +10700,9 @@ details.disc-guide + details.disc-guide {
     justify-items: center;
     padding: 16px 4px 0;
   }
-  .music-disc {
-    width: min(72vw, 300px);
-    margin-bottom: 70px;
+  .music-deck {
+    width: min(82vw, 340px);
+    margin-bottom: 92px;
   }
   .music__stage .music__pal {
     position: absolute;
@@ -10723,6 +10723,49 @@ details.disc-guide + details.disc-guide {
   .music.is-playing .music__beat span,
   .matcha-peek img {
     animation: none !important;
+  }
+}
+
+/* ZZZ: the room's record player (the Drive Discs page's turntable) */
+.music-deck {
+  width: min(400px, 56vw);
+  margin-bottom: 64px;
+}
+.music-deck .deck {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+}
+.music-deck .music-deck__cover {
+  position: absolute;
+  inset: 0;
+}
+/* A ring of grooves round the printed cover, and a centre label */
+.music-deck__label {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 14%, rgba(0, 0, 0, 0.55) 14.5% 16%, transparent 16.5%),
+    radial-gradient(circle, transparent 0 46%, rgba(0, 0, 0, 0.35) 47%, transparent 48%);
+  box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.6);
+}
+.music-deck .deck.is-playing .deck__record {
+  animation-duration: 5s;
+}
+.music:not(.is-playing) .deck__record {
+  animation-play-state: paused;
+}
+.music__deckpick {
+  margin-top: 2px;
+}
+@media (max-width: 560px) {
+  .music-deck {
+    width: min(80vw, 320px);
+    margin-bottom: 124px;
+  }
+  .music__stage .music__pal {
+    width: 74px;
   }
 }
 

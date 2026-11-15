@@ -7,10 +7,8 @@
 # - Lines starting with # are notes and are skipped.
 # - Some labels block their songs on other sites; the room skips those and
 #   shows them with a link to play on YouTube instead.
-# - YouTube plays at most 200 songs in one list, so keep it to 200.
 #
 # Songs from the official Sān-Z channel on YouTube.
-
 
 [1% Low Battery Girl]
 1% Low Battery Girl | https://youtu.be/m9SfNIYCagE
@@ -34,6 +32,112 @@ chaos.exe (Instrumental) | https://youtu.be/DXOHHWV15w8
 [Prophecy]
 Prophecy (feat. Gin Wigmore) | https://youtu.be/8y3u5UfRlAE
 Prophecy (Instrumental) | https://youtu.be/XN9GYlg4aKM
+
+[Billy Mode]
+Billy Mode (feat. Mr.Mo, Relaye) | https://youtu.be/0oQt4_G6DsI
+Billy Mode (Instrumental) | https://youtu.be/kG1AaliB0So
+
+[Fantastical-Colored Heartbeat]
+妄想色心跳 | https://youtu.be/bjvtF_ju6xs
+Fantastical-Colored Heartbeat | https://youtu.be/siJE6CADALM
+Fantastical-Colored Heartbeat (Instrumental) | https://youtu.be/OK0Iuuf_J2E
+
+[Angel Loading...^_−☆]
+天使加载中...^_−☆ | https://youtu.be/Z-_iN1AJeYs
+Angel Loading...^_−☆ | https://youtu.be/N_OUotyVv4o
+Angel Loading...^_−☆ (Instrumental) | https://youtu.be/jQUPthq29tQ
+
+[Turn Heartbeats Into Tempo]
+Turn Heartbeats Into Tempo | https://youtu.be/h0IO8cxjabk
+Turn Heartbeats Into Tempo (Instrumental) | https://youtu.be/LRDPzbQxHrI
+
+[ReDreaming Angel]
+复梦天使 | https://youtu.be/rjFe71wjkjs
+ReDreaming Angel | https://youtu.be/zeDsSQir8CM
+ReDreaming Angel (Instrumental) | https://youtu.be/fKWmHoFMVyc
+
+[A Thousand First Meetings]
+A Thousand First Meetings | https://youtu.be/94IDDo_E31g
+A Thousand First Meetings (Instrumental) | https://youtu.be/d63woI0ksME
+
+[Tiny Giant]
+Tiny Giant | https://youtu.be/ScmK1KaBXnA
+Tiny Giant (Instrumental) | https://youtu.be/VOfpcsLIBmY
+
+[I Ask]
+I Ask | https://youtu.be/ML9eAgXF9yY
+I Ask (Instrumental) | https://youtu.be/eAirBeiFCsQ
+
+[DAMIDAMI]
+DAMIDAMI | https://youtu.be/vlrN8Mso-6Y
+DAMIDAMI (Instrumental) | https://youtu.be/CrAZy_ooizU
+
+[FURYON]
+FURYON | https://youtu.be/Xow5OrwWZnw
+FURYON (Instrumental) | https://youtu.be/QlqyCvEeLvM
+
+[Wonderland Trickery]
+Wonderland Trickery | https://youtu.be/NSPKq-QZKjk
+Wonderland Trickery (Instrumental) | https://youtu.be/JGxO9EWXc9c
+
+[Through food, we learn the world so wide]
+Through food, we learn the world so wide, to train the heart, the self inside | https://youtu.be/APac7Pd4uVo
+Through food, we learn the world so wide, to train the heart, the self inside (Instrumental) | https://youtu.be/BugXa_lIre0
+
+[Almost]
+Almost | https://youtu.be/8N8r-mkZBlk
+Almost (Instrumental) | https://youtu.be/ROxEhlC9L-o
+
+[My Curse, My Fate]
+My Curse, My Fate | https://youtu.be/1mnHF7DQdk8
+My Curse, My Fate (Instrumental) | https://youtu.be/WO08M_A8dMc
+
+[Shining Promise in the Sky of Dawn]
+Shining Promise in the Sky of Dawn | https://youtu.be/akOABm80X8Y
+『暁の空に、輝ける誓い』 | https://youtu.be/TbfU5j3StW8
+Shining Promise in the Sky of Dawn (Instrumental) | https://youtu.be/-3g3vyO4tfc
+
+[Stars Align]
+Stars Align (feat. Astra Yao) | https://youtu.be/UGfUaFjNNL4
+Stars Align (Instrumental) | https://youtu.be/_cmD6HOHiAY
+
+[絵本]
+絵本 | https://youtu.be/tHvqR5mb5Vg
+
+[晓]
+晓 | https://youtu.be/vSTDCn5g9XA
+
+[Fearless]
+Fearless | https://youtu.be/KOh7AOuXO48
+
+[途切れて続く]
+途切れて続く (feat. kato Rihona) | https://youtu.be/fYIwd6OvRWM
+
+[Burning Desires]
+Burning Desires | https://youtu.be/LCo0KdbVIJM
+
+[pinKing]
+pinKing | https://youtu.be/DugA46SEuPc
+
+[Crimson Pierces the Twilight]
+Crimson Pierces the Twilight (feat. 金玟岐) | https://youtu.be/dlkgxD5loXk
+Crimson Pierces the Twilight (Instrumental) | https://youtu.be/WfMOUBL8s5Q
+
+[As the sugar cube floats, fleeting in time]
+As the sugar cube floats, fleeting in time (feat. 阿兰·达瓦卓玛) | https://youtu.be/yk3wBP6ZUb4
+As the sugar cube floats, fleeting in time (Instrumental) | https://youtu.be/Dd2g97uHB_Q
+
+[BITE!]
+BITE! | https://youtu.be/sL4DJArRvbw
+BITE! (Instrumental) | https://youtu.be/xnDfztY_T5w
+
+[ZENLESS]
+ZENLESS (Tiësto, Lucas & Steve, Silent Child, Sān-Z) | https://youtu.be/4AMpTkEx6fI
+ZENLESS (Instrumental) | https://youtu.be/W1fXWIlQFt4
+
+[Come Alive]
+Come Alive | https://youtu.be/R3tZmmiKi0o
+Come Alive (Instrumental) | https://youtu.be/DntXtREruD0
 
 [Gambit]
 Gambit (feat. Mishon) | https://youtu.be/I13l2EARFkY
@@ -151,6 +255,215 @@ Urban Video Game Festival | https://youtu.be/JxrXVD1pw08
 Dreamland Journey | https://youtu.be/T-NMJqhWLKg
 Urban Elite | https://youtu.be/j31EjQyIiGQ
 Time for Relaxation | https://youtu.be/qpHePXefds0
+Haunted Rouge | https://youtu.be/h_zocmnKaQw
+Stray Paws | https://youtu.be/05pIJsq0HPU
+Me and "I" | https://youtu.be/dkfldzt-Iuc
+Shadow of Extradition | https://youtu.be/J6tElz4XAII
+Memories Flowing Gently | https://youtu.be/QqKov4Vr0OA
+捉迷藏 | https://youtu.be/4LIcZwNmty8
+かくれんぼ | https://youtu.be/8CBYyuvN6no
+Hide and Seek | https://youtu.be/pAOLgGgvkMQ
+숨바꼭질 | https://youtu.be/STgHXl_Y6Yg
+
+[Hyper Commission (极限委托)]
+60%的日常 | https://youtu.be/fg9RT-sCwJA
+60%的遐想 | https://youtu.be/Nn180wkseWk
+60%的日常·悠闲 | https://youtu.be/8VA8VDp6yyk
+60%的遐想·静谧 | https://youtu.be/BHBonPZKi8o
+60%的日常·自由 | https://youtu.be/b65t8gwbZcQ
+60%的遐想·热情 | https://youtu.be/BSbdbMbCoP4
+Action！ | https://youtu.be/ET8MbJ-fvdQ
+Still Action！ | https://youtu.be/OPsgMC5RlP8
+Vacation！ | https://youtu.be/JVfU_Ui9hO8
+Still Vacation！ | https://youtu.be/2XsJf0ErvGE
+昨日繁华 | https://youtu.be/pnDtHO0tJyE
+注意头顶 | https://youtu.be/Q5ZspEyMpos
+Limbo | https://youtu.be/0p30IRLBEnc
+野火 | https://youtu.be/6yxnorahWhQ
+运斤成风 | https://youtu.be/Ike511xjxPw
+争流口岸 | https://youtu.be/ZTysLbU-9Bw
+地下律动 | https://youtu.be/2vq99Z5RHxY
+鼠辈舞台 | https://youtu.be/OSgI_f8pvYM
+虚幻光映 | https://youtu.be/oI9F7GEhh5I
+Time To Play | https://youtu.be/ZyITYZIPwZo
+开盒有惊__ | https://youtu.be/L2yfMopDEu8
+上上下下左左右右 | https://youtu.be/pySaR0yvOZA
+机械手冲 | https://youtu.be/KjuSwIQfit4
+Turbo | https://youtu.be/aI5c7e4iSWs
+微醺的缪斯 | https://youtu.be/ToBVaXC2wq0
+三z出品 | https://youtu.be/Y8dYJTp6LvM
+Hia | https://youtu.be/TDHcWpdEhTE
+秩序守护者 | https://youtu.be/_7rDtwfs0ww
+噬魂犬 | https://youtu.be/u1L0jv8GMIw
+犬出没 | https://youtu.be/lcIgir1Z_sc
+冠军犬 | https://youtu.be/j6ymCJ79gTI
+当心尾巴 | https://youtu.be/hW9-7JCErdw
+拐弯请注意 | https://youtu.be/xr0e9duXshc
+别打结！ | https://youtu.be/UpmbcMkJ3WQ
+怪奇召唤 | https://youtu.be/aU569PnO_rY
+怪奇交易 | https://youtu.be/QwB1HVU1AwY
+怪奇之旅 | https://youtu.be/4_RWL5NXbfs
+怪奇之友 | https://youtu.be/Kba17R9BGgU
+Golden Sign _m | https://youtu.be/BcWsI_d0RP0
+Golden Sign _f | https://youtu.be/D41IqL_SIYc
+Enjoy The Ride | https://youtu.be/y2mbsvlBxjI
+秩序脱轨·白昼 | https://youtu.be/EXHqylrdm94
+秩序脱轨·黑夜 | https://youtu.be/1DnO5iW_Kyg
+无尽的施工日·白昼 | https://youtu.be/4-uK65NNWMU
+无尽的施工日·黑夜 | https://youtu.be/kSniCdMFyj0
+芭莱迷宫·白昼 | https://youtu.be/dAKyKb_ORdg
+芭莱迷宫·黑夜 | https://youtu.be/jYcVQ2mc6-w
+荒野之风 | https://youtu.be/FpYPz28TCjY
+荒野暮色 | https://youtu.be/nB9HB1R0gYk
+铁锚沉吟 | https://youtu.be/r6geB1b82i0
+锈浪狂袭 | https://youtu.be/zGP_wLWZhzU
+Vr | https://youtu.be/J0xAvu_HbEE
+多进制 | https://youtu.be/YAxz5UA2I5w
+Roger That | https://youtu.be/WpCj97lzQuw
+喵~ | https://youtu.be/Dos4hzTGauk
+齿轮与坩埚 | https://youtu.be/BX3H3uvJzdE
+小大人 | https://youtu.be/oYt9jrMdf2o
+尖牙、利爪、微笑 | https://youtu.be/4jw7bNhoKLs
+维多利亚式服务 | https://youtu.be/esf5z0rzNlI
+二进制正旦 | https://youtu.be/xB4PLZWW_qg
+幸运cheer | https://youtu.be/DBsRRAmSAGE
+烈拳困斗 | https://youtu.be/-0lvkIMFvt8
+宿命的交代 | https://youtu.be/sQk1CaxhRKo
+Shnnnn~ | https://youtu.be/BWprJqfxYAw
+薙 | https://youtu.be/abnECtvAaV8
+混沌α | https://youtu.be/0oUFhfJ9ZMQ
+混沌β | https://youtu.be/WHTXZQ89WgM
+混沌γ | https://youtu.be/qfbvg2-E-xQ
+混沌δ | https://youtu.be/W6Yvvy0QmDQ
+混沌ε | https://youtu.be/oCmSODqmZ70
+混沌ζ | https://youtu.be/Z5BmrnpWoeA
+灾难土壤 | https://youtu.be/vD2-iQfSS7o
+侵蚀之剑 | https://youtu.be/eQjz83UCSNs
+四手刀俎 | https://youtu.be/tK4v248eE4U
+男子汉汉斯 | https://youtu.be/HqIK1DOz1KY
+少女格莱特 | https://youtu.be/swQOaWaw3pw
+勇者星期五 | https://youtu.be/otDjJpYBHMo
+钢铁奇美拉 | https://youtu.be/B3QA6jah5_c
+绝命舞曲 | https://youtu.be/5OAiB6FUdqQ
+傲慢与偏执 | https://youtu.be/Ghf12EKONlk
+Purchasable Loyalty | https://youtu.be/ozGlokFwbBA
+复活的霸主 | https://youtu.be/KilpCcqvowM
+危险面 | https://youtu.be/jh_qhrXszEE
+献给始主的牲 | https://youtu.be/8dOZVyD4xJg
+Doom Bloom | https://youtu.be/A0QQRc7JD_c
+预言之下 | https://youtu.be/TCOz2iwxGoo
+真·预言之下 | https://youtu.be/3kQTLPfmUsQ
+玛瑟尔迷宫 | https://youtu.be/yGlFufc0eKw
+邦布维修大师 | https://youtu.be/gzFoo0y09YQ
+同行于新艾利都 | https://youtu.be/3FyqLYQnIYY
+孩子们的交友监督 | https://youtu.be/f05oQ4BSwlM
+金牌向你招手 | https://youtu.be/9RyEWwy9sbg
+入门金牌 | https://youtu.be/jU5qusrthJ8
+大师金牌 | https://youtu.be/jtikluuNn5U
+金牌纪念 | https://youtu.be/AkUXdy3CApo
+金牌嘉奖 | https://youtu.be/NF705tJlRm0
+夏日前奏 | https://youtu.be/UasQG5Ti-bU
+夏日盛典 | https://youtu.be/_0vTnOBMDL0
+Red! | https://youtu.be/blzIraHVuCI
+Red!! | https://youtu.be/JjN5D_ezQbg
+Red!!! | https://youtu.be/dP579wAKEeM
+夏日派对 | https://youtu.be/WxrQ5PatLUA
+治安官的一天 | https://youtu.be/XvPzsWpIyIM
+上菜 | https://youtu.be/Jf1pUflXMKI
+「芝托邦」变奏曲 | https://youtu.be/1XM9IUC6IUY
+外环用餐礼仪 | https://youtu.be/ywZRL4GO88A
+漫行 | https://youtu.be/JZmuEAIQyAA
+虚境脱轨 | https://youtu.be/h0DwDR9lq-0
+以太虚境 | https://youtu.be/5WgVqjHvLYA
+以太虚境+ | https://youtu.be/9aH-aJF5aiQ
+混沌虚境 | https://youtu.be/7rvFr4J6yj0
+以太虚境++ | https://youtu.be/ZGCgxqRxuQo
+以太虚境+++ | https://youtu.be/CNmz6QB4_xo
+当三明治来敲门 | https://youtu.be/uMJClI9zmVs
+嗯呐？ | https://youtu.be/ZfYZm81P7XM
+嗯呐呐！ | https://youtu.be/SuBdBmS6aNA
+Victory | https://youtu.be/d-AYqSwSjug
+Defeat | https://youtu.be/HKNWyR5nBIc
+闲散度日 | https://youtu.be/SgVCjQG89Ok
+迂回之径 | https://youtu.be/Ch70jSdu3Pc
+不慌 | https://youtu.be/W_pCK_OQckw
+自在一日 | https://youtu.be/sLSfgjndhXA
+如有闲情 | https://youtu.be/8qgXvtL3zJk
+松弛感 | https://youtu.be/76mp02T_y88
+天生丽质 | https://youtu.be/3EzKXb97DjI
+荒唐童谣 | https://youtu.be/NO5hoJc0p5A
+股掌之间 | https://youtu.be/9QolfrHsh48
+请您先用茶 | https://youtu.be/Hw3MxdqnwIU
+骸 | https://youtu.be/Fp2BkeqR4s8
+乱 | https://youtu.be/vCKIr2LmbcY
+迷 | https://youtu.be/YZzPPi7ECGI
+极 | https://youtu.be/3RjecN1Ltjk
+逆境重生 | https://youtu.be/VLrg9GFEkpE
+急速激情 | https://youtu.be/DEjz1EbaFik
+Choice | https://youtu.be/iVcVYeV-9Gg
+此刻心绪 | https://youtu.be/pX9Fyp7NuQM
+红色革履 | https://youtu.be/G2aEiy2VSno
+风滚草与仙人掌 | https://youtu.be/VnllYwIpKSI
+如子弹穿过风 | https://youtu.be/rMtF_s5rJHY
+无声晚祷 | https://youtu.be/kwLFmYfvmio
+吧台特调 | https://youtu.be/umcpaiTX9xU
+菓 | https://youtu.be/vcpoGTYkqno
+现在正当时 | https://youtu.be/Ru0Is9Gp5Qc
+我方斗志 | https://youtu.be/1nbBC2F1BCk
+胜负已分 | https://youtu.be/dox4seCr5A4
+不安之种 | https://youtu.be/WQvRl8AxO5Y
+嘿！朋友！ | https://youtu.be/khbZnU0Wiz0
+无须他言 | https://youtu.be/gWofj2EyIlU
+白色网格 | https://youtu.be/Fu1s8WNVLf0
+时光正在回退 | https://youtu.be/z6eQVS2gfVw
+Peace | https://youtu.be/Rm45p00tK6A
+!Bug! | https://youtu.be/KI1sg0vsvJs
+猜忌 | https://youtu.be/vwNkaCl8M7Q
+保持怀疑 | https://youtu.be/VHmjxSyF7kw
+褪色铁皮盒 | https://youtu.be/tUQGyBHVk18
+岁岁 | https://youtu.be/UAtPi3zSVQ8
+黑色变调夹 | https://youtu.be/rd8Apo6SkUM
+黑兔子 | https://youtu.be/11QEHh1NTo0
+破境 | https://youtu.be/XFT3ct7O1qU
+机油 | https://youtu.be/nYFigZwnT4c
+敲门 | https://youtu.be/SC6wiOuRiak
+溯源 | https://youtu.be/mD8LBNflvno
+使命 | https://youtu.be/gJAhiWIRtO8
+安全出口 | https://youtu.be/nyc3CyfsOLI
+黑暗深处 | https://youtu.be/xXc92bFhXsA
+宿命之路 | https://youtu.be/VzO--EiTxy8
+躁动狂潮 | https://youtu.be/50tQKB1XANU
+六缸转速 | https://youtu.be/EpPCBVoH-VA
+遗忘的角落 | https://youtu.be/mC2uVxFkUYo
+燃油饮 | https://youtu.be/a79FFGm7m3o
+Wifi无处不在 | https://youtu.be/kM3OlivLtD8
+邦布帮帮你 | https://youtu.be/LoJ-9V4oWmY
+回到放学那一年 | https://youtu.be/74uM8vTuM1Q
+141杂货店 | https://youtu.be/NqfOck2aou4
+波特山 | https://youtu.be/GW_Nvm3R6wQ
+大空洞 | https://youtu.be/uguD_F_sT7s
+不可触碰 | https://youtu.be/dVadgyLxGH4
+侵袭次世代 | https://youtu.be/coMb7E2lBvE
+十万次心跳 | https://youtu.be/vT0ENH55qpo
+新装备 | https://youtu.be/HhyzGO8rm6U
+足行天下 | https://youtu.be/rBgbCXL_x9w
+小身材大危机 | https://youtu.be/VNGXlE4VKVw
+邦布知道 | https://youtu.be/3uerEZt9hPk
+吾本如斯 | https://youtu.be/kVcm10qPeYI
+瀑汤谷 | https://youtu.be/Py17eSSWpRA
+Storm Petrel | https://youtu.be/YKyUPOofr3k
+最后一次飞行 | https://youtu.be/MF5pKE8DQdM
+远景 | https://youtu.be/nJZIQSerf1I
+H.I.A.的未来 | https://youtu.be/RsDDY7mrkHU
+械尸狂潮 | https://youtu.be/sF6UZpKeWYE
+快充嗯呢 | https://youtu.be/h18QKwXE9wg
+生活百货 | https://youtu.be/od16aV0G6Mo
+虚无 | https://youtu.be/r7oMbxy7jxU
+咖啡伴侣 | https://youtu.be/bdnOpf2sY8g
+绝命舞曲 Acoustic. | https://youtu.be/TWDAvv69zM0
+火狱骑行 | https://youtu.be/AwZL3j1UpXM
+妖刀幻境 | https://youtu.be/3zs36wL320c
+Come Alive Stripped. | https://youtu.be/iq04zO33pjU
 
 [Hyper Commission: PV Soundtrack]
 世界全剧终，欢迎来到新艾利都！ | https://youtu.be/c5jW5vhFPhg

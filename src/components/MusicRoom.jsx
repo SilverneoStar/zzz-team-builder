@@ -35,15 +35,42 @@ function Cover({ id, className = '' }) {
   );
 }
 
-function Disc({ id, playing }) {
+// The record player from the Drive Discs page, in the finish picked there.
+const DECK_KEY = 'zzz-team-builder:deckTheme';
+const DECKS = [
+  { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
+  { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
+  { id: 'urban', label: 'Urban', sticker: 'eous' },
+];
+const loadDeck = () => {
+  try {
+    const v = localStorage.getItem(DECK_KEY);
+    return DECKS.some((d) => d.id === v) ? v : 'classic';
+  } catch {
+    return 'classic';
+  }
+};
+
+/** The turntable with the track's cover as the record; the arm drops and it spins while playing. */
+function Disc({ id, playing, deck }) {
+  const sticker = (DECKS.find((d) => d.id === deck) ?? DECKS[0]).sticker;
   return (
-    <div className={`music-disc${playing ? ' is-playing' : ''}`} aria-hidden="true">
-      <div className="music-disc__spin">
-        <Cover id={id} className="music-disc__art" />
-        <span className="music-disc__grooves" />
-        <span className="music-disc__shine" />
-        <span className="music-disc__hub" />
-      </div>
+    <div className="music-deck" data-deck={deck} aria-hidden="true">
+      <span className={`deck${playing ? ' is-playing' : ''}`}>
+        <img className="deck__sticker" src={`${BASE}stickers/${sticker}.webp`} alt="" decoding="async" />
+        <span className="deck__platter">
+          <span className="deck__record">
+            <Cover id={id} className="music-deck__cover" />
+            <span className="music-deck__label" />
+          </span>
+          <span className="deck__spindle" />
+        </span>
+        <span className="deck__arm">
+          <span className="deck__rod" />
+        </span>
+        <span className="deck__pivot" />
+        <span className="deck__led" />
+      </span>
     </div>
   );
 }
@@ -262,8 +289,16 @@ export default function MusicRoom() {
       dead = true;
     };
   }, []);
-  const ids = useMemo(() => (songs ?? []).map((x) => x.id), [songs]);
-  const yt = usePlaylistPlayer(host, ids);
+  const yt = usePlaylistPlayer(host, songs ?? []);
+  const [deck, setDeck] = useState(loadDeck);
+  const pickDeck = (v) => {
+    setDeck(v);
+    try {
+      localStorage.setItem(DECK_KEY, v);
+    } catch {
+      /* not kept: fine */
+    }
+  };
   const song = songs?.[yt.index] ?? null;
   const current = song?.id ?? null;
   const title = song?.name || yt.title;
@@ -286,7 +321,7 @@ export default function MusicRoom() {
 
       <section className="music__stage" aria-label="Now playing">
         <Cortado chill={yt.playing} />
-        <Disc id={current} playing={yt.playing} />
+        <Disc id={current} playing={yt.playing} deck={deck} />
         <img
           className="music__pal music__pal--matcha"
           src={`${BASE}matcha/${yt.playing ? 'starry' : 'neutral'}.webp`}
@@ -346,6 +381,16 @@ export default function MusicRoom() {
             <Icon d={NEXT} />
           </button>
         </div>
+        <label className="select music__deckpick">
+          <span>Player</span>
+          <select value={deck} onChange={(e) => pickDeck(e.target.value)}>
+            {DECKS.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="music__screen" ref={host} />
       </section>
 
