@@ -1,10 +1,168 @@
 # Matcha's listening room: the playlist (Zenless Zone Zero)
 #
 # One song per line:   Song name | YouTube link
-# - Songs play in this order. Copy a link from YouTube's Share button.
+# - Songs play in this order. A link from YouTube's Share button works, or just the video id.
 # - The name is optional: with only a link, the room shows YouTube's title.
+# - [Album name] on its own line starts a new album heading.
 # - Lines starting with # are notes and are skipped.
 # - Some labels block their songs on other sites; the room skips those and
 #   shows them with a link to play on YouTube instead.
+# - YouTube plays at most 200 songs in one list, so keep it to 200.
+#
+# Songs from the official Sān-Z channel on YouTube.
 
-| https://youtu.be/lQJQvEsVfZ0
+
+[Gambit]
+Gambit (feat. Mishon) | https://youtu.be/I13l2EARFkY
+Gambit (Instrumental) | https://youtu.be/01csWtKUeTA
+
+[Stars of Lyra+]
+Wonderland Reverie | https://youtu.be/QeOHzoOIrr4
+Wonderland Reverie (Instrumental) | https://youtu.be/mHa5NXHN6Bg
+Shining | https://youtu.be/CyGwFeLYDGg
+Shining (Instrumental) | https://youtu.be/Z9gms6nOJBA
+Original Me | https://youtu.be/3omB6DNSTbI
+Original Me (Instrumental) | https://youtu.be/JUJh9XQD7N4
+Original Me (1St Take Ver.) | https://youtu.be/CbXNs52CSB0
+Ridu Holidays | https://youtu.be/sDyqe6ar2qg
+Ridu Holidays (Instrumental) | https://youtu.be/lIOd5aWSvYE
+
+[Hyper Commission 2.0]
+Gilded Impressions | https://youtu.be/ACHnIcjbABI
+Sunny Failume | https://youtu.be/4OiB7YfJj5c
+Lightstream Alley | https://youtu.be/xJ0pybMaty8
+Afternoon Gossip | https://youtu.be/qBDXTXiwTd8
+Years of Stars | https://youtu.be/lyK-yU4XFg4
+Sun, Moon, and Stars' Loop | https://youtu.be/FcApRnYsJgo
+Fading Light | https://youtu.be/PkI7qu58oHc
+Sailume Bay | https://youtu.be/6YDFLVMQWKI
+Midsummer Fantasy Days | https://youtu.be/ys5LnCudHLE
+Dew Gardening | https://youtu.be/o_UEvyUA_ks
+Gravity and Light | https://youtu.be/GRTmUNyETqI
+Why Does The Way Exist | https://youtu.be/_12w3Ak6b9c
+Welcoming Immortal Guests | https://youtu.be/_xCUZRtm5X8
+Glory of Days Past | https://youtu.be/eb6cIZHTizU
+The Tidefaire | https://youtu.be/nYGile83znM
+Devon Emergency Relief | https://youtu.be/kBXkOIwa7YY
+Yumcha Forever | https://youtu.be/XAe-WCdeGqg
+Serene Tea and Elegance | https://youtu.be/Zo2cELM5zrw
+Buyan's Joy | https://youtu.be/pSB4ZU55kw4
+Mach 8-Bit | https://youtu.be/amOlE8tESck
+Super 8-Bit | https://youtu.be/bszAsMhyNEg
+Invincible 8-Bit | https://youtu.be/-PdK6yjQAy8
+Zenith's Lingering Light | https://youtu.be/_xHkUHqTh0c
+Darkest Hour | https://youtu.be/BDYeH0aBcow
+Dreams of the Timesworn Hills | https://youtu.be/N86aMlODUAk
+Boundary Alert | https://youtu.be/EwC47G_HMG8
+Tidebreaker's Roar | https://youtu.be/o9ycsBfAxu4
+No Entry | https://youtu.be/KR4_egOnv8s
+Ore Dust and Rusted Iron | https://youtu.be/ZjIfDp4XuE4
+Vespers Lingering in Morning Bells | https://youtu.be/_SEug7U4JCA
+Silver, Silver | https://youtu.be/Dk-eKGe2aHQ
+Stygian Scope | https://youtu.be/vWPDqXas3jk
+Tiger's Casual Prowl | https://youtu.be/pKkfx-wsC2I
+PEAK | https://youtu.be/Oe8ix1u3lvE
+Puppet on Strings | https://youtu.be/HIAybuTf884
+Perish Together | https://youtu.be/XNVxjbNI_CY
+The Evil | https://youtu.be/5xjbjdY1V0w
+The Evil Arcade Ver. | https://youtu.be/OUyRHh-BVZ4
+Goodbye, Friend | https://youtu.be/GsNHvh03oFM
+Death's Puppet | https://youtu.be/BJQ2rzXKoAc
+"Mevorakh" | https://youtu.be/GEaOiropqt4
+The Way | https://youtu.be/Po2SE7RtQrQ
+Miasmic Fiend | https://youtu.be/HATxY_KM-OU
+Unextinguished Through the Night | https://youtu.be/44voo0v7__s
+The Final Duel | https://youtu.be/oRZgNUAjs70
+My Enemies | https://youtu.be/iyzUE8tydBU
+Counting Stars | https://youtu.be/L5PjYbwwiRA
+Exalt Them | https://youtu.be/M7CIVNSgDJE
+"The Creator" | https://youtu.be/oye38kwLe7k
+Connecting the Dots | https://youtu.be/mAgkLqEmmN0
+Indeterminate Form | https://youtu.be/vU6ydZH4ctE
+Never Return Empty-Handed | https://youtu.be/2tvmVxcl9vU
+Catch of the Day | https://youtu.be/zB-3NfT1SUg
+En-Nah Dimension | https://youtu.be/9kJkUZBOjLg
+Little Champion | https://youtu.be/6Bz-nISh1NI
+Thump Thump Beat | https://youtu.be/kZYNu6HTrFg
+Get Into the Groove | https://youtu.be/SFzIMf8GVLU
+Zero Room for Error | https://youtu.be/iaiubf3fMis
+Order | https://youtu.be/HLkWTLc5XqQ
+New Order | https://youtu.be/-N97zmkWFCU
+Have a Great Weekend | https://youtu.be/ctNRl1e1A18
+Happy Holidays | https://youtu.be/SQLUejEsczo
+Gravitational Attraction | https://youtu.be/n4vCRBQbeCA
+Until We Meet Again | https://youtu.be/VBbdN1HwA0s
+Soul of Steel: Golden Bond | https://youtu.be/JfpODctkX6Y
+Attack! Golden Mecha! | https://youtu.be/DNy9rvaqD2k
+Showdown! Golden Inferno! | https://youtu.be/MfrOVEPt89o
+"En-Nah" Chess Legend | https://youtu.be/qT3HtvhU_SM
+Turbulent | https://youtu.be/2sbbfkpVBb0
+Awaiting Orders | https://youtu.be/9e4TuqLUcTM
+The Extreme Frontier | https://youtu.be/k5WQOavGKzg
+Threshold Simulation | https://youtu.be/O5xx73YEA8U
+Dreams Left Unfinished | https://youtu.be/syeKk-6x71Y
+En-Nah City | https://youtu.be/_RYMiFmT5AA
+Qingming Dreamscape | https://youtu.be/xbuaBnESdgg
+Repetition of Daily Life | https://youtu.be/JjaZO5Dbjss
+What Is The Way | https://youtu.be/6lN3Pw8uBdA
+Afternoon | https://youtu.be/mrcpMyYg5EA
+Iron Order | https://youtu.be/qgpQcV62q-g
+Branching Path | https://youtu.be/WB4bFq3eCRs
+Undercurrents of the Heart | https://youtu.be/m6MCtM2hYhU
+Veil of Night | https://youtu.be/ZdYmGKXgqJY
+Refine Me | https://youtu.be/95J0oae73AI
+Fleeting World | https://youtu.be/95XTxgkzWMc
+Empty | https://youtu.be/mA1PPoUBzvo
+Tearforged Blossoms | https://youtu.be/OFILIJDQu1k
+Flora | https://youtu.be/McjbYc_NkXY
+Faded Nursery Rhyme | https://youtu.be/dtHS7qyzXWQ
+A Bird That Cannot Stay | https://youtu.be/XoCwkAiBArw
+Farewell to Cherished Blooms | https://youtu.be/NMeR_eXE0xs
+Hold Your Breath | https://youtu.be/SLVHKl8dA80
+Resist the Myth | https://youtu.be/FyPl4tDqcCM
+Sun Chaser's Chariot | https://youtu.be/ksIxYjh6NZU
+Frozen Rifling | https://youtu.be/IXNhC5Lrolo
+Night's Descent | https://youtu.be/SCJbtmadcJ0
+Gripped by Panic | https://youtu.be/5Xb0MvRnb98
+Urban Video Game Festival | https://youtu.be/JxrXVD1pw08
+Dreamland Journey | https://youtu.be/T-NMJqhWLKg
+Urban Elite | https://youtu.be/j31EjQyIiGQ
+Time for Relaxation | https://youtu.be/qpHePXefds0
+
+[Hyper Commission: PV Soundtrack]
+世界全剧终，欢迎来到新艾利都！ | https://youtu.be/c5jW5vhFPhg
+降噪测试 | https://youtu.be/0OhvnUkUFho
+您拨打的用户正在空洞中 | https://youtu.be/YLbAjWxP8T0
+奇迹的起点 | https://youtu.be/Y1C3owRf8CY
+朱鸢探长 | https://youtu.be/Z9evsZxqcOY
+卧底蓝调 | https://youtu.be/XGvJhp4Cmc0
+偶尔也要出去逛逛 | https://youtu.be/uyqBKfRTe6g
+霸主引擎 | https://youtu.be/ohGWY17zKHA
+虚拟杀机 | https://youtu.be/MXRaRK7DXcg
+未知区域，信号已断开... | https://youtu.be/RXXsR_NIjxE
+星流霆击 | https://youtu.be/XQPwKKTzcoU
+骑士登场 | https://youtu.be/zCqtswUQ7tE
+骑士登场 (Remix) | https://youtu.be/ovuKwS0n71w
+雷霆光影 | https://youtu.be/XxN4UiMNWcg
+当生意来敲门 | https://youtu.be/oqgmuPS5A3E
+当生意来敲门 (Remix) | https://youtu.be/i85drMF8XWw
+无法拒绝的条件 | https://youtu.be/huXi8hjDmTE
+无法拒绝的条件 (Remix) | https://youtu.be/ImQQu7h-PXQ
+狼质彬彬 | https://youtu.be/-Iz580Z542E
+怦然「芯」动 | https://youtu.be/QgytPmzReAE
+怦然「芯」动 (Remix) | https://youtu.be/u7NTyCwWpo4
+访客安全守则 | https://youtu.be/AX5KXHdz48M
+成就达成率......100% | https://youtu.be/jfS1bQ66Yuw
+制服·剪刀·鲨鱼尾 | https://youtu.be/tiNgIAepbVM
+全天候·朱鸢长官！ | https://youtu.be/QmvPEUUH_kA
+青童与白叟 | https://youtu.be/u_33IKVxTLY
+致命审讯 | https://youtu.be/9X8QNxRD91M
+卡吕冬的骑行 | https://youtu.be/oA1u7OApDN4
+待办事项 99+ | https://youtu.be/kuYPzlID3To
+Tko | https://youtu.be/-bzjXt6pFqw
+无尽修行 | https://youtu.be/a30989Wz3Cc
+乌鸦停落之日 | https://youtu.be/WmTDiPjqwWQ
+最后的修行 | https://youtu.be/RTikfLJaDzI
+
+[Mix]
+Zenless Zone Zero 2024 Mix (Hyper Commission) | https://youtu.be/ZCEwx6xDq78
