@@ -32,6 +32,7 @@ import TeamTabs from './components/TeamTabs.jsx';
 const PAGE_CODE = {
   agents: () => import('./components/AgentsPage.jsx'),
   'my-agents': () => import('./components/MyAgentsPage.jsx'),
+  music: () => import('./components/MusicRoom.jsx'),
   bangboo: () => import('./components/BangbooPage.jsx'),
   'drive-discs': () => import('./components/DriveDiscsPage.jsx'),
   ethereals: () => import('./components/EtherealsPage.jsx'),
@@ -41,6 +42,7 @@ const PAGE_CODE = {
 const AgentsPage = lazyPage(PAGE_CODE.agents);
 const BangbooPage = lazyPage(PAGE_CODE.bangboo);
 const MyAgentsPage = lazyPage(PAGE_CODE['my-agents']);
+const MusicRoom = lazyPage(PAGE_CODE.music);
 const DriveDiscsPage = lazyPage(PAGE_CODE['drive-discs']);
 const EtherealsPage = lazyPage(PAGE_CODE.ethereals);
 const ExportDialog = lazyPage(() => import('./components/ExportDialog.jsx'));
@@ -216,6 +218,7 @@ export default function App() {
         )}
         {route.view === 'w-engines' && <WEnginesPage specialty={route.specialty} wEngineId={route.wEngineId} />}
         {route.view === 'drive-discs' && <DriveDiscsPage discId={route.discId} />}
+        {route.view === 'music' && <MusicRoom />}
         {route.view === 'bangboo' && (
           <BangbooPage
             bangbooId={route.bangbooId}

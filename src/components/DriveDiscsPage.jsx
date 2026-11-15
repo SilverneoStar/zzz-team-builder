@@ -1,5 +1,6 @@
 // The Drive Discs tab: every set on a record player (Classic, Wood or Urban
 // finish), with bonuses, who uses it and main stats by slot.
+import MatchaPeek from './MatchaPeek.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import DiscArt, { discArt } from './DiscArt.jsx';
 import ViewToggle from './ViewToggle.jsx';
@@ -95,7 +96,8 @@ export default function DriveDiscsPage({ discId }) {
 
   return (
     <div className="page" data-deck={deck}>
-      <header className="page__head">
+      <header className="page__head page__head--peek">
+        <MatchaPeek />
         <h2 className="page__title">Drive Discs</h2>
         <p className="muted">
           An Agent equips six discs. Two from one set give its 2-piece bonus; four give both bonuses.
