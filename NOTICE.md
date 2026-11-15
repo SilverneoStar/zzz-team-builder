@@ -45,3 +45,15 @@ W-Engine passive effects are short summaries, written in our own words, of each 
 Team and build images also carry a QR code with their code. The QR codes are drawn with the QR Code encoder by Kazuhiko Arase (MIT License), from qrcode-terminal (Apache License 2.0), bundled in `src/lib/vendor/qrcode.js`. Reading a QR code from an uploaded picture uses the browser's own BarcodeDetector when there is one, and otherwise jsQR (Apache License 2.0), loaded from cdn.jsdelivr.net when it's needed. Scanning one with a phone camera gives `ZZZ:` followed by the code, which can be pasted into the site.
 
 **Import from UID** reads a player's public in-game Agent Showcase through the [Enka.Network](https://enka.network) API, via a small relay (`tools/enka-relay`). The ID tables in `src/data/enkaMap.js` are generated from Enka's [API-docs](https://github.com/EnkaNetwork/API-docs) store files by `tools/enka/make_map.py`. Enka.Network isn't affiliated with this site or with HoYoverse.
+
+## Music (the hidden listening room)
+
+The listening room plays the games' official soundtracks from their official
+YouTube channels in YouTube's own embedded player, using YouTube API Services.
+No audio is copied or hosted here; covers are YouTube's thumbnails of those
+videos. Songs and artwork belong to their owners. Playing music there means
+agreeing to YouTube's Terms of Service (https://www.youtube.com/t/terms);
+YouTube's data use is covered by the Google Privacy Policy
+(https://policies.google.com/privacy), and YouTube may serve ads in its player.
+The site itself stores nothing about what is played.
+

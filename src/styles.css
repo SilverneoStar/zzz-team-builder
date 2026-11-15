@@ -10837,3 +10837,9 @@ details.disc-guide + details.disc-guide {
     animation: none !important;
   }
 }
+
+.music__legal {
+  max-width: 480px;
+  margin: 2px 0 0;
+  line-height: 1.45;
+}
