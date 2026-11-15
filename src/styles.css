@@ -10704,10 +10704,10 @@ details.disc-guide + details.disc-guide {
     width: min(72vw, 300px);
     margin-bottom: 70px;
   }
-  .music__pal {
+  .music__stage .music__pal {
     position: absolute;
     bottom: 50px;
-    width: 92px;
+    width: 84px;
     margin: 0;
   }
   .music__pal--cortado {
