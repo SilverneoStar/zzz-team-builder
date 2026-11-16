@@ -46,9 +46,9 @@ Team and build images also carry a QR code with their code. The QR codes are dra
 
 **Import from UID** reads a player's public in-game Agent Showcase through the [Enka.Network](https://enka.network) API, via a small relay (`tools/enka-relay`). The ID tables in `src/data/enkaMap.js` are generated from Enka's [API-docs](https://github.com/EnkaNetwork/API-docs) store files by `tools/enka/make_map.py`. Enka.Network isn't affiliated with this site or with HoYoverse.
 
-## Music (the hidden listening room)
+## Music (the hidden Tea Room)
 
-The listening room plays the games' official soundtracks from their official
+The Tea Room plays the games' official soundtracks from their official
 YouTube channels in YouTube's own embedded player, using YouTube API Services.
 No audio is copied or hosted here; covers are YouTube's thumbnails of those
 videos. Songs and artwork belong to their owners. Playing music there means

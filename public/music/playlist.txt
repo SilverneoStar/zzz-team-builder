@@ -1,4 +1,4 @@
-# Matcha's listening room: the playlist (Zenless Zone Zero)
+# Matcha's Tea Room: the playlist (Zenless Zone Zero)
 #
 # One song per line:   Song name | YouTube link
 # - Songs play in this order. A link from YouTube's Share button works, or just the video id.

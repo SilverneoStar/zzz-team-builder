@@ -10284,7 +10284,7 @@ details.disc-guide + details.disc-guide {
   }
 }
 
-/* ---------- Matcha's listening room ---------- */
+/* ---------- Matcha's Tea Room ---------- */
 .music {
   display: grid;
   gap: 18px;
@@ -10844,7 +10844,7 @@ details.disc-guide + details.disc-guide {
   line-height: 1.45;
 }
 
-/* ---------- Listening room: the reader's own settings ---------- */
+/* ---------- Tea Room: the reader's own settings ---------- */
 .music__filters {
   display: flex;
   flex-wrap: wrap;

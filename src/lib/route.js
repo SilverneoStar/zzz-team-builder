@@ -17,7 +17,7 @@ export const VIEWS = [
 
 export function parseHash(hash) {
   const h = (hash || '').replace(/^#/, '');
-  // The hidden listening room (not in the menu: Matcha leads there).
+  // The hidden Tea Room (not in the menu: Matcha leads there).
   if (h === 'music') return { view: 'music' };
   // #agent-<id>~mine opens straight on a tab (My build).
   if (h.startsWith('agent-')) {
