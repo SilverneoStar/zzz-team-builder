@@ -7,7 +7,7 @@
 // player), so it pulses at a steady tempo while a track plays.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { parsePlaylist, thumb, usePlaylistPlayer } from '../lib/youtube.js';
-import { useBeatEngine } from '../lib/beatEngine.js';
+import { MOODS, guessMood, useBeatEngine } from '../lib/beatEngine.js';
 import { navigate } from '../lib/route.js';
 import { Tail } from './Mascot.jsx';
 
@@ -91,7 +91,7 @@ const SHUFFLE =
 // The reader's own room: their list of songs, filters and looks. Kept in this
 // browser only (it's just for them).
 const ROOM_KEY = 'zzz-team-builder:musicRoom';
-const ROOM_DEFAULTS = { source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {} };
+const ROOM_DEFAULTS = { source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {} };
 function useRoomSettings() {
   const [room, setRoom] = useState(() => {
     try {
@@ -103,6 +103,7 @@ function useRoomSettings() {
         bars: bars ?? ROOM_DEFAULTS.bars,
         mine: Array.isArray(v.mine) ? v.mine : [],
         tempo: v.tempo && typeof v.tempo === 'object' ? v.tempo : {},
+        moods: v.moods && typeof v.moods === 'object' ? v.moods : {},
       };
     } catch {
       return ROOM_DEFAULTS;
@@ -429,7 +430,17 @@ export default function MusicRoom() {
   const taps = useRef([]);
   const barsRef = useRef(null);
   const pulseRef = useRef(null);
-  useBeatEngine({ barsRef, canvasRef: pulseRef, viz: room.viz, bpm, playing: yt.playing });
+  // The song's type: what the reader picked for it, else a guess from its name.
+  const pickedMood = song ? room.moods[song.id] : null;
+  const mood = pickedMood || (song ? guessMood(song) : 'steady');
+  const nextMood = () => {
+    if (!song) return;
+    const ids = Object.keys(MOODS);
+    const n = ids[(ids.indexOf(mood) + 1) % ids.length];
+    const { [song.id]: _, ...rest } = room.moods;
+    setRoom({ moods: n === guessMood(song) ? rest : { ...rest, [song.id]: n } });
+  };
+  useBeatEngine({ barsRef, canvasRef: pulseRef, viz: room.viz, bpm, playing: yt.playing, mood, progress: yt.progress });
   const tap = () => {
     if (!song) return;
     const now = performance.now();
@@ -512,6 +523,15 @@ export default function MusicRoom() {
             <span className="muted">
               ♩ {bpm} BPM{tapped ? ' (tapped)' : song.bpm ? '' : ' (default)'}
             </span>
+            <button
+              type="button"
+              className="music__tap music__mood"
+              onClick={nextMood}
+              title="How lively the beat is for this song. Tap to change it."
+            >
+              {MOODS[mood].label}
+              {pickedMood ? '' : ' (guessed)'}
+            </button>
             <button
               type="button"
               className="music__tap"

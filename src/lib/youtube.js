@@ -208,6 +208,12 @@ export function usePlaylistPlayer(hostRef, songs) {
     next: () => step(1),
     prev: () => step(-1),
     playAt: (i) => load(i),
+    // How far into the song (0..1), or null when YouTube hasn't said yet.
+    progress: () => {
+      const d = player.current?.getDuration?.();
+      const t = player.current?.getCurrentTime?.();
+      return d > 0 && t >= 0 ? Math.min(1, t / d) : null;
+    },
     setShuffle: (on) => {
       shuffleRef.current = on;
       setShuffleState(on);
