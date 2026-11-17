@@ -94,7 +94,7 @@ const SHUFFLE =
 // The reader's own room: their list of songs, filters and looks. Kept in this
 // browser only (it's just for them).
 const ROOM_KEY = 'zzz-team-builder:musicRoom';
-const ROOM_DEFAULTS = { source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
+const ROOM_DEFAULTS = { order: 'file', source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
 function useRoomSettings() {
   const [room, setRoom] = useState(() => {
     try {
@@ -159,13 +159,47 @@ function Choice({ label, value, options, onChange }) {
   );
 }
 
+// The playlist's order: as in the file, A to Z, Z to A, newest or oldest first
+// (by release date). Albums keep their songs together; My list sorts song by song.
+const ORDERS = [
+  { id: 'file', label: 'Playlist' },
+  { id: 'az', label: 'A–Z' },
+  { id: 'za', label: 'Z–A' },
+  { id: 'new', label: 'Newest' },
+  { id: 'old', label: 'Oldest' },
+];
+const byName = (a, b) => a.localeCompare(b, undefined, { sensitivity: 'base', numeric: true });
+function sortSongs(list, order, byAlbum) {
+  if (!order || order === 'file') return list;
+  const cmp = (a, b) => {
+    if (order === 'az') return byName(a.key, b.key);
+    if (order === 'za') return byName(b.key, a.key);
+    const d = (a.date || '').localeCompare(b.date || '');
+    return (order === 'new' ? -d : d) || byName(a.key, b.key);
+  };
+  if (!byAlbum) return list.map((x) => ({ x, key: x.name || '', date: x.date })).sort(cmp).map((e) => e.x);
+  const groups = [];
+  list.forEach((x) => {
+    const g = groups[groups.length - 1];
+    if (g && g.key === (x.album || '')) g.songs.push(x);
+    else groups.push({ key: x.album || '', date: x.date, songs: [x] });
+  });
+  return groups.sort(cmp).flatMap((g) => g.songs);
+}
+/** "Oct 2026" from "2026-10-25". */
+const monthYear = (d) => {
+  if (!d) return '';
+  const [y, m] = d.split('-');
+  return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m - 1]} ${y}`;
+};
+
 /** The songs grouped by album, in file order: [{ name, start, songs }]. */
 function albumsOf(songs) {
   const out = [];
   songs.forEach((x, i) => {
     const last = out[out.length - 1];
     if (last && last.name === x.album) last.songs.push(x);
-    else out.push({ name: x.album || 'Songs', start: i, songs: [x] });
+    else out.push({ name: x.album || 'Songs', date: x.date, start: i, songs: [x] });
   });
   return out;
 }
@@ -208,6 +242,7 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
         </span>
       </div>
       <div className="music__filters">
+        <Choice label="Order" value={room.order} onChange={(v) => setRoom({ order: v })} options={ORDERS} />
         <Choice
           label="Play"
           value={room.source}
@@ -255,6 +290,7 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
                 >
                   <Cover id={a.songs[0].id} className="music__albumart" />
                   <span className="music__albumname">{a.name}</span>
+                  {a.date && <span className="music__albumdate small">{monthYear(a.date)}</span>}
                   <span className="muted small">
                     {k === playingAlbum ? '♪ Playing · ' : ''}
                     {a.songs.length} song{a.songs.length > 1 ? 's' : ''}
@@ -413,8 +449,8 @@ export default function MusicRoom() {
     }
     if (room.kind === 'vocal') list = list.filter((x) => !isInstrumental(x));
     if (room.kind === 'inst') list = list.filter(isInstrumental);
-    return list;
-  }, [songs, room.source, room.kind, room.mine]);
+    return sortSongs(list, room.order, room.source !== 'mine');
+  }, [songs, room.source, room.kind, room.mine, room.order]);
   const yt = usePlaylistPlayer(host, playable);
   // The reader's volume, handed to YouTube's player once it's ready and on every change.
   useEffect(() => {

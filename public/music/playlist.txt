@@ -5,147 +5,148 @@
 # - The name is optional: with only a link, the room shows YouTube's title.
 # - A tempo can follow the link (beats per minute) for the beat bar and pulse:
 #   Song name | YouTube link | 128
-# - [Album name] on its own line starts a new album heading.
+# - [Album name] on its own line starts a new album heading; a date at the end of it,
+#   [Album name | 2026-10-25], is its release date (for sorting by newest or oldest).
 # - Lines starting with # are notes and are skipped.
 # - Some labels block their songs on other sites; the room skips those and
 #   shows them with a link to play on YouTube instead.
 #
 # Songs from the official Sān-Z channel on YouTube.
 
-[1% Low Battery Girl]
+[1% Low Battery Girl | 2026-10-25]
 1% Low Battery Girl | https://youtu.be/m9SfNIYCagE
 
-[1% Battery Girl]
+[1% Battery Girl | 2026-10-22]
 1% Battery Girl (feat. ChiliChill) | https://youtu.be/lQJQvEsVfZ0
 1% Battery Girl (Instrumental) | https://youtu.be/j4rgODi2H8M
 
-[Link Up]
+[Link Up | 2026-09-10]
 Link Up (feat. Ironmouse, monii) | https://youtu.be/0qUjAjNkha4
 Link Up (Instrumental) | https://youtu.be/HoqHHAY9FwE
 
-[Two to Tango]
+[Two to Tango | 2026-07-31]
 Two to Tango (feat. E1and) | https://youtu.be/uhNbx7q33mU
 Two to Tango (Instrumental) | https://youtu.be/kq8bBEoMJ-M
 
-[chaos.exe]
+[chaos.exe | 2026-07-09]
 chaos.exe | https://youtu.be/DyF934nsD0E
 chaos.exe (Instrumental) | https://youtu.be/DXOHHWV15w8
 
-[Prophecy]
+[Prophecy | 2026-07-05]
 Prophecy (feat. Gin Wigmore) | https://youtu.be/8y3u5UfRlAE
 Prophecy (Instrumental) | https://youtu.be/XN9GYlg4aKM
 
-[Billy Mode]
+[Billy Mode | 2026-05-29]
 Billy Mode (feat. Mr.Mo, Relaye) | https://youtu.be/0oQt4_G6DsI
 Billy Mode (Instrumental) | https://youtu.be/kG1AaliB0So
 
-[Fantastical-Colored Heartbeat]
+[Fantastical-Colored Heartbeat | 2026-03-26]
 妄想色心跳 | https://youtu.be/bjvtF_ju6xs
 Fantastical-Colored Heartbeat | https://youtu.be/siJE6CADALM
 Fantastical-Colored Heartbeat (Instrumental) | https://youtu.be/OK0Iuuf_J2E
 
-[Angel Loading...^_−☆]
+[Angel Loading...^_−☆ | 2026-03-07]
 天使加载中...^_−☆ | https://youtu.be/Z-_iN1AJeYs
 Angel Loading...^_−☆ | https://youtu.be/N_OUotyVv4o
 Angel Loading...^_−☆ (Instrumental) | https://youtu.be/jQUPthq29tQ
 
-[Turn Heartbeats Into Tempo]
+[Turn Heartbeats Into Tempo | 2026-02-04]
 Turn Heartbeats Into Tempo | https://youtu.be/h0IO8cxjabk
 Turn Heartbeats Into Tempo (Instrumental) | https://youtu.be/LRDPzbQxHrI
 
-[ReDreaming Angel]
+[ReDreaming Angel | 2026-02-03]
 复梦天使 | https://youtu.be/rjFe71wjkjs
 ReDreaming Angel | https://youtu.be/zeDsSQir8CM
 ReDreaming Angel (Instrumental) | https://youtu.be/fKWmHoFMVyc
 
-[A Thousand First Meetings]
+[A Thousand First Meetings | 2025-12-28]
 A Thousand First Meetings | https://youtu.be/94IDDo_E31g
 A Thousand First Meetings (Instrumental) | https://youtu.be/d63woI0ksME
 
-[Tiny Giant]
+[Tiny Giant | 2025-12-26]
 Tiny Giant | https://youtu.be/ScmK1KaBXnA
 Tiny Giant (Instrumental) | https://youtu.be/VOfpcsLIBmY
 
-[I Ask]
+[I Ask | 2025-12-18]
 I Ask | https://youtu.be/ML9eAgXF9yY
 I Ask (Instrumental) | https://youtu.be/eAirBeiFCsQ
 
-[DAMIDAMI]
+[DAMIDAMI | 2025-10-16]
 DAMIDAMI | https://youtu.be/vlrN8Mso-6Y
 DAMIDAMI (Instrumental) | https://youtu.be/CrAZy_ooizU
 
-[FURYON]
+[FURYON | 2025-09-19]
 FURYON | https://youtu.be/Xow5OrwWZnw
 FURYON (Instrumental) | https://youtu.be/QlqyCvEeLvM
 
-[Wonderland Trickery]
+[Wonderland Trickery | 2025-07-15]
 Wonderland Trickery | https://youtu.be/NSPKq-QZKjk
 Wonderland Trickery (Instrumental) | https://youtu.be/JGxO9EWXc9c
 
-[Through food, we learn the world so wide]
+[Through food, we learn the world so wide | 2025-06-23]
 Through food, we learn the world so wide, to train the heart, the self inside | https://youtu.be/APac7Pd4uVo
 Through food, we learn the world so wide, to train the heart, the self inside (Instrumental) | https://youtu.be/BugXa_lIre0
 
-[Almost]
+[Almost | 2025-05-31]
 Almost | https://youtu.be/8N8r-mkZBlk
 Almost (Instrumental) | https://youtu.be/ROxEhlC9L-o
 
-[My Curse, My Fate]
+[My Curse, My Fate | 2025-05-14]
 My Curse, My Fate | https://youtu.be/1mnHF7DQdk8
 My Curse, My Fate (Instrumental) | https://youtu.be/WO08M_A8dMc
 
-[Shining Promise in the Sky of Dawn]
+[Shining Promise in the Sky of Dawn | 2025-04-02]
 Shining Promise in the Sky of Dawn | https://youtu.be/akOABm80X8Y
 『暁の空に、輝ける誓い』 | https://youtu.be/TbfU5j3StW8
 Shining Promise in the Sky of Dawn (Instrumental) | https://youtu.be/-3g3vyO4tfc
 
-[Stars Align]
+[Stars Align | 2025-02-14]
 Stars Align (feat. Astra Yao) | https://youtu.be/UGfUaFjNNL4
 Stars Align (Instrumental) | https://youtu.be/_cmD6HOHiAY
 
-[絵本]
+[絵本 | 2024-12-21]
 絵本 | https://youtu.be/tHvqR5mb5Vg
 
-[晓]
+[晓 | 2024-12-20]
 晓 | https://youtu.be/vSTDCn5g9XA
 
-[Fearless]
+[Fearless | 2024-11-28]
 Fearless | https://youtu.be/KOh7AOuXO48
 
-[途切れて続く]
+[途切れて続く | 2024-11-07]
 途切れて続く (feat. kato Rihona) | https://youtu.be/fYIwd6OvRWM
 
-[Burning Desires]
+[Burning Desires | 2024-10-18]
 Burning Desires | https://youtu.be/LCo0KdbVIJM
 
-[pinKing]
+[pinKing | 2024-09-26]
 pinKing | https://youtu.be/DugA46SEuPc
 
-[Crimson Pierces the Twilight]
+[Crimson Pierces the Twilight | 2024-08-14]
 Crimson Pierces the Twilight (feat. 金玟岐) | https://youtu.be/dlkgxD5loXk
 Crimson Pierces the Twilight (Instrumental) | https://youtu.be/WfMOUBL8s5Q
 
-[As the sugar cube floats, fleeting in time]
+[As the sugar cube floats, fleeting in time | 2024-07-26]
 As the sugar cube floats, fleeting in time (feat. 阿兰·达瓦卓玛) | https://youtu.be/yk3wBP6ZUb4
 As the sugar cube floats, fleeting in time (Instrumental) | https://youtu.be/Dd2g97uHB_Q
 
-[BITE!]
+[BITE! | 2024-07-06]
 BITE! | https://youtu.be/sL4DJArRvbw
 BITE! (Instrumental) | https://youtu.be/xnDfztY_T5w
 
-[ZENLESS]
+[ZENLESS | 2024-07-01]
 ZENLESS (Tiësto, Lucas & Steve, Silent Child, Sān-Z) | https://youtu.be/4AMpTkEx6fI
 ZENLESS (Instrumental) | https://youtu.be/W1fXWIlQFt4
 
-[Come Alive]
+[Come Alive | 2024-06-29]
 Come Alive | https://youtu.be/R3tZmmiKi0o
 Come Alive (Instrumental) | https://youtu.be/DntXtREruD0
 
-[Gambit]
+[Gambit | 2026-11-12]
 Gambit (feat. Mishon) | https://youtu.be/I13l2EARFkY
 Gambit (Instrumental) | https://youtu.be/01csWtKUeTA
 
-[Stars of Lyra+]
+[Stars of Lyra+ | 2025-01-23]
 Wonderland Reverie | https://youtu.be/QeOHzoOIrr4
 Wonderland Reverie (Instrumental) | https://youtu.be/mHa5NXHN6Bg
 Shining | https://youtu.be/CyGwFeLYDGg
@@ -156,7 +157,7 @@ Original Me (1St Take Ver.) | https://youtu.be/CbXNs52CSB0
 Ridu Holidays | https://youtu.be/sDyqe6ar2qg
 Ridu Holidays (Instrumental) | https://youtu.be/lIOd5aWSvYE
 
-[Hyper Commission 2.0]
+[Hyper Commission 2.0 | 2026-02-04]
 Gilded Impressions | https://youtu.be/ACHnIcjbABI
 Sunny Failume | https://youtu.be/4OiB7YfJj5c
 Lightstream Alley | https://youtu.be/xJ0pybMaty8
@@ -267,7 +268,7 @@ Memories Flowing Gently | https://youtu.be/QqKov4Vr0OA
 Hide and Seek | https://youtu.be/pAOLgGgvkMQ
 숨바꼭질 | https://youtu.be/STgHXl_Y6Yg
 
-[Hyper Commission (极限委托)]
+[Hyper Commission (极限委托) | 2024-12-24]
 60%的日常 | https://youtu.be/fg9RT-sCwJA
 60%的遐想 | https://youtu.be/Nn180wkseWk
 60%的日常·悠闲 | https://youtu.be/8VA8VDp6yyk
@@ -467,7 +468,7 @@ H.I.A.的未来 | https://youtu.be/RsDDY7mrkHU
 妖刀幻境 | https://youtu.be/3zs36wL320c
 Come Alive Stripped. | https://youtu.be/iq04zO33pjU
 
-[Hyper Commission: PV Soundtrack]
+[Hyper Commission: PV Soundtrack | 2025-01-07]
 世界全剧终，欢迎来到新艾利都！ | https://youtu.be/c5jW5vhFPhg
 降噪测试 | https://youtu.be/0OhvnUkUFho
 您拨打的用户正在空洞中 | https://youtu.be/YLbAjWxP8T0
@@ -502,5 +503,5 @@ Tko | https://youtu.be/-bzjXt6pFqw
 乌鸦停落之日 | https://youtu.be/WmTDiPjqwWQ
 最后的修行 | https://youtu.be/RTikfLJaDzI
 
-[Mix]
+[Mix | 2024-10-21]
 Zenless Zone Zero 2024 Mix (Hyper Commission) | https://youtu.be/ZCEwx6xDq78
