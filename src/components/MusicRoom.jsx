@@ -131,6 +131,7 @@ const BAR_STYLES = [
   { id: 'digital', label: 'Digital' },
   { id: 'y2k', label: 'Y2K' },
   { id: 'rainbow', label: 'Rainbow' },
+  { id: 'elements', label: 'Elements' },
 ];
 
 /** A row of buttons where one is picked. */
