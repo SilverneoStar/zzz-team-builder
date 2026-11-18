@@ -6,12 +6,14 @@
 # - A tempo can follow the link (beats per minute) for the beat bar and pulse:
 #   Song name | YouTube link | 128
 # - [Album name] on its own line starts a new album heading; a date at the end of it,
-#   [Album name | 2026-10-25], is its release date (for sorting by newest or oldest).
+#   [Album name | 2026-10-25], is its release date (for sorting by newest or oldest);
+#   [Album name | fan upload] marks its songs as fan uploads (left out by "Official only"),
+#   and "| AI-assisted" tags songs the channel likely made with AI.
 # - Lines starting with # are notes and are skipped.
 # - Some labels block their songs on other sites; the room skips those and
 #   shows them with a link to play on YouTube instead.
 #
-# Songs from the official Sān-Z channel on YouTube.
+# Songs from the official Sān-Z channel on YouTube, plus fan covers at the end.
 
 [1% Low Battery Girl | 2026-10-25]
 1% Low Battery Girl | https://youtu.be/m9SfNIYCagE
@@ -505,3 +507,21 @@ Tko | https://youtu.be/-bzjXt6pFqw
 
 [Mix | 2024-10-21]
 Zenless Zone Zero 2024 Mix (Hyper Commission) | https://youtu.be/ZCEwx6xDq78
+
+# Fan covers: KUMOSOUND's "Zenless Zone Zero Covers" playlist (two of its songs are
+# by AKIRASOUND). The channel likely uses AI, so the album is tagged AI-assisted.
+[KumoSound | fan upload | AI-assisted | 2026-11-13]
+Starlight (Funk Cover, ft. Nicole Demara) | https://youtu.be/L8ZfNAmhdJw
+1% Battery Girl (Hip-Hop Cover) | https://youtu.be/ntkRYlNa7zg
+chaos.exe × happy.exe (Cover) | https://youtu.be/DJ2TPvIZaTA
+Two to Tango (HoYoFair Ver.) | https://youtu.be/5EjCBNShLro
+ReDreaming Angel (Rock English Cover, AKIRASOUND) | https://youtu.be/ilVv22k1x18
+DAMIDAMI (Rock Cover, AKIRASOUND) | https://youtu.be/IEEshXhRDHc
+Prophecy (Jazz Cover) | https://youtu.be/IzV7mHW1GiM
+Shark's Gotta Bite (Chill Ver.) | https://youtu.be/vWkcBfgQ1uo
+Turn Heartbeats Into Tempo (English Cover) | https://youtu.be/JC5Qh2x07jE
+Angel Loading... (English Cover, Idol Ver.) | https://youtu.be/EvndSWRcxCY
+ReDreaming Angel (English Cover) | https://youtu.be/_-7t8ULkH7c
+Self-Cultivation Through Food (English Cover) | https://youtu.be/Re52zXSnp2U
+Tiny Giant (Cover) | https://youtu.be/awgaQOqzetY
+DAMIDAMI (Studio Cover) | https://youtu.be/xnWgdo3M35E
