@@ -11956,3 +11956,57 @@ details.disc-guide + details.disc-guide {
   color: #ff4d3d;
   text-shadow: 0 0 4px rgb(255 77 61 / 0.7);
 }
+
+/* ---------- Record player light: a small glass LED bulb ----------
+   On every finish. The colour underneath stays each finish's own; on top sit a
+   domed glass lens (a bright highlight up top, a curved fish-eye reflection
+   below and a darker rim where the glass bends) and a metal bezel round it.
+   Lit, the bulb gets a hot core. */
+.deck__led {
+  overflow: visible;
+}
+.deck__led::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 26% at 36% 28%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.35) 55%, transparent 100%),
+    radial-gradient(ellipse 46% 22% at 54% 80%, rgb(255 255 255 / 0.32), transparent 100%),
+    radial-gradient(circle at 50% 42%, transparent 46%, rgb(0 0 0 / 0.38) 82%, rgb(0 0 0 / 0.55) 100%);
+}
+/* Bezel: a thin metal ring with a shadowed seat, so the bulb sits in the plinth. */
+.deck__led::after {
+  content: '';
+  position: absolute;
+  inset: -26%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle, transparent 0 64%, #111 65% 72%, transparent 73%),
+    conic-gradient(from 210deg, #f2f3f5, #8b9098 25%, #4e5259 50%, #9aa0a8 75%, #f2f3f5);
+  /* Only the ring: the bulb's own colour shows through the middle. */
+  -webkit-mask: radial-gradient(circle, transparent 0 64%, #000 65%);
+  mask: radial-gradient(circle, transparent 0 64%, #000 65%);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.6),
+    0 0 0 0.5px rgb(0 0 0 / 0.6);
+}
+.deck__led {
+  z-index: 0;
+  isolation: isolate;
+}
+/* Lit: a hot, nearly white core glowing out into the finish's colour. */
+.deck.is-playing .deck__led::before {
+  background:
+    radial-gradient(ellipse 34% 26% at 36% 28%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.35) 55%, transparent 100%),
+    radial-gradient(ellipse 46% 22% at 54% 80%, rgb(255 255 255 / 0.35), transparent 100%),
+    radial-gradient(circle at 50% 50%, rgb(255 248 230 / 0.6) 0 10%, transparent 34%),
+    radial-gradient(circle at 50% 42%, transparent 58%, rgb(0 0 0 / 0.22) 92%);
+}
+/* The wood finish's bezel is brass, to match its arm. */
+[data-deck='wood'] .deck__led::after {
+  background: radial-gradient(circle, transparent 0 64%, #1a120c 65% 72%, transparent 73%),
+    conic-gradient(from 210deg, #fff1c7, #d9a24a 25%, #7a4a1c 50%, #c88a3a 75%, #fff1c7);
+}
