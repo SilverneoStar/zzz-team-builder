@@ -41,14 +41,12 @@ export const UPCOMING = {
     engines: ['sunbringer-signature'],
     trial: {
       source: 'Beta',
-      fourPiece: [],
-      newFourPiece: 'Her own new 4-piece set (name not shown yet): CRIT Rate +12%, Fire Sharp DMG ignores 16% of enemy DEF.',
-      newFourPieceArt: 'discs/beta/sunbringer-set.webp',
+      fourPiece: ['rank-stele'],
       twoPiece: ['soul-rock'],
       main: { 4: 'CRIT Rate', 5: 'Fire DMG', 6: 'DEF %' },
       substats: 'Not shown yet',
       notes: [
-        'Her new 4-piece set plus 2-piece Soul Rock gives +32% DEF in total.',
+        '4-piece Rank Stele plus 2-piece Soul Rock gives +32% DEF in total.',
         'Midnight Sun gives +40% CRIT Rate in combat, and each 1% CRIT DMG adds 0.35% CRIT Rate.',
         'Maim from other Armorer Agents (like Claret) feeds her Willpower.',
       ],
@@ -57,7 +55,7 @@ export const UPCOMING = {
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
-      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
+      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set Crimson Wing Nocturne', setupArt: 'discs/crimson-wing-nocturne.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
       { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)', gear: { 'norma-hollowell': 'chief-sidekick' } },
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'], gear: { 'ju-fufu': 'roaring-fur-nace' } },
       { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
@@ -88,7 +86,7 @@ export const UPCOMING = {
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
-      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set', setupArt: 'discs/beta/roxy-set.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
+      { members: ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Beta', setup: 'Roxy with her signature Crimson Moon Casket and the new 3.4 Drive Disc set Crimson Wing Nocturne', setupArt: 'discs/crimson-wing-nocturne.webp', gear: { 'roxy-ifrita-pryce': 'crimson-moon-casket' } },
       { members: ['sunbringer', 'norma-hollowell', 'robin-hsr'], source: 'Beta', setup: 'Norma with her signature Chief Sidekick (also seen in 3.4 gameplay)', gear: { 'norma-hollowell': 'chief-sidekick' } },
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'], gear: { 'ju-fufu': 'roaring-fur-nace' } },
       { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },

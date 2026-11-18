@@ -68,6 +68,9 @@ export const DAMAGE_SPECIALTIES = ['attack', 'anomaly', 'rupture', 'armorer'];
 
 export const AGENT_BY_ID = Object.fromEntries(AGENTS.map((a) => [a.id, a]));
 export const W_ENGINE_BY_ID = Object.fromEntries(W_ENGINES.map((w) => [w.id, w]));
+/** Drive Disc sets to list: beta sets only while beta info is shown. */
+export const discSets = () => DRIVE_DISC_SETS.filter((d) => !d.beta || showBeta());
+
 export const DRIVE_DISC_BY_ID = Object.fromEntries(DRIVE_DISC_SETS.map((d) => [d.id, d]));
 export const BANGBOO_BY_ID = Object.fromEntries(BANGBOO.map((b) => [b.id, b]));
 

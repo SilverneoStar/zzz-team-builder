@@ -42,6 +42,8 @@ import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 // and main stat. Set bonuses follow from how many discs of a set are equipped.
 export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
   const showBeta = useShowBeta();
+  // Drive Disc sets to pick from: beta sets only with beta info on, or while one is equipped.
+  const discOptions = DRIVE_DISC_SETS.filter((d) => !d.beta || showBeta || (loadout.discs ?? []).some((x) => x?.set === d.id));
   // A beta W-Engine stays in the list while it's equipped, even with beta info hidden.
   const equipped = loadout.wEngine && W_ENGINE_BY_ID[loadout.wEngine];
   const fits = [
@@ -262,7 +264,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               <span>4-piece · slots 1–4</span>
               <select value="" onChange={(e) => e.target.value && fill([0, 1, 2, 3], e.target.value)}>
                 <option value="">Choose a set…</option>
-                {DRIVE_DISC_SETS.map((d) => (
+                {discOptions.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
                     {setMark(d.id, rec?.fours ?? [])}
@@ -274,7 +276,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
               <span>2-piece · slots 5–6</span>
               <select value="" onChange={(e) => e.target.value && fill([4, 5], e.target.value)}>
                 <option value="">Choose a set…</option>
-                {DRIVE_DISC_SETS.map((d) => (
+                {discOptions.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
                     {setMark(d.id, rec?.twos ?? [])} · {d.twoPiece}
@@ -330,7 +332,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
                 <span>Set</span>
                 <select value={cur.set ?? ''} onChange={(e) => setDisc(slot - 1, { set: e.target.value || null })}>
                   <option value="">Empty</option>
-                  {DRIVE_DISC_SETS.map((d) => (
+                  {discOptions.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name}
                       {setMark(d.id, slot <= 4 ? (rec?.fours ?? []) : (rec?.twos ?? []))}

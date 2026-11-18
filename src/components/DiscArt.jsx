@@ -33,6 +33,8 @@ export const DISCS_WITH_ART = new Set([
   'bunny-in-wonderland',
   'branch-and-blade-song',
   'astral-voice',
+  'crimson-wing-nocturne',
+  'rank-stele',
 ]);
 const BASE = import.meta.env.BASE_URL;
 export const discArt = (id) => (id && DISCS_WITH_ART.has(id) ? `${BASE}discs/${id}.webp` : null);

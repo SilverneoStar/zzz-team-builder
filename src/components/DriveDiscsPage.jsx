@@ -8,6 +8,7 @@ import MiniAgents from './MiniAgents.jsx';
 import { MatList } from './MaterialsTab.jsx';
 import { DISC_LEVEL_MATS } from '../data/levelMats.js';
 import { navigate } from '../lib/route.js';
+import { showBeta, useShowBeta } from '../lib/betaInfo.js';
 import {
   AGENT_BY_ID,
   DRIVE_DISC_BY_ID,
@@ -16,8 +17,10 @@ import {
   DISC_MAIN_STATS,
   DRIVE_DISC_SETS,
   SPECIALTIES,
+  discSets,
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { UPCOMING } from '../data/upcoming.js';
 
 const VIEW_KEY = 'zzz-team-builder:discView';
 const loadView = () => {
@@ -83,15 +86,16 @@ export default function DriveDiscsPage({ discId }) {
     }
   }, [view]);
 
+  const beta = useShowBeta();
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return DRIVE_DISC_SETS.filter((d) => {
+    return discSets().filter((d) => {
       if (q && ![d.name, d.twoPiece, d.fourPiece].some((s) => s.toLowerCase().includes(q))) return false;
       if (stat !== 'all' && twoStat(d) !== stat) return false;
       if (usedBy !== 'all' && !USED_BY[usedBy]?.has(d.id)) return false;
       return true;
     });
-  }, [query, stat, usedBy]);
+  }, [query, stat, usedBy, beta]);
   const selected = discId ? DRIVE_DISC_BY_ID[discId] : null;
 
   return (
@@ -165,7 +169,10 @@ export default function DriveDiscsPage({ discId }) {
                 aria-current={d.id === discId ? 'page' : undefined}
               >
                 <Turntable id={d.id} theme={deck} />
-                <span className="vinyl__name">{d.name}</span>
+                <span className="vinyl__name">
+                  {d.name}
+                  {d.beta && <> <span className="card__tag card__tag--warn">Beta</span></>}
+                </span>
               </a>
             </li>
           ))}
@@ -176,7 +183,9 @@ export default function DriveDiscsPage({ discId }) {
             <li key={d.id} id={`disc-${d.id}`} className="arc-card" aria-current={d.id === discId ? 'true' : undefined}>
               <div className="arc-card__top arc-card__top--disc">
                 <DiscArt id={d.id} size={56} />
-                <h3 className="arc-card__name">{d.name}</h3>
+                <h3 className="arc-card__name">
+                  {d.name} {d.beta && <span className="card__tag card__tag--warn">Beta</span>}
+                </h3>
               </div>
               <dl className="disc-bonus">
                 <div>
@@ -256,7 +265,13 @@ function Turntable({ id, playing = false, theme = 'classic' }) {
 }
 
 // Agents whose recommended builds use this set, as their 4-piece or 2-piece.
-const usersOf = (id, key) => Object.keys(BUILDS).filter((a) => AGENT_BY_ID[a] && BUILDS[a][key].includes(id));
+const usersOf = (id, key) => [
+  ...Object.keys(BUILDS).filter((a) => AGENT_BY_ID[a] && BUILDS[a][key].includes(id)),
+  // Upcoming Agents' trial builds (beta sets only show with beta info on anyway).
+  ...Object.keys(UPCOMING).filter(
+    (a) => AGENT_BY_ID[a] && !BUILDS[a] && (UPCOMING[a].trial?.[key] ?? []).includes(id) && (!UPCOMING[a].beta || showBeta()),
+  ),
+];
 
 const AgentRow = ({ ids }) => <MiniAgents ids={ids} />;
 
@@ -271,7 +286,8 @@ function DiscDetail({ disc: d, theme, onClose }) {
         <Turntable key={d.id} id={d.id} theme={theme} playing />
         <div className="detail__title">
           <p className="eyebrow">
-            <span className="eyebrow__meta">Drive Disc set</span>
+            <span className="eyebrow__meta">Drive Disc set{d.version ? ` · Version ${d.version}` : ''}</span>
+            {d.beta && <span className="card__tag card__tag--warn">Beta</span>}
           </p>
           <h2 id="disc-name" className="detail__name">
             {d.name}
