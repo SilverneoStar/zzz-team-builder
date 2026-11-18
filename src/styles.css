@@ -10738,7 +10738,11 @@ details.disc-guide + details.disc-guide {
 .music-deck .deck {
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+}
+/* The drop shadow sits on the wrapper so each finish keeps its own edge
+   (Classic's silver bevel) on the plinth itself. */
+.music-deck {
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.45));
 }
 .music-deck .music-deck__cover {
   position: absolute;
@@ -11831,4 +11835,124 @@ details.disc-guide + details.disc-guide {
   border-color: transparent;
   background: #4f9e3a;
   color: #fff;
+}
+
+/* ---------- Tea Room: Classic record player details ----------
+   Brushed-silver platter rim with strobe dots, a chrome collar under the tonearm,
+   the arm's rest post, a finger lift on the headshell and 33/45 speed buttons.
+   The other finishes don't show these parts. */
+.deck__rest,
+.deck__speeds {
+  display: none;
+}
+.music-deck[data-deck='classic'] .deck__platter {
+  background:
+    radial-gradient(circle, #3a3a3a 0 62%, transparent 62.5%),
+    conic-gradient(
+      from 20deg,
+      #9da2aa,
+      #eef0f3 12%,
+      #a7acb4 25%,
+      #d9dce1 38%,
+      #8e939b 50%,
+      #eceef1 63%,
+      #a2a7af 76%,
+      #dfe2e6 88%,
+      #9da2aa
+    );
+}
+/* Strobe dots round the rim, like the speed marks on a real platter. */
+.music-deck[data-deck='classic'] .deck__platter::before {
+  content: '';
+  position: absolute;
+  inset: 0.6%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgb(28 30 34 / 0.8) 0 1.6deg, transparent 1.6deg 6deg);
+  -webkit-mask: radial-gradient(circle closest-side, transparent 0 95.5%, #000 96% 99%, transparent 99.5%);
+  mask: radial-gradient(circle closest-side, transparent 0 95.5%, #000 96% 99%, transparent 99.5%);
+  pointer-events: none;
+}
+.music-deck[data-deck='classic'] .deck__record {
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.75),
+    0 1px 3px rgb(0 0 0 / 0.5),
+    inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+/* Chrome spindle with a fine collar. */
+.music-deck[data-deck='classic'] .deck__spindle {
+  background: radial-gradient(circle at 35% 30%, #ffffff, #c9cdd3 40%, #7d828a 75%, #4a4e55);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 0 0 2.5px #b9bec6,
+    0 0 0 3.5px rgb(0 0 0 / 0.45);
+}
+/* The tonearm's base: a chrome collar ringed in silver on a dark plate. */
+.music-deck[data-deck='classic'] .deck__pivot {
+  background: radial-gradient(circle at 35% 30%, #ffffff, #d4d7dc 35%, #8d929a 70%, #5a5e65);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 0 0 5px #242528,
+    0 0 0 6.5px #c3c7ce,
+    0 0 0 7.5px rgb(0 0 0 / 0.5),
+    inset 0 0 0 1px rgb(255 255 255 / 0.5);
+}
+.music-deck[data-deck='classic'] .deck__rod {
+  background: linear-gradient(90deg, #858a92, #f4f5f7 42%, #b4b8bf 62%, #8b9098);
+}
+/* Headshell: brushed silver with a small finger lift off its side. */
+.music-deck[data-deck='classic'] .deck__rod::after {
+  background: linear-gradient(180deg, #eef0f3, #a9aeb6 55%, #7c8189);
+}
+.music-deck[data-deck='classic'] .deck__rod::before {
+  content: '';
+  position: absolute;
+  left: -175%;
+  bottom: -4.5%;
+  width: 110%;
+  height: 4.5%;
+  transform: rotate(-18deg);
+  border-radius: 2px;
+  background: linear-gradient(180deg, #e3e6ea, #8d929a);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5);
+}
+/* The arm rests on this post when it's lifted. */
+.music-deck[data-deck='classic'] .deck__rest {
+  display: block;
+  position: absolute;
+  left: 84%;
+  top: 60.5%;
+  width: 4.4%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f2f3f5, #9ba0a8 60%, #4f535a);
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(0 0 0 / 0.55);
+}
+/* 33 / 45 buttons in the free top-left corner; 33 lights up while a song plays. */
+.music-deck[data-deck='classic'] .deck__speeds {
+  display: flex;
+  gap: 3%;
+  position: absolute;
+  left: 4.5%;
+  top: 5%;
+  width: 20%;
+}
+.music-deck[data-deck='classic'] .deck__speed {
+  flex: 1;
+  padding: 1.5% 0;
+  border-radius: 3px;
+  font: 700 clamp(7px, 1.9vw, 10px) / 1.5 var(--font-mono, ui-monospace, monospace);
+  text-align: center;
+  color: #3b3e44;
+  background: linear-gradient(180deg, #f1f2f4, #b7bbc2 60%, #9196a0);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.6),
+    0 0 0 1px rgb(0 0 0 / 0.55),
+    inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+.music-deck[data-deck='classic'] .deck.is-playing .deck__speed.is-on {
+  color: #ff4d3d;
+  text-shadow: 0 0 4px rgb(255 77 61 / 0.7);
 }
