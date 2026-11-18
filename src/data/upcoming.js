@@ -19,6 +19,8 @@ export const UPCOMING = {
       twoPiece: ['thunder-metal', 'freedom-blues', 'phaethons-melody', 'puffer-electro', 'chaos-jazz'],
       main: { 4: 'Anomaly Proficiency', 5: 'Electric DMG > PEN Ratio / ATK %', 6: 'Anomaly Mastery / ATK %' },
       substats: 'Anomaly Proficiency > ATK % > PEN > ATK',
+      // Estimate, like Phoenix: Core Skill, then her main damage skills.
+      skills: ['core', 'special', 'basic', 'chain', 'assist', 'dodge'],
       notes: [
         'Anomaly Proficiency raises her Attribute Anomaly damage (Shock and Disorder); Anomaly Mastery builds Shock faster.',
         'Phaethon’s Melody suits an on-field Anomaly carry like Aria; Thunder Metal or Chaos Jazz are the Electric options Yanagi and Grace use.',

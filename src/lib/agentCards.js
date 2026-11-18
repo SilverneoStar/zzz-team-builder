@@ -15,6 +15,8 @@ import {
   shortName,
 } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
+import { UPCOMING } from '../data/upcoming.js';
+import { showBeta } from './betaInfo.js';
 import { SKILL_COUNT, materialsFor } from '../data/materials.js';
 import { wEngineMaterials } from '../data/levelMats.js';
 import { wEngineArtStem } from '../components/WEngineArt.jsx';
@@ -31,7 +33,7 @@ import { reviewBuild } from './buildReview.js';
 import { shownFaction } from './memberArt.js';
 import { ROMAN, hasPotential } from '../data/potentials.js';
 import { SKILL_PRIORITY } from '../data/skillPriority.js';
-import { ENGINE_TAG, discOptions, engineOptions } from './alternatives.js';
+import { ENGINE_TAG, STANDARD_W_ENGINES, discOptions, engineOptions } from './alternatives.js';
 
 const loadFactionLogo = async (a, base) => {
   const src = factionLogo(shownFaction(a).logo, base);
@@ -358,10 +360,55 @@ function drawPriority(ctx, ids, icons, x, y, w, size = 30, stacked = true) {
   });
 }
 
+
+// ---------- build data ----------
+
+/**
+ * The build a card shows: the recommended build, or for an Agent who isn't out
+ * yet, the estimated one from upcoming.js (beta ones only with beta info on).
+ * Upcoming builds carry `upcoming` and `label` ('Beta' or 'Estimate').
+ */
+function cardBuild(a) {
+  if (BUILDS[a.id]) return BUILDS[a.id];
+  const up = UPCOMING[a.id];
+  const t = up?.trial;
+  if (!t?.fourPiece || (up.beta && !showBeta())) return null;
+  return {
+    upcoming: true,
+    label: up.beta ? 'Beta' : 'Estimate',
+    wEngines: (up.engines ?? []).filter((id) => W_ENGINE_BY_ID[id] && (!W_ENGINE_BY_ID[id].beta || showBeta())),
+    fourPiece: t.fourPiece,
+    twoPiece: t.twoPiece ?? [],
+    main: t.main,
+    substats: t.substats.replace(/\s*\((estimate|estimated)\)$/i, ''),
+    // The same squad can be listed twice with different setups; a card shows it once.
+    teams: [
+      ...new Map(
+        (up.teams ?? []).filter((x) => showBeta() || x.source !== 'Beta').map((x) => [x.members.join(), x.members]),
+      ).values(),
+    ],
+    bangboo: up.bangboo ?? [],
+    skills: t.skills?.every((k) => typeof k === 'string') ? t.skills : null,
+  };
+}
+
+/** Which skills to level first: the guide's order, or an upcoming Agent's estimate. */
+const skillOrder = (a, b) => SKILL_PRIORITY[a.id] ?? b?.skills ?? null;
+
 // ---------- build ----------
 
 /** The build card's W-Engine list: signature, similar, standard, A-Rank, then the rest. */
 function engineList(a, b) {
+  if (b.upcoming) {
+    // Not out yet: the estimated list as is, tagged by kind.
+    const tag = (id) => {
+      const w = W_ENGINE_BY_ID[id];
+      if (w.signatureOf === a.id) return 'Signature';
+      if (w.rank === 'A') return ENGINE_TAG['a-rank'];
+      return STANDARD_W_ENGINES.has(id) ? ENGINE_TAG.standard : 'Similar';
+    };
+    return { ids: b.wEngines, tags: Object.fromEntries(b.wEngines.map((id) => [id, tag(id)])) };
+  }
   const opts = engineOptions(a.id);
   const ids = [...new Set([...opts.map((o) => o.id), ...b.wEngines])];
   const tags = Object.fromEntries(opts.map((o) => [o.id, ENGINE_TAG[o.kind]]));
@@ -434,8 +481,8 @@ function drawMains(ctx, b, x, y, w) {
 }
 
 async function drawBuild(ctx, W, H, a, base, _lo, tall) {
-  const b = BUILDS[a.id];
-  await head(ctx, W, a, base, 'Build card');
+  const b = cardBuild(a);
+  await head(ctx, W, a, base, b?.upcoming ? `Build card · ${b.label}` : 'Build card');
   const art = await loadAgentArt(a, base);
   agentBlock(ctx, a, art, 56, 100, {
     w: 130,
@@ -489,7 +536,7 @@ async function drawBuild(ctx, W, H, a, base, _lo, tall) {
     ctx.font = `700 20px ${FONT}`;
     ctx.fillText(bangboo.name, 160 + (bArt ? (bArt.width / bArt.height) * 40 + 12 : 0), 615);
   }
-  const order = SKILL_PRIORITY[a.id];
+  const order = skillOrder(a, b);
   if (order) {
     ctx.fillStyle = K.muted;
     ctx.font = `500 14px ${MONO}`;
@@ -504,7 +551,7 @@ async function drawBuild(ctx, W, H, a, base, _lo, tall) {
 /** Bangboo and skill levelling order in one row of panels; returns the row height. */
 async function bangbooAndPriority(ctx, a, b, base, x, y, w, h = 104) {
   const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
-  const order = SKILL_PRIORITY[a.id];
+  const order = skillOrder(a, b);
   if (!bg && !order) return 0;
   const bw = bg && order ? Math.round(w * 0.4) : w;
   if (bg) {
@@ -603,7 +650,7 @@ function drawMatGroup(ctx, x, y, w, h, title, note, items, icons = {}) {
 
 // The best W-Engine from the Agent's build and what it takes to reach level 60.
 function bestEngineMats(a) {
-  const id = BUILDS[a.id]?.wEngines?.[0];
+  const id = cardBuild(a)?.wEngines?.[0];
   const w = id && W_ENGINE_BY_ID[id];
   const items = w && wEngineMaterials(w);
   if (!items) return null;
@@ -753,9 +800,9 @@ function teamRow(ctx, members, arts, x, y, w, current) {
 }
 
 async function drawGuide(ctx, W, H, a, base) {
-  const b = BUILDS[a.id];
+  const b = cardBuild(a);
   const m = materialsFor(a.id);
-  await head(ctx, W, a, base, 'Agent guide');
+  await head(ctx, W, a, base, b?.upcoming ? `Agent guide · ${b.label}` : 'Agent guide');
   const ids = [...new Set((b?.teams ?? []).flat())];
   const [art, icons, discs, ...rest] = await Promise.all([
     loadAgentArt(a, base),
@@ -806,7 +853,7 @@ async function drawGuide(ctx, W, H, a, base) {
     y += 60 + tn * 100 + 18;
     // Bangboo and skill levelling order share one row.
     const bg = b.bangboo.map((id) => BANGBOO_BY_ID[id]).filter(Boolean)[0];
-    const order = SKILL_PRIORITY[a.id];
+    const order = skillOrder(a, b);
     if (bg || order) {
       const bw = bg && order ? 400 : 1000;
       if (bg) {
