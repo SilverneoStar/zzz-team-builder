@@ -7,6 +7,7 @@ const SPECIALTY_NAME = new Proxy({}, { get: (_, k) => SPECIALTY_BY_ID[k]?.name ?
 import { BUILDS } from '../data/builds.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
+import { SKILL_TYPES } from '../data/skillPriority.js';
 import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam, subPriority } from '../lib/builds.js';
 import { formatStat, subValue } from '../lib/discs.js';
@@ -367,15 +368,32 @@ function NoBuild({ agent }) {
           )}
           {trial.skills && (
             <>
-              <h4 className="micro-title">Skill priority</h4>
+              <h4 className="micro-title">
+                Skill priority{agent.upcoming && !UPCOMING[agent.id]?.confirmed && <> <span className="passive__est">Estimated</span></>}
+              </h4>
               <ol className="small trial-notes">
-                {trial.skills.map(([k, lv]) => (
-                  <li key={k}>
-                    {k} → {lv}
-                  </li>
-                ))}
+                {trial.skills.map((k) =>
+                  Array.isArray(k) ? (
+                    <li key={k[0]}>
+                      {k[0]} → {k[1]}
+                    </li>
+                  ) : (
+                    <li key={k}>{SKILL_TYPES[k] ?? k}</li>
+                  ),
+                )}
               </ol>
             </>
+          )}
+          {trial.targets && (
+            <details className="targets__more">
+              <summary className="micro-title">Rough stat ranges · estimate</summary>
+              <p className="muted small">A loose guide, not a goal: a balanced build that fits your team beats chasing one number.</p>
+              <ul className="targets__list">
+                {trial.targets.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            </details>
           )}
           {trial.notes && (
             <>
@@ -385,6 +403,18 @@ function NoBuild({ agent }) {
                   <li key={n}>{n}</li>
                 ))}
               </ul>
+            </>
+          )}
+          {trial.guide && (
+            <>
+              <h4 className="micro-title">
+                How to play{agent.upcoming && !UPCOMING[agent.id]?.confirmed && <> <span className="passive__est">Estimated</span></>}
+              </h4>
+              <ol className="small trial-notes">
+                {trial.guide.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ol>
             </>
           )}
         </>

@@ -35,20 +35,36 @@ export const UPCOMING = {
 
   sunbringer: {
     // From beta information shared by fan sites (marked Beta on the site).
+    // Parts not shown in the beta (alternatives, substats, skill order, ranges,
+    // how to play) are estimates from her kit and from Claret, who builds alike.
     beta: true,
     style:
       'Armorer whose Sharp DMG scales with DEF. Build CRIT Rate, Fire DMG and DEF: her Core Passive turns CRIT DMG into extra CRIT Rate.',
-    engines: ['sunbringer-signature'],
+    // Her signature, then DEF and CRIT Rate Armorer W-Engines (estimate).
+    engines: ['sunbringer-signature', 'crimson-thirst', 'bloodmarrow-coffer', 'candlelit-scheme', 'catty-luck'],
     trial: {
-      source: 'Beta',
-      fourPiece: ['rank-stele'],
-      twoPiece: ['soul-rock'],
-      main: { 4: 'CRIT Rate', 5: 'Fire DMG', 6: 'DEF %' },
-      substats: 'Not shown yet',
+      source: 'Beta + estimate',
+      fourPiece: ['rank-stele', 'thorned-rose'],
+      twoPiece: ['soul-rock', 'thorned-rose', 'branch-and-blade-song', 'woodpecker-electro', 'inferno-metal'],
+      main: { 4: 'CRIT Rate > CRIT DMG', 5: 'Fire DMG > PEN Ratio', 6: 'DEF %' },
+      substats: 'CRIT Rate > CRIT DMG > DEF % > PEN > DEF (estimate)',
+      skills: ['core', 'special', 'chain', 'basic', 'assist', 'dodge'],
+      targets: [
+        'DEF about 2,200–2,400+, like Claret',
+        'CRIT Rate 120%+ in combat: Armorers roll CRIT twice (up to 200%), and Midnight Sun adds +40%',
+      ],
       notes: [
         '4-piece Rank Stele plus 2-piece Soul Rock gives +32% DEF in total.',
-        'Midnight Sun gives +40% CRIT Rate in combat, and each 1% CRIT DMG adds 0.35% CRIT Rate.',
+        'Thorned Rose is the stand-in 4-piece until Rank Stele is farmed: DMG +15%, and more CRIT Rate once her DEF is high.',
+        'Midnight Sun gives +40% CRIT Rate in combat, and each 1% CRIT DMG adds 0.35% CRIT Rate, so CRIT DMG is never wasted on her.',
         'Maim from other Armorer Agents (like Claret) feeds her Willpower.',
+      ],
+      guide: [
+        'Open with an EX Special Attack: it switches on her signature’s Enhance (Fire DMG +20%, Fire Sharp DMG +10%) for 25s. Use another before it runs out.',
+        'Bring Robin in first so her shield is up: with her signature, every shield gives the squad Laceration DMG +16%.',
+        'Let the Stunner build Daze. Roxy with Crimson Wing Nocturne gives the whole squad Sharp DMG +8% when she uses an EX Special or Chain Attack at 50%+ CRIT Rate.',
+        'Spend the Stun window on Sunbringer: Chain Attack, Ultimate, then EX Specials.',
+        'With Claret as the third member, Claret’s Maim feeds Sunbringer’s Willpower, and Sunbringer’s Laceration Enhance boosts Claret back.',
       ],
     },
     teams: [
@@ -64,22 +80,36 @@ export const UPCOMING = {
 
   'robin-hsr': {
     // From beta information shared by fan sites (marked Beta on the site).
+    // Alternatives, substats, skill order, ranges and how to play are estimates.
     beta: true,
     // Default Bangboo for her teams until a better fit is known.
     bangboo: ['booressure', 'snap'],
     style:
       'Ether Defense Agent who shields the squad from off-field and buffs shielded Agents\u2019 DMG. Her shields and hits scale with Max HP, so build HP.',
-    engines: ['robin-hsr-signature', 'original-transmorpher', 'spring-embrace', 'bunny-band'],
+    engines: ['robin-hsr-signature', 'half-sugar-bunny', 'original-transmorpher', 'bunny-band', 'spring-embrace'],
     trial: {
-      source: 'Beta',
-      fourPiece: ['bunny-in-wonderland'],
-      twoPiece: ['yunkui-tales', 'swing-jazz'],
+      source: 'Beta + estimate',
+      fourPiece: ['bunny-in-wonderland', 'proto-punk'],
+      twoPiece: ['yunkui-tales', 'swing-jazz', 'proto-punk'],
       main: { 4: 'HP % > CRIT Rate', 5: 'HP % > Ether DMG', 6: 'HP % > Energy Regen' },
-      substats: 'HP % > HP',
+      substats: 'HP % > HP > CRIT Rate > CRIT DMG (estimate)',
+      skills: ['core', 'special', 'assist', 'chain', 'basic', 'dodge'],
+      targets: [
+        'Max HP as high as you can: her shields and hits scale with it',
+        'Enough Energy for Enhanced Aftershock: Swing Jazz 2-piece or Energy Regen on slot 6 if she runs short',
+      ],
       notes: [
         'She works mostly off-field: Robin Exit puts her in Off-Field Guard, her Aftershocks build Entry Points, and Robin Entrance comes back in at 100.',
         'Use Swing Jazz instead of Yunkui Tales if she runs short of Energy for Enhanced Aftershock.',
+        'Proto Punk is the fallback 4-piece: it also rewards Defensive Assists, and its 2-piece makes shields 15% stronger.',
         'Pairs well with Armorer Agents: their Maim gives her Energy.',
+      ],
+      guide: [
+        'Start with Robin: use her EX Special Attack to shield the squad (this also builds Bunny in Wonderland stacks), then switch out.',
+        'Robin Exit puts her in Off-Field Guard. While the on-field Agent attacks, her Aftershocks hit and build Entry Points.',
+        'At 100 Entry Points, Robin Entrance brings her back: refresh the shield and switch out again.',
+        'Keep both signature buffs running: each shield gives the squad Laceration DMG +16%, and each Aftershock squad DMG +10% (up to 2 stacks).',
+        'Her best partners are Armorers like Sunbringer and Claret: their Maim gives her Energy, and her Laceration buff boosts their damage.',
       ],
     },
     teams: [
