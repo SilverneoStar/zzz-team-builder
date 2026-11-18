@@ -12009,4 +12009,30 @@ details.disc-guide + details.disc-guide {
 [data-deck='wood'] .deck__led::after {
   background: radial-gradient(circle, transparent 0 64%, #1a120c 65% 72%, transparent 73%),
     conic-gradient(from 210deg, #fff1c7, #d9a24a 25%, #7a4a1c 50%, #c88a3a 75%, #fff1c7);
+/* YouTube's player and its terms. Narrow screens: centred under the controls.
+   Wide screens: under the stage beside each other, with the controls and
+   settings filling the column on the right, so neither side runs empty. */
+.music__player {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+}
+@media (min-width: 1000px) {
+  .music > .music__now {
+    grid-row: span 2;
+  }
+  .music > .music__player {
+    grid-column: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    text-align: left;
+  }
+  .music__player .music__screen {
+    flex: 0 0 min(356px, 50%);
+  }
+  .music__player .music__legal {
+    margin: 0;
+  }
 }
