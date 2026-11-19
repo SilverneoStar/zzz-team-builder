@@ -103,7 +103,7 @@ const SHUFFLE =
 // The reader's own room: their list of songs, filters and looks. Kept in this
 // browser only (it's just for them).
 const ROOM_KEY = 'zzz-team-builder:musicRoom';
-const ROOM_DEFAULTS = { order: 'file', wide: false, source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
+const ROOM_DEFAULTS = { order: 'file', hidden: [], showHidden: false, hide: [], wide: false, source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
 function useRoomSettings() {
   const [room, setRoom] = useState(() => {
     try {
@@ -114,6 +114,8 @@ function useRoomSettings() {
         ...v,
         bars: bars ?? ROOM_DEFAULTS.bars,
         mine: Array.isArray(v.mine) ? v.mine : [],
+        hidden: Array.isArray(v.hidden) ? v.hidden : [],
+        hide: Array.isArray(v.hide) ? v.hide : [],
         tempo: v.tempo && typeof v.tempo === 'object' ? v.tempo : {},
         moods: v.moods && typeof v.moods === 'object' ? v.moods : {},
       };
@@ -169,8 +171,19 @@ function Choice({ label, value, options, onChange }) {
   );
 }
 
+// Songs the reader can tick to hide, matched by their title.
+const HIDES = [{ id: 'ironmouse', label: 'Songs with Ironmouse', test: /iron\s*mouse/i }];
+const hiddenBy = (room) => HIDES.filter((h) => room.hide.includes(h.id));
+
 // The playlist's order: as in the file, A to Z, Z to A, newest or oldest first
 // (by release date). Albums keep their songs together; My list sorts song by song.
+/** Hidden by the reader: one by one (the eye button), or by a ticked Hide rule. */
+const isHiddenSong = (room, x) => room.hidden.includes(x.id) || hiddenBy(room).some((h) => h.test.test(x.name));
+// The eye on each song: open while it plays as usual, crossed out while it's hidden.
+const EYE = 'M12 5C7 5 3 9.5 2 12c1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 11.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z';
+const EYE_OFF =
+  'M3.3 2 2 3.3l3.1 3.1C3.6 7.7 2.5 9.9 2 12c1 2.5 5 7 10 7 1.9 0 3.6-.6 5.1-1.5l3.6 3.6 1.3-1.3zM12 16.5A4.5 4.5 0 0 1 7.6 11l1.6 1.6a2.8 2.8 0 0 0 2.2 2.2l1.6 1.6c-.3.1-.6.1-1 .1zM12 5c-1.2 0-2.3.2-3.3.6l2.1 2.1a4.5 4.5 0 0 1 5.5 5.5l3.4 3.4c1.2-1.2 2.1-2.6 2.3-3.6-1-2.5-5-7-10-7z';
+
 const ORDERS = [
   { id: 'file', label: 'Playlist' },
   { id: 'az', label: 'A–Z' },
@@ -218,8 +231,10 @@ function albumsOf(songs) {
  * Albums in a swipeable carousel; the chosen album's songs below it, which can
  * be folded away. Follows the album that's playing until the reader picks one.
  */
-function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
+function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
   const mine = new Set(room.mine);
+  const toggleHidden = (id) =>
+    setRoom({ hidden: room.hidden.includes(id) ? room.hidden.filter((x) => x !== id) : [...room.hidden, id] });
   const toggleMine = (id) =>
     setRoom({ mine: mine.has(id) ? room.mine.filter((x) => x !== id) : [...room.mine, id] });
   const albums = useMemo(() => albumsOf(songs), [songs]);
@@ -273,6 +288,35 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
             { id: 'inst', label: 'Instrumental versions' },
           ]}
         />
+        {(HIDES.length > 0 || hiddenCount > 0) && (
+          <div className="music__choice" role="group" aria-label="Hide">
+            <span className="music__choice-label">Hide</span>
+            <div className="music__ticks">
+              {HIDES.map((h) => (
+                <label key={h.id} className="music__tick">
+                  <input
+                    type="checkbox"
+                    checked={room.hide.includes(h.id)}
+                    onChange={(e) =>
+                      setRoom({ hide: e.target.checked ? [...room.hide, h.id] : room.hide.filter((x) => x !== h.id) })
+                    }
+                  />
+                  {h.label}
+                </label>
+              ))}
+              {hiddenCount > 0 && (
+                <label className="music__tick">
+                  <input
+                    type="checkbox"
+                    checked={room.showHidden}
+                    onChange={(e) => setRoom({ showHidden: e.target.checked })}
+                  />
+                  Show hidden ({hiddenCount})
+                </label>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       {!songs.length && (
         <p className="music__empty muted">
@@ -350,7 +394,7 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
                 const blocked = yt.blocked.includes(x.id);
                 const label = x.name || (i === yt.index && yt.title) || `Song ${j + 1}`;
                 return (
-                  <li key={`${x.id}-${i}`} className="music__row">
+                  <li key={`${x.id}-${i}`} className={`music__row${isHiddenSong(room, x) ? ' is-hidden' : ''}`}>
                     {blocked ? (
                       <a
                         className="music__track is-blocked"
@@ -378,6 +422,16 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount }) {
                         <span className="music__name">{label}</span>
                       </button>
                     )}
+                    <button
+                      type="button"
+                      className={`music__hide${room.hidden.includes(x.id) ? ' is-on' : ''}`}
+                      onClick={() => toggleHidden(x.id)}
+                      aria-pressed={room.hidden.includes(x.id)}
+                      aria-label={room.hidden.includes(x.id) ? `Unhide ${label}` : `Hide ${label} so it isn’t played`}
+                      title={room.hidden.includes(x.id) ? 'Hidden: tap to unhide' : 'Hide this song'}
+                    >
+                      <Icon d={room.hidden.includes(x.id) ? EYE_OFF : EYE} />
+                    </button>
                     <button
                       type="button"
                       className={`music__heart${mine.has(x.id) ? ' is-on' : ''}`}
@@ -468,10 +522,12 @@ export default function MusicRoom() {
       list = room.mine.map((id) => byId.get(id)).filter(Boolean);
     }
     if (room.source === 'official') list = list.filter((x) => !x.fan);
+    // Hidden songs aren't played (or listed) unless the reader shows them.
+    if (!room.showHidden) list = list.filter((x) => !isHiddenSong(room, x));
     if (room.kind === 'vocal') list = list.filter((x) => !isInstrumental(x));
     if (room.kind === 'inst') list = list.filter(isInstrumental);
     return sortSongs(list, room.order, room.source !== 'mine');
-  }, [songs, room.source, room.kind, room.mine, room.order]);
+  }, [songs, room.source, room.kind, room.mine, room.order, room.hide, room.hidden, room.showHidden]);
   const yt = usePlaylistPlayer(host, playable);
   // The reader's volume, handed to YouTube's player once it's ready and on every change.
   useEffect(() => {
@@ -745,6 +801,7 @@ export default function MusicRoom() {
           setRoom={setRoom}
           total={songs.length}
           mineCount={room.mine.filter((id) => songs.some((x) => x.id === id)).length}
+          hiddenCount={songs.filter((x) => isHiddenSong(room, x)).length}
         />
       )}
     </div>
