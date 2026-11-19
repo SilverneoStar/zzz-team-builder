@@ -171,8 +171,9 @@ function Choice({ label, value, options, onChange }) {
   );
 }
 
-// Songs the reader can tick to hide, matched by their title.
-const HIDES = [{ id: 'ironmouse', label: 'Songs with Ironmouse', test: /iron\s*mouse/i }];
+// Songs the reader can tick to hide, matched by their title (none at the moment;
+// each song's eye button hides it on its own).
+const HIDES = [];
 const hiddenBy = (room) => HIDES.filter((h) => room.hide.includes(h.id));
 
 // The playlist's order: as in the file, A to Z, Z to A, newest or oldest first
