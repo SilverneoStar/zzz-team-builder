@@ -6,29 +6,28 @@ export const UPCOMING = {
   kafka: {
     // Default Bangboo for her teams until a better fit is known.
     bangboo: ['booressure', 'snap'],
-    // Only her drip marketing is out (Electric, Anomaly), so this whole build is
-    // an estimate from Anomaly Agents who play alike (Aria, Phoenix and Promeia,
-    // plus the Electric ones, Yanagi and Grace) until her kit is revealed.
+    // Kit shown in the 3.4 Special Program (Hunter's Overture, Lightning Surge,
+    // Disorder); build from beta information shared by fan sites.
     style:
-      'Electric Anomaly Agent. Until her kit is shown, build her like other Anomaly carries: Anomaly Proficiency first, Electric DMG on slot 5 and Anomaly Mastery on slot 6.',
-    // Her signature (beta), then the best Anomaly W-Engines in general, then free options.
-    engines: ['kafka-signature', 'fusion-compiler', 'timeweaver', 'angel-in-the-shell', 'flight-of-fancy', 'weeping-gemini', 'electro-lip-gloss'],
+      'Electric Anomaly Agent built around Disorder. In Hunter’s Overture she chooses slashes (direct DMG) or shots (faster Anomaly buildup); slashes on an Anomaly-afflicted enemy trigger Lightning Surge. Build Anomaly Proficiency, with enough Energy Regen to keep EX Specials coming.',
+    engines: ['kafka-signature', 'timeweaver', 'fusion-compiler', 'weeping-gemini', 'rainforest-gourmet', 'electro-lip-gloss'],
     trial: {
-      source: 'Estimated from similar Anomaly Agents',
-      fourPiece: ['phaethons-melody', 'thunder-metal', 'chaos-jazz'],
-      twoPiece: ['thunder-metal', 'freedom-blues', 'phaethons-melody', 'puffer-electro', 'chaos-jazz'],
-      main: { 4: 'Anomaly Proficiency', 5: 'Electric DMG > PEN Ratio / ATK %', 6: 'Anomaly Mastery / ATK %' },
-      substats: 'Anomaly Proficiency > ATK % > PEN > ATK',
-      // Estimate, like Phoenix: Core Skill, then her main damage skills.
+      source: 'Beta + estimate',
+      fourPiece: ['freedom-blues', 'chaos-jazz'],
+      twoPiece: ['swing-jazz', 'moonlight-lullaby', 'freedom-blues'],
+      main: { 4: 'Anomaly Proficiency', 5: 'Electric DMG > ATK %', 6: 'Energy Regen > ATK %' },
+      substats: 'Anomaly Proficiency > ATK % > PEN (estimate)',
       skills: ['core', 'special', 'basic', 'chain', 'assist', 'dodge'],
       notes: [
-        'Anomaly Proficiency raises her Attribute Anomaly damage (Shock and Disorder); Anomaly Mastery builds Shock faster.',
-        'Phaethon’s Melody suits an on-field Anomaly carry like Aria; Thunder Metal or Chaos Jazz are the Electric options Yanagi and Grace use.',
-        'Swap in her signature W-Engine and her own set once they’re revealed.',
+        'Her EX Special Attack is the centre of her kit, so Energy Regen keeps it coming; extra Energy Regen also turns into Anomaly Mastery.',
+        'Freedom Blues 4-piece cuts the enemy’s Anomaly Buildup RES after her EX Special hits; Chaos Jazz is the personal-damage option.',
+        'Her signature, Requiem Araneae, is also in the Filmgoer Thank-You Gift’s W-Engine choice.',
       ],
     },
     teams: [
-      { members: ['kafka', 'nangong-yu', 'ukinami-yuzuha'], source: 'Estimate · like Aria and Grace' },
+      { members: ['kafka', 'ukinami-yuzuha', 'nangong-yu'], source: 'Beta clears' },
+      { members: ['kafka', 'vivian-banshee', 'ukinami-yuzuha'], source: 'Beta clears' },
+      { members: ['kafka', 'remielle-dan', 'ukinami-yuzuha'], source: 'Beta clears' },
       { members: ['kafka', 'velina-airgid', 'remielle-dan'], source: 'Estimate · like Aria and Phoenix' },
       { members: ['kafka', 'velina-airgid', 'ukinami-yuzuha'], source: 'Estimate · like Yanagi and Promeia' },
       { members: ['kafka', 'nangong-yu', 'sunna'], source: 'Estimate · like Aria' },
@@ -39,7 +38,6 @@ export const UPCOMING = {
     // From beta information shared by fan sites (marked Beta on the site).
     // Parts not shown in the beta (alternatives, substats, skill order, ranges,
     // how to play) are estimates from her kit and from Claret, who builds alike.
-    beta: true,
     style:
       'Armorer whose Sharp DMG scales with DEF. Build CRIT Rate, Fire DMG and DEF: her Core Passive turns CRIT DMG into extra CRIT Rate.',
     // Her signature, then DEF and CRIT Rate Armorer W-Engines (estimate).
@@ -83,7 +81,6 @@ export const UPCOMING = {
   'robin-hsr': {
     // From beta information shared by fan sites (marked Beta on the site).
     // Alternatives, substats, skill order, ranges and how to play are estimates.
-    beta: true,
     // Default Bangboo for her teams until a better fit is known.
     bangboo: ['booressure', 'snap'],
     style:

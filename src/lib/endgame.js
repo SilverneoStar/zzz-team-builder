@@ -105,8 +105,8 @@ export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set())
       return { ids, options, i };
     })
     .filter(({ ids }) => ok(ids))
-    // A pick with an Agent who isn't out yet (like Sunbringer) shows only with beta info on.
-    .filter(({ ids }) => showBeta() || ids.every((id) => !AGENT_BY_ID[id]?.upcoming))
+    // A pick with a beta-only Agent shows only with beta info on.
+    .filter(({ ids }) => showBeta() || ids.every((id) => !AGENT_BY_ID[id]?.beta))
     .map(({ ids, options, i }) => ({
       ...(scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] }),
       options,

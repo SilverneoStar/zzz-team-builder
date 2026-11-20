@@ -111,6 +111,7 @@ export default function AgentDetail({
             {a.upcoming ? (
               <span className="muted">
                 {a.version ? `Version ${a.version}${a.phase ? `, phase ${a.phase}` : ''} (upcoming)` : 'Upcoming'}
+                {a.available && <> · {a.available}</>}
               </span>
             ) : (
               `Version ${a.version}`

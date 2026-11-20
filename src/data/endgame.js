@@ -107,7 +107,7 @@ export const DEADLY_ASSAULT = {
       buff: 'da-2',
       picks: [
         ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
-        // Beta team; shows only with beta info on, until Sunbringer and Robin are out.
+        // Sunbringer and Robin arrive with 3.4 (2 Dec).
         ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'],
         ['ye-shunguang', 'zhao', 'astra-yao'],
         ['seed', 'cissia', 'astra-yao'],
