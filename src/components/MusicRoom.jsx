@@ -67,7 +67,7 @@ function Disc({ id, playing, deck }) {
           </span>
           <span className="deck__spindle" />
         </span>
-        {/* Fine parts the Classic finish shows: the arm's rest post, and the speed buttons. */}
+        {/* Fine parts the Classic finish shows: the arm's rest post, and three silver stars. */}
         <span className="deck__rest" />
         <span className="deck__arm">
           <span className="deck__rod" />
@@ -81,8 +81,9 @@ function Disc({ id, playing, deck }) {
           ))}
         </span>
         <span className="deck__speeds">
-          <span className="deck__speed is-on">33</span>
-          <span className="deck__speed">45</span>
+          <span className="deck__speed is-on" />
+          <span className="deck__speed" />
+          <span className="deck__speed" />
         </span>
       </span>
     </div>

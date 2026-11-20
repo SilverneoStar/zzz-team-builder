@@ -11941,31 +11941,30 @@ details.disc-guide + details.disc-guide {
     0 2px 3px rgb(0 0 0 / 0.55),
     0 0 0 1px rgb(0 0 0 / 0.55);
 }
-/* 33 / 45 buttons in the free top-left corner; 33 lights up while a song plays. */
+/* Three silver four-point stars in the free top-left corner; the first one
+   glows red while a song plays. */
 .music-deck[data-deck='classic'] .deck__speeds {
   display: flex;
-  gap: 3%;
+  align-items: center;
+  gap: 2.5%;
   position: absolute;
   left: 4.5%;
   top: 5%;
-  width: 20%;
+  width: 17%;
 }
 .music-deck[data-deck='classic'] .deck__speed {
   flex: 1;
-  padding: 1.5% 0;
-  border-radius: 3px;
-  font: 700 clamp(7px, 1.9vw, 10px) / 1.5 var(--font-mono, ui-monospace, monospace);
-  text-align: center;
-  color: #3b3e44;
-  background: linear-gradient(180deg, #f1f2f4, #b7bbc2 60%, #9196a0);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.6),
-    0 0 0 1px rgb(0 0 0 / 0.55),
-    inset 0 1px 0 rgb(255 255 255 / 0.8);
+  aspect-ratio: 1;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  background: linear-gradient(135deg, #ffffff, #d5d9df 35%, #8f959f 60%, #e9ecf0 80%, #9aa0aa);
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.7));
+}
+.music-deck[data-deck='classic'] .deck__speed:nth-child(2) {
+  flex: 0.8;
 }
 .music-deck[data-deck='classic'] .deck.is-playing .deck__speed.is-on {
-  color: #ff4d3d;
-  text-shadow: 0 0 4px rgb(255 77 61 / 0.7);
+  background: linear-gradient(135deg, #ffe1dc, #ff6a5a 45%, #c8281b 70%, #ff8f80);
+  filter: drop-shadow(0 0 3px rgb(255 77 61 / 0.9));
 }
 
 /* ---------- Record player light: a small glass LED bulb ----------
