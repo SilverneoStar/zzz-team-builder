@@ -1,3 +1,4 @@
+import { showBeta } from './betaInfo.js';
 import { AGENT_BY_ID, baseAttribute, shortName } from '../data/game.js';
 import { BUILDS } from '../data/builds.js';
 import { passiveStatus } from './analyze.js';
@@ -104,6 +105,8 @@ export function suggestTeams(target, buffs = [], limit = 3, exclude = new Set())
       return { ids, options, i };
     })
     .filter(({ ids }) => ok(ids))
+    // A pick with an Agent who isn't out yet (like Sunbringer) shows only with beta info on.
+    .filter(({ ids }) => showBeta() || ids.every((id) => !AGENT_BY_ID[id]?.upcoming))
     .map(({ ids, options, i }) => ({
       ...(scoreTeam(ids, target, buffs) ?? { ids, score: 0, reasons: [] }),
       options,
