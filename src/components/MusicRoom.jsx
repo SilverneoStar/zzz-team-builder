@@ -42,6 +42,7 @@ const DECKS = [
   { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
   { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
   { id: 'urban', label: 'Urban', sticker: 'eous' },
+  { id: 'ep', label: 'Sunbringer EP', sticker: 'sunbringer-lindverne' },
 ];
 const loadDeck = () => {
   try {
@@ -147,6 +148,7 @@ const BAR_STYLES = [
   { id: 'rainbow', label: 'Rainbow' },
   { id: 'elements', label: 'Elements' },
   { id: 'illusion', label: 'Illusion' },
+  { id: 'sunbringer', label: 'Sunbringer' },
 ];
 
 /** A row of buttons where one is picked. */
@@ -764,6 +766,7 @@ export default function MusicRoom() {
                 { id: 'wave', label: 'Wave' },
                 { id: 'ripples', label: 'Ripples' },
                 { id: 'bloom', label: 'Bloom' },
+                { id: 'embers', label: 'Embers' },
               ]}
             />
             <Choice label="Style" value={room.bars} onChange={(v) => setRoom({ bars: v })} options={BAR_STYLES} />

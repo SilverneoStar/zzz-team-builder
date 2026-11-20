@@ -12159,3 +12159,172 @@ details.disc-guide + details.disc-guide {
 .music__row.is-hidden .music__track {
   opacity: 0.45;
 }
+
+/* ---------- Record player: Sunbringer EP ----------
+   After the turntable on Sunbringer's character EP: a pearly white plinth
+   with a lavender-blue sheen, a black vinyl whose label sits in a blue ring,
+   a straight silver arm on a chrome base, a dark strip along the bottom with
+   a blue line, three small stars in the corner and a blue light. */
+[data-deck='ep'] .deck {
+  background:
+    linear-gradient(#2f5bff, #2f5bff) left 0 bottom 12% / 100% 1.6% no-repeat,
+    linear-gradient(180deg, #45474e, #2e3036) bottom / 100% 12% no-repeat,
+    radial-gradient(90% 70% at 85% 10%, rgb(205 225 255 / 0.85), transparent 60%),
+    radial-gradient(80% 70% at 15% 75%, rgb(222 208 250 / 0.75), transparent 65%),
+    linear-gradient(115deg, #f6f7fb, #e2e8f8 30%, #ece4f8 55%, #dceef9 78%, #f5f6fb);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    inset 0 0 0 1px rgb(150 160 190 / 0.45);
+}
+/* Three small four-point stars in the top-left corner. */
+[data-deck='ep'] .deck::before {
+  content: '';
+  position: absolute;
+  left: 5%;
+  top: 6%;
+  width: 11%;
+  aspect-ratio: 3 / 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 10'%3E%3Cg fill='none' stroke='%23464a55' stroke-width='1.2' stroke-linejoin='round'%3E%3Cpath d='M5 1 Q5.6 4.4 9 5 Q5.6 5.6 5 9 Q4.4 5.6 1 5 Q4.4 4.4 5 1Z'/%3E%3Cpath d='M15 1 Q15.6 4.4 19 5 Q15.6 5.6 15 9 Q14.4 5.6 11 5 Q14.4 4.4 15 1Z'/%3E%3Cpath d='M25 1 Q25.6 4.4 29 5 Q25.6 5.6 25 9 Q24.4 5.6 21 5 Q24.4 4.4 25 1Z'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  pointer-events: none;
+}
+[data-deck='ep'] .deck__platter {
+  background: radial-gradient(circle, #1b1c20 0 62%, #111215 63% 100%);
+  box-shadow:
+    0 8px 18px rgb(40 50 90 / 0.35),
+    0 0 0 1px rgb(0 0 0 / 0.6);
+}
+/* Black vinyl with fine grooves, and the label in a blue ring. */
+[data-deck='ep'] .deck__record::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, transparent 0 21.5%, #2f5bff 22% 23.4%, #0f1013 23.6% 100%),
+    repeating-radial-gradient(circle, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 3px);
+  -webkit-mask: radial-gradient(circle, transparent 0 21.5%, #000 22%);
+  mask: radial-gradient(circle, transparent 0 21.5%, #000 22%);
+}
+[data-deck='ep'] .deck__record::after {
+  z-index: 2;
+}
+[data-deck='ep'] .deck__spindle {
+  z-index: 3;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #c7ccd6 55%, #6c717c);
+}
+/* A big chrome base for the arm, ringed like the EP's. */
+[data-deck='ep'] .deck__pivot {
+  width: 15%;
+  background:
+    radial-gradient(circle, #f4f6fa 0 18%, #8d93a0 19% 24%, transparent 25%),
+    radial-gradient(circle at 35% 30%, #ffffff, #d9dde5 40%, #9aa0ad 70%, #5c616c);
+  box-shadow:
+    0 3px 7px rgb(30 40 70 / 0.35),
+    0 0 0 1px rgb(60 66 80 / 0.6),
+    inset 0 0 0 3px rgb(255 255 255 / 0.55);
+}
+[data-deck='ep'] .deck__rod {
+  background: linear-gradient(90deg, #8e939e, #f7f8fa 45%, #a7acb6);
+  box-shadow:
+    0 0 0 1px rgb(60 66 80 / 0.55),
+    inset 0 1px 0 rgb(255 255 255 / 0.7);
+}
+[data-deck='ep'] .deck__rod::after {
+  background: linear-gradient(180deg, #eef0f4, #9aa0ab);
+  box-shadow: 0 0 0 1px rgb(60 66 80 / 0.6);
+}
+[data-deck='ep'] .deck__led {
+  background: #1d2a55;
+}
+[data-deck='ep'] .deck.is-playing .deck__led {
+  background: #3d7bff;
+  box-shadow: 0 0 8px #3d7bff;
+}
+[data-deck='ep'] .deck__led::after {
+  background: radial-gradient(circle, transparent 0 64%, #111 65% 72%, transparent 73%),
+    conic-gradient(from 210deg, #ffffff, #a9b0bf 25%, #5c6270 50%, #b9bfcc 75%, #ffffff);
+}
+[data-deck='ep'] .deck__sticker {
+  width: 17%;
+  right: 2%;
+  bottom: 13.5%;
+  transform: rotate(-6deg);
+}
+
+/* ---------- Tea Room: Sunbringer style ----------
+   Blue fire from navy to icy white, with Wishfire's gold flickering through
+   now and then; four-point sparkles (the Sunbringers' stars) rise like embers. */
+.music__beat[data-bars='sunbringer'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #0b1a5c, #1f45d6 45%, #4f8dff 75%, #dbe9ff);
+  box-shadow: 0 0 8px rgb(60 120 255 / 0.55);
+}
+.music__beat[data-bars='sunbringer'] span:nth-child(3n) {
+  background: linear-gradient(to top, #071244, #1636b0 50%, #3f7bff 85%, #c4dcff);
+}
+.music__beat[data-bars='sunbringer'] .music__bars[data-flicker='1'] span:nth-child(7n + 3),
+.music__beat[data-bars='sunbringer'] .music__bars[data-flicker='1'] span:nth-child(11n + 6) {
+  background: linear-gradient(to top, #6b3a00, #f0a93a 50%, #fff2c4);
+  box-shadow:
+    0 0 10px #ffc94d,
+    0 0 18px rgb(255 201 77 / 0.6);
+}
+.music__beat[data-bars='sunbringer'] .music__pulse {
+  --pulse-color: #4f8dff;
+  --pulse-stops: #1636b0, #4f8dff, #dbe9ff, #4f8dff, #1636b0;
+  --pulse-glow: #3d7bff;
+  --pulse-flicker: #ffc94d;
+}
+.music__beat[data-bars='sunbringer']::before,
+.music__beat[data-bars='sunbringer']::after {
+  content: '';
+  position: absolute;
+  inset: -34px 0 25% 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 3px rgb(79 141 255 / 0.8));
+}
+.music__beat[data-bars='sunbringer']::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffd36e' stroke='%23fff6d6' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%239fc0ff' stroke='%23ffffff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%234f7dff' stroke='%23d6e3ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffd36e' stroke='%23fff6d6' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffffff' stroke='%239fc0ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%234f7dff' stroke='%23d6e3ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffd36e' stroke='%23fff6d6' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%239fc0ff' stroke='%23ffffff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: 9.8% 78%, 18.3% 56%, 31.9% 82%, 44.4% 61%, 55.0% 72%, 70.3% 45%, 79.6% 66%, 92.1% 52%;
+  background-size: 12px 12px, 9px 9px, 10px 10px, 8px 8px, 9px 9px, 11px 11px, 9px 9px, 12px 12px;
+}
+.music__beat[data-bars='sunbringer']::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%234f7dff' stroke='%23d6e3ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffd36e' stroke='%23fff6d6' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffffff' stroke='%239fc0ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%239fc0ff' stroke='%23ffffff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%23ffd36e' stroke='%23fff6d6' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 Q13.4 10.6 23 12 Q13.4 13.4 12 23 Q10.6 13.4 1 12 Q10.6 10.6 12 1Z' fill='%234f7dff' stroke='%23d6e3ff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: 6.9% 62%, 24.8% 72%, 40.0% 50%, 61.3% 80%, 74.4% 58%, 88.6% 76%;
+  background-size: 11px 11px, 13px 13px, 8px 8px, 10px 10px, 12px 12px, 9px 9px;
+}
+/* The sparkles rise and fade, like embers. */
+.music.is-playing .music__beat[data-bars='sunbringer']::before {
+  animation: room-ember calc(var(--beat) * 6) linear infinite;
+}
+.music.is-playing .music__beat[data-bars='sunbringer']::after {
+  animation: room-ember calc(var(--beat) * 6) linear calc(var(--beat) * -3) infinite;
+}
+@keyframes room-ember {
+  0% {
+    transform: translateY(14px) scale(0.85);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-26px) scale(1.05);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music.is-playing .music__beat[data-bars='sunbringer']::before,
+  .music.is-playing .music__beat[data-bars='sunbringer']::after {
+    animation: none;
+    opacity: 0.7;
+  }
+}
