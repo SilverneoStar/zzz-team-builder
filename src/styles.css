@@ -12231,10 +12231,12 @@ details.disc-guide + details.disc-guide {
     conic-gradient(from 210deg, #ffffff, #a9b0bf 25%, #5c6270 50%, #b9bfcc 75%, #ffffff);
 }
 [data-deck='ep'] .deck__sticker {
-  width: 17%;
-  right: 2%;
-  bottom: 13.5%;
-  transform: rotate(-6deg);
+  z-index: 3;
+  width: 15%;
+  right: auto;
+  left: 0.5%;
+  bottom: 1.5%;
+  transform: rotate(6deg);
 }
 
 /* ---------- Tea Room: Sunbringer style ----------
@@ -12313,39 +12315,40 @@ details.disc-guide + details.disc-guide {
   }
 }
 
-/* Sunchaser: the three Sunbringer chibis in the bottom-left corner, sitting
-   on the dark strip; the light moves to the strip's right end. */
+/* Sunchaser: the three Sunbringer chibis stacked in a column on the right,
+   above the dark strip; Sleepwalkerboo sits bottom-left. */
 .deck__chibis {
   display: none;
 }
 [data-deck='ep'] .deck__chibis {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   position: absolute;
-  left: 0.5%;
-  bottom: 2%;
-  width: 36%;
-  height: 24%;
+  right: 1%;
+  top: 24%;
+  bottom: 13.5%;
+  width: 14%;
   pointer-events: none;
 }
+/* The arm and its base stay in front, so at rest the arm lies across the
+   sisters as if they're peeking out from behind it. */
+[data-deck='ep'] .deck__arm,
+[data-deck='ep'] .deck__pivot {
+  z-index: 2;
+}
 [data-deck='ep'] .deck__chibis img {
-  position: absolute;
-  bottom: 0;
-  height: 78%;
-  width: auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: 33%;
+  object-fit: contain;
+  margin-top: -3%;
   filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.5));
 }
-[data-deck='ep'] .deck__chibis img:nth-child(1) {
-  left: 0;
-  height: 70%;
-}
-[data-deck='ep'] .deck__chibis img:nth-child(2) {
-  left: 30%;
-  height: 80%;
-  z-index: 1;
-}
-[data-deck='ep'] .deck__chibis img:nth-child(3) {
-  left: 63%;
-  height: 84%;
+[data-deck='ep'] .deck__chibis img:first-child {
+  margin-top: 0;
 }
 [data-deck='ep'] .deck__led {
   left: 88%;
