@@ -11941,29 +11941,36 @@ details.disc-guide + details.disc-guide {
     0 2px 3px rgb(0 0 0 / 0.55),
     0 0 0 1px rgb(0 0 0 / 0.55);
 }
-/* Three silver four-point stars in the free top-left corner; the first one
-   glows red while a song plays. */
+/* Top-left corner: a mini Matcha sticker and three silver stars drawn like the
+   ones on Cortado's and Matcha's helmets (five points, dark outline); the
+   first star glows red while a song plays. */
 .music-deck[data-deck='classic'] .deck__speeds {
   display: flex;
   align-items: center;
-  gap: 2.5%;
+  gap: 2%;
   position: absolute;
-  left: 4.5%;
-  top: 5%;
-  width: 17%;
+  left: 3%;
+  top: 3%;
+  width: 23%;
+}
+.music-deck[data-deck='classic'] .deck__matcha {
+  flex: none;
+  width: 34%;
+  height: auto;
+  margin-right: 2%;
+  transform: rotate(-8deg);
 }
 .music-deck[data-deck='classic'] .deck__speed {
   flex: 1;
   aspect-ratio: 1;
-  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-  background: linear-gradient(135deg, #ffffff, #d5d9df 35%, #8f959f 60%, #e9ecf0 80%, #9aa0aa);
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.7));
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='.45' stop-color='%23d3d7de'/%3E%3Cstop offset='.7' stop-color='%238f959f'/%3E%3Cstop offset='1' stop-color='%23c9cdd4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 2.2l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 16.8 6.1 20l1.3-6.5L2.5 9l6.6-.8z' fill='url(%23g)' stroke='%231d1f24' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.6));
 }
-.music-deck[data-deck='classic'] .deck__speed:nth-child(2) {
+.music-deck[data-deck='classic'] .deck__speed:nth-child(3) {
   flex: 0.8;
 }
 .music-deck[data-deck='classic'] .deck.is-playing .deck__speed.is-on {
-  background: linear-gradient(135deg, #ffe1dc, #ff6a5a 45%, #c8281b 70%, #ff8f80);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffe1dc'/%3E%3Cstop offset='.45' stop-color='%23ff6a5a'/%3E%3Cstop offset='.75' stop-color='%23c8281b'/%3E%3Cstop offset='1' stop-color='%23ff8f80'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 2.2l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 16.8 6.1 20l1.3-6.5L2.5 9l6.6-.8z' fill='url(%23g)' stroke='%231d1f24' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E");
   filter: drop-shadow(0 0 3px rgb(255 77 61 / 0.9));
 }
 
