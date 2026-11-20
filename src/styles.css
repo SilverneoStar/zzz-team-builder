@@ -11839,7 +11839,7 @@ details.disc-guide + details.disc-guide {
 
 /* ---------- Tea Room: Classic record player details ----------
    Brushed-silver platter rim with strobe dots, a chrome collar under the tonearm,
-   the arm's rest post, a finger lift on the headshell and 33/45 speed buttons.
+   the arm's rest post and the corner stars.
    The other finishes don't show these parts. */
 .deck__rest,
 .deck__speeds {
@@ -11900,22 +11900,9 @@ details.disc-guide + details.disc-guide {
 .music-deck[data-deck='classic'] .deck__rod {
   background: linear-gradient(90deg, #858a92, #f4f5f7 42%, #b4b8bf 62%, #8b9098);
 }
-/* Headshell: the same shape as the other record players, in brushed silver,
-   with a small finger lift off its side. */
+/* Headshell: the same shape as the other record players, in brushed silver. */
 .music-deck[data-deck='classic'] .deck__rod::after {
   background: linear-gradient(180deg, #eef0f3, #a9aeb6 55%, #7c8189);
-}
-.music-deck[data-deck='classic'] .deck__rod::before {
-  content: '';
-  position: absolute;
-  left: -175%;
-  bottom: -4.5%;
-  width: 110%;
-  height: 4.5%;
-  transform: rotate(-18deg);
-  border-radius: 2px;
-  background: linear-gradient(180deg, #e3e6ea, #8d929a);
-  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5);
 }
 /* The arm rests on this post when it's lifted. */
 .music-deck[data-deck='classic'] .deck__rest {
