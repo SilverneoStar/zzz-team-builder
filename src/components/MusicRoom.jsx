@@ -42,7 +42,7 @@ const DECKS = [
   { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
   { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
   { id: 'urban', label: 'Urban', sticker: 'eous' },
-  { id: 'ep', label: 'Sunbringer EP', sticker: 'sleepwalkerboo' },
+  { id: 'ep', label: 'Sunchaser', sticker: 'sleepwalkerboo' },
 ];
 const loadDeck = () => {
   try {
@@ -148,7 +148,7 @@ const BAR_STYLES = [
   { id: 'rainbow', label: 'Rainbow' },
   { id: 'elements', label: 'Elements' },
   { id: 'illusion', label: 'Illusion' },
-  { id: 'sunbringer', label: 'Sunbringer' },
+  { id: 'sunbringer', label: 'Sunchaser' },
 ];
 
 /** A row of buttons where one is picked. */
