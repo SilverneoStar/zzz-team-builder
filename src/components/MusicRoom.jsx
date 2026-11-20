@@ -67,7 +67,7 @@ function Disc({ id, playing, deck }) {
           </span>
           <span className="deck__spindle" />
         </span>
-        {/* Fine parts the Classic finish shows: the arm's rest post, a mini Matcha sticker and three silver stars. */}
+        {/* Fine parts the Classic finish shows: the arm's rest post, a mini Matcha sticker and two silver stars. */}
         <span className="deck__rest" />
         <span className="deck__arm">
           <span className="deck__rod" />
@@ -83,7 +83,6 @@ function Disc({ id, playing, deck }) {
         <span className="deck__speeds">
           <img className="deck__matcha" src={`${BASE}stickers/matcha-mini.webp`} alt="" />
           <span className="deck__speed is-on" />
-          <span className="deck__speed" />
           <span className="deck__speed" />
         </span>
       </span>
