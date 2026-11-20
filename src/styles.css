@@ -11900,20 +11900,10 @@ details.disc-guide + details.disc-guide {
 .music-deck[data-deck='classic'] .deck__rod {
   background: linear-gradient(90deg, #858a92, #f4f5f7 42%, #b4b8bf 62%, #8b9098);
 }
-/* Headshell: a tapered brushed-silver shell (narrow where it meets the arm,
-   wider at the tip) with the black cartridge underneath and a fine stylus,
-   instead of a plain square block; a small finger lift sticks off its side. */
+/* Headshell: the same shape as the other record players, in brushed silver,
+   with a small finger lift off its side. */
 .music-deck[data-deck='classic'] .deck__rod::after {
-  bottom: -11%;
-  width: 230%;
-  height: 16%;
-  border-radius: 2px 2px 3px 3px;
-  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
-  background:
-    linear-gradient(90deg, transparent 47%, #c9ccd2 47% 53%, transparent 53%) bottom / 100% 10% no-repeat,
-    linear-gradient(180deg, #f6f7f9, #c3c7ce 30%, #9097a1 52%, #2a2c31 54%, #1a1b1f 88%, transparent 88%);
-  box-shadow: none;
-  filter: drop-shadow(0 0 0.5px rgb(0 0 0 / 0.8));
+  background: linear-gradient(180deg, #eef0f3, #a9aeb6 55%, #7c8189);
 }
 .music-deck[data-deck='classic'] .deck__rod::before {
   content: '';
