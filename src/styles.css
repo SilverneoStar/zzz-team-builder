@@ -12351,3 +12351,12 @@ details.disc-guide + details.disc-guide {
   left: 88%;
   bottom: 4.5%;
 }
+
+/* Room settings: the "Keep screen on" note. */
+.music__note {
+  margin-top: 4px;
+  max-width: 46ch;
+}
+.music__settings .music__tick {
+  align-self: flex-start;
+}

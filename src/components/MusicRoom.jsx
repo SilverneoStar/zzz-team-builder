@@ -110,7 +110,38 @@ const SHUFFLE =
 // The reader's own room: their list of songs, filters and looks. Kept in this
 // browser only (it's just for them).
 const ROOM_KEY = 'zzz-team-builder:musicRoom';
-const ROOM_DEFAULTS = { order: 'file', hidden: [], showHidden: false, hide: [], wide: false, source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
+/**
+ * Keeps the phone's screen on (Screen Wake Lock) while `on` is true and the
+ * page is showing, so the music isn't stopped by the screen locking. The lock
+ * is dropped when the page is hidden, and taken again when it comes back.
+ * Returns whether this browser can do it.
+ */
+function useKeepAwake(on) {
+  const supported = typeof navigator !== 'undefined' && 'wakeLock' in navigator;
+  useEffect(() => {
+    if (!supported || !on) return undefined;
+    let lock = null;
+    let dead = false;
+    const take = async () => {
+      if (dead || document.visibilityState !== 'visible' || (lock && !lock.released)) return;
+      try {
+        lock = await navigator.wakeLock.request('screen');
+      } catch {
+        lock = null; // Refused (low battery, say): the screen just locks as usual.
+      }
+    };
+    take();
+    document.addEventListener('visibilitychange', take);
+    return () => {
+      dead = true;
+      document.removeEventListener('visibilitychange', take);
+      lock?.release?.().catch(() => {});
+    };
+  }, [supported, on]);
+  return supported;
+}
+
+const ROOM_DEFAULTS = { order: 'file', awake: false, hidden: [], showHidden: false, hide: [], wide: false, source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
 function useRoomSettings() {
   const [room, setRoom] = useState(() => {
     try {
@@ -538,6 +569,8 @@ export default function MusicRoom() {
     return sortSongs(list, room.order, room.source !== 'mine');
   }, [songs, room.source, room.kind, room.mine, room.order, room.hide, room.hidden, room.showHidden]);
   const yt = usePlaylistPlayer(host, playable);
+  // While music plays and the reader asked for it, the screen stays on.
+  const canKeepAwake = useKeepAwake(room.awake && yt.playing);
   // The reader's volume, handed to YouTube's player once it's ready and on every change.
   useEffect(() => {
     if (!yt.ready) return;
@@ -776,6 +809,18 @@ export default function MusicRoom() {
               ]}
             />
             <Choice label="Style" value={room.bars} onChange={(v) => setRoom({ bars: v })} options={BAR_STYLES} />
+            {canKeepAwake && (
+              <div className="music__choice">
+                <span className="music__choice-label">Screen</span>
+                <label className="music__tick">
+                  <input type="checkbox" checked={room.awake} onChange={(e) => setRoom({ awake: e.target.checked })} />
+                  Keep screen on while music plays
+                </label>
+                <p className="muted small music__note">
+                  Your phone won’t lock, so the music keeps going on a run or at the gym. Uses more battery.
+                </p>
+              </div>
+            )}
             <Choice
               label="Record player"
               value={deck}
