@@ -38,7 +38,7 @@ const DECK_THEMES = [
   { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
   { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
   { id: 'urban', label: 'Urban', sticker: 'eous' },
-  { id: 'ep', label: 'Sunbringer EP', sticker: 'sunbringer-lindverne' },
+  { id: 'ep', label: 'Sunbringer EP', sticker: 'sleepwalkerboo' },
 ];
 const stickerFor = (theme) =>
   `${import.meta.env.BASE_URL}stickers/${(DECK_THEMES.find((t) => t.id === theme) ?? DECK_THEMES[0]).sticker}.webp`;

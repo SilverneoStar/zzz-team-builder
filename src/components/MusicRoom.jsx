@@ -42,7 +42,7 @@ const DECKS = [
   { id: 'classic', label: 'Classic', sticker: 'cortado-chill' },
   { id: 'wood', label: 'Wood & copper', sticker: 'leaf' },
   { id: 'urban', label: 'Urban', sticker: 'eous' },
-  { id: 'ep', label: 'Sunbringer EP', sticker: 'sunbringer-lindverne' },
+  { id: 'ep', label: 'Sunbringer EP', sticker: 'sleepwalkerboo' },
 ];
 const loadDeck = () => {
   try {
