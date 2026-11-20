@@ -74,6 +74,12 @@ function Disc({ id, playing, deck }) {
         </span>
         <span className="deck__pivot" />
         <span className="deck__led" />
+        {/* Sunchaser only: the three Sunbringers sitting in the corner. */}
+        <span className="deck__chibis">
+          {['dracaene', 'lindverne', 'eldreda'].map((n) => (
+            <img key={n} src={`${BASE}stickers/sunbringer-${n}.webp`} alt="" loading="lazy" decoding="async" />
+          ))}
+        </span>
         <span className="deck__speeds">
           <span className="deck__speed is-on">33</span>
           <span className="deck__speed">45</span>

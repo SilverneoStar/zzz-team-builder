@@ -261,6 +261,12 @@ function Turntable({ id, playing = false, theme = 'classic' }) {
       </span>
       <span className="deck__pivot" />
       <span className="deck__led" />
+      {/* Sunchaser only: the three Sunbringers sitting in the corner. */}
+      <span className="deck__chibis">
+        {['dracaene', 'lindverne', 'eldreda'].map((n) => (
+          <img key={n} src={`${import.meta.env.BASE_URL}stickers/sunbringer-${n}.webp`} alt="" loading="lazy" decoding="async" />
+        ))}
+      </span>
     </span>
   );
 }
