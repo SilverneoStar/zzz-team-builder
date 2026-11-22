@@ -63,6 +63,12 @@ export const STAT_TARGETS = {
     version: '3.3',
     role: 'On-Field DPS · Anomaly',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,500+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Anomaly Mastery 255 caps the CRIT Rate her Core Passive gives Attribute Anomalies'],
+    goals: [
+      { stat: 'ATK', value: 2600, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 380, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 255, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'ukinami-yuzuha': {
     version: '3.0',
@@ -95,6 +101,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS',
     targets: ['ATK 3,100–3,400+ with an ATK main-stat W-Engine, 2,800–3,200+ otherwise', 'CRIT Rate 70–100%', 'CRIT DMG 130–150%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2600, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'pan-yinhu': {
     version: '2.7',
@@ -105,6 +117,13 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'Off-Field Stunner · Support',
     targets: ['Impact 168–193', 'CRIT Rate 50%+ (needed for the 4-piece King of the Summit)', 'CRIT DMG 100%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 58, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 75, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Impact', value: 189, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 1900, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'billy-kid': {
     version: '3.0',
@@ -115,6 +134,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,400–2,550+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 350–400+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise', 'Energy Regen (no cap) keeps her at 20 Power stacks (EX Special about every 6s) for +18% squad DMG'],
+    goals: [
+      { stat: 'ATK', value: 2200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 140, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 350, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'corin-wickes': {
     version: '2.6',
@@ -185,11 +210,21 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Burst Stunner',
     targets: ['CRIT Rate 50%+ (50% maximizes the 4-piece King of the Summit)', 'CRIT DMG 100%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 50, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'komano-manato': {
     version: '2.8',
     role: 'On-Field DPS',
     targets: ['HP 17,000–20,000+ with an HP main-stat W-Engine, 15,000–17,000+ otherwise', 'CRIT Rate 54–78%', 'CRIT DMG 130–150%+'],
+    goals: [
+      { stat: 'CRIT DMG', value: 142.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 62.6, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'HP', value: 19092, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'luciana-de-montefio': {
     version: '2.6',
@@ -355,6 +390,13 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'Support',
     targets: ['PEN Ratio 72% to cap her team PEN Ratio buff at 30%', 'CRIT Rate 50%+ · CRIT DMG 100%+ · Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'PEN Ratio', value: 70.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2314, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 418, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 19.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'seth-lowell': {
     version: '2.7',
@@ -449,6 +491,12 @@ export const STAT_TARGETS = {
     version: '2.2',
     role: 'Support',
     targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'Anomaly Mastery', value: 117, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 320, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.6, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'roxy-ifrita-pryce': {
     version: '3.2',
