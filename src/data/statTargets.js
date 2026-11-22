@@ -31,6 +31,12 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'On-Field DPS',
     targets: ['ATK 3,200–3,400+ with an ATK main-stat W-Engine, 2,700–3,000+ otherwise', 'CRIT Rate 50%', 'CRIT DMG 160–200%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 50.6, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 238.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2711, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'dialyn': {
     version: '2.6',
@@ -46,6 +52,12 @@ export const STAT_TARGETS = {
     version: '3.3',
     role: 'On-Field DPS',
     targets: ['CRIT Rate 100% in combat: about 80% from gear, +20% from his signature W-Engine'],
+    goals: [
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 79.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 150, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'phoenix-reffaella': {
     version: '3.3',
@@ -136,6 +148,12 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'On-Field DPS',
     targets: ['ATK 3,100–3,300+ with an ATK main-stat W-Engine, 2,600–3,000+ otherwise', 'CRIT Rate 70–100%', 'CRIT DMG 100–160%+'],
+    goals: [
+      { stat: 'ATK', value: 3000, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 52, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'koleda-belobog': {
     version: '3.2',
@@ -177,6 +195,10 @@ export const STAT_TARGETS = {
     version: '2.7',
     role: 'Support · Ether Veil Enabler',
     targets: ['HP 23,000–27,000 with an HP main-stat W-Engine, 21,000–25,000+ otherwise (maximizes the teamwide DMG%)'],
+    goals: [
+      { stat: 'HP', value: 27000, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'yidhari-murphy': {
     version: '2.8',
@@ -202,6 +224,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Burst Stunner · Off-Field Stunner · Support',
     targets: ['CRIT Rate 50%+ (50% maximizes the 4-piece King of the Summit)', 'Anomaly Proficiency 250+'],
+    goals: [
+      { stat: 'Impact', value: 190, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 60, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 120, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'soukaku': {
     version: '3.1',
@@ -253,6 +281,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise'],
+    goals: [
+      { stat: 'ATK', value: 2600, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 151, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 410, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'alexandrina-sebastiane': {
     version: '3.1',
@@ -311,6 +345,11 @@ export const STAT_TARGETS = {
     version: '2.8',
     role: 'Rupture Support',
     targets: ['HP 22,000–24,000 (maximizes her teamwide Sheer Force)', 'Energy Regen (no cap) keeps Ether Veil and Dreamer’s Nursery Rhyme refreshed: Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'HP', value: 24000, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.8, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'yixuan': {
     version: '2.6',
@@ -326,6 +365,11 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'Support',
     targets: ['ATK 3,429 (maximizes her teamwide ATK buffs)', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'ATK', value: 3429, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 3.5, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'zhu-yuan': {
     version: '3.2',
