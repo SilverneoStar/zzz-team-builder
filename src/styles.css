@@ -6920,6 +6920,112 @@ a:focus-visible > .frame {
 .targets__src {
   margin: 4px 0 0;
 }
+/* Stat progress: your stat against the goal, as a bar you type into. */
+.statprog {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+}
+.statprog > p {
+  margin: 0;
+}
+.statprog__row {
+  display: grid;
+  grid-template-columns: minmax(70px, 0.9fr) 2.6fr 24px;
+  align-items: center;
+  gap: 8px;
+}
+.statprog__label {
+  font-weight: 800;
+  font-size: 0.85rem;
+  line-height: 1.1;
+}
+.statprog__bar {
+  position: relative;
+  height: 28px;
+  border-radius: 999px;
+  background: #24262e;
+  overflow: hidden;
+  cursor: text;
+}
+.statprog__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2c4fd8, #4fa2f0);
+  transition: width 0.3s ease;
+}
+.statprog__row.is-done .statprog__fill {
+  background: linear-gradient(90deg, #2f9e5b, #5fd38a);
+}
+.statprog__nums {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.65);
+}
+.statprog__nums input {
+  width: 5.5ch;
+  min-width: 0;
+  height: auto;
+  margin: 0;
+  padding: 1px 2px;
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px dashed currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: right;
+}
+.statprog__nums input:focus,
+.statprog__nums input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.statprog__bar:focus-within {
+  box-shadow: 0 0 0 2px var(--el, #4fa2f0);
+}
+.statprog__nums input::placeholder {
+  color: inherit;
+  opacity: 0.55;
+  font-weight: 600;
+}
+.statprog__tick svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--muted, #888);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.6;
+}
+.statprog__row.is-done .statprog__tick svg {
+  stroke: #3cc274;
+  opacity: 1;
+}
+.statprog__tips {
+  margin: 2px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 3px;
+  font-size: 0.88rem;
+}
+.statprog__tips .is-done,
+.statprog__tips .is-spare {
+  color: var(--muted, #888);
+}
+.statprog__focus {
+  color: var(--el, var(--accent));
+}
 
 /* Skills tab: collapsible groups with a one-line peek at what's inside. */
 .skills {

@@ -316,5 +316,11 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'Burst DPS · Anomaly Support',
     targets: ['ATK 3,400–3,600+ without the signature W-Engine, 3,800–4,000 with it (maximizes her teamwide ATK buff with 3 Anomaly Agents)', 'Anomaly Proficiency 400–430+'],
+    // The progress bars use HoYoLAB's Agent Upgrade Guide goals (a player's guide).
+    goals: [
+      { stat: 'ATK', value: 4050, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 475, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
 };
