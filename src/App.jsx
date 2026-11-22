@@ -324,12 +324,10 @@ export default function App() {
       )}
 
       <footer className="foot">
-        <SocialLinks />
-        <p className="foot__notes">
-          Your teams are saved only in this browser on this device. Nobody else can see or change them. Game data is
-          compiled from community sources and may lag behind patches; only released and officially announced content is
-          included. Zenless Zone Zero and all related content belong to HoYoverse.
-        </p>
+        <SocialLinks>
+          <p className="foot__notes">Your teams are saved only in this browser on this device. Nobody else can see or change them. Game data is compiled from community sources and may lag behind patches; only released and officially announced content is included.</p>
+        </SocialLinks>
+        <p className="foot__legal">Zenless Zone Zero and all related content belong to HoYoverse. This is a fan-made site.</p>
       </footer>
     </div>
   );
