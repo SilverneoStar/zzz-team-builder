@@ -58,6 +58,7 @@ const ROLL = {
   'CRIT Rate': { size: 2.4, how: 'CRIT Rate rolls (2.4% each)' },
   'CRIT DMG': { size: 4.8, how: 'CRIT DMG rolls (4.8% each)' },
   'Anomaly Proficiency': { size: 9, how: 'Anomaly Proficiency rolls (9 each)' },
+  'Sheer Force': { size: 23, how: 'HP% rolls (≈23 Sheer Force each, from ≈230 HP)' },
 };
 // Where a main stat closes a big gap in one go.
 const MAIN = {
@@ -70,6 +71,7 @@ const MAIN = {
   Impact: 'an Impact main stat on slot 6 (+18%)',
   'PEN Ratio': 'a PEN Ratio main stat on slot 5 (+24%)',
   'Energy Regen': 'an Energy Regen main stat on slot 6 (+60%)',
+  'Sheer Force': 'an HP% main stat on slot 4, 5 or 6 (+30% HP, ≈+230 Sheer Force)',
 };
 
 /**
@@ -108,7 +110,7 @@ export const fmt = (v, pct) =>
 
 // Which 2-piece to pick with the stats you have now. Sets with the same bonus
 // are interchangeable, so a pick names every set (listed or not) giving it.
-const KEY_OF = { ATK: 'atk', HP: 'hp', DEF: 'def', 'CRIT Rate': 'critRate', 'CRIT DMG': 'critDmg', 'Anomaly Proficiency': 'ap', 'Anomaly Mastery': 'am', 'Energy Regen': 'er', 'PEN Ratio': 'pen', Impact: 'impact' };
+const KEY_OF = { 'Sheer Force': 'hp', ATK: 'atk', HP: 'hp', DEF: 'def', 'CRIT Rate': 'critRate', 'CRIT DMG': 'critDmg', 'Anomaly Proficiency': 'ap', 'Anomaly Mastery': 'am', 'Energy Regen': 'er', 'PEN Ratio': 'pen', Impact: 'impact' };
 // Roughly what each 2-piece adds, in the stat's own units (typical Lv.60 base).
 const TWO_SIZE = { atk: 160, hp: 760, def: 60, critRate: 8, critDmg: 16, ap: 30, am: 10, er: 0.24 };
 const DAMAGE = (k) => k === 'atk' || k === 'critDmg' || k === 'pen' || k === 'ap' || k.startsWith('el:');

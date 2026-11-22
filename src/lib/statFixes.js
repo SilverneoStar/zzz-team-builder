@@ -13,9 +13,9 @@ import { estimateStats } from './statEstimate.js';
 import { fmt } from './statGoals.js';
 
 // The disc main stat and substat that raise each goal stat.
-const MAIN_FOR = { ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%', 'CRIT Rate': 'CRIT Rate', 'CRIT DMG': 'CRIT DMG', 'Anomaly Proficiency': 'Anomaly Proficiency', 'Anomaly Mastery': 'Anomaly Mastery', 'Energy Regen': 'Energy Regen', Impact: 'Impact', 'PEN Ratio': 'PEN Ratio' };
-const SUB_FOR = { ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%', 'CRIT Rate': 'CRIT Rate', 'CRIT DMG': 'CRIT DMG', 'Anomaly Proficiency': 'Anomaly Proficiency' };
-const TWO_FOR = { ATK: 'atk', HP: 'hp', DEF: 'def', 'CRIT Rate': 'critRate', 'CRIT DMG': 'critDmg', 'Anomaly Proficiency': 'ap', 'Anomaly Mastery': 'am', 'Energy Regen': 'er', Impact: 'impact', 'PEN Ratio': 'pen' };
+const MAIN_FOR = { 'Sheer Force': 'HP%', ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%', 'CRIT Rate': 'CRIT Rate', 'CRIT DMG': 'CRIT DMG', 'Anomaly Proficiency': 'Anomaly Proficiency', 'Anomaly Mastery': 'Anomaly Mastery', 'Energy Regen': 'Energy Regen', Impact: 'Impact', 'PEN Ratio': 'PEN Ratio' };
+const SUB_FOR = { 'Sheer Force': 'HP%', ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%', 'CRIT Rate': 'CRIT Rate', 'CRIT DMG': 'CRIT DMG', 'Anomaly Proficiency': 'Anomaly Proficiency' };
+const TWO_FOR = { 'Sheer Force': 'hp', ATK: 'atk', HP: 'hp', DEF: 'def', 'CRIT Rate': 'critRate', 'CRIT DMG': 'critDmg', 'Anomaly Proficiency': 'ap', 'Anomaly Mastery': 'am', 'Energy Regen': 'er', Impact: 'impact', 'PEN Ratio': 'pen' };
 const MAIN_LABEL = { 'Attribute DMG': 'Attribute DMG' };
 
 const copy = (lo) => ({ ...lo, discs: normaliseDiscs(lo.discs ?? []).map((d) => ({ ...d, subs: (d.subs ?? []).map((x) => ({ ...x })) })) });

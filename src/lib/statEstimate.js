@@ -5,7 +5,7 @@
 import { AGENT_STATS as RELEASED } from '../data/agentStats.js';
 import { AGENT_STATS_BETA } from '../data/agentStatsBeta.js';
 import { SET_FIT } from '../data/discFit.js';
-import { DRIVE_DISC_BY_ID, W_ENGINE_BY_ID } from '../data/game.js';
+import { AGENT_BY_ID, DRIVE_DISC_BY_ID, W_ENGINE_BY_ID } from '../data/game.js';
 import { discBonuses, discStatTotals, normaliseDiscs } from './discs.js';
 import { goalsOf, loadMyStats } from './statGoals.js';
 
@@ -53,9 +53,15 @@ export function estimateStats(agentId, loadout, core) {
   }
   const g = (k) => add[k] ?? 0;
   const pctOf = (base, k, extra = 0) => base * (1 + (g(k) + extra) / 100);
+  const hp = Math.floor(pctOf(b.hp ?? 0, 'HP%', (b.hpPct ?? 0) / 100)) + g('HP');
+  const atk = Math.floor(pctOf((b.atk ?? 0) + wBase.ATK, 'ATK%', (b.atkPct ?? 0) / 100)) + g('ATK');
+  // Rupture Agents: Sheer Force is 30% of ATK, and every current one also
+  // gets 0.1 per point of Max HP from their Core Passive.
+  const sheer = AGENT_BY_ID[agentId]?.specialty === 'rupture' ? Math.floor(atk * 0.3 + hp * 0.1) : undefined;
   return {
-    HP: Math.floor(pctOf(b.hp ?? 0, 'HP%', (b.hpPct ?? 0) / 100)) + g('HP'),
-    ATK: Math.floor(pctOf((b.atk ?? 0) + wBase.ATK, 'ATK%', (b.atkPct ?? 0) / 100)) + g('ATK'),
+    HP: hp,
+    ATK: atk,
+    'Sheer Force': sheer,
     DEF: Math.floor(pctOf((b.def ?? 0) + wBase.DEF, 'DEF%')) + g('DEF'),
     'CRIT Rate': Math.round(((b.critRate ?? 0) / 100 + g('CRIT Rate')) * 10) / 10,
     'CRIT DMG': Math.round(((b.critDmg ?? 0) / 100 + g('CRIT DMG')) * 10) / 10,
