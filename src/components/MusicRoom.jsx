@@ -143,10 +143,22 @@ function useKeepAwake(on) {
 }
 
 const ROOM_DEFAULTS = { order: 'file', awake: false, hidden: [], showHidden: false, hide: [], wide: false, source: 'all', kind: 'all', moving: true, viz: 'bars', bars: 'classic', mine: [], tempo: {}, moods: {}, volume: 80, muted: false };
+// Look-and-feel settings both Tea Rooms share. The two sites are on the same
+// GitHub Pages address, so they can read the same browser storage; songs,
+// hidden songs and tempos stay per site.
+const SHARED_KEY = 'cortado-tea-room:shared';
+const SHARED = ['viz', 'bars', 'moving', 'wide', 'awake', 'volume', 'muted', 'order'];
+const pickShared = (o) => Object.fromEntries(SHARED.filter((k) => o[k] !== undefined).map((k) => [k, o[k]]));
+
 function useRoomSettings() {
   const [room, setRoom] = useState(() => {
     try {
       let v = JSON.parse(localStorage.getItem(ROOM_KEY) || '{}');
+      try {
+        v = { ...v, ...pickShared(JSON.parse(localStorage.getItem(SHARED_KEY) || '{}')) };
+      } catch {
+        /* no shared settings yet */
+      }
       // Mirror was dropped: show Bars instead.
       if (v.viz === 'mirror') v = { ...v, viz: 'bars' };
       // Old names, and the short-lived character colour row (c-…), map to today's styles.
@@ -170,6 +182,7 @@ function useRoomSettings() {
       const n = { ...r, ...patch };
       try {
         localStorage.setItem(ROOM_KEY, JSON.stringify(n));
+        localStorage.setItem(SHARED_KEY, JSON.stringify(pickShared(n)));
       } catch {
         /* not kept: fine */
       }
@@ -193,6 +206,7 @@ const BAR_STYLES = [
   { id: 'frost', label: 'Frost' },
   { id: 'honed-edge', label: 'Honed Edge' },
   { id: 'auric-ink', label: 'Auric Ink' },
+  { id: 'lacrimosa', label: 'Lacrimosa' },
 ];
 
 /** A row of buttons where one is picked. */
