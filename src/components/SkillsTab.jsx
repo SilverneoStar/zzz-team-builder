@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useShowBeta } from '../lib/betaInfo.js';
 import BetaHidden from './BetaHidden.jsx';
+import { AGENTS } from '../data/agents.js';
 import { passiveCondition, passiveStatus } from '../lib/analyze.js';
 
 // One small JSON file per Agent, loaded only when their Skills tab opens.
@@ -72,6 +73,62 @@ const Parts = ({ parts }) => (
       </li>
     ))}
   </ol>
+);
+
+// A recommended combo or rotation, step by step: who acts, which skill (with
+// its icon), the skill's name or Ultimate branch, and a short note.
+const SKILL_ICON = { basic: 'basic', dodge: 'dodge', assist: 'assist', special: 'special', chain: 'chain', ult: 'chain' };
+const nameOf = (id) => AGENTS.find((x) => x.id === id)?.name ?? id;
+const Rotation = ({ r, agentId }) => (
+  <details className="skills__group rotation" open>
+    <summary>
+      <span className="skills__cat">Recommended rotation</span>
+      <span className="skills__peek">{r.title}</span>
+    </summary>
+    {r.before && (
+      <p className="rotation__before">
+        <b>Before:</b> {r.before}
+      </p>
+    )}
+    <ol className="rotation__steps">
+      {r.steps.map((st, i) => (
+        <li key={i} className={st.skill === 'ult' ? 'is-ult' : undefined}>
+          <span className="rotation__num">{i + 1}</span>
+          <img
+            className={`rotation__who${st.who === agentId ? '' : ' is-other'}`}
+            src={`${import.meta.env.BASE_URL}agents/${st.who}.webp`}
+            alt={nameOf(st.who)}
+            title={nameOf(st.who)}
+            width="32"
+            height="32"
+            loading="lazy"
+          />
+          <img
+            className="skills__icon"
+            src={`${import.meta.env.BASE_URL}skills/${SKILL_ICON[st.skill]}.webp`}
+            alt=""
+            width="28"
+            height="28"
+            loading="lazy"
+          />
+          <div className="rotation__body">
+            <div className="rotation__act">
+              <b>{st.act}</b>
+              {st.branch && <span className="card__tag">{st.branch}</span>}
+              {st.name && <span className="rotation__name">{st.name}</span>}
+            </div>
+            {st.note && <p>{st.note}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+    {r.why && (
+      <p className="skills__best rotation__why">
+        <b>Why it works:</b> {r.why}
+      </p>
+    )}
+    {r.from && <p className="muted small">{r.from}.</p>}
+  </details>
 );
 
 // The Agent page's Skills tab: every skill in short, the Core Passive at each
@@ -156,6 +213,10 @@ export default function SkillsTab({ agent: a, team }) {
           </details>
         );
       })}
+
+      {kit.rotations?.map((r) => (
+        <Rotation key={r.title} r={r} agentId={a.id} />
+      ))}
 
       <Core core={kit.core} />
       {kit.ability && <Ability agent={a} ability={kit.ability} team={inTeam ? team : null} />}

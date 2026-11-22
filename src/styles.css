@@ -13522,3 +13522,68 @@ details.disc-guide + details.disc-guide {
 .skills__best b {
   color: var(--accent);
 }
+
+/* Recommended rotation on the Skills tab: numbered steps with who acts and the skill's icon. */
+.rotation__before {
+  margin: 8px 0 0;
+}
+.rotation__steps {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.rotation__steps > li {
+  display: grid;
+  grid-template-columns: 22px 32px 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2, var(--surface));
+}
+.rotation__steps > li.is-ult {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+.rotation__num {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: var(--bg, #000);
+}
+.rotation__who {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: var(--surface);
+  border: 2px solid var(--line);
+}
+.rotation__who.is-other {
+  border-style: dashed;
+}
+.rotation__act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.rotation__name {
+  color: var(--muted, inherit);
+  font-size: 0.9em;
+}
+.rotation__body p {
+  margin: 2px 0 0;
+  font-size: 0.9em;
+}
+.rotation__why {
+  margin: 10px 0 4px;
+}

@@ -149,5 +149,65 @@
     "A Sun's Halo Perfect Block gives a Shield of 8% Max HP for 10s; +10% Daze while shielded.",
     "Skill levels +2.",
     "Not published yet."
+  ],
+  "rotations": [
+    {
+      "title": "Stun window with Dialyn",
+      "from": "Shared by a player",
+      "before": "Open the fight with Triumphant Return (Lower) so Sunflare is up the whole battle.",
+      "steps": [
+        {
+          "who": "dialyn",
+          "skill": "special",
+          "act": "Stun the enemy",
+          "note": "Build Daze until the enemy is Stunned."
+        },
+        {
+          "who": "pyrois",
+          "skill": "chain",
+          "act": "Chain Attack",
+          "name": "Ceremonial March"
+        },
+        {
+          "who": "pyrois",
+          "skill": "ult",
+          "act": "Ultimate",
+          "name": "Total Annihilation",
+          "branch": "Upper",
+          "note": "Cancel the Chain Attack into Dialyn’s free Ultimate."
+        },
+        {
+          "who": "pyrois",
+          "skill": "basic",
+          "act": "Hold Basic Attack",
+          "name": "Celestial Light",
+          "note": "Spend one."
+        },
+        {
+          "who": "pyrois",
+          "skill": "ult",
+          "act": "Ultimate",
+          "name": "Total Annihilation",
+          "branch": "Upper",
+          "note": "Again: it gives back the Solar Prominence for another held Basic."
+        },
+        {
+          "who": "pyrois",
+          "skill": "basic",
+          "act": "Hold Basic Attack + EX Special",
+          "name": "Celestial Light · Sun’s Halo",
+          "note": "Spend every hold Basic and EX Special you have left."
+        },
+        {
+          "who": "pyrois",
+          "skill": "ult",
+          "act": "Ultimate",
+          "name": "Eternal Imprisonment",
+          "branch": "Right",
+          "note": "At the very last second of the Stun, since it ends the Stun."
+        }
+      ],
+      "why": "Total Annihilation gives 30 Solar Prominence, so using it twice lets you fit three held Basics into one Stun instead of two."
+    }
   ]
 }
