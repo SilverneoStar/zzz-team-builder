@@ -12940,18 +12940,23 @@ details.disc-guide + details.disc-guide {
   animation: room-fall calc(var(--beat) * 6) linear calc(var(--beat) * -3) infinite;
 }
 .music__beat[data-bars='honed-edge'] span {
-  background: linear-gradient(90deg, #6e4d0e, #f2cf5a 45%, #fff6cf 55%, #c9971f);
+  /* Ye Shunguang's blade: white silver steel, a faint red along the edges. */
+  background:
+    linear-gradient(90deg, rgb(214 58 72 / 0.55), transparent 22%, transparent 78%, rgb(214 58 72 / 0.55)),
+    linear-gradient(to top, #5d6470, #c9ced6 45%, #f4f6f9 80%, #ffffff);
   clip-path: polygon(0 100%, 0 10%, 50% 0, 100% 10%, 100% 100%, 50% 96%);
-  box-shadow: 0 0 6px rgb(242 207 90 / 0.55);
+  box-shadow: 0 0 6px rgb(230 235 242 / 0.5);
 }
 .music__beat[data-bars='honed-edge'] span:nth-child(3n) {
-  background: linear-gradient(90deg, #3a2a0a, #b8892a 50%, #fbe7a1);
+  background:
+    linear-gradient(90deg, rgb(200 40 56 / 0.5), transparent 25%, transparent 75%, rgb(200 40 56 / 0.5)),
+    linear-gradient(to top, #454b55, #aeb4bd 55%, #e8ebf0);
 }
 .music__beat[data-bars='honed-edge'] .music__pulse {
-  --pulse-color: #f2cf5a;
-  --pulse-stops: #9a6f14, #f2cf5a, #fff6cf, #f2cf5a, #9a6f14;
-  --pulse-glow: #f2cf5a;
-  --pulse-flicker: #ffffff;
+  --pulse-color: #e6e9ee;
+  --pulse-stops: #8a919c, #d8dce3, #ffffff, #d8dce3, #8a919c;
+  --pulse-glow: #dfe3ea;
+  --pulse-flicker: #d63a48;
 }
 .music__beat[data-bars='honed-edge']::before {
   content: '';
@@ -12960,7 +12965,7 @@ details.disc-guide + details.disc-guide {
   width: 30%;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(90deg, transparent, rgb(255 250 220 / 0.85), transparent);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.9), rgb(255 190 196 / 0.35), transparent);
   mix-blend-mode: screen;
 }
 .music.is-playing .music__beat[data-bars='honed-edge']::before {
