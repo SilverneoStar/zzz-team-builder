@@ -347,6 +347,12 @@ export const STAT_TARGETS = {
     version: '2.8',
     role: 'On-Field DPS',
     targets: ['HP 17,000–20,000+ with an HP main-stat W-Engine, 15,000–17,000+ otherwise', 'CRIT Rate 64–88%', 'CRIT DMG 130%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 68, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 150, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Sheer Force', value: 2500, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'hugo-vlad': {
     version: '3.2',
@@ -650,6 +656,13 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Off-Field Stunner · Off-Field DPS',
     targets: ['ATK 2,000–2,500+', 'CRIT Rate 76–85%+ (100% in-combat maximizes the teamwide buffs)', 'CRIT DMG 80–100%+'],
+    goals: [
+      { stat: 'ATK', value: 2200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 77, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 102.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 3.1, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'velina-airgid': {
     version: '3.1',
