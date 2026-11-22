@@ -6,7 +6,7 @@ import { goalsOf, loadMyStats } from '../lib/statGoals.js';
 import { estimateStats } from '../lib/statEstimate.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID } from '../data/game.js';
-import { allMyBuilds, readAnyCode, saveBuildsFrom, setActiveBuild } from '../lib/myBuilds.js';
+import { allMyBuilds, readAnyCode, saveBuildsFrom, setActiveBuild, shortDate } from '../lib/myBuilds.js';
 import { fetchShowcase, validUid } from '../lib/enka.js';
 import { scanFrame } from '../lib/screenshots.js';
 import { navigate } from '../lib/route.js';
@@ -36,7 +36,8 @@ function summary(r) {
   const parts = [];
   if (r.added.length) parts.push(`Saved ${r.added.length === 1 ? 'a build' : `${r.added.length} builds`} for ${names(r.added)}.`);
   if (r.already.length) parts.push(`Already saved: ${names(r.already)}.`);
-  if (r.full.length) parts.push(`No room (6 builds each): ${names(r.full)}. Delete one on their My build tab first.`);
+  if (r.replaced?.length) parts.push(`At 6 builds, so the oldest one made room: ${names(r.replaced)}.`);
+  if (r.full.length) parts.push(`Couldn’t save in this browser: ${names(r.full)}.`);
   return parts.join(' ') || 'Nothing to save.';
 }
 
@@ -266,12 +267,25 @@ export default function MyAgentsPage({ onLoadTeam }) {
   const [scanning, setScanning] = useState(false);
   const [notice, setNotice] = useState('');
 
+  // One icon per Agent: their active build, with how many they have.
   const shown = useMemo(() => {
-    const list = builds.filter((b) => AGENT_BY_ID[b.agentId]);
-    if (sort === 'recent') return list.sort((a, b) => b.savedAt - a.savedAt);
+    const by = new Map();
+    for (const b of builds) {
+      if (!AGENT_BY_ID[b.agentId]) continue;
+      const g = by.get(b.agentId) ?? { agentId: b.agentId, builds: [] };
+      g.builds.push(b);
+      by.set(b.agentId, g);
+    }
+    const list = [...by.values()].map((g) => ({
+      ...g,
+      main: g.builds.find((b) => b.active) ?? g.builds[0],
+      latest: Math.max(...g.builds.map((b) => b.addedAt || b.savedAt || 0)),
+    }));
+    if (sort === 'recent') return list.sort((a, b) => b.latest - a.latest);
     return list.sort((a, b) => AGENT_BY_ID[a.agentId].name.localeCompare(AGENT_BY_ID[b.agentId].name));
   }, [builds, sort]);
-  const agentCount = new Set(shown.map((b) => b.agentId)).size;
+  const buildCount = shown.reduce((n, g) => n + g.builds.length, 0);
+  const agentCount = shown.length;
 
   const take = (text) => {
     const t = readAnyCode(text);
@@ -307,7 +321,7 @@ export default function MyAgentsPage({ onLoadTeam }) {
         <div className="myagents__bar">
           <span className="muted small">
             {shown.length
-              ? `${shown.length} build${shown.length > 1 ? 's' : ''} · ${agentCount} Agent${agentCount > 1 ? 's' : ''}`
+              ? `${buildCount} build${buildCount > 1 ? 's' : ''} · ${agentCount} Agent${agentCount > 1 ? 's' : ''}`
               : 'No builds yet'}
           </span>
           {shown.length > 1 && (
@@ -328,25 +342,35 @@ export default function MyAgentsPage({ onLoadTeam }) {
         </div>
         {shown.length ? (
           <ul className="myagents__grid">
-            {shown.map((b) => {
-              const a = AGENT_BY_ID[b.agentId];
+            {shown.map((g) => {
+              const b = g.main;
+              const a = AGENT_BY_ID[g.agentId];
               const el = ATTRIBUTE_BY_ID[a.attribute]?.color ?? '#888';
+              const n = g.builds.length;
               return (
-                <li key={`${b.agentId}-${b.id}`}>
+                <li key={g.agentId}>
                   <button
                     type="button"
                     className="myagents__icon"
                     style={{ '--el': el }}
                     onClick={() => open(b)}
-                    title={`${a.name} · ${b.name}${b.note ? `\n${b.note}` : ''}`}
+                    title={`${a.name} · ${n} build${n > 1 ? 's' : ''}\n${g.builds
+                      .map((x) => `${x.active ? '• ' : '  '}${x.name}${x.addedAt ? ` (added ${shortDate(x.addedAt)})` : ''}`)
+                      .join('\n')}`}
                   >
                     <span className="myagents__art">
                       <Portrait agent={a} size="lg" />
                       <span className="myagents__m">M{b.loadout.mindscape ?? 0}</span>
+                      {n > 1 && (
+                        <span className="myagents__count" aria-label={`${n} builds`}>
+                          {n}
+                        </span>
+                      )}
                     </span>
                     <span className="myagents__label">
                       <span className="myagents__name">{a.name}</span>
-                      <span className="myagents__build">{b.name}</span>
+                      {n > 1 && <span className="myagents__build">{n} builds</span>}
+                      <span className="myagents__build">{g.latest ? `added ${shortDate(g.latest)}` : b.name}</span>
                     </span>
                     <GoalChip agentId={a.id} build={b} />
                   </button>

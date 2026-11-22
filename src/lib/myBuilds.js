@@ -63,18 +63,31 @@ export function saveMyBuild(agentId, loadout) {
   return put(agentId, { ...book, builds: book.builds.map((b) => (b.id === book.active ? { ...b, loadout: lo } : b)) });
 }
 
-/** Adds a build and makes it active. { ok, id }; not added past MAX_BUILDS. */
+/** When a build was first added (older saves fall back to their last save). */
+export const addedAtOf = (b) => b?.addedAt ?? b?.loadout?.savedAt ?? 0;
+
+/**
+ * Adds a build and makes it active: { ok, id, replaced }. At MAX_BUILDS the
+ * oldest-added build makes room (replaced = its name).
+ */
 export function addMyBuild(agentId, loadout, name) {
   const book = buildsOf(agentId);
-  if (book.builds.length >= MAX_BUILDS) return { ok: false, id: null };
-  let n = book.builds.length + 1;
-  while (book.builds.some((b) => b.name === `Build ${n}`)) n += 1;
+  let builds = book.builds;
+  let replaced = null;
+  if (builds.length >= MAX_BUILDS) {
+    const oldest = [...builds].sort((x, y) => addedAtOf(x) - addedAtOf(y))[0];
+    replaced = oldest.name;
+    builds = builds.filter((b) => b !== oldest);
+  }
+  let n = builds.length + 1;
+  while (builds.some((b) => b.name === `Build ${n}`)) n += 1;
   const id = newId();
+  const now = Date.now();
   const ok = put(agentId, {
     active: id,
-    builds: [...book.builds, { id, name: name || `Build ${n}`, loadout: { ...loadout, savedAt: Date.now() } }],
+    builds: [...builds, { id, name: name || `Build ${n}`, addedAt: now, loadout: { ...loadout, savedAt: now } }],
   });
-  return { ok, id };
+  return { ok, id, replaced: ok ? replaced : null };
 }
 
 /** The active build's note (shown on the build image), or ''. */
@@ -170,11 +183,12 @@ const same = (agentId, a, b) => {
 
 /**
  * Saves each Agent's gear from a team or build code as a new build.
- * Skips a build that's already saved, and Agents with no room left.
- * Returns { added, already, full } (Agent ids).
+ * Skips a build that's already saved; an Agent with no room left loses their
+ * oldest-added build to make room. Returns { added, already, full, replaced }
+ * (Agent ids; full stays empty, kept for older callers).
  */
 export function saveBuildsFrom(team, { name, extras = {} } = {}) {
-  const out = { added: [], already: [], full: [] };
+  const out = { added: [], already: [], full: [], replaced: [] };
   team.members.filter(Boolean).forEach((id) => {
     const lo = { ...emptyLoadout(), ...(team.loadouts?.[id] ?? {}) };
     const book = buildsOf(id);
@@ -192,6 +206,7 @@ export function saveBuildsFrom(team, { name, extras = {} } = {}) {
     }
     if (extras[id]) skillsMyBuild(id, r.id, extras[id]);
     out.added.push(id);
+    if (r.replaced) out.replaced.push(id);
   });
   return out;
 }
@@ -210,6 +225,15 @@ export function allMyBuilds(all = loadMyBuilds()) {
       skills: b.skills ?? null,
       core: b.core ?? null,
       savedAt: b.loadout?.savedAt ?? 0,
+      addedAt: addedAtOf(b),
     }));
   });
+}
+
+/** "22 Nov" (or "22 Nov 2025" for another year). */
+export function shortDate(t) {
+  const d = new Date(t);
+  const opts = { day: 'numeric', month: 'short' };
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
+  return d.toLocaleDateString('en-GB', opts);
 }

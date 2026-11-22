@@ -7050,6 +7050,32 @@ a:focus-visible > .frame {
 .loadout__statprog > summary {
   cursor: pointer;
 }
+.myagents__count {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 2;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--el, var(--accent));
+  color: #111;
+  font-size: 0.75rem;
+  font-weight: 900;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
+}
+.myagents__build + .myagents__build {
+  margin-top: -2px;
+}
+.mybuild__date {
+  margin-left: 6px;
+  opacity: 0.65;
+  font-size: 0.72em;
+  font-weight: 600;
+}
 .myagents__goals {
   margin-top: 2px;
   padding: 1px 7px;

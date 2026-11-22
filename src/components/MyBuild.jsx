@@ -14,6 +14,8 @@ import {
   CORE_LETTERS,
   skillsMyBuild,
   addMyBuild,
+  addedAtOf,
+  shortDate,
   buildCode,
   buildsOf,
   deleteMyBuild,
@@ -55,6 +57,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
     if (adding || !current) {
       const r = addMyBuild(a.id, full);
       if (!r.ok) flash('Couldn’t save in this browser.');
+      else if (r.replaced) flash(`Saved. ${r.replaced} was the oldest, so it made room.`);
       id = r.id;
       refresh();
     } else keep(full);
@@ -78,15 +81,20 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           aria-selected={!adding && b.id === book.active}
           className={`chip${!adding && b.id === book.active ? ' chip--on' : ''}`}
           onClick={() => pick(b.id)}
+          title={addedAtOf(b) ? `Added ${new Date(addedAtOf(b)).toLocaleString()}` : undefined}
         >
           {b.name}
+          {addedAtOf(b) > 0 && <small className="mybuild__date">{shortDate(addedAtOf(b))}</small>}
         </button>
       ))}
       <button
         className={`chip chip--add${adding ? ' chip--on' : ''}`}
         onClick={() => setAdding(true)}
-        disabled={book.builds.length >= MAX_BUILDS}
-        title={book.builds.length >= MAX_BUILDS ? `Up to ${MAX_BUILDS} builds per Agent` : undefined}
+        title={
+          book.builds.length >= MAX_BUILDS
+            ? `At ${MAX_BUILDS} builds: a new one replaces the oldest (${[...book.builds].sort((x, y) => addedAtOf(x) - addedAtOf(y))[0].name})`
+            : undefined
+        }
       >
         + New build
       </button>
@@ -182,7 +190,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
         <p className="muted">
           {adding
             ? `A new build for ${a.name}, next to your others (up to ${MAX_BUILDS}). Start it one of these ways:`
-            : `Make your own build for ${a.name}: pick the W-Engine, Mindscape and each Drive Disc you actually have. It’s saved in this browser, and you can share it with a short code or as an image. You can keep up to ${MAX_BUILDS} builds per Agent.`}
+            : `Make your own build for ${a.name}: pick the W-Engine, Mindscape and each Drive Disc you actually have. It’s saved in this browser, and you can share it with a short code or as an image. You can keep up to ${MAX_BUILDS} builds per Agent; past that, a new one replaces the oldest.`}
         </p>
         <div className="mybuild__starts">
           {recommended && (
@@ -406,3 +414,4 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
     </div>
   );
 }
+
