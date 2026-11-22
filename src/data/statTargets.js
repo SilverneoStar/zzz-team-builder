@@ -322,5 +322,6 @@ export const STAT_TARGETS = {
       { stat: 'Anomaly Proficiency', value: 475, hint: 'HoYoLAB Agent Upgrade Guide' },
     ],
     goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
+    note: 'She gets Voidflares from Anomaly triggers, so Anomaly Mastery (Phaethon’s Melody 2-piece) only helps at M6, when she can be played on field.',
   },
 };

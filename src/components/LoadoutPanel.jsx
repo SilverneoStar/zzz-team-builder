@@ -75,8 +75,11 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
         : rec?.wEngines.includes(id)
           ? ` · ${recTag}`
           : '';
+  // A 2-piece with the same bonus as the best one counts as best too.
+  const sameTwo = (id, list) =>
+    list === rec?.twos && DRIVE_DISC_BY_ID[id]?.twoPiece === DRIVE_DISC_BY_ID[list[0]]?.twoPiece;
   const setMark = (id, list) =>
-    rec && list.includes(id) ? (id === list[0] ? ` · ${recTag} best` : ` · ${recTag}`) : '';
+    rec && list.includes(id) ? (id === list[0] || sameTwo(id, list) ? ` · ${recTag} best` : ` · ${recTag}`) : '';
   const mainMark = (n, st) => (rec?.main[n] === st ? ` · ${recTag}` : '');
   // Recommended alternatives players pick over the signature (beta ones only with beta info on).
   const picks = (ENGINE_PICKS[agent.id] ?? []).filter((p) => W_ENGINE_BY_ID[p.id] && (!p.beta || showBeta));

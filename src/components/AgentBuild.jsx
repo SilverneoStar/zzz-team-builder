@@ -61,7 +61,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
         </div>
         <div>
           <h4 className="micro-title">2-piece set</h4>
-          <SetList ids={b.twoPiece} />
+          <SetList ids={b.twoPiece} two />
         </div>
       </div>
 
@@ -255,17 +255,29 @@ function SubstatGuide({ agent }) {
   );
 }
 
-function SetList({ ids }) {
+// 2-piece lists show each set's bonus, and every set with the same bonus as
+// the best one is marked Best too: pick whichever you have better discs in.
+function SetList({ ids, two = false }) {
+  const bonus = (id) => DRIVE_DISC_BY_ID[id]?.twoPiece;
+  const same = two ? ids.filter((id) => bonus(id) === bonus(ids[0])) : ids.slice(0, 1);
   return (
-    <ul className="build__sets">
-      {ids.map((id, i) => (
-        <li key={id} style={{ '--set': setColor(id) }}>
-          <DiscArt id={id} size={24} />
-          <span>{DRIVE_DISC_BY_ID[id].name}</span>
-          {i === 0 && <span className="fit-tag fit-tag--kit">Best</span>}
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="build__sets">
+        {ids.map((id) => (
+          <li key={id} style={{ '--set': setColor(id) }}>
+            <DiscArt id={id} size={24} />
+            <span>
+              {DRIVE_DISC_BY_ID[id].name}
+              {two && <small className="muted build__bonus">{bonus(id)}</small>}
+            </span>
+            {same.includes(id) && <span className="fit-tag fit-tag--kit">Best</span>}
+          </li>
+        ))}
+      </ul>
+      {two && same.length > 1 && (
+        <p className="muted small build__same">Same 2-piece bonus: use whichever you have better discs in.</p>
+      )}
+    </>
   );
 }
 
