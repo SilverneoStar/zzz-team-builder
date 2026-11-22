@@ -2,12 +2,14 @@
 // Agent screen shows them (out of combat): Lv.60 base + Core Skill (data from
 // Enka, tools/enka/make_stats.py) + W-Engine at Lv.60 + Drive Discs + 2-piece
 // bonuses. Conditional buffs (4-pieces, passives, team) aren't counted.
-import { AGENT_STATS } from '../data/agentStats.js';
+import { AGENT_STATS as RELEASED } from '../data/agentStats.js';
+import { AGENT_STATS_BETA } from '../data/agentStatsBeta.js';
 import { SET_FIT } from '../data/discFit.js';
 import { DRIVE_DISC_BY_ID, W_ENGINE_BY_ID } from '../data/game.js';
 import { discBonuses, discStatTotals, normaliseDiscs } from './discs.js';
 import { goalsOf, loadMyStats } from './statGoals.js';
 
+const AGENT_STATS = { ...AGENT_STATS_BETA, ...RELEASED };
 const num = (v) => (v == null ? 0 : Number(String(v).replace(/[,%]/g, '')) || 0);
 const ALIAS = { 'Crit Rate': 'CRIT Rate', Attack: 'ATK', Defense: 'DEF' };
 // A 2-piece's stat key -> the stat it adds to.

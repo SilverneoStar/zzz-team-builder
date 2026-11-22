@@ -19,7 +19,8 @@ export const UPCOMING = {
       substats: 'Anomaly Proficiency > ATK % > PEN (estimate)',
       skills: ['core', 'special', 'basic', 'chain', 'assist', 'dodge'],
       notes: [
-        'Her EX Special Attack is the centre of her kit, so Energy Regen keeps it coming; extra Energy Regen also turns into Anomaly Mastery.',
+        'Her EX Special Attack is the centre of her kit, so Energy Regen keeps it coming; each 0.12 Energy Regen above 1.2 also gives +10 Anomaly Mastery (up to +140).',
+        'Her Core Passive lets the whole squad’s Disorder DMG CRIT (100% CRIT Rate, +35% CRIT DMG), so Disorder teams get the most from her.',
         'Freedom Blues 4-piece cuts the enemy’s Anomaly Buildup RES after her EX Special hits; Chaos Jazz is the personal-damage option.',
         'Her signature, Requiem Araneae, is also in the Filmgoer Thank-You Gift’s W-Engine choice.',
       ],
@@ -57,14 +58,14 @@ export const UPCOMING = {
         '4-piece Monument of the Star plus 2-piece Soul Rock gives +32% DEF in total.',
         'Thorned Rose is the stand-in 4-piece until Monument of the Star is farmed: DMG +15%, and more CRIT Rate once her DEF is high.',
         'Midnight Sun gives +40% CRIT Rate in combat, and each 1% CRIT DMG adds 0.35% CRIT Rate, so CRIT DMG is never wasted on her.',
-        'Maim from other Armorer Agents (like Claret) feeds her Willpower.',
+        'Maim from other Armorer Agents (like Claret) feeds her Wishfire.',
       ],
       guide: [
         'Open with an EX Special Attack: it switches on her signature’s Enhance (Fire DMG +20%, Fire Sharp DMG +10%) for 25s. Use another before it runs out.',
         'Bring Robin in first so her shield is up: with her signature, every shield gives the squad Laceration DMG +16%.',
         'Let the Stunner build Daze. Roxy with Bloodwing Nocturne gives the whole squad Sharp DMG +8% when she uses an EX Special or Chain Attack at 50%+ CRIT Rate.',
         'Spend the Stun window on Sunbringer: Chain Attack, Ultimate, then EX Specials.',
-        'With Claret as the third member, Claret’s Maim feeds Sunbringer’s Willpower, and Sunbringer’s Laceration Enhance boosts Claret back.',
+        'With Claret as the third member, Claret’s Maim feeds Sunbringer’s Wishfire, and Sunbringer’s United Will (Laceration DMG +25%) boosts Claret back.',
       ],
     },
     teams: [
@@ -98,7 +99,7 @@ export const UPCOMING = {
         'Enough Energy for Enhanced Aftershock: Swing Jazz 2-piece or Energy Regen on slot 6 if she runs short',
       ],
       notes: [
-        'She works mostly off-field: Robin Exit puts her in Off-Field Guard, her Aftershocks build Entry Points, and Robin Entrance comes back in at 100.',
+        'She works mostly off-field: Robin Exit puts her in Off-Field Guard, her Aftershocks build Entry Points, and her Entry Skill brings her back in at 120.',
         'Use Swing Jazz instead of Yunkui Tales if she runs short of Energy for Enhanced Aftershock.',
         'Proto Punk is the fallback 4-piece: it also rewards Defensive Assists, and its 2-piece makes shields 15% stronger.',
         'Pairs well with Armorer Agents: their Maim gives her Energy.',
@@ -106,7 +107,7 @@ export const UPCOMING = {
       guide: [
         'Start with Robin: use her EX Special Attack to shield the squad (this also builds Bunny in Wonderland stacks), then switch out.',
         'Robin Exit puts her in Off-Field Guard. While the on-field Agent attacks, her Aftershocks hit and build Entry Points.',
-        'At 100 Entry Points, Robin Entrance brings her back: refresh the shield and switch out again.',
+        'At 120 Entry Points, her Entry Skill brings her back: refresh the shield and switch out again.',
         'Keep both signature buffs running: each shield gives the squad Laceration DMG +16%, and each Aftershock squad DMG +10% (up to 2 stacks).',
         'Her best partners are Armorers like Sunbringer and Claret: their Maim gives her Energy, and her Laceration buff boosts their damage.',
       ],

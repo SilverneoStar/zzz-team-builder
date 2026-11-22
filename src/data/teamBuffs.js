@@ -48,8 +48,8 @@ export const TEAM_BUFFS = [
   // Sharp DMG and Laceration: Armorer Agents.
   { agent: 'claret-flint', kind: 'sharp', text: 'Remnant Edge: Armorer Agents get Laceration DMG on any Maim', to: { specialties: ['armorer'], others: true } },
   { agent: 'roxy-ifrita-pryce', kind: 'sharp', text: 'raises Armorer Agents’ Laceration DMG', to: { specialties: ['armorer'] } },
-  { agent: 'sunbringer', kind: 'sharp', text: 'Laceration Enhance for Armorer Agents', to: { specialties: ['armorer'], others: true }, beta: true },
-  { agent: 'robin-hsr', kind: 'sharp', text: 'raises the squad’s Laceration DMG (M1)', to: { specialties: ['armorer'] }, beta: true },
+  { agent: 'sunbringer', kind: 'sharp', text: 'United Will: Armorer Agents’ Laceration DMG +25%', to: { specialties: ['armorer'], others: true }, beta: true },
+  { agent: 'robin-hsr', kind: 'sharp', text: 'restores Sharpness for Armorers; her signature adds squad Laceration DMG', to: { specialties: ['armorer'] }, beta: true },
 
   // Chain Attacks and Ultimates.
   // `potential`: her Potential widens who it reaches, like her Additional Ability (data/potentials.js).
@@ -75,7 +75,7 @@ export const TEAM_BUFFS = [
   { agent: 'phoenix-reffaella', kind: 'anomaly', text: 'lets the squad’s Anomaly and Abloom DMG crit (not Disorder)', to: { specialties: ['anomaly'], others: true } },
   { agent: 'velina-airgid', kind: 'anomaly', text: 'Vortex and Abloom add Wind Anomaly DMG and lower Anomaly Buildup RES', to: { specialties: ['anomaly'], others: true } },
   { agent: 'remielle-dan', kind: 'anomaly', text: 'stronger with every Anomaly Agent in the squad', to: { specialties: ['anomaly'], others: true } },
-  { agent: 'kafka', kind: 'anomaly', text: 'squad Disorder DMG +35% (and it can CRIT at M1)', to: { specialties: ['anomaly'], others: true }, beta: true },
+  { agent: 'kafka', kind: 'anomaly', text: 'the squad’s Disorder DMG can CRIT (100% CRIT Rate, +35% CRIT DMG)', to: { specialties: ['anomaly'], others: true }, beta: true },
 
   // Lower enemy RES to an attribute (or its Anomaly Buildup RES).
   { agent: 'von-lycaon', kind: 'res', text: 'lowers enemy Ice RES by 25%', to: { specialties: DEALERS.concat('rupture'), attributes: ['ice'], others: true } },
