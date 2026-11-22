@@ -7,7 +7,8 @@ const SPECIALTY_NAME = new Proxy({}, { get: (_, k) => SPECIALTY_BY_ID[k]?.name ?
 import { BUILDS } from '../data/builds.js';
 import { UPCOMING } from '../data/upcoming.js';
 import { GUIDE_URL, STAT_TARGETS } from '../data/statTargets.js';
-import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions } from '../lib/statGoals.js';
+import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions, twoPieceTip } from '../lib/statGoals.js';
+import { SET_FIT } from '../data/discFit.js';
 import { SKILL_TYPES } from '../data/skillPriority.js';
 import { passiveStatus, kitLinks } from '../lib/analyze.js';
 import { recommendedLoadout, recommendedTeam, subPriority } from '../lib/builds.js';
@@ -600,6 +601,7 @@ function StatProgress({ agent, from }) {
     saveMyStats(agent.id, next);
   };
   const tips = suggestions(goals, mine);
+  const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, mine);
   return (
     <div className="statprog">
       <span className="micro-title">Stat progress</span>
@@ -644,8 +646,14 @@ function StatProgress({ agent, from }) {
           ))}
         </ul>
       )}
+      {two && (
+        <p className="statprog__two small">
+          <b>2-piece pick · </b>
+          {two}
+        </p>
+      )}
       <p className="muted small">
-        {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range below.'} A loose guide: a balanced build that fits your team still comes first.
+        {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range below.'} A loose guide: your W-Engine, team buffs and which discs you own change the best pick, and a balanced build that fits your team still comes first.
       </p>
     </div>
   );

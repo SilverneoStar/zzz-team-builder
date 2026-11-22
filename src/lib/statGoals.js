@@ -103,3 +103,42 @@ export function suggestions(goals, mine) {
 }
 
 export const fmt = (v, pct) => (pct ? `${Math.round(v * 10) / 10}%` : Math.round(v).toLocaleString('en-US'));
+
+// Which 2-piece to pick with the stats you have now. Sets with the same bonus
+// are interchangeable, so a pick names every set (listed or not) giving it.
+const KEY_OF = { ATK: 'atk', HP: 'hp', DEF: 'def', 'CRIT Rate': 'critRate', 'CRIT DMG': 'critDmg', 'Anomaly Proficiency': 'ap', 'Anomaly Mastery': 'am', 'Energy Regen': 'er', 'PEN Ratio': 'pen', Impact: 'impact' };
+// Roughly what each 2-piece adds, in the stat's own units (typical Lv.60 base).
+const TWO_SIZE = { atk: 160, hp: 760, def: 60, critRate: 8, critDmg: 16, ap: 30, am: 10, er: 0.24 };
+const DAMAGE = (k) => k === 'atk' || k === 'critDmg' || k === 'pen' || k === 'ap' || k.startsWith('el:');
+
+export function twoPieceTip(build, setFit, discById, allSets, goals, mine) {
+  if (!build) return null;
+  const rows = goals.filter((g) => Number.isFinite(mine[g.stat])).map((g) => ({ ...g, gap: g.value - mine[g.stat] }));
+  if (!rows.length) return null;
+  const skip = new Set(build.fourPiece);
+  const keyOf = (id) => setFit[id]?.two;
+  const listedKeys = [...new Set(build.twoPiece.filter((id) => !skip.has(id)).map(keyOf).filter(Boolean))];
+  const setsFor = (k) => allSets.filter((d) => !skip.has(d.id) && keyOf(d.id) === k);
+  const names = (k) => setsFor(k).map((d) => d.name).join(' / ');
+  const bonus = (k) => setsFor(k)[0]?.twoPiece;
+  const first = keyOf(build.twoPiece.find((id) => !skip.has(id)));
+  const met = (k) => rows.some((r) => KEY_OF[r.stat] === k && r.gap <= 0);
+
+  const short = rows.filter((r) => r.gap > 0).sort((a, b) => b.gap / b.value - a.gap / a.value);
+  for (const r of short) {
+    const k = KEY_OF[r.stat];
+    if (!listedKeys.includes(k) || !setsFor(k).length) continue;
+    const covers = TWO_SIZE[k] && TWO_SIZE[k] >= r.gap ? 'that alone about closes it' : 'that covers part of it';
+    let text = `${names(k)} (${bonus(k)}): your ${r.stat} is the furthest short, and ${covers}.`;
+    if (first && first !== k && met(first)) text += ` Your ${STAT_LABEL[first]} is already past its goal, so this beats ${names(first)}.`;
+    return text;
+  }
+  if (!short.length) {
+    const picks = listedKeys.filter((k) => DAMAGE(k) && !(KEY_OF_REV[k] && rows.some((r) => KEY_OF[r.stat] === k && r.gap > 0)));
+    if (picks.length)
+      return `Goals met: pick a 2-piece for more damage, like ${picks.slice(0, 3).map((k) => `${names(k)} (${bonus(k)})`).join(', or ')}.`;
+  }
+  return null;
+}
+const STAT_LABEL = Object.fromEntries(Object.entries(KEY_OF).map(([n, k]) => [k, n]));
+const KEY_OF_REV = STAT_LABEL;

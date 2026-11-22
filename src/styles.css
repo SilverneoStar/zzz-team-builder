@@ -7031,6 +7031,9 @@ a:focus-visible > .frame {
 .statprog__tips .is-spare {
   color: var(--muted, #888);
 }
+.statprog__two {
+  margin: 2px 0 0;
+}
 .statprog__focus {
   color: var(--el, var(--accent));
 }
