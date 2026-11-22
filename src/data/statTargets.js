@@ -195,6 +195,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['HP 17,000–20,000+ with an HP main-stat W-Engine, 15,000–17,000+ otherwise', 'CRIT Rate 68–88%', 'CRIT DMG 130%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 58, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Sheer Force', value: 2400, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'orphie-magnusson-and-magus': {
     version: '3.2',
@@ -436,11 +442,22 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Off-Field Stunner · Support',
     targets: ['CRIT Rate 60–90% without the signature W-Engine, 90% with it (90% maximizes the Aftershock Daze% self-buff)'],
+    goals: [
+      { stat: 'ATK', value: 2000, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 90, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'soldier-0-anby': {
     version: '3.0',
     role: 'On-Field DPS',
     targets: ['ATK 2,800–3,100+ with an ATK main-stat W-Engine, 2,700–3,000+ otherwise', 'CRIT Rate 58–78%', 'CRIT DMG 120–160%+'],
+    goals: [
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 58, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 180, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'asaba-harumasa': {
     version: '3.2',
@@ -579,11 +596,23 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'On-Field DPS',
     targets: ['HP 17,000–20,000+ with an HP main-stat W-Engine, 15,000–17,000+ otherwise', 'CRIT Rate 68–88%', 'CRIT DMG 130%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 57.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 200.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'HP', value: 18444, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'vivian-banshee': {
     version: '2.8',
     role: 'Off-Field DPS',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,400+ otherwise', 'Anomaly Proficiency 430–450+ with an Anomaly Proficiency main-stat W-Engine, 350–370+ otherwise'],
+    goals: [
+      { stat: 'ATK', value: 2200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 460, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 198, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'astra-yao': {
     version: '3.0',
