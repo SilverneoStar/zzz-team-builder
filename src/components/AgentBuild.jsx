@@ -640,7 +640,7 @@ function StatProgress({ agent, from }) {
         </ul>
       )}
       <p className="muted small">
-        {from ? `Goals from ${from}.` : 'Goals are the top of the guide’s range below.'} A loose guide: a balanced build that fits your team still comes first.
+        {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range below.'} A loose guide: a balanced build that fits your team still comes first.
       </p>
     </div>
   );

@@ -10,11 +10,22 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['HP 17,000–20,000+ with an HP main-stat W-Engine, 15,000–17,000+ otherwise', 'CRIT Rate 64–88%', 'CRIT DMG 130%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 67.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 142.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'HP', value: 19530, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'sunna': {
     version: '2.7',
     role: 'Support · Ether Veil Enabler',
     targets: ['ATK 3,300–3,500 (maximizes her teamwide ATK buffs)'],
+    goals: [
+      { stat: 'ATK', value: 3500, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.6, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'ye-shunguang': {
     version: '2.6',
@@ -150,6 +161,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['ATK 3,000–3,400+ with an ATK main-stat W-Engine, 2,800–3,200+ otherwise', 'CRIT Rate 34%', 'CRIT DMG 170–210%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 33.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 3500, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'promeia': {
     version: '3.1',
@@ -261,16 +278,34 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['ATK 3,200–3,700+', 'CRIT Rate 72%', 'CRIT DMG 120–140%+'],
+    goals: [
+      { stat: 'ATK', value: 3200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 72.2, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 152.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'nangong-yu': {
     version: '3.0',
     role: 'Anomaly Stunner · Anomaly Support · Quick-Swap DPS',
     targets: ['ATK 2,000–2,500+', 'Anomaly Proficiency 300–330+'],
+    goals: [
+      { stat: 'Anomaly Mastery', value: 173, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 325, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2000, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'aria': {
     version: '3.1',
     role: 'On-Field DPS',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,300–2,500+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 330–350+ otherwise'],
+    goals: [
+      { stat: 'ATK', value: 2600, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 350, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 208, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'lucia-elowen': {
     version: '2.8',
@@ -311,6 +346,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'Off-Field DPS',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,200–2,500+ otherwise', 'Anomaly Proficiency 410–430+ with an Anomaly Proficiency main-stat W-Engine, 340–360+ otherwise', 'Energy Regen 2.88 to cap her Core Passive (+35% DMG, +84 Anomaly Mastery); 2.16 max without Joyau Dore'],
+    goals: [
+      { stat: 'Anomaly Proficiency', value: 437, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2680, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.8, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'remielle-dan': {
     version: '3.1',
