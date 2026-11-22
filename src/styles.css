@@ -12862,64 +12862,164 @@ details.disc-guide + details.disc-guide {
   color: #111;
 }
 
-/* Character colours for the beat: bars and the canvas styles. */
-.music__beat[data-bars='c-ellen'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #1b1c2e, #8a1c2c, #e0384a, #f6e9ec);
-  box-shadow: 0 0 8px #e0384a88;
+@keyframes room-fall {
+  0% { transform: translateY(-14px) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(26px) rotate(90deg); opacity: 0; }
 }
-.music__beat[data-bars='c-ellen'] .music__pulse {
-  --pulse-color: #e0384a;
-  --pulse-stops: #1b1c2e, #8a1c2c, #e0384a, #f6e9ec;
-  --pulse-glow: #e0384a;
+@keyframes room-drip {
+  0% { transform: translateY(-6px) scaleY(0.8); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(34px) scaleY(1.2); opacity: 0; }
 }
-.music__beat[data-bars='c-miyabi'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #0f2a44, #2f8fb0, #8fe3ff, #f0fbff);
-  box-shadow: 0 0 8px #8fe3ff88;
+@keyframes room-shot {
+  0% { transform: translateX(-40%); opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(60%); opacity: 0; }
 }
-.music__beat[data-bars='c-miyabi'] .music__pulse {
-  --pulse-color: #8fe3ff;
-  --pulse-stops: #0f2a44, #2f8fb0, #8fe3ff, #f0fbff;
-  --pulse-glow: #8fe3ff;
+@keyframes room-glint {
+  0% { transform: translateX(-60%) skewX(-20deg); opacity: 0; }
+  30% { opacity: 0.9; }
+  60% { opacity: 0; }
+  100% { transform: translateX(160%) skewX(-20deg); opacity: 0; }
 }
-.music__beat[data-bars='c-burnice'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #3a0b08, #c2310f, #ff7a1a, #ffd36a);
-  box-shadow: 0 0 8px #ff7a1a88;
+
+/* Themed beat styles: Void Hunters' upgraded elements (ZZZ) and characters (NTE). */
+.music__beat[data-bars='frost'] span {
+  background: linear-gradient(to top, #0c3a52, #2c9ac2 45%, #9feaf6 80%, #ffffff);
+  clip-path: polygon(0 100%, 0 14%, 50% 0, 100% 14%, 100% 100%);
+  box-shadow: 0 0 8px rgb(143 230 238 / 0.6);
 }
-.music__beat[data-bars='c-burnice'] .music__pulse {
-  --pulse-color: #ff7a1a;
-  --pulse-stops: #3a0b08, #c2310f, #ff7a1a, #ffd36a;
-  --pulse-glow: #ff7a1a;
+.music__beat[data-bars='frost'] span:nth-child(4n + 1) {
+  background: linear-gradient(to top, #0a2c40, #1f7ea6 50%, #c9f6ff);
 }
-.music__beat[data-bars='c-vivian'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #241e44, #6a5fc4, #a99bff, #efe7ff);
-  box-shadow: 0 0 8px #a99bff88;
+.music__beat[data-bars='frost'] .music__bars[data-flicker='1'] span:nth-child(9n + 4) {
+  background: linear-gradient(to top, #7a0f1c, #e0384a 60%, #ffd6da);
+  box-shadow: 0 0 10px #ff5468;
 }
-.music__beat[data-bars='c-vivian'] .music__pulse {
-  --pulse-color: #a99bff;
-  --pulse-stops: #241e44, #6a5fc4, #a99bff, #efe7ff;
-  --pulse-glow: #a99bff;
+.music__beat[data-bars='frost'] .music__pulse {
+  --pulse-color: #9feaf6;
+  --pulse-stops: #1f7ea6, #8fe6ee, #ffffff, #8fe6ee, #1f7ea6;
+  --pulse-glow: #8fe6ee;
+  --pulse-flicker: #e0384a;
 }
-.music__beat[data-bars='c-jane'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #191620, #5c1d2c, #c5324a, #f0b9b0);
-  box-shadow: 0 0 8px #c5324a88;
+.music__beat[data-bars='frost']::before,
+.music__beat[data-bars='frost']::after {
+  content: '';
+  position: absolute;
+  inset: -34px 0 25% 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
 }
-.music__beat[data-bars='c-jane'] .music__pulse {
-  --pulse-color: #c5324a;
-  --pulse-stops: #191620, #5c1d2c, #c5324a, #f0b9b0;
-  --pulse-glow: #c5324a;
+@media (prefers-reduced-motion: reduce) {
+  .music.is-playing .music__beat[data-bars='frost']::before,
+  .music.is-playing .music__beat[data-bars='frost']::after {
+    animation: none;
+    opacity: 0.7;
+  }
 }
-.music__beat[data-bars='c-yixuan'] span {
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(to top, #17130f, #6b442e, #c9902f, #f3e0b0);
-  box-shadow: 0 0 8px #c9902f88;
+.music__beat[data-bars='frost']::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%23e9fbff' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%239feaf6' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 15 12 12 23 9 12Z' fill='%23bff3fb' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%239feaf6' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: 8% 20%, 27% 40%, 46% 15%, 63% 35%, 84% 22%;
+  background-size: 11px 11px, 8px 8px, 6px 10px, 10px 10px, 9px 9px;
+  background-repeat: no-repeat;
 }
-.music__beat[data-bars='c-yixuan'] .music__pulse {
-  --pulse-color: #c9902f;
-  --pulse-stops: #17130f, #6b442e, #c9902f, #f3e0b0;
-  --pulse-glow: #c9902f;
+.music.is-playing .music__beat[data-bars='frost']::before {
+  animation: room-fall calc(var(--beat) * 6) linear  infinite;
+}
+.music__beat[data-bars='frost']::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%239feaf6' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 15 12 12 23 9 12Z' fill='%23e9fbff' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%23e9fbff' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='%23bff3fb' stroke-width='1.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7'/%3E%3Cpath d='M9.5 3.8 12 6l2.5-2.2M9.5 20.2 12 18l2.5 2.2'/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1 15 12 12 23 9 12Z' fill='%239feaf6' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E");
+  background-position: 17% 30%, 38% 45%, 55% 18%, 76% 42%, 94% 28%;
+  background-size: 9px 9px, 5px 9px, 8px 8px, 11px 11px, 6px 10px;
+  background-repeat: no-repeat;
+}
+.music.is-playing .music__beat[data-bars='frost']::after {
+  animation: room-fall calc(var(--beat) * 6) linear calc(var(--beat) * -3) infinite;
+}
+.music__beat[data-bars='honed-edge'] span {
+  background: linear-gradient(90deg, #6e4d0e, #f2cf5a 45%, #fff6cf 55%, #c9971f);
+  clip-path: polygon(0 100%, 0 10%, 50% 0, 100% 10%, 100% 100%, 50% 96%);
+  box-shadow: 0 0 6px rgb(242 207 90 / 0.55);
+}
+.music__beat[data-bars='honed-edge'] span:nth-child(3n) {
+  background: linear-gradient(90deg, #3a2a0a, #b8892a 50%, #fbe7a1);
+}
+.music__beat[data-bars='honed-edge'] .music__pulse {
+  --pulse-color: #f2cf5a;
+  --pulse-stops: #9a6f14, #f2cf5a, #fff6cf, #f2cf5a, #9a6f14;
+  --pulse-glow: #f2cf5a;
+  --pulse-flicker: #ffffff;
+}
+.music__beat[data-bars='honed-edge']::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0 0 0;
+  width: 30%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 250 220 / 0.85), transparent);
+  mix-blend-mode: screen;
+}
+.music.is-playing .music__beat[data-bars='honed-edge']::before {
+  animation: room-glint calc(var(--beat) * 4) ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .music.is-playing .music__beat[data-bars='honed-edge']::before {
+    animation: none;
+  }
+}
+.music__beat[data-bars='auric-ink'] span {
+  background: linear-gradient(to top, #0d0b09, #2a221a 55%, #c99a3f 82%, #f3e0b0);
+  border-radius: 40% 60% 2px 2px / 30% 30% 2px 2px;
+  box-shadow: 0 0 6px rgb(201 154 63 / 0.45);
+}
+.music__beat[data-bars='auric-ink'] span:nth-child(5n + 2) {
+  border-radius: 60% 40% 2px 2px / 40% 30% 2px 2px;
+}
+.music__beat[data-bars='auric-ink'] .music__bars[data-flicker='1'] span:nth-child(6n + 3) {
+  background: linear-gradient(to top, #6b442e, #c99a3f 50%, #fff2c4);
+  box-shadow: 0 0 10px #f0c46a;
+}
+.music__beat[data-bars='auric-ink'] .music__pulse {
+  --pulse-color: #c99a3f;
+  --pulse-stops: #2a221a, #c99a3f, #f3e0b0, #c99a3f, #2a221a;
+  --pulse-glow: #c99a3f;
+  --pulse-flicker: #f3e0b0;
+}
+.music__beat[data-bars='auric-ink']::before,
+.music__beat[data-bars='auric-ink']::after {
+  content: '';
+  position: absolute;
+  inset: -34px 0 25% 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .music.is-playing .music__beat[data-bars='auric-ink']::before,
+  .music.is-playing .music__beat[data-bars='auric-ink']::after {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+.music__beat[data-bars='auric-ink']::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C12 2 5 11 5 15.5A7 7 0 0 0 19 15.5C19 11 12 2 12 2Z' fill='%2317130f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23e3b35a'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C12 2 5 11 5 15.5A7 7 0 0 0 19 15.5C19 11 12 2 12 2Z' fill='%23c99a3f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23f3e0b0'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C12 2 5 11 5 15.5A7 7 0 0 0 19 15.5C19 11 12 2 12 2Z' fill='%2317130f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23c99a3f'/%3E%3C/svg%3E");
+  background-position: 10% 30%, 26% 52%, 43% 22%, 60% 48%, 78% 35%, 92% 55%;
+  background-size: 8px 10px, 4px 4px, 7px 9px, 3px 3px, 9px 11px, 4px 4px;
+  background-repeat: no-repeat;
+}
+.music.is-playing .music__beat[data-bars='auric-ink']::before {
+  animation: room-ember calc(var(--beat) * 6) linear  infinite;
+}
+.music__beat[data-bars='auric-ink']::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23c99a3f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C12 2 5 11 5 15.5A7 7 0 0 0 19 15.5C19 11 12 2 12 2Z' fill='%23c99a3f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23e3b35a'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C12 2 5 11 5 15.5A7 7 0 0 0 19 15.5C19 11 12 2 12 2Z' fill='%2317130f'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23f3e0b0'/%3E%3C/svg%3E");
+  background-position: 18% 40%, 35% 55%, 52% 30%, 69% 50%, 86% 35%;
+  background-size: 3px 3px, 6px 8px, 4px 4px, 7px 9px, 3px 3px;
+  background-repeat: no-repeat;
+}
+.music.is-playing .music__beat[data-bars='auric-ink']::after {
+  animation: room-ember calc(var(--beat) * 6) linear calc(var(--beat) * -3) infinite;
 }
