@@ -41,9 +41,9 @@ export const AGENT_MATS = {
   'severian-lowell': ["Attack", "Windbite", "Imitation Core", "Timeworn Husk"],
   // Armorer seals and Fire (Burn) chips follow from her specialty and attribute;
   // Core Skill drops aren't announced yet.
-  'sunbringer': ["Armorer", "Burn", null, null],
+  'sunbringer': ["Armorer", "Burn", "Tattered Dreamveil", "Doomsday Blade"],
   'kafka': ["Anomaly", "Shock", "Toxic Edge", "Marrow-Draining Thorn"],
-  'robin-hsr': ["Defense", "Ether", null, null],
+  'robin-hsr': ["Defense", "Ether", "Tattered Dreamveil", "Doomsday Blade"],
   'nangong-yu': ["Stun", "Ether", "Spiked Corruption Core", "Marrow-Draining Thorn"],
   'nekomiya-mana': ["Attack", "Physical", "Crimson Awe", "Ferocious Grip"],
   'nicole-demara': ["Support", "Ether", "Murderous Obituary", "Ferocious Grip"],
@@ -108,6 +108,8 @@ export const EXPERT = {
   'Steel Malice': 'Hans - Energized',
   'Corrupted Dreamsteel': 'Miasmic Komano Manato',
   'Falling Fist': 'Rampant Brute',
+  // New in 3.4 (names from HoYoLAB's Agent Upgrade Guide); the enemy isn't named yet.
+  'Tattered Dreamveil': 'new 3.4 enemy, not named yet',
 };
 
 // Core Skill drop → Notorious Hunt boss (weekly).
@@ -123,6 +125,8 @@ export const HUNT = {
   'Counterfeit Nucleus': 'Kusarikku',
   'Finale Dance Shoes': 'Twin Marionettes',
   'Crimson Miasma Spike': 'Wandering Hunter',
+  // New in 3.4 (from HoYoLAB's Agent Upgrade Guide); the boss isn't named yet.
+  'Doomsday Blade': 'new 3.4 boss, not named yet',
 };
 
 // Agents whose Core Skill drops are estimates until release.
