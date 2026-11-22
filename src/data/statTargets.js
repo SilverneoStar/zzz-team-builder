@@ -42,6 +42,10 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'Burst Stunner',
     targets: ['CRIT Rate 80–100% without the signature W-Engine, 100% with it (100% maximizes the Impact% self-buff)', 'Energy Regen about 1.92–2.5 for more EX Specials (more Daze); Yesterday Calls adds off-field Energy'],
+    goals: [
+      { stat: 'CRIT Rate', value: 100, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'alice-thymefield': {
     version: '3.1',
