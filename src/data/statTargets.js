@@ -112,6 +112,11 @@ export const STAT_TARGETS = {
     version: '2.7',
     role: 'Rupture Support',
     targets: ['ATK 3,000 (maximizes his Flat Sheer Force buff)', 'Energy Regen is secondary: only once he’s at 3,000 ATK and Meridian Flow still drops'],
+    goals: [
+      { stat: 'ATK', value: 3014, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.8, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'pulchra-fellini': {
     version: '2.6',
@@ -129,6 +134,12 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'On-Field DPS',
     targets: ['ATK 2,700–3,000+ with an ATK main-stat W-Engine, 2,600–2,800+ otherwise', 'CRIT Rate 60–70%+', 'CRIT DMG 125–150%+'],
+    goals: [
+      { stat: 'ATK', value: 2400, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 65, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'piper-wheel': {
     version: '3.1',
@@ -145,6 +156,12 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'On-Field DPS',
     targets: ['ATK 2,700–3,000+ with an ATK main-stat W-Engine, 2,600–2,800+ otherwise', 'CRIT Rate 70–80%+', 'CRIT DMG 120–160%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2700, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'norma-hollowell': {
     version: '3.2',
@@ -230,11 +247,23 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'Support',
     targets: ['ATK 2,367 at EX 11, 2,265 at EX 12, 2,083 at EX 14, 1,922 at EX 16 (maximizes the ATK buff)', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'ATK', value: 2418, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 63.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 126.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'ben-bigger': {
     version: '2.7',
     role: 'Shielder',
     targets: ['CRIT Rate 50%+ · CRIT DMG 100%+', 'Energy Regen (no cap) keeps his shield and its +16% CRIT Rate for an ally up: slot 6 Energy Regen or DEF%'],
+    goals: [
+      { stat: 'DEF', value: 1600, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 45, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 130, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'sigrid-de-lazur': {
     version: '3.2',
@@ -308,6 +337,13 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'Support',
     targets: ['ATK 2,500 at Core F, 2,623 at Core E, 2,778 at Core D (maximizes the ATK buff)', 'Anomaly Proficiency 250+', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2.4, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 40, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'claret-flint': {
     version: '3.2',
@@ -402,16 +438,35 @@ export const STAT_TARGETS = {
     version: '2.7',
     role: 'Shielder · Anomaly Support',
     targets: ['ATK 2,200–2,600+', 'Energy Regen is secondary: ATK first (his shield scales off it), Energy Regen only if the shield still drops'],
+    goals: [
+      { stat: 'ATK', value: 2500, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 150, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 140, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'anton-ivanov': {
     version: '2.4',
     role: 'On-Field DPS',
     targets: ['ATK 2,700–3,000+ with an ATK main-stat W-Engine, 2,400–2,700+ otherwise', 'CRIT Rate 60–70%+', 'CRIT DMG 130–170%+'],
+    goals: [
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 70, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'anby-demara': {
     version: '3.2',
     role: 'Burst Stunner · On-Field Stunner',
     targets: ['CRIT Rate 50%+ (50% maximizes the 4-piece King of the Summit)', 'CRIT DMG 100%+'],
+    goals: [
+      { stat: 'Impact', value: 168, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 40, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'pyrois': {
     version: '3.2',
