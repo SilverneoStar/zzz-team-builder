@@ -41,5 +41,9 @@ export const BANGBOO = [
   {"id": "snap", "name": "Snap", "rank": "S", "version": "1.5", "attribute": "ether", "faction": "Stars of Lyra"},
   {"id": "sprout", "name": "Sprout", "rank": "S", "version": "2.5", "attribute": "physical", "faction": "Yunkui Summit"},
   {"id": "sumoboo", "name": "Sumoboo", "rank": "A", "version": "1.0", "attribute": "physical"},
+  // 3.4 (December 2026): announced in the 3.4 Special Program; rank, attribute
+  // and skills aren't out yet. `about` says what's known.
+  {"id": "pam", "name": "Pam", "soon": true, "version": "3.4", "about": "Pom-Pom from Honkai: Star Rail. Free from the 3.4 crossover event Lost in a Theatrical Dream."},
+  {"id": "sleepwalkerboo", "name": "Sleepwalkerboo", "soon": true, "version": "3.4", "about": "Comes to the Bangboo Channel in 3.4. Summons Bangboo soldiers to fight alongside you and raises Sunbringer's DMG when she's in the squad."},
   {"id": "ultra-jake", "name": "Ultra Jake", "rank": "S", "version": "3.0", "attribute": "fire", "faction": "Roscaelifer"},
 ];

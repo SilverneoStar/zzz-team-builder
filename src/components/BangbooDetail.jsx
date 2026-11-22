@@ -50,7 +50,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       <dl className="facts">
         <div>
           <dt>Rank</dt>
-          <dd>{b.rank ? `${b.rank}-rank` : '—'}</dd>
+          <dd>{b.rank ? `${b.rank}-rank` : b.soon ? <span className="muted">Not revealed yet</span> : '—'}</dd>
         </div>
         <div>
           <dt>Attribute</dt>
@@ -61,7 +61,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
                 {attr.name}
               </>
             ) : (
-              <span className="muted">None</span>
+              <span className="muted">{b.soon ? 'Not revealed yet' : 'None'}</span>
             )}
           </dd>
         </div>
@@ -83,6 +83,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
           <dd>{b.version ? `Version ${b.version}` : <span className="muted">Upcoming</span>}</dd>
         </div>
       </dl>
+      {b.about && <p className="bb-about">{b.about}</p>}
       {kit && <AbilityStatus ability={kit.ability} squad={squad} />}
       {stats && (
         <section>
@@ -124,7 +125,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
       </p>
     </section>
   ) : (
-    <p className="muted small">{b.name}’s skills aren’t listed yet.</p>
+    <p className="muted small">{b.soon ? `${b.name}’s skills haven’t been revealed yet.` : `${b.name}’s skills aren’t listed yet.`}</p>
   );
 
   const best = (
@@ -184,7 +185,7 @@ export default function BangbooDetail({ bangboo: b, activeTeam, onPick, onClose 
                   <span>{attr.name}</span>
                 </>
               ) : (
-                <span>No attribute</span>
+                <span>{b.soon ? 'Coming in 3.4' : 'No attribute'}</span>
               )}
               {b.rank && <span className="nowrap"> · {b.rank}-rank</span>}
             </span>

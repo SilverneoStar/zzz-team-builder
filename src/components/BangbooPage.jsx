@@ -84,7 +84,7 @@ export default function BangbooPage({ bangbooId, activeTeam, onPick }) {
                           {ATTRIBUTE_BY_ID[b.attribute].name}
                         </>
                       ) : (
-                        'No attribute'
+                        b.soon ? 'Coming in 3.4' : 'No attribute'
                       )}
                     </span>
                     <span className="muted small">Ver {b.version}</span>

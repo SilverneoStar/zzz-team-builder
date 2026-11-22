@@ -12717,3 +12717,12 @@ details.disc-guide + details.disc-guide {
 .music__settings .music__tick {
   align-self: flex-start;
 }
+
+/* What's known about a Bangboo before release. */
+.bb-about {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+}
