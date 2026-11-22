@@ -12726,3 +12726,138 @@ details.disc-guide + details.disc-guide {
   border-radius: 6px;
   background: color-mix(in srgb, var(--fg) 6%, transparent);
 }
+
+/* Agent collection (My Agents): tap who you've recruited; who's missing; who to pull. */
+.collection {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.collection > p {
+  margin: 0;
+}
+.collection__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.collection__count {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.collection__count b {
+  color: var(--fg);
+  font-size: 1.2rem;
+}
+.collection__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 10px 8px;
+}
+.collection__tile {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 4px 2px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+.collection__tile:focus-visible {
+  outline: 2px solid var(--accent);
+}
+.collection__tile.is-missing .portrait {
+  filter: grayscale(1) brightness(0.55);
+  transition: filter 0.2s ease;
+}
+.collection__tile.is-missing:hover .portrait {
+  filter: grayscale(0.4) brightness(0.8);
+}
+.collection__tile.is-missing .collection__name {
+  color: var(--muted);
+}
+.collection__name {
+  font-size: 0.75rem;
+  line-height: 1.15;
+  text-align: center;
+}
+.collection__tick {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #2f9e5b;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+}
+.collection__soon {
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #111;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+.collection__picks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.collection__picks > li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 8px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+}
+.collection__picks p {
+  margin: 4px 0 0;
+}
+.collection__picks .collection__tile.is-missing .portrait {
+  filter: none;
+}
+.collection__how {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #24262e;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.collection__how.is-standard,
+.collection__how.is-a-rank,
+.collection__how.is-free {
+  background: #2f9e5b;
+}
+.collection__how.is-upcoming {
+  background: var(--accent);
+  color: #111;
+}

@@ -12,6 +12,7 @@ import { scanFrame } from '../lib/screenshots.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
 import ScreenshotReader from './ScreenshotReader.jsx';
+import AgentCollection from './AgentCollection.jsx';
 
 const SORT_KEY = 'zzz-team-builder:myAgentsSort';
 const get = (k, d) => {
@@ -467,6 +468,8 @@ export default function MyAgentsPage({ onLoadTeam }) {
           </p>
         )}
       </section>
+
+      <AgentCollection buildsVersion={builds.length} />
 
       <section className="myagents__add mybuild" aria-label="Add builds" ref={addRef}>
         <h3 className="myagents__h">Add builds</h3>
