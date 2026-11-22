@@ -68,11 +68,23 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'Anomaly Support',
     targets: ['ATK 3,000 (maximizes her teamwide ATK buffs)', 'Energy Regen about 1.92–2.5 for buff uptime: slot 6 Energy Regen + Moonlight Lullaby 2-piece'],
+    goals: [
+      { stat: 'ATK', value: 3200, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 171, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 2, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'caesar-king': {
     version: '3.1',
     role: 'Support · Shielder',
     targets: ['CRIT Rate 50%+', 'CRIT DMG 100%+', 'Anomaly Proficiency 220+'],
+    goals: [
+      { stat: 'Impact', value: 158, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 50, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2300, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'jane-doe': {
     version: '3.1',
@@ -113,6 +125,13 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Off-Field Stunner · Off-Field DPS',
     targets: ['CRIT Rate 80–100% without the signature W-Engine, 100% with it (100% maximizes the Daze% and CD% self-buffs)'],
+    goals: [
+      { stat: 'CRIT Rate', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 120, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Impact', value: 150, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Energy Regen', value: 1.6, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'banyue': {
     version: '3.2',
@@ -138,6 +157,13 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'Burst Stunner · Fire/Ice Support',
     targets: ['CRIT Rate 50%+ (50% maximizes the 4-piece King of the Summit)', 'CRIT DMG 100%+'],
+    goals: [
+      { stat: 'ATK', value: 1900, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 30, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 140, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Impact', value: 194, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'burnice-white': {
     version: '3.1',
@@ -190,6 +216,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS',
     targets: ['ATK 2,600+ with an ATK main-stat W-Engine, 2,400+ otherwise', 'Anomaly Proficiency 370–400+ with an Anomaly Proficiency main-stat W-Engine, 300–330+ otherwise'],
+    goals: [
+      { stat: 'Anomaly Mastery', value: 204, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 314, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2639, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'zhao': {
     version: '2.7',
@@ -214,6 +246,12 @@ export const STAT_TARGETS = {
     version: '2.8',
     role: 'On-Field DPS',
     targets: ['ATK 2,800–3,200+ with an ATK main-stat W-Engine, 2,700–3,200+ otherwise, 2,300–2,600+ with an Anomaly Mastery slot 6', 'CRIT Rate 68–88%', 'CRIT DMG 110–150%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 80, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 145, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2500, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'ellen-joe': {
     version: '3.0',
@@ -241,11 +279,23 @@ export const STAT_TARGETS = {
     role: 'On-Field DPS',
     targets: ['DEF 2,200–2,400+', 'CRIT Rate 120%+'],
     note: 'CRIT Rate caps at 200% in combat; Armorer Agents roll for CRIT twice, once up to 100% and again from 100–200%.',
+    goals: [
+      { stat: 'DEF', value: 2500, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 129, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'cissia': {
     version: '3.0',
     role: 'Quick-Swap DPS',
     targets: ['ATK 2,700–3,200+ with an ATK main-stat W-Engine, 2,200–2,700+ otherwise', 'CRIT Rate 57–82% · CRIT DMG 110%+', 'Energy Regen about 1.92 (slot 6 + Swing Jazz 2-piece) to fire more EX Specials'],
+    goals: [
+      { stat: 'Energy Regen', value: 3.7, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2618, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 57.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 107.6, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'seed': {
     version: '3.0',
@@ -266,6 +316,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['ATK 3,000–3,300+ with an ATK main-stat W-Engine, 2,700–3,000+ otherwise', 'CRIT Rate 28–75%', 'CRIT DMG 130–180%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 60, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 160, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'tsukishiro-yanagi': {
     version: '3.1',
@@ -276,6 +332,13 @@ export const STAT_TARGETS = {
     version: '2.6',
     role: 'On-Field Stunner',
     targets: ['CRIT Rate 50%+ (50% maximizes the 4-piece King of the Summit)', 'CRIT DMG 100%+'],
+    goals: [
+      { stat: 'ATK', value: 2000, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Impact', value: 193, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 61, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 122, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'grace-howard': {
     version: '3.1',
@@ -375,6 +438,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['ATK 2,800–3,300+ with an ATK main-stat W-Engine, 2,700–3,300+ otherwise', 'CRIT Rate 28–70%', 'CRIT DMG 150–200%+'],
+    goals: [
+      { stat: 'ATK', value: 2700, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 44, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 250, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'nicole-demara': {
     version: '2.2',
