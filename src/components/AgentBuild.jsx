@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useShowBeta } from '../lib/betaInfo.js';
 import BetaHidden from './BetaHidden.jsx';
-import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, SPECIALTY_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
+import { AGENT_BY_ID, BANGBOO_BY_ID, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, SPECIALTY_BY_ID, W_ENGINE_BY_ID, shortName, signatureOf } from '../data/game.js';
 
 const SPECIALTY_NAME = new Proxy({}, { get: (_, k) => SPECIALTY_BY_ID[k]?.name ?? k });
 import { BUILDS } from '../data/builds.js';
@@ -61,7 +61,7 @@ export function AgentBuild({ agent: a, inActiveTeam, onApply }) {
         </div>
         <div>
           <h4 className="micro-title">2-piece set</h4>
-          <SetList ids={b.twoPiece} two />
+          <SetList ids={b.twoPiece} two skip={b.fourPiece} />
         </div>
       </div>
 
@@ -257,9 +257,11 @@ function SubstatGuide({ agent }) {
 
 // 2-piece lists show each set's bonus, and every set with the same bonus as
 // the best one is marked Best too: pick whichever you have better discs in.
-function SetList({ ids, two = false }) {
+function SetList({ ids, two = false, skip = [] }) {
   const bonus = (id) => DRIVE_DISC_BY_ID[id]?.twoPiece;
   const same = two ? ids.filter((id) => bonus(id) === bonus(ids[0])) : ids.slice(0, 1);
+  // Sets the guides didn't list that give the same 2-piece as one they did.
+  const also = two ? DRIVE_DISC_SETS.filter((d) => !ids.includes(d.id) && !skip.includes(d.id) && ids.some((id) => bonus(id) === d.twoPiece)) : [];
   return (
     <>
       <ul className="build__sets">
@@ -274,8 +276,11 @@ function SetList({ ids, two = false }) {
           </li>
         ))}
       </ul>
-      {two && same.length > 1 && (
-        <p className="muted small build__same">Same 2-piece bonus: use whichever you have better discs in.</p>
+      {two && (same.length > 1 || also.length > 0) && (
+        <p className="muted small build__same">
+          {also.length > 0 && <>Same 2-piece as one above: {also.map((d) => `${d.name} (${d.twoPiece})`).join(', ')}. </>}
+          Sets with the same 2-piece bonus are interchangeable: use whichever you have better discs in.
+        </p>
       )}
     </>
   );
