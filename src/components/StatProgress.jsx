@@ -4,12 +4,16 @@ import { SET_FIT } from '../data/discFit.js';
 import { DRIVE_DISC_BY_ID, DRIVE_DISC_SETS } from '../data/game.js';
 import { STAT_TARGETS } from '../data/statTargets.js';
 import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions, twoPieceTip } from '../lib/statGoals.js';
+import { estimateStats } from '../lib/statEstimate.js';
+import { myBuildOf, myExtrasOf } from '../lib/myBuilds.js';
 
 const VIEW_KEY = 'zzz-team-builder:statprogView';
 
 // "Stat progress": the player types their stats from the Agent screen and sees
 // a bar for each goal, plus what to work on next.
-export default function StatProgress({ agent, compact = false }) {
+// Stats come from what you type; anything left blank is worked out from the
+// build in view (or your active saved / UID-imported build) when there is one.
+export default function StatProgress({ agent, compact = false, loadout, core }) {
   const from = STAT_TARGETS[agent.id]?.goalsFrom;
   const goals = goalsOf(agent.id);
   const [mine, setMine] = useState(() => loadMyStats(agent.id));
@@ -26,6 +30,12 @@ export default function StatProgress({ agent, compact = false }) {
     setMine(loadMyStats(agent.id));
   }
   if (!goals.length) return null;
+  const lo = loadout ?? myBuildOf(agent.id);
+  const est = estimateStats(agent.id, lo, core !== undefined ? core : myExtrasOf(agent.id).core);
+  const typedOnly = mine;
+  // What the bars, tips and 2-piece pick use: typed first, then the build.
+  const eff = { ...Object.fromEntries(goals.filter((g) => est?.[g.stat] != null).map((g) => [g.stat, est[g.stat]])), ...typedOnly };
+  const fromBuild = (stat) => !Number.isFinite(typedOnly[stat]) && est?.[stat] != null;
   const set = (stat, raw) => {
     const v = parseFloat(String(raw).replace(/[,%\s]/g, ''));
     const next = { ...mine };
@@ -34,10 +44,10 @@ export default function StatProgress({ agent, compact = false }) {
     setMine(next);
     saveMyStats(agent.id, next);
   };
-  const tips = suggestions(goals, mine);
-  const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, mine);
-  const typed = goals.filter((g) => Number.isFinite(mine[g.stat]));
-  const met = typed.filter((g) => mine[g.stat] >= g.value);
+  const tips = suggestions(goals, eff);
+  const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, eff);
+  const typed = goals.filter((g) => Number.isFinite(eff[g.stat]));
+  const met = typed.filter((g) => eff[g.stat] >= g.value);
   const focus = tips.find((t) => t.kind === 'focus');
   const focusGoal = focus && goals.find((g) => g.stat === focus.stat);
   const toggle = () => {
@@ -63,11 +73,16 @@ export default function StatProgress({ agent, compact = false }) {
         </button>
       </div>
       {goals.map((g) => {
-        const have = mine[g.stat];
+        const have = eff[g.stat];
+        const est1 = fromBuild(g.stat);
         const pct = Number.isFinite(have) ? Math.min(100, (have / g.value) * 100) : 0;
         const done = Number.isFinite(have) && have >= g.value;
         return (
-          <div key={g.stat} className={`statprog__row${done ? ' is-done' : ''}`} title={g.hint || undefined}>
+          <div
+            key={g.stat}
+            className={`statprog__row${done ? ' is-done' : ''}${est1 ? ' is-est' : ''}`}
+            title={est1 ? 'Worked out from your build: type to use your in-game number instead' : g.hint || undefined}
+          >
             <span className="statprog__label">{g.stat}</span>
             <label className="statprog__bar">
               <span className="statprog__fill" style={{ width: `${pct}%` }} />
@@ -75,8 +90,8 @@ export default function StatProgress({ agent, compact = false }) {
                 <input
                   inputMode="decimal"
                   aria-label={`Your ${g.stat}`}
-                  placeholder="yours"
-                  defaultValue={Number.isFinite(have) ? have : ''}
+                  placeholder={est1 ? String(have) : 'yours'}
+                  defaultValue={Number.isFinite(typedOnly[g.stat]) ? typedOnly[g.stat] : ''}
                   key={`${agent.id}-${g.stat}`}
                   onChange={(e) => set(g.stat, e.target.value)}
                 />
@@ -93,6 +108,12 @@ export default function StatProgress({ agent, compact = false }) {
         );
       })}
 
+      {goals.some((g) => fromBuild(g.stat)) && (
+        <p className="muted small statprog__hint">
+          <span className="statprog__estdot" aria-hidden="true" /> Faded numbers are worked out from your build (Lv.60,
+          out of combat). Type your in-game number to replace one.
+        </p>
+      )}
       {typed.length === 0 ? (
         <p className="muted small statprog__hint">Tap a bar and type your stat from the Agent screen.</p>
       ) : (
@@ -101,7 +122,7 @@ export default function StatProgress({ agent, compact = false }) {
             <dt>Next</dt>
             <dd>
               {focus
-                ? `${focus.stat} · ${fmt(focusGoal.value - mine[focus.stat], focusGoal.pct)} to go`
+                ? `${focus.stat} · ${fmt(focusGoal.value - eff[focus.stat], focusGoal.pct)} to go`
                 : met.length === goals.length
                   ? 'All goals met'
                   : 'Type the rest of your stats'}

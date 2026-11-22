@@ -44,7 +44,7 @@ W-Engine passive effects are short summaries, written in our own words, of each 
 
 Team and build images also carry a QR code with their code. The QR codes are drawn with the QR Code encoder by Kazuhiko Arase (MIT License), from qrcode-terminal (Apache License 2.0), bundled in `src/lib/vendor/qrcode.js`. Reading a QR code from an uploaded picture uses the browser's own BarcodeDetector when there is one, and otherwise jsQR (Apache License 2.0), loaded from cdn.jsdelivr.net when it's needed. Scanning one with a phone camera gives `ZZZ:` followed by the code, which can be pasted into the site.
 
-**Import from UID** reads a player's public in-game Agent Showcase through the [Enka.Network](https://enka.network) API, via a small relay (`tools/enka-relay`). The ID tables in `src/data/enkaMap.js` are generated from Enka's [API-docs](https://github.com/EnkaNetwork/API-docs) store files by `tools/enka/make_map.py`. Enka.Network isn't affiliated with this site or with HoYoverse.
+**Import from UID** reads a player's public in-game Agent Showcase through the [Enka.Network](https://enka.network) API, via a small relay (`tools/enka-relay`). The ID tables in `src/data/enkaMap.js` are generated from Enka's [API-docs](https://github.com/EnkaNetwork/API-docs) store files by `tools/enka/make_map.py`. The Agent base stats behind Stat progress's build estimate (`src/data/agentStats.js`) come from the same store files, via `tools/enka/make_stats.py`. Enka.Network isn't affiliated with this site or with HoYoverse.
 
 ## Music (the hidden Tea Room)
 

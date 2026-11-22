@@ -17,7 +17,7 @@ export default function BuildReview({ agentId, loadout }) {
       <section className="syn review" aria-label="Stat goals">
         <div className="syn__body">
           <span className="syn__label">Cortado’s build review · stat goals</span>
-          <StatProgress agent={AGENT_BY_ID[agentId]} compact />
+          <StatProgress agent={AGENT_BY_ID[agentId]} compact loadout={loadout} />
         </div>
       </section>
     );
@@ -50,7 +50,7 @@ export default function BuildReview({ agentId, loadout }) {
       {goals && (
         <div className="review__goals">
           <span className="syn__label">Stat goals</span>
-          <StatProgress agent={AGENT_BY_ID[agentId]} compact />
+          <StatProgress agent={AGENT_BY_ID[agentId]} compact loadout={loadout} />
         </div>
       )}
     </section>

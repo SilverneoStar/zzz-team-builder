@@ -7097,6 +7097,22 @@ a:focus-visible > .frame {
 .statprog__hint {
   margin: 0;
 }
+.statprog__row.is-est .statprog__nums input::placeholder {
+  opacity: 0.85;
+  font-weight: 800;
+  font-style: italic;
+}
+.statprog__row.is-est .statprog__fill {
+  opacity: 0.6;
+}
+.statprog__estdot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4fa2f0;
+  opacity: 0.6;
+}
 .statprog__sum {
   display: flex;
   flex-wrap: wrap;

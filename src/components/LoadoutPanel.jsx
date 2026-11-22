@@ -399,7 +399,7 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose, stats 
           {stats && goalsOf(agent.id).length > 0 && (
             <details className="loadout__statprog" open={Object.keys(loadMyStats(agent.id)).length > 0}>
               <summary className="field__label">Stat progress</summary>
-              <StatProgress agent={agent} compact />
+              <StatProgress agent={agent} compact loadout={loadout} />
             </details>
           )}
 
