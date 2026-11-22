@@ -13492,3 +13492,33 @@ details.disc-guide + details.disc-guide {
     height: 44px;
   }
 }
+
+/* A skill's versions (e.g. Pyrois's four Ultimates) with when to use each. */
+.skills__parts {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.skills__parts > li {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2, var(--surface));
+}
+.skills__part-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.skills__parts p {
+  margin: 4px 0 0;
+}
+.skills__best {
+  color: var(--text);
+}
+.skills__best b {
+  color: var(--accent);
+}

@@ -53,6 +53,27 @@ function fill(text, values) {
 
 const paras = (text, values = []) => text.split('\n').map((line, i) => <p key={i}>{fill(line, values)}</p>);
 
+// A skill with several versions (like Pyrois's four Ultimates): each one's
+// effect in short and when it's best to use.
+const Parts = ({ parts }) => (
+  <ol className="skills__parts">
+    {parts.map((p) => (
+      <li key={p.name}>
+        <div className="skills__part-head">
+          {p.dir && <span className="card__tag">{p.dir}</span>}
+          <b>{p.name}</b>
+        </div>
+        <p>{p.what}</p>
+        {p.best && (
+          <p className="skills__best">
+            <b>Best used:</b> {p.best}
+          </p>
+        )}
+      </li>
+    ))}
+  </ol>
+);
+
 // The Agent page's Skills tab: every skill in short, the Core Passive at each
 // level (Base, A–F), the Additional Ability and whether the current team turns
 // it on, Mindscapes, and Potential where the Agent has one.
@@ -123,11 +144,12 @@ export default function SkillsTab({ agent: a, team }) {
               <span className="skills__peek">{[...new Set(list.map((s) => s[2]))].join(' · ')}</span>
             </summary>
             <ul className="skills__list">
-              {list.map(([, kind, name, text]) => (
+              {list.map(([, kind, name, text, parts]) => (
                 <li key={kind + name}>
                   <span className="skills__kind">{kind}</span>
                   <b className="skills__name">{name}</b>
                   <p>{text}</p>
+                  {parts && <Parts parts={parts} />}
                 </li>
               ))}
             </ul>
