@@ -47,6 +47,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,500–2,900+ with an ATK main-stat W-Engine, 2,300–2,700+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 320–350+ otherwise'],
+    goals: [
+      { stat: 'Anomaly Mastery', value: 195, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 390, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 3000, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'severian-lowell': {
     version: '3.3',
@@ -96,6 +102,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS',
     targets: ['ATK 2,700–2,900+ with an ATK main-stat W-Engine, 2,300–2,500+ otherwise', 'Anomaly Proficiency 410–440+ with an Anomaly Proficiency main-stat W-Engine, 350–380+ otherwise'],
+    goals: [
+      { stat: 'Anomaly Mastery', value: 140, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 375, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2200, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'nekomiya-mana': {
     version: '3.1',
@@ -184,16 +196,35 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Off-Field DPS',
     targets: ['ATK 2,200–2,500+', 'CRIT Rate 38–63% · CRIT DMG 120–150%+', 'Energy Regen about 3.66 to cap Zeroed In (+700 squad ATK) and fire more off-field EX Specials'],
+    goals: [
+      { stat: 'Energy Regen', value: 3.7, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 43.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 174.8, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2254, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'ju-fufu': {
     version: '3.0',
     role: 'Off-Field Stunner · Support',
     targets: ['ATK 3,100–3,300+ without the signature W-Engine, 3,400 with it (maximizes the teamwide CD%)', 'CRIT Rate 50% (50% maximizes the 4-piece King of the Summit)'],
+    goals: [
+      { stat: 'ATK', value: 3400, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 60, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 120, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'evelyn-chevalier': {
     version: '3.2',
     role: 'On-Field DPS',
     targets: ['ATK 3,200–3,400+ with an ATK main-stat W-Engine, 2,700–3,000+ otherwise', 'CRIT Rate 55–75%', 'CRIT DMG 130–160%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 75.4, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 186, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2973, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'lighter': {
     version: '3.0',
@@ -211,6 +242,12 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'Off-Field DPS',
     targets: ['ATK 2,500–2,800+ with an ATK main-stat W-Engine, 2,300–2,500+ otherwise', 'Anomaly Proficiency 390–440+ with an Anomaly Proficiency main-stat W-Engine, 320–370+ otherwise', 'Energy Regen on slot 6 helps her chain abilities (her Potential scales off it)'],
+    goals: [
+      { stat: 'ATK', value: 2500, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Mastery', value: 153, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 300, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'soldier-11': {
     version: '3.0',
@@ -305,6 +342,12 @@ export const STAT_TARGETS = {
     version: '3.2',
     role: 'Burst DPS',
     targets: ['ATK 2,800–3,400+ with an ATK main-stat W-Engine, 2,700–3,200+ otherwise', 'CRIT Rate 68–88%', 'CRIT DMG 120–150%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 85, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 150, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 2800, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'hoshimi-miyabi': {
     version: '2.8',
@@ -321,6 +364,12 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'On-Field DPS',
     targets: ['ATK 2,750–3,450+ with an ATK main-stat W-Engine, 2,700–3,000+ otherwise', 'CRIT Rate 80–100%', 'CRIT DMG 120%+'],
+    goals: [
+      { stat: 'ATK', value: 3100, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT Rate', value: 70, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 180, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'von-lycaon': {
     version: '3.2',
@@ -372,6 +421,12 @@ export const STAT_TARGETS = {
     version: '3.0',
     role: 'Quick-Swap DPS',
     targets: ['ATK 2,800–3,000+ with an ATK main-stat W-Engine, 2,500–2,700+ otherwise', 'CRIT Rate 60–100%', 'CRIT DMG 120%+'],
+    goals: [
+      { stat: 'CRIT Rate', value: 85, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'CRIT DMG', value: 170, pct: true, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'ATK', value: 3100, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'trigger': {
     version: '3.2',
@@ -398,6 +453,11 @@ export const STAT_TARGETS = {
     version: '3.1',
     role: 'On-Field DPS · Quick-Swap DPS',
     targets: ['ATK 2,500–2,700+ with an ATK main-stat W-Engine, 2,300–2,400+ otherwise', 'Anomaly Proficiency 400–420+ with an Anomaly Proficiency main-stat W-Engine, 350–375+ otherwise'],
+    goals: [
+      { stat: 'ATK', value: 3000, hint: 'HoYoLAB Agent Upgrade Guide' },
+      { stat: 'Anomaly Proficiency', value: 400, hint: 'HoYoLAB Agent Upgrade Guide' },
+    ],
+    goalsFrom: 'HoYoLAB’s Agent Upgrade Guide (a player’s guide)',
   },
   'qingyi': {
     version: '2.6',
