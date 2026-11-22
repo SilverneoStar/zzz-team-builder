@@ -12861,3 +12861,65 @@ details.disc-guide + details.disc-guide {
   background: var(--accent);
   color: #111;
 }
+
+/* Character colours for the beat: bars and the canvas styles. */
+.music__beat[data-bars='c-ellen'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #1b1c2e, #8a1c2c, #e0384a, #f6e9ec);
+  box-shadow: 0 0 8px #e0384a88;
+}
+.music__beat[data-bars='c-ellen'] .music__pulse {
+  --pulse-color: #e0384a;
+  --pulse-stops: #1b1c2e, #8a1c2c, #e0384a, #f6e9ec;
+  --pulse-glow: #e0384a;
+}
+.music__beat[data-bars='c-miyabi'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #0f2a44, #2f8fb0, #8fe3ff, #f0fbff);
+  box-shadow: 0 0 8px #8fe3ff88;
+}
+.music__beat[data-bars='c-miyabi'] .music__pulse {
+  --pulse-color: #8fe3ff;
+  --pulse-stops: #0f2a44, #2f8fb0, #8fe3ff, #f0fbff;
+  --pulse-glow: #8fe3ff;
+}
+.music__beat[data-bars='c-burnice'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #3a0b08, #c2310f, #ff7a1a, #ffd36a);
+  box-shadow: 0 0 8px #ff7a1a88;
+}
+.music__beat[data-bars='c-burnice'] .music__pulse {
+  --pulse-color: #ff7a1a;
+  --pulse-stops: #3a0b08, #c2310f, #ff7a1a, #ffd36a;
+  --pulse-glow: #ff7a1a;
+}
+.music__beat[data-bars='c-vivian'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #241e44, #6a5fc4, #a99bff, #efe7ff);
+  box-shadow: 0 0 8px #a99bff88;
+}
+.music__beat[data-bars='c-vivian'] .music__pulse {
+  --pulse-color: #a99bff;
+  --pulse-stops: #241e44, #6a5fc4, #a99bff, #efe7ff;
+  --pulse-glow: #a99bff;
+}
+.music__beat[data-bars='c-jane'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #191620, #5c1d2c, #c5324a, #f0b9b0);
+  box-shadow: 0 0 8px #c5324a88;
+}
+.music__beat[data-bars='c-jane'] .music__pulse {
+  --pulse-color: #c5324a;
+  --pulse-stops: #191620, #5c1d2c, #c5324a, #f0b9b0;
+  --pulse-glow: #c5324a;
+}
+.music__beat[data-bars='c-yixuan'] span {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, #17130f, #6b442e, #c9902f, #f3e0b0);
+  box-shadow: 0 0 8px #c9902f88;
+}
+.music__beat[data-bars='c-yixuan'] .music__pulse {
+  --pulse-color: #c9902f;
+  --pulse-stops: #17130f, #6b442e, #c9902f, #f3e0b0;
+  --pulse-glow: #c9902f;
+}
