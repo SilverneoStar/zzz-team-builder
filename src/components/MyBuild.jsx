@@ -1,3 +1,4 @@
+import { buildGoals } from '../lib/statEstimate.js';
 import { useState } from 'react';
 import LoadoutPanel from './LoadoutPanel.jsx';
 import BuildReview from './BuildReview.jsx';
@@ -85,6 +86,14 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
         >
           {b.name}
           {addedAtOf(b) > 0 && <small className="mybuild__date">{shortDate(addedAtOf(b))}</small>}
+          {(() => {
+            const g = buildGoals(a.id, b.loadout, b.core);
+            return g ? (
+              <small className={`mybuild__goals${g.met === g.total ? ' is-done' : ''}`} title="Stat goals this build meets">
+                {g.met}/{g.total}
+              </small>
+            ) : null;
+          })()}
         </button>
       ))}
       <button

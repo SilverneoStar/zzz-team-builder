@@ -6,6 +6,7 @@ import { AGENT_STATS } from '../data/agentStats.js';
 import { SET_FIT } from '../data/discFit.js';
 import { DRIVE_DISC_BY_ID, W_ENGINE_BY_ID } from '../data/game.js';
 import { discBonuses, discStatTotals, normaliseDiscs } from './discs.js';
+import { goalsOf, loadMyStats } from './statGoals.js';
 
 const num = (v) => (v == null ? 0 : Number(String(v).replace(/[,%]/g, '')) || 0);
 const ALIAS = { 'Crit Rate': 'CRIT Rate', Attack: 'ATK', Defense: 'DEF' };
@@ -62,4 +63,17 @@ export function estimateStats(agentId, loadout, core) {
     Impact: Math.floor(pctOf(b.impact ?? 0, 'Impact%')),
     'PEN Ratio': Math.round(((b.penRatio ?? 0) / 100 + g('PEN Ratio')) * 10) / 10,
   };
+}
+
+/**
+ * How many stat goals one build meets: { met, total } from its own gear, or
+ * from typed stats when the Agent can't be worked out; null with neither.
+ */
+export function buildGoals(agentId, loadout, core) {
+  const goals = goalsOf(agentId);
+  if (!goals.length) return null;
+  const vals = estimateStats(agentId, loadout, core) ?? loadMyStats(agentId);
+  const known = goals.filter((g) => Number.isFinite(vals[g.stat]));
+  if (!known.length) return null;
+  return { met: known.filter((g) => vals[g.stat] >= g.value).length, total: goals.length };
 }

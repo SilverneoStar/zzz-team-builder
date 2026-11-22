@@ -2,19 +2,18 @@
 // icon per build. Tapping one opens that Agent's My build tab on that build.
 // Also the one place to bring builds in: paste a build or team code, scan an
 // image's QR code with the camera, upload images, or import a showcase by UID.
-import { goalsOf, loadMyStats } from '../lib/statGoals.js';
-import { estimateStats } from '../lib/statEstimate.js';
+import { buildGoals } from '../lib/statEstimate.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID } from '../data/game.js';
 import { allMyBuilds, readAnyCode, saveBuildsFrom, setActiveBuild, shortDate } from '../lib/myBuilds.js';
 import { fetchShowcase, validUid } from '../lib/enka.js';
+import { forgetMyUid, getMyUid, saveMyUid } from '../lib/myUid.js';
 import { scanFrame } from '../lib/screenshots.js';
 import { navigate } from '../lib/route.js';
 import Portrait from './Portrait.jsx';
 import ScreenshotReader from './ScreenshotReader.jsx';
 
 const SORT_KEY = 'zzz-team-builder:myAgentsSort';
-const UID_KEY = 'zzz-team-builder:uid';
 const get = (k, d) => {
   try {
     return localStorage.getItem(k) ?? d;
@@ -141,26 +140,38 @@ function Found({ team, onSave, onTeam, onCancel }) {
 }
 
 /** Imports every Agent in a player's showcase at once. */
-function ShowcaseImport({ onSaved }) {
-  const [uid, setUid] = useState(() => get(UID_KEY, ''));
+function ShowcaseImport({ onSaved, me, nonce, onMine }) {
+  const [uid, setUid] = useState(() => me.uid);
   const [st, setSt] = useState({ busy: false, error: '', found: null, pick: {} });
 
-  const look = async () => {
-    const u = uid.trim();
+  const look = async (given) => {
+    const u = (typeof given === 'string' ? given : uid).trim();
     if (!validUid(u)) {
       setSt({ busy: false, error: 'A UID is 8 to 10 digits (Profile in the game, or the corner of any screen).', found: null, pick: {} });
       return;
     }
-    set(UID_KEY, u);
-    setSt({ busy: true, error: '', found: null, pick: {} });
+    setSt({ busy: true, error: '', found: null, pick: {}, uid: u });
     try {
       const found = await fetchShowcase(u);
       const pick = Object.fromEntries(found.agents.filter((x) => x.agentId).map((x) => [x.agentId, true]));
-      setSt({ busy: false, error: '', found, pick });
+      setSt({ busy: false, error: '', found, pick, uid: u });
+      // Keep the in-game name next to your own UID up to date.
+      if (u === me.uid && found.nickname && found.nickname !== me.name) onMine(u, found.nickname);
     } catch (e) {
       setSt({ busy: false, error: e.message, found: null, pick: {} });
     }
   };
+
+  // A UID saved up top fills the box (unless you're typing another one).
+  useEffect(() => {
+    if (me.uid) setUid((u) => u || me.uid);
+  }, [me.uid]);
+  // "Update my builds" up top looks up your saved UID here.
+  useEffect(() => {
+    if (!nonce || !me.uid) return;
+    setUid(me.uid);
+    look(me.uid);
+  }, [nonce]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const known = st.found?.agents.filter((x) => x.agentId && AGENT_BY_ID[x.agentId]) ?? [];
   const unknown = (st.found?.agents.length ?? 0) - known.length;
@@ -219,6 +230,13 @@ function ShowcaseImport({ onSaved }) {
       )}
       {st.found && (
         <div className="myagents__found">
+          {st.uid !== me.uid && (
+            <p className="small">
+              <button type="button" className="btn btn--quiet" onClick={() => onMine(st.uid, st.found.nickname ?? '')}>
+                Save {st.uid} as my UID
+              </button>
+            </p>
+          )}
           <p>
             {st.found.nickname ? <strong>{st.found.nickname}</strong> : 'This player'}
             {known.length ? ` has ${known.length} Agent${known.length > 1 ? 's' : ''} in their showcase:` : ' has no Agents in their showcase yet.'}
@@ -266,6 +284,14 @@ export default function MyAgentsPage({ onLoadTeam }) {
   const [found, setFound] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [notice, setNotice] = useState('');
+  const [me, setMe] = useState(getMyUid);
+  const [nonce, setNonce] = useState(0);
+  const [uidDraft, setUidDraft] = useState('');
+  const addRef = useRef(null);
+  const mine = (uid, name) => {
+    saveMyUid(uid, name);
+    setMe(getMyUid());
+  };
 
   // One icon per Agent: their active build, with how many they have.
   const shown = useMemo(() => {
@@ -317,6 +343,64 @@ export default function MyAgentsPage({ onLoadTeam }) {
         </p>
       </header>
 
+      <section className="myagents__me" aria-label="Your UID">
+        <h3 className="myagents__h">Your UID</h3>
+        {me.uid ? (
+          <div className="myagents__me-row">
+            <span>
+              <b>{me.name || 'You'}</b> <span className="muted">· UID {me.uid}</span>
+            </span>
+            <button
+              type="button"
+              className="btn btn--primary"
+              onClick={() => {
+                setNonce((n) => n + 1);
+                setTimeout(() => addRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+              }}
+            >
+              Update my builds
+            </button>
+            <button
+              type="button"
+              className="btn btn--quiet"
+              onClick={() => {
+                forgetMyUid();
+                setMe(getMyUid());
+              }}
+            >
+              Forget
+            </button>
+          </div>
+        ) : (
+          <form
+            className="code-row"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (validUid(uidDraft)) {
+                mine(uidDraft, '');
+                setUidDraft('');
+              }
+            }}
+          >
+            <input
+              className="code"
+              inputMode="numeric"
+              value={uidDraft}
+              placeholder="Your UID (8–10 digits)"
+              aria-label="Your UID"
+              onChange={(e) => setUidDraft(e.target.value.replace(/\D/g, '').slice(0, 10))}
+            />
+            <button className="btn" type="submit" disabled={!validUid(uidDraft)}>
+              Save
+            </button>
+          </form>
+        )}
+        <p className="muted small">
+          Kept in this browser only. With it saved, “Update my builds” brings in your showcase in one tap, and UID imports
+          fill it in for you. Looking up someone else’s UID doesn’t change it.
+        </p>
+      </section>
+
       <section className="myagents__desk" aria-label="Saved builds">
         <div className="myagents__bar">
           <span className="muted small">
@@ -355,7 +439,7 @@ export default function MyAgentsPage({ onLoadTeam }) {
                     style={{ '--el': el }}
                     onClick={() => open(b)}
                     title={`${a.name} · ${n} build${n > 1 ? 's' : ''}\n${g.builds
-                      .map((x) => `${x.active ? '• ' : '  '}${x.name}${x.addedAt ? ` (added ${shortDate(x.addedAt)})` : ''}`)
+                      .map((x) => `${x.active ? '• ' : '  '}${x.name}${x.addedAt ? ` (added ${shortDate(x.addedAt)})` : ''}${goalText(x)}`)
                       .join('\n')}`}
                   >
                     <span className="myagents__art">
@@ -372,7 +456,6 @@ export default function MyAgentsPage({ onLoadTeam }) {
                       {n > 1 && <span className="myagents__build">{n} builds</span>}
                       <span className="myagents__build">{g.latest ? `added ${shortDate(g.latest)}` : b.name}</span>
                     </span>
-                    <GoalChip agentId={a.id} build={b} />
                   </button>
                 </li>
               );
@@ -385,7 +468,7 @@ export default function MyAgentsPage({ onLoadTeam }) {
         )}
       </section>
 
-      <section className="myagents__add mybuild" aria-label="Add builds">
+      <section className="myagents__add mybuild" aria-label="Add builds" ref={addRef}>
         <h3 className="myagents__h">Add builds</h3>
         {notice && (
           <p className="myagents__notice" role="status">
@@ -459,7 +542,7 @@ export default function MyAgentsPage({ onLoadTeam }) {
               <ScreenshotReader codesOnly onCode={(t) => setFound(t)} />
             </div>
 
-            <ShowcaseImport onSaved={saved} />
+            <ShowcaseImport onSaved={saved} me={me} nonce={nonce} onMine={mine} />
           </>
         )}
       </section>
@@ -467,16 +550,9 @@ export default function MyAgentsPage({ onLoadTeam }) {
   );
 }
 
-// How many of the Agent's stat goals are met, from the stats typed into Stat progress.
-function GoalChip({ agentId, build }) {
-  const goals = goalsOf(agentId);
-  const mine = { ...(estimateStats(agentId, build.loadout, build.core) ?? {}), ...loadMyStats(agentId) };
-  const typed = goals.filter((g) => Number.isFinite(mine[g.stat]));
-  if (!typed.length) return null;
-  const met = typed.filter((g) => mine[g.stat] >= g.value).length;
-  return (
-    <span className={`myagents__goals${met === goals.length ? ' is-done' : ''}`} title="Stat goals met (Stat progress)">
-      {met}/{goals.length} goals
-    </span>
-  );
+// " · 2/3 goals" for one build, from its own gear (or typed stats when the
+// Agent can't be worked out), or '' when there's nothing to go on.
+function goalText(b) {
+  const g = buildGoals(b.agentId, b.loadout, b.core);
+  return g ? ` · ${g.met}/${g.total} goals` : '';
 }

@@ -2,15 +2,10 @@ import { useState } from 'react';
 import { AGENT_BY_ID } from '../data/game.js';
 import { fetchShowcase, validUid } from '../lib/enka.js';
 
-const KEY = 'zzz-team-builder:uid';
+import { getMyUid } from '../lib/myUid.js';
+
 const CORE = ['none', 'A', 'B', 'C', 'D', 'E', 'F'];
-const remembered = () => {
-  try {
-    return localStorage.getItem(KEY) ?? '';
-  } catch {
-    return '';
-  }
-};
+const remembered = () => getMyUid().uid;
 
 // "Import from UID": the player's in-game Agent Showcase, read through
 // Enka.Network. Fills this Agent's build (gear, skill levels, Core Skill) when
@@ -24,11 +19,6 @@ export default function UidImport({ agent, onBuild }) {
     if (!validUid(u)) {
       setState({ busy: false, error: 'A UID is 8 to 10 digits (Profile in the game, or the corner of any screen).', found: null });
       return;
-    }
-    try {
-      localStorage.setItem(KEY, u);
-    } catch {
-      /* not saved: fine */
     }
     setState({ busy: true, error: '', found: null });
     try {
