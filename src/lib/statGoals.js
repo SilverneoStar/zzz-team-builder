@@ -102,7 +102,9 @@ export function suggestions(goals, mine) {
   return out;
 }
 
-export const fmt = (v, pct) => (pct ? `${Math.round(v * 10) / 10}%` : Math.round(v).toLocaleString('en-US'));
+// Energy Regen is a small number (2.6), so it keeps its decimals.
+export const fmt = (v, pct) =>
+  pct ? `${Math.round(v * 10) / 10}%` : Math.abs(v) < 10 ? String(Math.round(v * 100) / 100) : Math.round(v).toLocaleString('en-US');
 
 // Which 2-piece to pick with the stats you have now. Sets with the same bonus
 // are interchangeable, so a pick names every set (listed or not) giving it.
@@ -131,12 +133,15 @@ export function twoPieceTip(build, setFit, discById, allSets, goals, mine) {
     const covers = TWO_SIZE[k] && TWO_SIZE[k] >= r.gap ? 'that alone about closes it' : 'that covers part of it';
     let text = `${names(k)} (${bonus(k)}): your ${r.stat} is the furthest short, and ${covers}.`;
     if (first && first !== k && met(first)) text += ` Your ${STAT_LABEL[first]} is already past its goal, so this beats ${names(first)}.`;
-    return text;
+    return { pick: names(k), text };
   }
   if (!short.length) {
     const picks = listedKeys.filter((k) => DAMAGE(k) && !(KEY_OF_REV[k] && rows.some((r) => KEY_OF[r.stat] === k && r.gap > 0)));
     if (picks.length)
-      return `Goals met: pick a 2-piece for more damage, like ${picks.slice(0, 3).map((k) => `${names(k)} (${bonus(k)})`).join(', or ')}.`;
+      return {
+        pick: `${names(picks[0])} for damage`,
+        text: `Goals met: pick a 2-piece for more damage, like ${picks.slice(0, 3).map((k) => `${names(k)} (${bonus(k)})`).join(', or ')}.`,
+      };
   }
   return null;
 }

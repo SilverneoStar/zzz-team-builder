@@ -7063,10 +7063,82 @@ a:focus-visible > .frame {
   background: #2f9e5b;
 }
 .statprog__two {
+  margin: 0;
+}
+.statprog__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 26px;
+}
+.statprog__toggle {
+  margin-left: auto;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.statprog__count {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #24262e;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.statprog__count.is-done {
+  background: #2f9e5b;
+}
+.statprog__hint {
+  margin: 0;
+}
+.statprog__sum {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   margin: 2px 0 0;
 }
-.statprog__focus {
+.statprog__sum > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
+  font-size: 0.85rem;
+}
+.statprog__sum dt {
   color: var(--el, var(--accent));
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.statprog__sum dd {
+  margin: 0;
+  font-weight: 700;
+}
+.statprog__more {
+  display: grid;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+.statprog__more > p {
+  margin: 0;
+}
+.statprog__sub {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted, #888);
 }
 
 /* Skills tab: collapsible groups with a one-line peek at what's inside. */

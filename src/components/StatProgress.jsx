@@ -5,6 +5,8 @@ import { DRIVE_DISC_BY_ID, DRIVE_DISC_SETS } from '../data/game.js';
 import { STAT_TARGETS } from '../data/statTargets.js';
 import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions, twoPieceTip } from '../lib/statGoals.js';
 
+const VIEW_KEY = 'zzz-team-builder:statprogView';
+
 // "Stat progress": the player types their stats from the Agent screen and sees
 // a bar for each goal, plus what to work on next.
 export default function StatProgress({ agent, compact = false }) {
@@ -12,6 +14,13 @@ export default function StatProgress({ agent, compact = false }) {
   const goals = goalsOf(agent.id);
   const [mine, setMine] = useState(() => loadMyStats(agent.id));
   const [shownFor, setShownFor] = useState(agent.id);
+  const [detailed, setDetailed] = useState(() => {
+    try {
+      return localStorage.getItem(VIEW_KEY) === 'detailed';
+    } catch {
+      return false;
+    }
+  });
   if (shownFor !== agent.id) {
     setShownFor(agent.id);
     setMine(loadMyStats(agent.id));
@@ -27,10 +36,32 @@ export default function StatProgress({ agent, compact = false }) {
   };
   const tips = suggestions(goals, mine);
   const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, mine);
+  const typed = goals.filter((g) => Number.isFinite(mine[g.stat]));
+  const met = typed.filter((g) => mine[g.stat] >= g.value);
+  const focus = tips.find((t) => t.kind === 'focus');
+  const focusGoal = focus && goals.find((g) => g.stat === focus.stat);
+  const toggle = () => {
+    const v = !detailed;
+    setDetailed(v);
+    try {
+      localStorage.setItem(VIEW_KEY, v ? 'detailed' : 'simple');
+    } catch {
+      /* fine: the choice just isn't remembered */
+    }
+  };
   return (
-    <div className="statprog">
-      {!compact && <span className="micro-title">Stat progress</span>}
-      <p className="muted small">Type your stats from the Agent screen to see how close you are.</p>
+    <div className={`statprog${detailed ? ' is-detailed' : ''}`}>
+      <div className="statprog__head">
+        {!compact && <span className="micro-title">Stat progress</span>}
+        {typed.length > 0 && (
+          <span className={`statprog__count${met.length === goals.length ? ' is-done' : ''}`}>
+            {met.length}/{goals.length} goals
+          </span>
+        )}
+        <button type="button" className="statprog__toggle" aria-expanded={detailed} onClick={toggle}>
+          {detailed ? 'Simple' : 'Details'}
+        </button>
+      </div>
       {goals.map((g) => {
         const have = mine[g.stat];
         const pct = Number.isFinite(have) ? Math.min(100, (have / g.value) * 100) : 0;
@@ -61,25 +92,57 @@ export default function StatProgress({ agent, compact = false }) {
           </div>
         );
       })}
-      {tips.length > 0 && (
-        <ul className="statprog__tips">
-          {tips.map((t) => (
-            <li key={t.stat} className={`is-${t.kind}`}>
-              {t.kind === 'focus' && <b className="statprog__focus">Focus next · </b>}
-              <b>{t.stat}</b> {t.text}
-            </li>
-          ))}
-        </ul>
+
+      {typed.length === 0 ? (
+        <p className="muted small statprog__hint">Tap a bar and type your stat from the Agent screen.</p>
+      ) : (
+        <dl className="statprog__sum">
+          <div>
+            <dt>Next</dt>
+            <dd>
+              {focus
+                ? `${focus.stat} · ${fmt(focusGoal.value - mine[focus.stat], focusGoal.pct)} to go`
+                : met.length === goals.length
+                  ? 'All goals met'
+                  : 'Type the rest of your stats'}
+            </dd>
+          </div>
+          {two && (
+            <div>
+              <dt>2-piece</dt>
+              <dd>{two.pick}</dd>
+            </div>
+          )}
+        </dl>
       )}
-      {two && (
-        <p className="statprog__two small">
-          <b>2-piece pick · </b>
-          {two}
-        </p>
+
+      {detailed && (
+        <div className="statprog__more">
+          {tips.length > 0 && (
+            <>
+              <span className="statprog__sub">What to work on</span>
+              <ul className="statprog__tips">
+                {tips.map((t) => (
+                  <li key={t.stat} className={`is-${t.kind}`}>
+                    <b>{t.stat}</b> {t.text}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {two && (
+            <>
+              <span className="statprog__sub">Why this 2-piece</span>
+              <p className="small statprog__two">{two.text}</p>
+            </>
+          )}
+          <p className="muted small">
+            {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range.'} Type your
+            stats from the Agent screen. A loose guide: your W-Engine, team buffs and which discs you own change the
+            best pick, and a balanced build that fits your team still comes first.
+          </p>
+        </div>
       )}
-      <p className="muted small">
-        {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range below.'} A loose guide: your W-Engine, team buffs and which discs you own change the best pick, and a balanced build that fits your team still comes first.
-      </p>
     </div>
   );
 }
