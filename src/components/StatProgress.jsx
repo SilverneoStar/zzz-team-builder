@@ -5,6 +5,7 @@ import { DRIVE_DISC_BY_ID, DRIVE_DISC_SETS } from '../data/game.js';
 import { STAT_TARGETS } from '../data/statTargets.js';
 import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions, twoPieceTip } from '../lib/statGoals.js';
 import { estimateStats } from '../lib/statEstimate.js';
+import { statFixes } from '../lib/statFixes.js';
 import { myBuildOf, myExtrasOf } from '../lib/myBuilds.js';
 
 const VIEW_KEY = 'zzz-team-builder:statprogView';
@@ -31,7 +32,8 @@ export default function StatProgress({ agent, compact = false, loadout, core }) 
   }
   if (!goals.length) return null;
   const lo = loadout ?? myBuildOf(agent.id);
-  const est = estimateStats(agent.id, lo, core !== undefined ? core : myExtrasOf(agent.id).core);
+  const coreLv = core !== undefined ? core : myExtrasOf(agent.id).core;
+  const est = estimateStats(agent.id, lo, coreLv);
   const typedOnly = mine;
   // What the bars, tips and 2-piece pick use: typed first, then the build.
   const eff = { ...Object.fromEntries(goals.filter((g) => est?.[g.stat] != null).map((g) => [g.stat, est[g.stat]])), ...typedOnly };
@@ -46,6 +48,7 @@ export default function StatProgress({ agent, compact = false, loadout, core }) 
   };
   const tips = suggestions(goals, eff);
   const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, eff);
+  const fixes = est ? statFixes(agent.id, lo, coreLv, goals, eff) : [];
   const typed = goals.filter((g) => Number.isFinite(eff[g.stat]));
   const met = typed.filter((g) => eff[g.stat] >= g.value);
   const focus = tips.find((t) => t.kind === 'focus');
@@ -136,6 +139,12 @@ export default function StatProgress({ agent, compact = false, loadout, core }) 
           )}
         </dl>
       )}
+      {fixes.length > 0 && !detailed && (
+        <p className="small statprog__fix">
+          <b>Best fix · </b>
+          {fixes[0].text}
+        </p>
+      )}
 
       {detailed && (
         <div className="statprog__more">
@@ -146,6 +155,18 @@ export default function StatProgress({ agent, compact = false, loadout, core }) 
                 {tips.map((t) => (
                   <li key={t.stat} className={`is-${t.kind}`}>
                     <b>{t.stat}</b> {t.text}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {fixes.length > 0 && (
+            <>
+              <span className="statprog__sub">Ways to close the gap (worked out from your discs)</span>
+              <ul className="statprog__tips statprog__fixes">
+                {fixes.map((f) => (
+                  <li key={f.text} className={f.reaches ? 'is-reach' : ''}>
+                    {f.text}
                   </li>
                 ))}
               </ul>

@@ -7097,6 +7097,16 @@ a:focus-visible > .frame {
 .statprog__hint {
   margin: 0;
 }
+.statprog__fix {
+  margin: 0;
+  padding: 6px 10px;
+  border-left: 3px solid #4fa2f0;
+  border-radius: 6px;
+  background: color-mix(in srgb, #4fa2f0 10%, transparent);
+}
+.statprog__fixes .is-reach::marker {
+  color: #3cc274;
+}
 .statprog__row.is-est .statprog__nums input::placeholder {
   opacity: 0.85;
   font-weight: 800;
