@@ -1,0 +1,85 @@
+import { useState } from 'react';
+import { BUILDS } from '../data/builds.js';
+import { SET_FIT } from '../data/discFit.js';
+import { DRIVE_DISC_BY_ID, DRIVE_DISC_SETS } from '../data/game.js';
+import { STAT_TARGETS } from '../data/statTargets.js';
+import { fmt, goalsOf, loadMyStats, saveMyStats, suggestions, twoPieceTip } from '../lib/statGoals.js';
+
+// "Stat progress": the player types their stats from the Agent screen and sees
+// a bar for each goal, plus what to work on next.
+export default function StatProgress({ agent, compact = false }) {
+  const from = STAT_TARGETS[agent.id]?.goalsFrom;
+  const goals = goalsOf(agent.id);
+  const [mine, setMine] = useState(() => loadMyStats(agent.id));
+  const [shownFor, setShownFor] = useState(agent.id);
+  if (shownFor !== agent.id) {
+    setShownFor(agent.id);
+    setMine(loadMyStats(agent.id));
+  }
+  if (!goals.length) return null;
+  const set = (stat, raw) => {
+    const v = parseFloat(String(raw).replace(/[,%\s]/g, ''));
+    const next = { ...mine };
+    if (Number.isFinite(v)) next[stat] = v;
+    else delete next[stat];
+    setMine(next);
+    saveMyStats(agent.id, next);
+  };
+  const tips = suggestions(goals, mine);
+  const two = twoPieceTip(BUILDS[agent.id], SET_FIT, DRIVE_DISC_BY_ID, DRIVE_DISC_SETS, goals, mine);
+  return (
+    <div className="statprog">
+      {!compact && <span className="micro-title">Stat progress</span>}
+      <p className="muted small">Type your stats from the Agent screen to see how close you are.</p>
+      {goals.map((g) => {
+        const have = mine[g.stat];
+        const pct = Number.isFinite(have) ? Math.min(100, (have / g.value) * 100) : 0;
+        const done = Number.isFinite(have) && have >= g.value;
+        return (
+          <div key={g.stat} className={`statprog__row${done ? ' is-done' : ''}`} title={g.hint || undefined}>
+            <span className="statprog__label">{g.stat}</span>
+            <label className="statprog__bar">
+              <span className="statprog__fill" style={{ width: `${pct}%` }} />
+              <span className="statprog__nums">
+                <input
+                  inputMode="decimal"
+                  aria-label={`Your ${g.stat}`}
+                  placeholder="yours"
+                  defaultValue={Number.isFinite(have) ? have : ''}
+                  key={`${agent.id}-${g.stat}`}
+                  onChange={(e) => set(g.stat, e.target.value)}
+                />
+                <span>/ {fmt(g.value, g.pct)}</span>
+              </span>
+            </label>
+            <span className="statprog__tick" aria-label={done ? 'Reached' : 'Not yet'}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M7 12.5l3.2 3.2L17 9" />
+              </svg>
+            </span>
+          </div>
+        );
+      })}
+      {tips.length > 0 && (
+        <ul className="statprog__tips">
+          {tips.map((t) => (
+            <li key={t.stat} className={`is-${t.kind}`}>
+              {t.kind === 'focus' && <b className="statprog__focus">Focus next · </b>}
+              <b>{t.stat}</b> {t.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      {two && (
+        <p className="statprog__two small">
+          <b>2-piece pick · </b>
+          {two}
+        </p>
+      )}
+      <p className="muted small">
+        {from ? `Goals from ${from}: aim for at least these.` : 'Goals are the top of the guide’s range below.'} A loose guide: your W-Engine, team buffs and which discs you own change the best pick, and a balanced build that fits your team still comes first.
+      </p>
+    </div>
+  );
+}

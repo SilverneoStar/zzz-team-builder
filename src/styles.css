@@ -7031,6 +7031,37 @@ a:focus-visible > .frame {
 .statprog__tips .is-spare {
   color: var(--muted, #888);
 }
+.syn.review {
+  flex-wrap: wrap;
+}
+.syn.review > .syn__body {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.review__goals {
+  flex-basis: 100%;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+}
+.loadout__statprog {
+  margin-top: 10px;
+}
+.loadout__statprog > summary {
+  cursor: pointer;
+}
+.myagents__goals {
+  margin-top: 2px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #24262e;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.myagents__goals.is-done {
+  background: #2f9e5b;
+}
 .statprog__two {
   margin: 2px 0 0;
 }

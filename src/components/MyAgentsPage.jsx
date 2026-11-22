@@ -2,6 +2,7 @@
 // icon per build. Tapping one opens that Agent's My build tab on that build.
 // Also the one place to bring builds in: paste a build or team code, scan an
 // image's QR code with the camera, upload images, or import a showcase by UID.
+import { goalsOf, loadMyStats } from '../lib/statGoals.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AGENT_BY_ID, ATTRIBUTE_BY_ID } from '../data/game.js';
 import { allMyBuilds, readAnyCode, saveBuildsFrom, setActiveBuild } from '../lib/myBuilds.js';
@@ -346,6 +347,7 @@ export default function MyAgentsPage({ onLoadTeam }) {
                       <span className="myagents__name">{a.name}</span>
                       <span className="myagents__build">{b.name}</span>
                     </span>
+                    <GoalChip agentId={a.id} />
                   </button>
                 </li>
               );
@@ -437,5 +439,19 @@ export default function MyAgentsPage({ onLoadTeam }) {
         )}
       </section>
     </div>
+  );
+}
+
+// How many of the Agent's stat goals are met, from the stats typed into Stat progress.
+function GoalChip({ agentId }) {
+  const goals = goalsOf(agentId);
+  const mine = loadMyStats(agentId);
+  const typed = goals.filter((g) => Number.isFinite(mine[g.stat]));
+  if (!typed.length) return null;
+  const met = typed.filter((g) => mine[g.stat] >= g.value).length;
+  return (
+    <span className={`myagents__goals${met === goals.length ? ' is-done' : ''}`} title="Stat goals met (Stat progress)">
+      {met}/{goals.length} goals
+    </span>
   );
 }

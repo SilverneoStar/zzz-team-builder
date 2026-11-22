@@ -331,6 +331,7 @@ export default function MyBuild({ agent: a, team, inActiveTeam, onApply, onExpor
           loadout={loadout}
           onChange={(patch) => keep({ ...loadout, ...patch })}
           onClose={() => {}}
+          stats={false}
         />
       </div>
 

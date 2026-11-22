@@ -1,3 +1,5 @@
+import StatProgress from './StatProgress.jsx';
+import { goalsOf, loadMyStats } from '../lib/statGoals.js';
 import { SpecialtyTag } from './SpecialtyIcon.jsx';
 import DiscArt from './DiscArt.jsx';
 import {
@@ -40,7 +42,7 @@ import { setShowBeta, useShowBeta } from '../lib/betaInfo.js';
 // Gear for one Agent in this team: the W-Engine and its Phase, Mindscape, and
 // the six Drive Disc slots on the equipment wheel, each with its own set, rank
 // and main stat. Set bonuses follow from how many discs of a set are equipped.
-export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
+export default function LoadoutPanel({ agent, loadout, onChange, onClose, stats = true }) {
   const showBeta = useShowBeta();
   // Drive Disc sets to pick from: beta sets only with beta info on, or while one is equipped.
   const discOptions = DRIVE_DISC_SETS.filter((d) => !d.beta || showBeta || (loadout.discs ?? []).some((x) => x?.set === d.id));
@@ -393,6 +395,13 @@ export default function LoadoutPanel({ agent, loadout, onChange, onClose }) {
           )}
 
           <DiscTotals discs={discs} label={statLabel} agentId={agent.id} specialty={agent.specialty} specialtyName={SPECIALTY_BY_ID[agent.specialty]?.name} />
+
+          {stats && goalsOf(agent.id).length > 0 && (
+            <details className="loadout__statprog" open={Object.keys(loadMyStats(agent.id)).length > 0}>
+              <summary className="field__label">Stat progress</summary>
+              <StatProgress agent={agent} compact />
+            </details>
+          )}
 
           <div className="bonuses">
             <span className="field__label">Set bonuses</span>
