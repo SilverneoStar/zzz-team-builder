@@ -6,18 +6,39 @@ it asks yt-dlp for the playlist's videos (titles and ids only; nothing is
 downloaded) and writes them in its place as ordinary "Title | link" lines, so the
 room lists every song. The file in the repository isn't changed; only the copy
 the build publishes. If a playlist can't be read, its line stays as it was and
-the room plays it as one row instead.
+the room plays it as one row instead. Songs in a playlist that YouTube won't play
+outside its own site (or that are gone) are left out.
 """
 import json
 import re
 import subprocess
 import sys
+import urllib.error
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 FILE = Path(__file__).resolve().parent.parent / "public" / "music" / "playlist.txt"
 LIST = re.compile(r"[?&]list=([\w-]{12,})")
 # "1% Battery Girl - Phoenix EP | Zenless Zone Zero 3.3 OST" -> "1% Battery Girl - Phoenix EP"
 TAIL = re.compile(r"\s*[|｜]\s*Zenless Zone Zero\b.*$", re.I)
+
+
+def plays_here(vid):
+    """Whether YouTube lets this video play in other sites' players (the room's).
+
+    YouTube's oEmbed answers 401 when the owner has turned off embedding and 404
+    when the video is gone; those are left out. Anything else (a network hiccup)
+    counts as playable, so a song is never dropped by mistake.
+    """
+    url = "https://www.youtube.com/oembed?format=json&url=" + urllib.parse.quote(f"https://www.youtube.com/watch?v={vid}")
+    try:
+        urllib.request.urlopen(url, timeout=20).close()
+        return True
+    except urllib.error.HTTPError as e:
+        return e.code not in (401, 403, 404)
+    except Exception:  # noqa: BLE001
+        return True
 
 
 def songs_of(list_id):
@@ -36,6 +57,10 @@ def songs_of(list_id):
         if not vid or len(vid) != 11 or title in ("[Private video]", "[Deleted video]"):
             continue
         title = TAIL.sub("", title).replace("|", "/").strip() or title
+        # Songs that only play on YouTube itself are left out of the room.
+        if not plays_here(vid):
+            print(f"  left out (doesn't play outside YouTube): {title}")
+            continue
         songs.append(f"{title} | https://youtu.be/{vid}")
     return songs
 

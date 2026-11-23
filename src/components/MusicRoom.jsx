@@ -341,6 +341,7 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
           options={[
             { id: 'all', label: 'All songs' },
             { id: 'official', label: 'Official only' },
+            { id: 'fan', label: 'Fan uploads only' },
             { id: 'mine', label: `My list (${mineCount})` },
           ]}
         />
@@ -597,6 +598,7 @@ export default function MusicRoom() {
       list = room.mine.map((id) => byId.get(id)).filter(Boolean);
     }
     if (room.source === 'official') list = list.filter((x) => !x.fan);
+    if (room.source === 'fan') list = list.filter((x) => x.fan);
     // Hidden songs aren't played (or listed) unless the reader shows them.
     if (!room.showHidden) list = list.filter((x) => !isHiddenSong(room, x));
     if (room.kind === 'vocal') list = list.filter((x) => !isInstrumental(x));
