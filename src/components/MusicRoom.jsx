@@ -6,7 +6,7 @@
 // The beat bar can't hear the music (a page can't read sound from YouTube's
 // player), so it pulses at a steady tempo while a track plays.
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { parsePlaylist, thumb, usePlaylistPlayer } from '../lib/youtube.js';
+import { parsePlaylist, thumb, usePlaylistPlayer, playlistCover } from '../lib/youtube.js';
 import { MOODS, SPECTRUM, guessMood, useBeatEngine, useMicAnalyser } from '../lib/beatEngine.js';
 import { navigate } from '../lib/route.js';
 import { Tail } from './Mascot.jsx';
@@ -279,6 +279,9 @@ const monthYear = (d) => {
   return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m - 1]} ${y}`;
 };
 
+/** The video to show for a row: itself, or for a whole YouTube playlist the song it's on (or its first song). */
+const coverOf = (x, nowId) => (x?.list ? nowId || playlistCover(x.list) : x?.id) ?? null;
+
 /** The songs grouped by album, in file order: [{ name, start, songs }]. */
 function albumsOf(songs) {
   const out = [];
@@ -409,7 +412,7 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
                   title="Double-click to play this album"
                   aria-pressed={k === shown}
                 >
-                  <Cover id={a.songs[0].id} className="music__albumart" />
+                  <Cover id={coverOf(a.songs[0])} className="music__albumart" />
                   <span className="music__albumname">{a.name}</span>
                   {a.date && <span className="music__albumdate small">{monthYear(a.date)}</span>}
                   {(a.fan || a.ai) && (
@@ -420,7 +423,9 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
                   )}
                   <span className="muted small">
                     {k === playingAlbum ? '♪ Playing · ' : ''}
-                    {a.songs.length} song{a.songs.length > 1 ? 's' : ''}
+                    {a.songs.every((x) => x.list)
+                      ? `YouTube playlist${a.songs.length > 1 ? 's' : ''}`
+                      : `${a.songs.length} song${a.songs.length > 1 ? 's' : ''}`}
                   </span>
                 </button>
               </li>
@@ -455,18 +460,18 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
               {album.songs.map((x, j) => {
                 const i = album.start + j;
                 const blocked = yt.blocked.includes(x.id);
-                const label = x.name || (i === yt.index && yt.title) || `Song ${j + 1}`;
+                const label = x.name || (!x.list && i === yt.index && yt.title) || (x.list ? 'YouTube playlist' : `Song ${j + 1}`);
                 return (
                   <li key={`${x.id}-${i}`} className={`music__row${isHiddenSong(room, x) ? ' is-hidden' : ''}`}>
                     {blocked ? (
                       <a
                         className="music__track is-blocked"
-                        href={`https://www.youtube.com/watch?v=${x.id}`}
+                        href={x.list ? `https://www.youtube.com/playlist?list=${x.list}` : `https://www.youtube.com/watch?v=${x.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <span className="music__num">{j + 1}</span>
-                        <Cover id={x.id} className="music__thumb" />
+                        <Cover id={coverOf(x, i === yt.index ? yt.videoId : null)} className="music__thumb" />
                         <span className="music__name">
                           {label}
                           <span className="muted small">Only plays on YouTube: open it there</span>
@@ -481,8 +486,15 @@ function Playlist({ songs, yt, room, setRoom, total, mineCount, hiddenCount }) {
                         aria-current={i === yt.index ? 'true' : undefined}
                       >
                         <span className="music__num">{i === yt.index && yt.playing ? '♪' : j + 1}</span>
-                        <Cover id={x.id} className="music__thumb" />
-                        <span className="music__name">{label}</span>
+                        <Cover id={coverOf(x, i === yt.index ? yt.videoId : null)} className="music__thumb" />
+                        <span className="music__name">
+                          {label}
+                          {x.list && (
+                            <span className="muted small">
+                              {i === yt.index && yt.title ? `Now: ${yt.title}` : 'YouTube playlist: plays all its songs'}
+                            </span>
+                          )}
+                        </span>
                       </button>
                     )}
                     <button
@@ -613,7 +625,8 @@ export default function MusicRoom() {
   };
   const song = playable[yt.index] ?? null;
   const current = song?.id ?? null;
-  const title = song?.name || yt.title;
+  // In a whole YouTube playlist, show the song it's on (the playlist's name goes with the album).
+  const title = song?.list ? yt.title || song.name : song?.name || yt.title;
   // The beat: what the reader tapped for this song, else the playlist's tempo, else 100.
   const tapped = song ? room.tempo[song.id] : null;
   const bpm = tapped || song?.bpm || 100;
@@ -696,7 +709,7 @@ export default function MusicRoom() {
           <span>{room.wide ? 'Shrink' : 'Expand'}</span>
         </button>
         <Cortado chill={yt.playing} />
-        <Disc id={current} playing={yt.playing} deck={deck} />
+        <Disc id={coverOf(song, yt.videoId)} playing={yt.playing} deck={deck} />
         {/* Matcha with her two tails as their own layers, so they can sway. */}
         <span className="music__pal music__pal--matcha music-matcha">
           <img className="music-matcha__tail music-matcha__tail--up" src={`${BASE}matcha/tail-upper.webp`} alt="" />

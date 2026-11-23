@@ -9,6 +9,11 @@
 #   [Album name | 2026-10-25], is its release date (for sorting by newest or oldest);
 #   [Album name | fan upload] marks its songs as fan uploads (left out by "Official only"),
 #   and "| AI-assisted" tags songs the channel likely made with AI.
+# - A whole YouTube playlist works too (its link from the Share button, or the
+#   address of its page): Name | https://www.youtube.com/playlist?list=PL...
+#   It shows as one row that plays every song in it, in YouTube's order, and keeps
+#   up with the playlist when its owner adds songs. Its own name in the room is the
+#   Name given; the song playing shows YouTube's title.
 # - Lines starting with # are notes and are skipped.
 # - Some labels block their songs on other sites; the room skips those and
 #   shows them with a link to play on YouTube instead.
