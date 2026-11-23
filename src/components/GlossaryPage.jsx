@@ -92,6 +92,15 @@ export default function GlossaryPage() {
       .filter((x) => x.items.length);
   }, [query, category, itemGroup]);
 
+  // Topics fold away so the page stays short on a phone. They start closed
+  // and open by themselves while you search or pick a topic.
+  const filtering = !!query.trim() || category !== 'all';
+  const [folds, setFolds] = useState({});
+  useEffect(() => setFolds({}), [query, category]);
+  const isOpen = (cat) => folds[cat] ?? filtering;
+  const toggle = (cat) => setFolds((f) => ({ ...f, [cat]: !isOpen(cat) }));
+  const foldAll = (open) => setFolds(Object.fromEntries(groups.map((g) => [g.cat, open])));
+
   return (
     <div className="page">
       <header className="page__head">
@@ -148,15 +157,29 @@ export default function GlossaryPage() {
 
       {groups.length === 0 && itemGroups.length === 0 && <p className="empty">No terms match “{query}”.</p>}
 
+      {groups.length > 1 && (
+        <div className="gloss-folds">
+          <button type="button" className="btn btn--quiet btn--small" onClick={() => foldAll(true)}>
+            Open all
+          </button>
+          <button type="button" className="btn btn--quiet btn--small" onClick={() => foldAll(false)}>
+            Close all
+          </button>
+        </div>
+      )}
+
       {groups.map((g) => (
         <section key={g.cat} className="gloss-group" aria-labelledby={`g-${slug(g.cat)}`}>
           <div className="gloss-group__head">
             <h3 id={`g-${slug(g.cat)}`} className="gloss-group__title">
+            <button type="button" className="gloss-group__toggle" aria-expanded={isOpen(g.cat)} onClick={() => toggle(g.cat)}>
               {g.cat}
-            </h3>
-            {g.cat === 'Factions' && <ViewToggle view={view} onChange={setView} />}
+              <span className="chip__n">{g.entries.length}</span>
+            </button>
+          </h3>
+            {g.cat === 'Factions' && isOpen(g.cat) && <ViewToggle view={view} onChange={setView} />}
           </div>
-          {g.cat === 'Factions' && view === 'grid' ? (
+          {!isOpen(g.cat) ? null : g.cat === 'Factions' && view === 'grid' ? (
             <ul className="fac-grid">
               {g.entries.map((e) => (
                 <li key={e.term} className="fac-card">
