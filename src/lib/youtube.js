@@ -41,7 +41,7 @@ export function playlistId(link) {
   const t = (link ?? '').trim();
   if (videoId(t) && !/[?&]list=/.test(t)) return null;
   if (/[?&]v=|youtu\.be\//.test(t)) return null;
-  const m = t.match(/[?&]list=([\w-]{16,})/);
+  const m = t.match(/[?&]list=([\w-]{12,})/);
   return m ? m[1] : null;
 }
 
