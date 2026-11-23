@@ -6,7 +6,8 @@ it asks yt-dlp for the playlist's videos (titles and ids only; nothing is
 downloaded) and writes them in its place as ordinary "Title | link" lines, so the
 room lists every song. The file in the repository isn't changed; only the copy
 the build publishes. If a playlist can't be read, its line stays as it was and
-the room plays it as one row instead. Songs in a playlist that YouTube won't play
+the room plays it as one row instead. A single song listed without a name gets
+its YouTube title. Songs in a playlist that YouTube won't play
 outside its own site (or that are gone) are left out.
 """
 import json
@@ -21,7 +22,7 @@ from pathlib import Path
 FILE = Path(__file__).resolve().parent.parent / "public" / "music" / "playlist.txt"
 LIST = re.compile(r"[?&]list=([\w-]{12,})")
 # "1% Battery Girl - Phoenix EP | Zenless Zone Zero 3.3 OST" -> "1% Battery Girl - Phoenix EP"
-TAIL = re.compile(r"\s*[|｜]\s*Zenless Zone Zero\b.*$", re.I)
+TAIL = re.compile(r"\s*[|｜]\s*(Zenless Zone Zero|Neverness to Everness|NTE)\b.*$", re.I)
 
 
 def plays_here(vid):
@@ -41,6 +42,18 @@ def plays_here(vid):
         return True
 
 
+def title_of(vid):
+    """A video's YouTube title (via oEmbed), or "" if it can't be read."""
+    url = "https://www.youtube.com/oembed?format=json&url=" + urllib.parse.quote(f"https://www.youtube.com/watch?v={vid}")
+    try:
+        with urllib.request.urlopen(url, timeout=20) as r:
+            d = json.load(r)
+        print(f"Video {vid}: \"{d.get('title', '')}\" by {d.get('author_name', '?')}")
+        return d.get("title", "")
+    except Exception:  # noqa: BLE001
+        return ""
+
+
 def songs_of(list_id):
     out = subprocess.run(
         ["yt-dlp", "--flat-playlist", "--dump-single-json", "--no-warnings",
@@ -49,7 +62,9 @@ def songs_of(list_id):
     )
     if out.returncode:
         raise RuntimeError(out.stderr.strip()[-300:])
-    entries = json.loads(out.stdout).get("entries") or []
+    data = json.loads(out.stdout)
+    print(f'Playlist {list_id}: "{data.get("title", "")}" by {data.get("uploader") or data.get("channel") or "?"}')
+    entries = data.get("entries") or []
     songs = []
     for e in entries:
         vid, title = e.get("id"), (e.get("title") or "").strip()
@@ -72,6 +87,13 @@ def main():
         t = line.strip()
         m = LIST.search(t)
         is_video = re.search(r"[?&]v=|youtu\.be/", t)
+        # A single video given without a name: fill in its YouTube title.
+        if t and not t.startswith(("#", "[")) and "|" not in t and is_video:
+            vm = re.search(r"(?:youtu\.be/|[?&]v=)([\w-]{11})", t)
+            name = title_of(vm.group(1)) if vm else ""
+            name = TAIL.sub("", name).replace("|", "/").strip()
+            out.append(f"{name} | {t}" if name else line)
+            continue
         if not t or t.startswith("#") or t.startswith("[") or not m or is_video:
             out.append(line)
             continue
