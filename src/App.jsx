@@ -14,6 +14,7 @@ import { FILM_STRIPS } from './lib/filmStrips.js';
 import { loadState, saveState } from './lib/storage.js';
 import { initialState, loadoutOf, teamsReducer } from './lib/teamsReducer.js';
 import Analysis from './components/Analysis.jsx';
+import ThemeToggle from './components/ThemeToggle.jsx';
 import LoadoutPanel from './components/LoadoutPanel.jsx';
 import Mascot from './components/Mascot.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
@@ -174,16 +175,19 @@ export default function App() {
           <p className="masthead__meta">
             Unofficial fan project · Game data v{DATA_VERSION} · Not affiliated with HoYoverse
           </p>
-          <label className="display-size">
-            <span>Display size</span>
-            <select id="display-size" value={display.setting} onChange={(e) => display.setSetting(e.target.value)}>
-              {SCALE_OPTIONS.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.id === 'auto' ? `Auto (${Math.round(display.scale * 100)}%)` : o.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="masthead__tools">
+            <ThemeToggle />
+            <label className="display-size">
+              <span>Display size</span>
+              <select id="display-size" value={display.setting} onChange={(e) => display.setSetting(e.target.value)}>
+                {SCALE_OPTIONS.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.id === 'auto' ? `Auto (${Math.round(display.scale * 100)}%)` : o.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </header>
 
