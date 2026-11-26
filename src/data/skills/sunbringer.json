@@ -1,125 +1,125 @@
 {
- "beta": true,
- "source": "Subject to change: from the latest beta (v3.4.3) shared by fan sites. Always check the official ZZZ pages.",
- "skills": [
-  [
-   "Basic Attack",
-   "Basic Attack",
-   "Thornbreaker (Lindverne)",
-   "A 4-hit combo. The heavy hit uses up to 3 Gash stacks, setting off one Maim per stack. Hits 3–4 have higher Anti-Interrupt and 40% less DMG taken; hit 4 is invulnerable."
+  "beta": true,
+  "source": "Subject to change: from the latest beta (v3.4.3) shared by fan sites. Always check the official ZZZ pages.",
+  "skills": [
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Thornbreaker (Lindverne)",
+      "A 4-hit combo. The heavy hit uses up to 3 Gash stacks, setting off one Maim per stack. Hits 3–4 have higher Anti-Interrupt and 40% less DMG taken; hit 4 is invulnerable."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Bannerbearer (Eldreda)",
+      "Eldreda's 4-hit combo, with the same Gash and Maim finisher and hit 3–4 bonuses."
+    ],
+    [
+      "Basic Attack",
+      "Basic Attack",
+      "Converging Edge",
+      "Hold Basic Attack with enough Kinetic Energy (costs 120 Wishfire): switches to Eldreda for an invulnerable Genesis Flare attack."
+    ],
+    [
+      "Dodge",
+      "Dodge",
+      "Phase Fold / Spatial Reconstruction",
+      "Lindverne's and Eldreda's invulnerable dodges. Basic Attack during the dodge gives a dash attack (Void Slash Rush / Reality Reversal)."
+    ],
+    [
+      "Dodge",
+      "Dash Attack",
+      "Patrol (Eldreda)",
+      "Hold Dodge with a direction to enter Nightglide; Basic Attack then triggers Shadow Realm Raid, a Tail Swipe."
+    ],
+    [
+      "Dodge",
+      "Dodge Counter",
+      "Smoldering Fire Reignition / Cold Flame Returning Edge",
+      "Lindverne's and Eldreda's Dodge Counters after a Perfect Dodge. Invulnerable."
+    ],
+    [
+      "Assist",
+      "Quick Assist",
+      "Dauntless Aid / Path of the Gleaming Edge",
+      "Brings in Lindverne or Eldreda for an invulnerable attack."
+    ],
+    [
+      "Assist",
+      "Defensive Assist",
+      "Oath of Steadfastness",
+      "Dracaene parries the attack for heavy Daze. Invulnerable."
+    ],
+    [
+      "Assist",
+      "Counter Assist",
+      "Fortress of Hope",
+      "Dracaene grapples certain Control Skills, cancelling them and dealing Genesis Flare DMG."
+    ],
+    [
+      "Assist",
+      "Assist Follow-Up",
+      "Lighthouse / Undying Passion / Faith Unwavering",
+      "Follow-ups by Dracaene (applies 1 Gash on the heavy hit), Lindverne and Eldreda."
+    ],
+    [
+      "Special Attack",
+      "Special Attack",
+      "Night Blaze / Kindled Lamp",
+      "Switches to Lindverne or Eldreda for Genesis Flare DMG."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Night Blaze – Dawnrise / Dawnborn",
+      "Lindverne and Eldreda attack together, finishing with Gash and Maim. Dawnborn can follow certain skills and uses every Gash on the target (up to 3) for one AoE Maim each. Invulnerable."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "Kindled Lamp – Gloom's End",
+      "Eldreda's linked attack with the Gash and Maim finisher; a Revised version follows certain skills."
+    ],
+    [
+      "Special Attack",
+      "EX Special Attack",
+      "End of the Long Dark / Torch of Eternal Day",
+      "Needs Chain Teeth (Lindverne) or a held Flag Order (Eldreda): massive Genesis Flare DMG."
+    ],
+    [
+      "Chain Attack",
+      "Chain Attack",
+      "Building Dreams for All / In the Name of Sunbringer",
+      "Joint attacks of Lindverne and Eldreda, finishing with Gash and Maim. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "“Onward, Together”",
+      "At max Decibels: all three sisters attack together. A held Flag Order becomes a Wish Core. Invulnerable."
+    ],
+    [
+      "Chain Attack",
+      "Ultimate",
+      "“By This Wish, All Things Remade”",
+      "Needs a Wish Core: an airborne attack that removes all Ember Scar and deals the same amount as direct HP loss. Invulnerable."
+    ]
   ],
-  [
-   "Basic Attack",
-   "Basic Attack",
-   "Bannerbearer (Eldreda)",
-   "Eldreda's 4-hit combo, with the same Gash and Maim finisher and hit 3–4 bonuses."
-  ],
-  [
-   "Basic Attack",
-   "Basic Attack",
-   "Converging Edge",
-   "Hold Basic Attack with enough Kinetic Energy (costs 120 Wishfire): switches to Eldreda for an invulnerable Genesis Flare attack."
-  ],
-  [
-   "Dodge",
-   "Dodge",
-   "Phase Fold / Spatial Reconstruction",
-   "Lindverne's and Eldreda's invulnerable dodges. Basic Attack during the dodge gives a dash attack (Void Slash Rush / Reality Reversal)."
-  ],
-  [
-   "Dodge",
-   "Dash Attack",
-   "Patrol (Eldreda)",
-   "Hold Dodge with a direction to enter Nightglide; Basic Attack then triggers Shadow Realm Raid, a Tail Swipe."
-  ],
-  [
-   "Dodge",
-   "Dodge Counter",
-   "Smoldering Fire Reignition / Cold Flame Returning Edge",
-   "Lindverne's and Eldreda's Dodge Counters after a Perfect Dodge. Invulnerable."
-  ],
-  [
-   "Assist",
-   "Quick Assist",
-   "Dauntless Aid / Path of the Gleaming Edge",
-   "Brings in Lindverne or Eldreda for an invulnerable attack."
-  ],
-  [
-   "Assist",
-   "Defensive Assist",
-   "Oath of Steadfastness",
-   "Dracaene parries the attack for heavy Daze. Invulnerable."
-  ],
-  [
-   "Assist",
-   "Counter Assist",
-   "Fortress of Hope",
-   "Dracaene grapples certain Control Skills, cancelling them and dealing Genesis Flare DMG."
-  ],
-  [
-   "Assist",
-   "Assist Follow-Up",
-   "Lighthouse / Undying Passion / Faith Unwavering",
-   "Follow-ups by Dracaene (applies 1 Gash on the heavy hit), Lindverne and Eldreda."
-  ],
-  [
-   "Special Attack",
-   "Special Attack",
-   "Night Blaze / Kindled Lamp",
-   "Switches to Lindverne or Eldreda for Genesis Flare DMG."
-  ],
-  [
-   "Special Attack",
-   "EX Special Attack",
-   "Night Blaze – Dawnrise / Dawnborn",
-   "Lindverne and Eldreda attack together, finishing with Gash and Maim. Dawnborn can follow certain skills and uses every Gash on the target (up to 3) for one AoE Maim each. Invulnerable."
-  ],
-  [
-   "Special Attack",
-   "EX Special Attack",
-   "Kindled Lamp – Gloom's End",
-   "Eldreda's linked attack with the Gash and Maim finisher; a Revised version follows certain skills."
-  ],
-  [
-   "Special Attack",
-   "EX Special Attack",
-   "End of the Long Dark / Torch of Eternal Day",
-   "Needs Chain Teeth (Lindverne) or a held Flag Order (Eldreda): massive Genesis Flare DMG."
-  ],
-  [
-   "Chain Attack",
-   "Chain Attack",
-   "Building Dreams for All / In the Name of Sunbringer",
-   "Joint attacks of Lindverne and Eldreda, finishing with Gash and Maim. Invulnerable."
-  ],
-  [
-   "Chain Attack",
-   "Ultimate",
-   "“Onward, Together”",
-   "At max Decibels: all three sisters attack together. A held Flag Order becomes a Wish Core. Invulnerable."
-  ],
-  [
-   "Chain Attack",
-   "Ultimate",
-   "“By This Wish, All Things Remade”",
-   "Needs a Wish Core: an airborne attack that removes all Ember Scar and deals the same amount as direct HP loss. Invulnerable."
+  "core": {
+    "name": "Dream Manifestation = Genesis Reconstruction",
+    "values": {},
+    "text": "Her skills deal Sharp DMG, which scales with DEF, and build Gash (up to 3 stacks). Sharp CRITs use a Laceration DMG Bonus instead of CRIT DMG; CRIT Rate above 100% gives an extra Laceration check, and each 1% initial CRIT DMG adds 0.35% initial CRIT Rate.\nEntering the field restores 60 Sharpness. Entering combat gives Midnight Sun for 20s (paused while others are on field): CRIT Rate +40% and 20% enemy DEF ignored; EX Special Attacks and Converging Edge refresh it.\nDracaene's Defensive Assist deals 50% more Daze and parries build Gash; Eldreda's and Lindverne's Assist Follow-Ups get +15% Gash buildup and +20% DMG.\nEach Gash removed by a squad member's Maim gives 40 Wishfire (max 160); at 120 she can spend it on Converging Edge, and a teammate's Maim can bring her in for it as a Quick Assist (once every 3s).\nConverging Edge, some EX Special Attacks and her Ultimates mark 60% of their DMG as Ember Scar (any squad Maim adds 35% of its DMG). Ultimate: By This Wish, All Things Remade turns all Ember Scar into Ashfall, direct HP loss, and enemies whose Ember Scar covers their remaining HP are executed. An enemy's death gives 40 Wishfire (once every 60s)."
+  },
+  "ability": {
+    "name": "Mark of a Leader",
+    "text": "With a Stun, Defense or another Armorer squadmate: on entering combat, and when she uses any EX Special Attack, Basic Attack: Flagbearer – Gathering Blades, a Chain Attack or Dash Attack: Expedition – Shadowrealm Assault, all Armorer Agents in the squad enter All Wishes United, raising their Laceration DMG (+25% for 45s in the beta)."
+  },
+  "mindscapes": [
+    "On entering battle she gains 120 Wishfire (once every 180s in Investigation Zones). Gash Buildup Rate +10%, and her skills ignore 15% of the enemy's Fire RES.",
+    "Max Wishfire 200, and Ember Scar builds 25% faster. Her other skills also mark 18% of their DMG as Ember Scar. Converging Edge recovers 150 more Decibels.",
+    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "Her DMG +15%. After Dracaene's Assist Follow-Up: Lighthouse, press Basic or Special Attack to follow up with Night Blaze – End of the Long Dark without spending Chain Teeth.",
+    "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
+    "When By This Wish, All Things Remade triggers Ashfall, the target gets Ember Scar equal to all the Ember Scar that Ultimate built, and she follows up with Kindled Lamp – Torch of Eternal Day without spending Flag Order. Her skills ignore 15% of the target's DEF."
   ]
- ],
- "core": {
-  "name": "Dream Manifestation = Genesis Reconstruction",
-  "values": {},
-  "text": "Her skills deal Sharp DMG, which scales with DEF, and build Gash (up to 3 stacks). Sharp CRITs use a Laceration DMG Bonus instead of CRIT DMG; CRIT Rate above 100% gives an extra Laceration check, and each 1% initial CRIT DMG adds 0.35% initial CRIT Rate.\nEntering the field restores 60 Sharpness. Entering combat gives Midnight Sun for 20s (paused while others are on field): CRIT Rate +40% and 20% enemy DEF ignored; EX Special Attacks and Converging Edge refresh it.\nDracaene's Defensive Assist deals 50% more Daze and parries build Gash; Eldreda's and Lindverne's Assist Follow-Ups get +15% Gash buildup and +20% DMG.\nEach Gash removed by a squad member's Maim gives 40 Wishfire (max 160); at 120 she can spend it on Converging Edge, and a teammate's Maim can bring her in for it as a Quick Assist (once every 3s).\nConverging Edge, some EX Special Attacks and her Ultimates mark 60% of their DMG as Ember Scar (any squad Maim adds 35% of its DMG). Ultimate: By This Wish, All Things Remade turns all Ember Scar into Ashfall, direct HP loss, and enemies whose Ember Scar covers their remaining HP are executed. An enemy's death gives 40 Wishfire (once every 60s)."
- },
- "ability": {
-  "name": "Mark of a Leader",
-  "text": "With a Stun, Defense or another Armorer squadmate: her EX Special Attacks and Dash Attack: Patrol – Shadow Realm Raid put all Armorer Agents in United Will: Laceration DMG +25% for 45s."
- },
- "mindscapes": [
-  "On entering battle she gains 120 Wishfire (once every 180s in Investigation Zones). Gash Buildup Rate +10%, and her skills ignore 15% of the enemy's Fire RES.",
-  "Max Wishfire 200, and Ember Scar builds 25% faster. Her other skills also mark 18% of their DMG as Ember Scar. Converging Edge recovers 150 more Decibels.",
-  "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
-  "Her DMG +15%. After Dracaene's Assist Follow-Up: Lighthouse, press Basic or Special Attack to follow up with Night Blaze – End of the Long Dark without spending Chain Teeth.",
-  "Basic Attack, Dodge, Assist, Special Attack and Chain Attack Lv. +2.",
-  "When By This Wish, All Things Remade triggers Ashfall, the target gets Ember Scar equal to all the Ember Scar that Ultimate built, and she follows up with Kindled Lamp – Torch of Eternal Day without spending Flag Order. Her skills ignore 15% of the target's DEF."
- ]
 }

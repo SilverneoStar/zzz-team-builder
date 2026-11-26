@@ -48,7 +48,7 @@ export const TEAM_BUFFS = [
   // Sharp DMG and Laceration: Armorer Agents.
   { agent: 'claret-flint', kind: 'sharp', text: 'Remnant Edge: Armorer Agents get Laceration DMG on any Maim', to: { specialties: ['armorer'], others: true } },
   { agent: 'roxy-ifrita-pryce', kind: 'sharp', text: 'raises Armorer Agents’ Laceration DMG', to: { specialties: ['armorer'] } },
-  { agent: 'sunbringer', kind: 'sharp', text: 'United Will: Armorer Agents’ Laceration DMG +25%', to: { specialties: ['armorer'], others: true }, beta: true },
+  { agent: 'sunbringer', kind: 'sharp', text: 'All Wishes United: Armorer Agents’ Laceration DMG +25%', to: { specialties: ['armorer'], others: true }, beta: true },
   { agent: 'robin-hsr', kind: 'sharp', text: 'restores Sharpness for Armorers; her signature adds squad Laceration DMG', to: { specialties: ['armorer'] }, beta: true },
 
   // Chain Attacks and Ultimates.

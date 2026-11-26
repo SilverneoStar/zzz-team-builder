@@ -65,10 +65,14 @@ export const UPCOMING = {
         'Bring Robin in first so her shield is up: with her signature, every shield gives the squad Laceration DMG +16%.',
         'Let the Stunner build Daze. Roxy with Bloodwing Nocturne gives the whole squad Sharp DMG +8% when she uses an EX Special or Chain Attack at 50%+ CRIT Rate.',
         'Spend the Stun window on Sunbringer: Chain Attack, Ultimate, then EX Specials.',
-        'With Claret as the third member, Claret’s Maim feeds Sunbringer’s Wishfire, and Sunbringer’s United Will (Laceration DMG +25%) boosts Claret back.',
+        'With Claret as the third member, Claret’s Maim feeds Sunbringer’s Wishfire, and Sunbringer’s All Wishes United (Laceration DMG +25%) boosts Claret back.',
       ],
     },
     teams: [
+      // HoYoverse's own picks from the Sunbringer drip marketing (Nov 26, 2026).
+      { members: ['sunbringer', 'robin-hsr', 'roxy-ifrita-pryce'], source: 'Official' },
+      { members: ['sunbringer', 'robin-hsr', 'norma-hollowell'], source: 'Official' },
+      { members: ['sunbringer', 'robin-hsr', 'trigger'], source: 'Official' },
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
