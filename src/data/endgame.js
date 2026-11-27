@@ -185,8 +185,7 @@ export const SHIYU_DEFENSE = {
         {
           // Two waves, with Lahmu and Doppelganger – Pulchra. (Doppelganger – Starlight – Billy was
           // listed here by mistake in the game's description; kept for later: weak to Fire and
-          // Electric, resists Physical, art in enemies/doppelganger-starlight-billy.webp, and a
-          // split picture with him in enemies/sd-1127-2-with-billy.webp.)
+          // Electric, resists Physical, art in enemies/doppelganger-starlight-billy.webp.)
           name: 'Miasmic – Terror Raptor',
           art: 'enemies/sd-1127-2.webp',
           weak: ['fire', 'electric'],
