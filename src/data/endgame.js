@@ -138,10 +138,11 @@ export const DEADLY_ASSAULT = {
 };
 
 export const SHIYU_DEFENSE = {
-  id: '2026-11-13',
+  id: '2026-11-27',
   label: 'Shiyu Defense: Critical Node',
-  start: '2026-11-13',
-  end: '2026-11-26',
+  start: '2026-11-27',
+  // Two-week rotation, like the last one (13–26 Nov).
+  end: '2026-12-10',
   note: 'The score check is Stage 5: three rooms, each needing its own squad, so no Agent can be in two rooms.',
   stages: [
     {
@@ -156,78 +157,82 @@ export const SHIYU_DEFENSE = {
       buffs: [],
       sides: [
         {
-          name: 'AAU – Airspace Sentinel',
-          art: 'enemies/sd-1113-1.webp',
-          weak: ['ice', 'wind'],
-          resist: ['ether'],
+          // Three waves, with City Guardboo, Airspace Patrolboo and Special Anti-Riotboo.
+          name: 'Conqueror',
+          art: 'enemies/sd-1127-1.webp',
+          weak: ['electric', 'wind'],
+          resist: ['physical'],
           buffs: [
             {
-              id: 'sd-1113-1',
+              id: 'sd-1127-1',
               name: 'Room 1',
               text: [
-                'Attack Agents’ ATK +35%, and Wind DMG +20%.',
-                'When an Agent’s Ultimate hits an enemy, its Wind RES drops by 15% for 30s (repeat triggers reset the duration).',
+                'Attack Agents’ Wind DMG +30% and CRIT DMG +40%.',
+                'After an Agent uses an EX Special Attack, attacks ignore 20% of the enemy’s Wind RES for 15s (repeat triggers reset the duration).',
               ],
-              favors: { specialty: { attack: 3, stun: 1 }, attribute: { wind: 2, ice: 1 } },
+              favors: { specialty: { attack: 3, stun: 1 }, attribute: { wind: 3, electric: 1.5 } },
             },
           ],
-          // Made for Severian: Wind Attack with Roxy; Sigrid for Ice.
+          // Made for Severian (Wind Attack); Electric Attack teams also hit its weakness.
           ranked: true,
           picks: [
             ['severian-lowell', 'roxy-ifrita-pryce', ['astra-yao', 'sunna']],
             ['severian-lowell', 'norma-hollowell', 'astra-yao'],
-            ['sigrid-de-lazur', 'roxy-ifrita-pryce', 'sunna'],
-            ['sigrid-de-lazur', 'von-lycaon', 'sunna'],
+            ['asaba-harumasa', 'trigger', 'astra-yao'],
+            ['soldier-0-anby', 'trigger', 'orphie-magnusson-and-magus'],
           ],
         },
         {
-          name: 'The Defector – Isolde',
-          art: 'enemies/sd-1113-2.webp',
-          weak: ['fire', 'physical'],
-          resist: ['ether'],
+          // Two bosses over two waves: the Terror Raptor (resists Ether) and Doppelganger – Starlight –
+          // Billy (resists Physical), with Lahmu and Doppelganger – Pulchra. Both are weak to Fire and Electric.
+          name: 'Terror Raptor & Starlight Billy',
+          art: 'enemies/sd-1127-2.webp',
+          weak: ['fire', 'electric'],
+          resist: ['ether', 'physical'],
           buffs: [
             {
-              id: 'sd-1113-2',
+              id: 'sd-1127-2',
               name: 'Room 2',
               text: [
-                'When an Anomaly Agent’s Attribute Anomaly DMG crits, the whole squad gets ATK +10% and Attribute Anomaly DMG +20% for 15s (repeat triggers reset the duration).',
-                'When an Agent inflicts Burn (Fire Anomaly), the target’s Fire RES drops by 10% for 15s (repeat triggers reset the duration).',
+                'Armorer Agents’ DEF +15%, and Sharp DMG +15%.',
+                'When an Agent’s attack hits an enemy, it ignores 10% of the enemy’s Fire RES and Electric RES.',
               ],
-              favors: { specialty: { anomaly: 3 }, attribute: { fire: 2, physical: 1 }, anomalyPair: true, anyAttribute: true },
+              favors: { specialty: { armorer: 3, attack: 1, stun: 1 }, attribute: { fire: 2, electric: 2 } },
             },
           ],
-          // Full Anomaly teams: Phoenix for Fire, Jane for Physical.
+          // An Armorer room: Claret, or Sunbringer once she's out (2 Dec); Fire Attack as a fallback.
           ranked: true,
           picks: [
-            ['phoenix-reffaella', 'jane-doe', 'remielle-dan'],
-            ['phoenix-reffaella', 'velina-airgid', 'remielle-dan'],
-            ['jane-doe', 'burnice-white', 'ukinami-yuzuha'],
-            ['phoenix-reffaella', 'jane-doe', 'ukinami-yuzuha'],
+            ['claret-flint', 'roxy-ifrita-pryce', 'alexandrina-sebastiane'],
+            ['sunbringer', 'roxy-ifrita-pryce', 'robin-hsr'],
+            ['claret-flint', 'norma-hollowell', 'alexandrina-sebastiane'],
+            ['evelyn-chevalier', 'ju-fufu', 'astra-yao'],
           ],
         },
         {
-          name: 'Haytor',
-          art: 'enemies/sd-1113-3.webp',
-          weak: ['ice', 'fire'],
+          // Two waves, with Ionized – Farbauti and Ionized – Dullahan.
+          name: 'Miasmic – Thracian',
+          art: 'enemies/sd-1127-3.webp',
+          weak: ['wind', 'ether'],
           resist: ['electric'],
           buffs: [
             {
-              id: 'sd-1113-3',
+              id: 'sd-1127-3',
               name: 'Room 3',
               text: [
-                'Agents’ Sheer DMG +35%.',
-                'After a Rupture Agent uses their Ultimate, their Fire DMG and Ice DMG rise by 50% for 15s (repeat triggers reset the duration).',
+                'Agents’ Anomaly Proficiency +30. After an enemy is Stunned, its Stun recovery rate drops by 10% for 15s (repeat triggers reset the duration).',
+                'In Ether Veil, Agents’ ATK +15% and attacks ignore 20% of the enemy’s Ether RES.',
               ],
-              favors: { specialty: { rupture: 3, stun: 1 }, attribute: { fire: 1.5, ice: 1.5 } },
+              favors: { specialty: { anomaly: 3, stun: 1 }, attribute: { ether: 2, wind: 2 }, anomalyPair: true },
             },
           ],
-          // Rupture teams: Starlight Billy, Banyue, Yidhari or Manato.
+          // Ether or Wind Anomaly; Nangong Yu and Sunna both bring Ether Veil.
           ranked: true,
           picks: [
-            ['starlight-billy-kid', 'dialyn', 'lucia-elowen'],
-            ['banyue', 'ju-fufu', 'lucia-elowen'],
-            ['yidhari-murphy', 'von-lycaon', 'lucia-elowen'],
-            ['komano-manato', 'dialyn', 'pan-yinhu'],
+            ['aria', 'nangong-yu', 'sunna'],
+            ['aria', 'nangong-yu', 'ukinami-yuzuha'],
+            ['vivian-banshee', 'jane-doe', 'ukinami-yuzuha'],
+            ['velina-airgid', 'remielle-dan', 'ukinami-yuzuha'],
           ],
         },
       ],
