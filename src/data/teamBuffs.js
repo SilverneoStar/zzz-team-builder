@@ -49,7 +49,7 @@ export const TEAM_BUFFS = [
   { agent: 'claret-flint', kind: 'sharp', text: 'Remnant Edge: Armorer Agents get Laceration DMG on any Maim', to: { specialties: ['armorer'], others: true } },
   { agent: 'roxy-ifrita-pryce', kind: 'sharp', text: 'raises Armorer Agents’ Laceration DMG', to: { specialties: ['armorer'] } },
   { agent: 'sunbringer', kind: 'sharp', text: 'All Wishes United: Armorer Agents’ Laceration DMG +25%', to: { specialties: ['armorer'], others: true }, beta: true },
-  { agent: 'robin-hsr', kind: 'sharp', text: 'restores Sharpness for Armorers; her signature adds squad Laceration DMG', to: { specialties: ['armorer'] }, beta: true },
+  { agent: 'robin-hsr', kind: 'sharp', text: 'raises teammates’ DEF and restores extra Sharpness for Armorers; her signature adds squad Laceration DMG', to: { specialties: ['armorer'] }, beta: true },
 
   // Chain Attacks and Ultimates.
   // `potential`: her Potential widens who it reaches, like her Additional Ability (data/potentials.js).

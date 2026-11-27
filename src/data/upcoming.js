@@ -84,7 +84,8 @@ export const UPCOMING = {
   },
 
   'robin-hsr': {
-    // From beta information shared by fan sites (marked Beta on the site).
+    // From beta information shared by fan sites (marked Beta on the site); her roles, teams,
+    // Rhythmic Resonance and her signature's name and stats confirmed by HoYoverse (Nov 27, 2026).
     // Alternatives, substats, skill order, ranges and how to play are estimates.
     // Default Bangboo for her teams until a better fit is known.
     bangboo: ['booressure', 'snap'],
@@ -117,6 +118,9 @@ export const UPCOMING = {
       ],
     },
     teams: [
+      // HoYoverse's own picks from the Robin drip marketing (Nov 27, 2026).
+      { members: ['robin-hsr', 'sunbringer', 'norma-hollowell'], source: 'Official' },
+      { members: ['robin-hsr', 'claret-flint', 'roxy-ifrita-pryce'], source: 'Official' },
       // Beta test teams, best score first. Robin's and Sunbringer's abilities both switch on
       // with the third member, so the third member and their setup decide the order.
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and Norma’s Chief Sidekick', potential: ['ju-fufu'], gear: { 'ju-fufu': 'chief-sidekick' } },
@@ -125,7 +129,6 @@ export const UPCOMING = {
       { members: ['sunbringer', 'ju-fufu', 'robin-hsr'], source: 'Beta', setup: 'Ju Fufu with her Potential unlocked and her signature Roaring Fur-nace', potential: ['ju-fufu'], gear: { 'ju-fufu': 'roaring-fur-nace' } },
       { members: ['sunbringer', 'claret-flint', 'robin-hsr'], source: 'Beta' },
       { members: ['kafka', 'nangong-yu', 'robin-hsr'], source: 'Estimate · collab pair' },
-      { members: ['claret-flint', 'roxy-ifrita-pryce', 'robin-hsr'], source: 'Estimate · Armorer team' },
     ],
   },
 };
