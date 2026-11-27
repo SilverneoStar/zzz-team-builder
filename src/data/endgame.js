@@ -183,12 +183,14 @@ export const SHIYU_DEFENSE = {
           ],
         },
         {
-          // Two bosses over two waves: the Terror Raptor (resists Ether) and Doppelganger – Starlight –
-          // Billy (resists Physical), with Lahmu and Doppelganger – Pulchra. Both are weak to Fire and Electric.
-          name: 'Terror Raptor & Starlight Billy',
+          // Two waves, with Lahmu and Doppelganger – Pulchra. (Doppelganger – Starlight – Billy was
+          // listed here by mistake in the game's description; kept for later: weak to Fire and
+          // Electric, resists Physical, art in enemies/doppelganger-starlight-billy.webp, and a
+          // split picture with him in enemies/sd-1127-2-with-billy.webp.)
+          name: 'Miasmic – Terror Raptor',
           art: 'enemies/sd-1127-2.webp',
           weak: ['fire', 'electric'],
-          resist: ['ether', 'physical'],
+          resist: ['ether'],
           buffs: [
             {
               id: 'sd-1127-2',
