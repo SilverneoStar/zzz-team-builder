@@ -268,10 +268,9 @@ function SetList({ ids, two = false, skip = [] }) {
         {ids.map((id) => (
           <li key={id} style={{ '--set': setColor(id) }}>
             <DiscArt id={id} size={24} />
-            <span>
-              {DRIVE_DISC_BY_ID[id].name}
-              {two && <small className="muted build__bonus">{bonus(id)}</small>}
-            </span>
+            <span>{DRIVE_DISC_BY_ID[id].name}</span>
+            {/* The set's bonus in short: the 2-piece stat, or the gist of the 4-piece. */}
+            <span className="build__bonus">{two ? bonus(id) : DRIVE_DISC_BY_ID[id].fourShort}</span>
             {same.includes(id) && <span className="fit-tag fit-tag--kit">Best</span>}
           </li>
         ))}
@@ -354,7 +353,7 @@ function NoBuild({ agent }) {
                 </div>
                 <div>
                   <h4 className="micro-title">2-piece set</h4>
-                  <SetList ids={trial.twoPiece} />
+                  <SetList ids={trial.twoPiece} two skip={trial.fourPiece} />
                 </div>
               </div>
             </>

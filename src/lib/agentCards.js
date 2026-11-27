@@ -437,23 +437,79 @@ function drawEngineRows(ctx, ids, icons, x, y, w, rowH, count, tags = {}) {
   });
 }
 
-function drawSets(ctx, ids, x, y, w, count, gap = 30, discs = {}) {
-  const size = Math.min(gap - 2, 32);
+// Common stat names shortened for the bonus pills where space is tight.
+const SHORT_STAT = [
+  [/Anomaly Proficiency/g, 'AP'],
+  [/Anomaly Mastery/g, 'AM'],
+  [/Energy Regen/g, 'ER'],
+];
+const shortStat = (t) => SHORT_STAT.reduce((s, [re, to]) => s.replace(re, to), t);
+
+/**
+ * Drive Disc sets, one per row, each with a pill of its bonus in short (the 2-piece stat, or
+ * the gist of the 4-piece). With `stack`, the pill sits under the name (rows need ~48px);
+ * otherwise beside it, shortening stat names when it would not fit.
+ */
+function drawSets(ctx, ids, x, y, w, count, gap = 30, discs = {}, two = false, stack = false) {
+  const size = stack ? 34 : Math.min(gap - 2, 32);
   ids.slice(0, count).forEach((id, i) => {
     const d = DRIVE_DISC_BY_ID[id];
     if (!d) return;
     const ry = y + i * gap;
+    const cy = stack ? ry + 1 : ry - 6;
     if (discs[id]) {
-      ctx.drawImage(discs[id], x, ry - 6 - size / 2, size, size);
+      ctx.drawImage(discs[id], x, cy - size / 2, size, size);
     } else {
       ctx.beginPath();
-      ctx.arc(x + size / 2, ry - 6, 6, 0, Math.PI * 2);
+      ctx.arc(x + size / 2, cy, 6, 0, Math.PI * 2);
       ctx.fillStyle = setColor(id);
       ctx.fill();
     }
-    ctx.fillStyle = i === 0 ? K.fg : K.text;
-    ctx.font = `${i === 0 ? 700 : 500} 19px ${FONT}`;
-    ctx.fillText(fit(ctx, d.name, w - size - 12), x + size + 12, ry);
+    const tx = x + size + 10;
+    const room = w - size - 10;
+    let bonus = two ? d.twoPiece : d.fourShort;
+    ctx.font = `${i === 0 ? 700 : 500} 18px ${FONT}`;
+    const ps = stack ? 11.5 : 12;
+    const ph = stack ? 20 : 22;
+    const pillW = (t) => ((ctx.font = `600 ${ps}px ${FONT}`), ctx.measureText(t).width + 16);
+    let nameW;
+    let px;
+    let pyc;
+    let pw;
+    if (stack) {
+      ctx.font = `${i === 0 ? 700 : 500} 17px ${FONT}`;
+      ctx.fillStyle = i === 0 ? K.fg : K.text;
+      ctx.fillText(fit(ctx, d.name, room), tx, ry - 9);
+      if (!bonus) return;
+      if (pillW(bonus) > room) bonus = shortStat(bonus);
+      px = tx;
+      pyc = ry + 11;
+      pw = Math.min(room, pillW(bonus));
+    } else {
+      const full = ctx.measureText(d.name).width;
+      if (bonus && full + 8 + pillW(bonus) > room) bonus = shortStat(bonus);
+      ctx.font = `${i === 0 ? 700 : 500} 18px ${FONT}`;
+      nameW = bonus ? Math.min(full, Math.max(room * 0.45, room - 8 - pillW(bonus))) : Math.min(full, room);
+      ctx.font = `${i === 0 ? 700 : 500} 18px ${FONT}`;
+      ctx.fillStyle = i === 0 ? K.fg : K.text;
+      ctx.fillText(fit(ctx, d.name, nameW + 1), tx, ry);
+      if (!bonus) return;
+      px = tx + nameW + 8;
+      pyc = ry - 6;
+      pw = Math.min(room - nameW - 8, pillW(bonus));
+    }
+    if (pw < 40) return;
+    ctx.fillStyle = 'rgba(255,255,255,0.07)';
+    roundRect(ctx, px, pyc - ph / 2, pw, ph, ph / 2);
+    ctx.fill();
+    ctx.strokeStyle = setColor(id);
+    ctx.globalAlpha = 0.7;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = K.text;
+    ctx.font = `600 ${ps}px ${FONT}`;
+    ctx.fillText(fit(ctx, bonus, pw - 16), px + 8, pyc + ps * 0.36);
   });
 }
 
@@ -515,11 +571,13 @@ async function drawBuild(ctx, W, H, a, base, _lo, tall) {
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('4-PIECE', 494, top + 56);
-  drawSets(ctx, b.fourPiece, 494, top + 88, 296, 3, 32, discs);
+  const n4w = Math.min(2, b.fourPiece.length);
+  drawSets(ctx, b.fourPiece, 494, top + 88, 296, 2, 50, discs, false, true);
+  const y2w = top + 88 + (n4w - 1) * 50 + 42;
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
-  ctx.fillText('2-PIECE', 494, top + 190);
-  drawSets(ctx, b.twoPiece, 494, top + 220, 296, 3, 31, discs);
+  ctx.fillText('2-PIECE', 494, y2w);
+  drawSets(ctx, b.twoPiece, 494, y2w + 32, 296, n4w > 1 ? 2 : 3, 50, discs, true, true);
   panel(ctx, 822, top, 338, ph, 'Main stats');
   drawMains(ctx, b, 840, top + 62, 304);
 
@@ -591,7 +649,7 @@ async function drawBuildTall(ctx, W, H, a, base, b, icons, discs, eng) {
   ctx.fillStyle = K.dim;
   ctx.font = `500 13px ${MONO}`;
   ctx.fillText('2-PIECE', 60, y2);
-  drawSets(ctx, b.twoPiece, 60, y2 + 36, sw - 40, 3, 34, discs);
+  drawSets(ctx, b.twoPiece, 60, y2 + 36, sw - 40, 3, 34, discs, true);
   panel(ctx, 40 + sw + 16, y, iw - sw - 16, ph, 'Main stats');
   drawMains(ctx, b, 40 + sw + 36, y + 66, iw - sw - 56);
   y += ph + 16;
@@ -807,7 +865,7 @@ async function drawGuide(ctx, W, H, a, base) {
   const [art, icons, discs, ...rest] = await Promise.all([
     loadAgentArt(a, base),
     loadEngines(b?.wEngines.slice(0, 3) ?? [], base),
-    loadDiscs(b ? [...b.fourPiece.slice(0, 2), ...b.twoPiece.slice(0, 2)] : [], base),
+    loadDiscs(b ? [...b.fourPiece.slice(0, 2), ...b.twoPiece.slice(0, 3)] : [], base),
     ...ids.map((id) => loadAgentArt(id, base)),
   ]);
   const arts = Object.fromEntries(ids.map((id, i) => [id, rest[i]]));
@@ -827,12 +885,14 @@ async function drawGuide(ctx, W, H, a, base) {
     await drawEngineMats(ctx, a, base, 58, y + 236, 380);
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText('4-PIECE', 452, y + 62);
-    drawSets(ctx, b.fourPiece, 452, y + 98, 250, 2, 36, discs);
+    ctx.fillText('4-PIECE', 452, y + 58);
+    const n4g = Math.min(2, b.fourPiece.length);
+    drawSets(ctx, b.fourPiece, 452, y + 88, 250, 2, 48, discs, false, true);
+    const y2g = y + 88 + (n4g - 1) * 48 + 38;
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
-    ctx.fillText('2-PIECE', 452, y + 168);
-    drawSets(ctx, b.twoPiece, 452, y + 204, 250, 2, 34, discs);
+    ctx.fillText('2-PIECE', 452, y2g);
+    drawSets(ctx, b.twoPiece, 452, y2g + 32, 250, n4g > 1 ? 2 : 3, 48, discs, true, true);
     drawMains(ctx, b, 724, y + 70, 296);
     y += 298;
     // Up to four teams, two per row: a different lead each where the list has
@@ -1478,7 +1538,7 @@ function drawAltDiscs(ctx, alt, discs, x, y, w, h) {
     ctx.fillStyle = K.dim;
     ctx.font = `500 13px ${MONO}`;
     ctx.fillText(title, x, ry);
-    drawSets(ctx, ids, x, ry + 32, w, 2, 30, discs);
+    drawSets(ctx, ids, x, ry + 32, w, 2, 30, discs, title === '2-PIECE');
     ry += 32 + ids.length * 30 + 6;
   });
 }
